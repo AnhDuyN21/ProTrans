@@ -645,9 +645,6 @@ namespace Infrastructures.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -663,8 +660,6 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FirstLanguageId");
-
-                    b.HasIndex("LanguageId");
 
                     b.HasIndex("SecondLanguageId");
 
@@ -1006,18 +1001,12 @@ namespace Infrastructures.Migrations
                         .HasForeignKey("FirstLanguageId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Domain.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId");
-
                     b.HasOne("Domain.Entities.Language", "SecondLanguage")
                         .WithMany("SecondLanguage_QuotePrice")
                         .HasForeignKey("SecondLanguageId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FirstLanguage");
-
-                    b.Navigation("Language");
 
                     b.Navigation("SecondLanguage");
                 });

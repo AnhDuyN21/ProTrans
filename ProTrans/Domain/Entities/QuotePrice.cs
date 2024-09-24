@@ -13,6 +13,5 @@ namespace Domain.Entities
         public Language? FirstLanguage { get; set; }
         public Language? SecondLanguage { get; set; }
         public decimal? PricePerPage { get; set; }
-        public virtual Language? Language { get; set; }
     }
 }

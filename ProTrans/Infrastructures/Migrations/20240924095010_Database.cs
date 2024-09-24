@@ -122,7 +122,6 @@ namespace Infrastructures.Migrations
                     FirstLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SecondLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PricePerPage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -140,11 +139,6 @@ namespace Infrastructures.Migrations
                         principalTable: "Language",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_QuotePrice_Language_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Language",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_QuotePrice_Language_SecondLanguageId",
                         column: x => x.SecondLanguageId,
@@ -665,11 +659,6 @@ namespace Infrastructures.Migrations
                 name: "IX_QuotePrice_FirstLanguageId",
                 table: "QuotePrice",
                 column: "FirstLanguageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuotePrice_LanguageId",
-                table: "QuotePrice",
-                column: "LanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuotePrice_SecondLanguageId",
