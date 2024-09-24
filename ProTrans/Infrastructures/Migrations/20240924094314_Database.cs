@@ -119,9 +119,9 @@ namespace Infrastructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SecondLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PricePerPage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FirstLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SecondLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PricePerPage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -139,7 +139,7 @@ namespace Infrastructures.Migrations
                         column: x => x.FirstLanguageId,
                         principalTable: "Language",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_QuotePrice_Language_LanguageId",
                         column: x => x.LanguageId,
@@ -150,7 +150,7 @@ namespace Infrastructures.Migrations
                         column: x => x.SecondLanguageId,
                         principalTable: "Language",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

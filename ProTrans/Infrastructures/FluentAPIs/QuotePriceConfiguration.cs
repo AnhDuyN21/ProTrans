@@ -17,11 +17,13 @@ namespace Infrastructures.FluentAPIs
 
             builder.HasOne(x => x.FirstLanguage)
                 .WithMany(x => x.FirstLanguage_QuotePrice)
-                .HasForeignKey(x => x.FirstLanguageId);
+                .HasForeignKey(x => x.FirstLanguageId)
+                .OnDelete(DeleteBehavior.Restrict); 
 
             builder.HasOne(x => x.SecondLanguage)
                 .WithMany(x => x.SecondLanguage_QuotePrice)
-                .HasForeignKey(x => x.SecondLanguageId);
+                .HasForeignKey(x => x.SecondLanguageId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(d => d.PricePerPage)
                     .HasColumnType("decimal(18, 2)");

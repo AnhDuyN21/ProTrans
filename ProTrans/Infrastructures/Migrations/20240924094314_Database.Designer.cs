@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240924093525_Database")]
+    [Migration("20240924094314_Database")]
     partial class Database
     {
         /// <inheritdoc />
@@ -642,7 +642,7 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("FirstLanguageId")
+                    b.Property<Guid?>("FirstLanguageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("IsDeleted")
@@ -657,10 +657,10 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("PricePerPage")
+                    b.Property<decimal?>("PricePerPage")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<Guid>("SecondLanguageId")
+                    b.Property<Guid?>("SecondLanguageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1007,8 +1007,7 @@ namespace Infrastructures.Migrations
                     b.HasOne("Domain.Entities.Language", "FirstLanguage")
                         .WithMany("FirstLanguage_QuotePrice")
                         .HasForeignKey("FirstLanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.Entities.Language", "Language")
                         .WithMany()
@@ -1017,8 +1016,7 @@ namespace Infrastructures.Migrations
                     b.HasOne("Domain.Entities.Language", "SecondLanguage")
                         .WithMany("SecondLanguage_QuotePrice")
                         .HasForeignKey("SecondLanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FirstLanguage");
 
