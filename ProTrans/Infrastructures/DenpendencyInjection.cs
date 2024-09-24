@@ -1,10 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces;
+using Infrastructures.Repositories.Account;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces.InterfaceServices.Account;
+using Application.Services.Account;
+using Application.Services;
+using Infrastructures.Mappers;
 
 namespace Infrastructures
 {
@@ -12,12 +19,17 @@ namespace Infrastructures
     {
         public static IServiceCollection AddInfrastructuresService(this IServiceCollection services, string databaseConnection)
         {
+            //Accounts
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IAccountService, AccountService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<ICurrentTime, CurrentTime>();
             services.AddDbContext<AppDbContext>(option =>
             {
                 option.UseSqlServer(databaseConnection);
             });
-
-
+            services.AddAutoMapper(typeof(MapperConfigurationsProfile).Assembly);
             return services;
         }
     }
