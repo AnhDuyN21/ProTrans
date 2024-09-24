@@ -14,8 +14,13 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<AssignmentNotarization> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Account).WithMany(x => x.AssignmentNotarizations).HasForeignKey(x => x.StaffId);
-            builder.HasOne(x => x.Document).WithMany(x => x.AssignmentNotarizations).HasForeignKey(x => x.DocumentId);
+            builder.HasOne(x => x.Account)
+                .WithMany(x => x.AssignmentNotarizations)
+                .HasForeignKey(x => x.StaffId);
+
+            builder.HasOne(x => x.Document)
+                .WithMany(x => x.AssignmentNotarizations)
+                .HasForeignKey(x => x.DocumentId);
         }
     }
 }

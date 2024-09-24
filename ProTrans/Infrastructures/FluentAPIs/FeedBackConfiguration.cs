@@ -14,8 +14,14 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<FeedBack> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Account).WithMany(x => x.FeedBacks).HasForeignKey(x => x.AccountId);
-            builder.HasOne(x => x.Order).WithMany(x => x.FeedBacks).HasForeignKey(x => x.OrderId);
+
+            builder.HasOne(x => x.Account)
+                .WithMany(x => x.FeedBacks)
+                .HasForeignKey(x => x.AccountId);
+
+            builder.HasOne(x => x.Order)
+                .WithMany(x => x.FeedBacks)
+                .HasForeignKey(x => x.OrderId);
         }
     }
 }

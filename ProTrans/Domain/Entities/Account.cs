@@ -17,12 +17,13 @@ namespace Domain.Entities
         public string? Password { get; set; }
         public string? Dob { get; set; }
         public string? Gender { get; set; }
-        public string? RoleId { get; set; }
-        public string? AgencyId { get; set; }
-
+        public Guid? RoleId { get; set; }
+        public Guid? AgencyId { get; set; }
+        //Entity Relationship
         public virtual Agency? Agency { get; set; }
         public virtual Role? Role { get; set; }
-        public virtual ICollection<Request>? Requests { get; set; }
+        public virtual ICollection<Request>? CustomerRequests { get; set; }
+        public virtual ICollection<Request>? ShipperRequests { get; set; }
         public virtual ICollection<TranslatorSkill>? TranslatorSkills { get; set; }
         public virtual ICollection<FeedBack>? FeedBacks { get; set; }
         public virtual ICollection<Image>? Images { get; set; }

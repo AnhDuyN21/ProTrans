@@ -31,6 +31,6 @@ namespace Domain.Entities
         public virtual DocumentType? DocumentType { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
         public virtual ICollection<AssignmentNotarization>? AssignmentNotarizations { get; set; }
-        public virtual Language? Language { get; set; }
+        //public virtual Language? Language { get; set; }
     }
 }

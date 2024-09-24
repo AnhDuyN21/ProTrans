@@ -14,7 +14,9 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<Notarization> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.Documents).WithOne(x => x.Notarization);
+
+            builder.Property(d => d.Price)
+            .HasColumnType("decimal(18, 2)");
         }
     }
 }

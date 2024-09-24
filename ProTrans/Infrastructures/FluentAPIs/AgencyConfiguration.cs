@@ -14,8 +14,7 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<Agency> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.Accounts).WithOne(x => x.Agency);
-            builder.HasMany(x => x.Orders).WithOne(x => x.Agency);
+
         }
     }
 }

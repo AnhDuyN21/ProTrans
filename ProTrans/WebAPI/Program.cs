@@ -1,6 +1,12 @@
+using Application.Commons;
+using Infrastructures;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var configuration = builder.Configuration.Get<AppConfiguration>() ?? new AppConfiguration();
+builder.Services.AddInfrastructuresService(configuration.DatabaseConnection);
+builder.Services.AddSingleton(configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

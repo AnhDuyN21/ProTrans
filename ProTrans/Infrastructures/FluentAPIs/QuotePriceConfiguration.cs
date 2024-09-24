@@ -14,9 +14,17 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<QuotePrice> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.FirstLanguage).WithMany(x => x.QuotePrices).HasForeignKey(x => x.FirstLanguageId);
-            builder.HasOne(x => x.SecondLanguage).WithMany(x => x.QuotePrices).HasForeignKey(x => x.SecondLanguageId);
 
+            builder.HasOne(x => x.FirstLanguage)
+                .WithMany(x => x.FirstLanguage_QuotePrice)
+                .HasForeignKey(x => x.FirstLanguageId);
+
+            builder.HasOne(x => x.SecondLanguage)
+                .WithMany(x => x.SecondLanguage_QuotePrice)
+                .HasForeignKey(x => x.SecondLanguageId);
+
+            builder.Property(d => d.PricePerPage)
+                    .HasColumnType("decimal(18, 2)");
         }
     }
 }

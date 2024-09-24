@@ -14,9 +14,7 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<Language> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.TranslatorSkills).WithOne(x => x.Language);
-            builder.HasMany(x => x.QuotePrices).WithOne(x => x.Language);
-            builder.HasMany(x => x.Documents).WithOne(x => x.Language);
+
         }
     }
 }

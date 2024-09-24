@@ -14,8 +14,14 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<Shipping> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Account).WithMany(x => x.Shippings).HasForeignKey(x => x.ShipperId);
-            builder.HasOne(x => x.Order).WithMany(x => x.Shippings).HasForeignKey(x => x.OrderId);
+
+            builder.HasOne(x => x.Account)
+                .WithMany(x => x.Shippings)
+                .HasForeignKey(x => x.ShipperId);
+
+            builder.HasOne(x => x.Order)
+                .WithMany(x => x.Shippings
+                ).HasForeignKey(x => x.OrderId);
         }
     }
 }

@@ -14,7 +14,9 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<DocumentType> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.Documents).WithOne(x => x.DocumentType);
+
+            builder.Property(d => d.PriceFactor)
+            .HasColumnType("decimal(18, 2)");
 
         }
     }

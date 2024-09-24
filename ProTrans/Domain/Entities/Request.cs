@@ -15,7 +15,6 @@ namespace Domain.Entities
         public Guid? ShipperId { get; set; }
         public virtual Account? CustomerAccount { get; set; }
         public virtual Account? ShipperAccount { get; set; }
-        public virtual Account? Account { get; set; }
         public virtual ICollection<Document>? Documents { get; set; }
         public virtual Order? Order { get; set; }
         public virtual ICollection<Image>? Images { get; set; }

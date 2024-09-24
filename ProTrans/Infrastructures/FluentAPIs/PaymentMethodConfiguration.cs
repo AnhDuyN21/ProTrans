@@ -14,7 +14,6 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<PaymentMethod> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.Orders).WithOne(x => x.PaymentMethod);
         }
     }
 }

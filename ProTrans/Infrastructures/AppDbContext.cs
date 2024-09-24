@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructures.FluentAPIs;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructures
@@ -29,7 +30,13 @@ namespace Infrastructures
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new DocumentConfiguration());
+            modelBuilder.ApplyConfiguration(new QuotePriceConfiguration());
+            modelBuilder.ApplyConfiguration(new RequestConfiguration());
+            modelBuilder.ApplyConfiguration(new DocumentTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new NotarizationConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
         }
     }
 }

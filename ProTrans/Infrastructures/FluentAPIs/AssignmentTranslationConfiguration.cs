@@ -14,8 +14,14 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<AssignmentTranslation> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Account).WithMany(x => x.AssignmentTranslations).HasForeignKey(x => x.TranslatorId);
-            builder.HasOne(x => x.Document).WithMany(x => x.AssignmentTranslations).HasForeignKey(x => x.DocumentId);
+
+            builder.HasOne(x => x.Account)
+                .WithMany(x => x.AssignmentTranslations)
+                .HasForeignKey(x => x.TranslatorId);
+
+            builder.HasOne(x => x.Document)
+                .WithMany(x => x.AssignmentTranslations)
+                .HasForeignKey(x => x.DocumentId);
         }
     }
 }
