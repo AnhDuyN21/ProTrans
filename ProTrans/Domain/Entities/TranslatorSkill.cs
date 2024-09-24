@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class TranslatorSkill
+    public class TranslatorSkill : BaseEntity
     {
-        public Guid Id { get; set; }
         public Guid TranslatorId { get; set; }
         public Guid LanguageId { get; set; }
         public virtual Account? Account { get; set; }

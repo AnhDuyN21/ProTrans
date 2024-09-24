@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class FeedBack
+    public class FeedBack : BaseEntity
     {
         public string? Message { get; set; }
         public Guid AccountId { get; set; }

@@ -9,7 +9,9 @@ namespace Domain.Entities
     public class Document : BaseEntity
     {
         public Guid? FirstLanguageId { get; set; }
+        public Language? FirstLanguage { get; set; }
         public Guid? SecondLanguageId { get; set;}
+        public Language? SecondLanguage { get; set; }
         public string? Code { get; set; }
         public string? UrlPath { get; set; }
         public string? FileType { get; set; }

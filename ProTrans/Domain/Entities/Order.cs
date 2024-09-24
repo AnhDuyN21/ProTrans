@@ -25,5 +25,6 @@ namespace Domain.Entities
         public virtual ICollection<FeedBack>? FeedBacks { get; set; }
         public virtual ICollection<Image>? Images { get; set; }
         public virtual TransactionsHistory? TransactionsHistory { get; set; }
+        public virtual ICollection<Shipping>? Shippings { get; set; }
     }
 }

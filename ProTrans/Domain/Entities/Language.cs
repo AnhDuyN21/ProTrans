@@ -9,8 +9,8 @@ namespace Domain.Entities
     public class Language : BaseEntity
     {
         public string Name {  get; set; }
-        public virtual ICollection<TranslatorSkill>? TranslatorSkill { get; set; }
-        public virtual ICollection<Language>? Languages { get; set; }
+        public virtual ICollection<TranslatorSkill>? TranslatorSkills { get; set; }
+        public virtual ICollection<QuotePrice>? QuotePrices { get; set; }
         public virtual ICollection<Document>? Documents { get; set; }
     }
 }
