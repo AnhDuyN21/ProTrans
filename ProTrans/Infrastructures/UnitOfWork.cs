@@ -18,8 +18,6 @@ namespace Infrastructures
             _accountRepository = accountRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
-        public ICurrentTime CurrentRepository => throw new NotImplementedException();
-
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();
