@@ -1,0 +1,133 @@
+﻿using Application.Interfaces.InterfaceServices.Account;
+using Application.ViewModels.AccountDTOs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebAPI.Controllers.Account
+{
+    public class AccountController : BaseController
+    {
+        private readonly IAccountService _accountService;
+        public AccountController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAccountList()
+        {
+            var result = await _accountService.GetAccountAsync();
+            return Ok(result);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] CreateAccountDTO createdAccountDTO)
+        {
+                var result = await _accountService.CreateAccountAsync(createdAccountDTO);
+                if (result.Success)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] AccountDTO accountDTO)
+        {
+            var result = await _accountService.UpdateUserAsync(id, accountDTO);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            var result = await _accountService.DeleteUserAsync(id);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccountById(Guid id)
+        {
+            var findaccountUser = await _accountService.GetAccountByIdAsync(id);
+            if (!findaccountUser.Success)
+            {
+                return NotFound(findaccountUser);
+            }
+            return Ok(findaccountUser);
+        }
+
+        //[HttpPost("change-password/{userId}")]
+        //public async Task<IActionResult> ChangePassword(Guid userId, [FromBody] ChangePasswordDTO changePasswordDto)
+        //{
+        //    var result = await _accountService.ChangePasswordAsync(userId, changePasswordDto);
+
+        //    if (result.Success)
+        //    {
+        //        return Ok(new { Message = result.Message });
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(new { Message = result.Message });
+        //    }
+        //}
+
+        //[HttpGet("{name}")]
+        //public async Task<IActionResult> SearchByName(string name)
+        //{
+        //    var result = await _accountService.SearchAccountByNameAsync(name);
+
+        //    if (result.Success)
+        //    {
+        //        return Ok(result);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(result);
+        //    }
+        //}
+        //[HttpGet("{role}")]
+        //public async Task<IActionResult> SearchByRole([FromRoute] string role)
+        //{
+        //    var result = await _accountService.SearchAccountByRoleNameAsync(role);
+
+        //    if (result.Success)
+        //    {
+        //        return Ok(result);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(result);
+        //    }
+
+        //}
+        //[HttpGet]
+        //public async Task<IActionResult> GetSortedAccount()
+        //{
+        //    var result = await _accountService.GetSortedAccountsAsync();
+
+        //    if (result.Success)
+        //    {
+        //        return Ok(result);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(result);
+        //    }
+
+        //}
+    }
+}
