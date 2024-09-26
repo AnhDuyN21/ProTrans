@@ -1,8 +1,10 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Account;
+using Application.Utils;
 using Application.ViewModels.AccountDTOs;
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -126,7 +128,7 @@ namespace Application.Services.Account
 
             return response;
         }
-        public async Task<ServiceResponse<bool>> DeleteUserAsync(Guid id)
+        public async Task<ServiceResponse<bool>> DeleteAccountAsync(Guid id)
         {
             var response = new ServiceResponse<bool>();
 
@@ -163,7 +165,7 @@ namespace Application.Services.Account
 
             return response;
         }
-        public async Task<ServiceResponse<AccountDTO>> UpdateUserAsync(Guid id, AccountDTO accountDTO)
+        public async Task<ServiceResponse<AccountDTO>> UpdateAccountAsync(Guid id, AccountDTO accountDTO)
         {
             var response = new ServiceResponse<AccountDTO>();
 
@@ -211,6 +213,133 @@ namespace Application.Services.Account
 
             return response;
         }
+        //public async Task<ServiceResponse<string>> LoginAsync(LoginDTO loginDTO)
+        //{
+        //    var response = new ServiceResponse<string>();
+        //    // var user = await _unitOfWork.UserRepository.GetUserByEmailAndPassword(usertDTO.Email, usertDTO.Password);
+        //    try
+        //    {
+        //        var hashedPassword = Utils.HashPassword.HashWithSHA256(accountDTO.Password);
+        //        var user = await _unitOfWork.AccountRepository.GetUserByEmailAndPassword(accountDTO.Email, hashedPassword);
+        //        if (user == null)
+        //        {
+        //            response.Success = false;
+        //            response.Message = "Invalid username or password";
+        //            return response;
+        //        }
+        //        //if (user.ConfirmToken != null)
+        //        //{
+        //        //    //System.Console.WriteLine(user.ConfirmationToken + user.IsConfirmed);
+        //        //    response.Success = false;
+        //        //    response.Message = "Please confirm via link in your mail";
+        //        //    return response;
+        //        //}
+        //        if (user.IsDeleted == true)
+        //        {
+        //            response.Success = false;
+        //            response.Message = "Your account have been deleted!";
+        //            return response;
+        //        }
+        //        var generate = new GenerateJsonWebTokenString(_unitOfWork);
 
+        //        var token = generate.GenerateJsonWebToken(user, _configuration, _configuration.GetSection("JWTSection:SecretKey").Value, _currentTime.GetCurrentTime());
+
+        //        //var token = user.GenerateJsonWebToken(
+        //        //    _configuration,
+        //        //    _configuration.JWTSection.SecretKey,
+        //        //    _currentTime.GetCurrentTime()
+        //        //    );
+
+        //        response.Success = true;
+        //        response.Message = "Login successfully.";
+        //        response.Data = token;
+        //    }
+        //    catch (DbException ex)
+        //    {
+        //        response.Success = false;
+        //        response.Message = "Database error occurred.";
+        //        response.ErrorMessages = new List<string> { ex.Message };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Success = false;
+        //        response.Message = "Error";
+        //        response.ErrorMessages = new List<string> { ex.Message };
+        //    }
+        //    return response;
+        //}
+        public async Task<ServiceResponse<AccountDTO>> RegisterAsync(RegisterDTO registerDTO)
+        {
+            var response = new ServiceResponse<AccountDTO>();
+            try
+            {                
+                var emailExsit = await _unitOfWork.AccountRepository.CheckEmailNameExited(registerDTO.Email);
+                if (emailExsit)
+                {
+                    response.Success = false;
+                    response.Message = "Email is existed";
+                    return response;
+                }
+                var phoneExsit = await _unitOfWork.AccountRepository.CheckPhoneNumberExited(registerDTO.PhoneNumber);
+                if (phoneExsit)
+                {
+                    response.Success = false;
+                    response.Message = "PhoneNumber is existed";
+                    return response;
+                }
+
+                var newAccount = _mapper.Map<Domain.Entities.Account>(registerDTO);
+                newAccount.Password = Utils.HashPassword.HashWithSHA256(registerDTO.Password);
+                //Code
+                var codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(GenerateRandomCode());
+                string newCode;
+                do
+                {
+                    newCode = GenerateRandomCode();
+                    codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(newCode);
+                }
+                while (codeExist);
+                newAccount.Code = newCode;
+                newAccount.RoleId = _unitOfWork.RoleRepository.GetIdCustomerRole();
+                await _unitOfWork.AccountRepository.AddAsync(newAccount);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var result = _mapper.Map<AccountDTO>(newAccount);
+                    response.Data = result;
+                    response.Success = true;
+                    response.Message = "Register successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving the account.";
+                }
+
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return response;
+        }
+        public string GenerateRandomCode()
+        {
+            Random random = new Random();
+            string randomNumber = "";
+            for (int i = 0; i < 6; i++)
+            {
+                randomNumber += random.Next(1, 10);
+            }
+            return "CM" + randomNumber;
+        }
     }
 }

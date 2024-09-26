@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infrastructures.Migrations
 {
     /// <inheritdoc />
-    public partial class Database : Migration
+    public partial class database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -159,7 +161,7 @@ namespace Infrastructures.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Dob = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Dob = table.Column<DateOnly>(type: "date", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     AgencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -259,7 +261,7 @@ namespace Infrastructures.Migrations
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     AgencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Deadline = table.Column<DateOnly>(type: "date", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -551,6 +553,19 @@ namespace Infrastructures.Migrations
                         column: x => x.DocumentId,
                         principalTable: "Document",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("096ddfbc-79ee-48f5-a120-425a45357cc8"), "Staff" },
+                    { new Guid("4b26af06-bf66-4608-ba1f-a99a78f50ae4"), "Customer" },
+                    { new Guid("53f1153b-e721-4208-8e62-4c31d1d09c78"), "Manager" },
+                    { new Guid("7435d350-d42c-464b-9d7c-fe856922d33f"), "Translator" },
+                    { new Guid("a9a230a8-bec7-49d9-a66a-0ac4ab542499"), "Shipper" },
+                    { new Guid("fff21685-2c72-42ea-971e-e8b21c110dea"), "Admin" }
                 });
 
             migrationBuilder.CreateIndex(

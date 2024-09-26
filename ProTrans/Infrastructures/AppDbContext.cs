@@ -37,6 +37,15 @@ namespace Infrastructures
             modelBuilder.ApplyConfiguration(new DocumentTypeConfiguration());
             modelBuilder.ApplyConfiguration(new NotarizationConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
+
+            modelBuilder.Entity<Role>().HasData(
+            new Role { Id = Guid.NewGuid(), Name = "Admin" },
+            new Role { Id = Guid.NewGuid(), Name = "Customer" },
+            new Role { Id = Guid.NewGuid(), Name = "Shipper" },
+            new Role { Id = Guid.NewGuid(), Name = "Manager" },
+            new Role { Id = Guid.NewGuid(), Name = "Staff" },
+            new Role { Id = Guid.NewGuid(), Name = "Translator" }
+            );
         }
     }
 }

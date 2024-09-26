@@ -12,6 +12,8 @@ using Application.Interfaces.InterfaceServices.Account;
 using Application.Services.Account;
 using Application.Services;
 using Infrastructures.Mappers;
+using Application.Interfaces.InterfaceRepositories.Role;
+using Infrastructures.Repositories.Role;
 
 namespace Infrastructures
 {
@@ -22,6 +24,9 @@ namespace Infrastructures
             //Accounts
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
+
+            //Roles
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

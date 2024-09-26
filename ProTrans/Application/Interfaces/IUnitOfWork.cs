@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Role;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Application.Interfaces
     public interface IUnitOfWork
     {
         public IAccountRepository AccountRepository { get; }
+        public IRoleRepository RoleRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }
