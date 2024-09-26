@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Role;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,15 @@ namespace Infrastructures
     {
         private readonly AppDbContext _dbContext;
         private readonly IAccountRepository _accountRepository;
-        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository)
+        private readonly IRoleRepository _roleRepository;
+        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
+            _roleRepository = roleRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
+        public IRoleRepository RoleRepository => _roleRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

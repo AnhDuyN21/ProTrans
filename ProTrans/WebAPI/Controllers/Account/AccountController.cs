@@ -20,11 +20,18 @@ namespace WebAPI.Controllers.Account
             var result = await _accountService.GetAccountAsync();
             return Ok(result);
         }
-
-
-
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccountById(Guid id)
+        {
+            var result = await _accountService.GetAccountByIdAsync(id);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] CreateAccountDTO createdAccountDTO)
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDTO createdAccountDTO)
         {
                 var result = await _accountService.CreateAccountAsync(createdAccountDTO);
                 if (result.Success)
@@ -36,22 +43,20 @@ namespace WebAPI.Controllers.Account
                     return BadRequest(result);
                 }
         }
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] AccountDTO accountDTO)
+        public async Task<IActionResult> UpdateAccount(Guid id, [FromBody] AccountDTO accountDTO)
         {
-            var result = await _accountService.UpdateUserAsync(id, accountDTO);
+            var result = await _accountService.UpdateAccountAsync(id, accountDTO);
             if (!result.Success)
             {
                 return NotFound(result);
             }
             return Ok(result);
         }
-
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
+        public async Task<IActionResult> DeleteAccount(Guid id)
         {
-            var result = await _accountService.DeleteUserAsync(id);
+            var result = await _accountService.DeleteAccountAsync(id);
             if (!result.Success)
             {
                 return NotFound(result);
@@ -59,16 +64,7 @@ namespace WebAPI.Controllers.Account
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAccountById(Guid id)
-        {
-            var findaccountUser = await _accountService.GetAccountByIdAsync(id);
-            if (!findaccountUser.Success)
-            {
-                return NotFound(findaccountUser);
-            }
-            return Ok(findaccountUser);
-        }
+
 
         //[HttpPost("change-password/{userId}")]
         //public async Task<IActionResult> ChangePassword(Guid userId, [FromBody] ChangePasswordDTO changePasswordDto)

@@ -49,8 +49,8 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Dob")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateOnly?>("Dob")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -554,8 +554,8 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("Deadline")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("Deadline")
+                        .HasColumnType("date");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
@@ -730,6 +730,38 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fff21685-2c72-42ea-971e-e8b21c110dea"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("4b26af06-bf66-4608-ba1f-a99a78f50ae4"),
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            Id = new Guid("a9a230a8-bec7-49d9-a66a-0ac4ab542499"),
+                            Name = "Shipper"
+                        },
+                        new
+                        {
+                            Id = new Guid("53f1153b-e721-4208-8e62-4c31d1d09c78"),
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = new Guid("096ddfbc-79ee-48f5-a120-425a45357cc8"),
+                            Name = "Staff"
+                        },
+                        new
+                        {
+                            Id = new Guid("7435d350-d42c-464b-9d7c-fe856922d33f"),
+                            Name = "Translator"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Shipping", b =>
