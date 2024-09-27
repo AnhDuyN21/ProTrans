@@ -31,5 +31,7 @@ namespace Domain.Entities
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
         public virtual ICollection<AssignmentNotarization>? AssignmentNotarizations { get; set; }
         public virtual ICollection<TransactionsHistory>? TransactionsHistory { get; set; }
+        public virtual ICollection<Notification>? Notifications { get; set; }
+
     }
 }

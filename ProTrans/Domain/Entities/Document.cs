@@ -21,6 +21,7 @@ namespace Domain.Entities
         public int NumberOfNotarizatedCopies { get; set; } = 0;
         public string? TranslationStatus { get; set; }
         public string? NotarizationStatus {  get; set; }
+        public Guid? AttachmentId { get; set; }
         public Guid? NotarizationId { get; set; }
         public Guid? DocumentTypeId { get; set; }
         public Guid? OrderId { get; set; }
@@ -29,6 +30,7 @@ namespace Domain.Entities
         public virtual Request? Request { get; set; }
         public virtual Notarization? Notarization { get; set; }
         public virtual DocumentType? DocumentType { get; set; }
+        public virtual Attachment? Attachment { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
         public virtual ICollection<AssignmentNotarization>? AssignmentNotarizations { get; set; }
         //public virtual Language? Language { get; set; }

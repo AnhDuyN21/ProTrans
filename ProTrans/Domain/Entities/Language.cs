@@ -15,5 +15,7 @@ namespace Domain.Entities
         //public virtual ICollection<QuotePrice>? QuotePrices { get; set; }
         public virtual ICollection<Document>? FirstLanguage_Document { get; set; }
         public virtual ICollection<Document>? SecondLanguage_Document { get; set; }
+        public virtual ICollection<Attachment>? FirstLanguage_Attachment { get; set; }
+        public virtual ICollection<Attachment>? SecondLanguage_Attachment { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240926015751_database")]
-    partial class database
+    [Migration("20240927093134_Database")]
+    partial class Database
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,7 +170,7 @@ namespace Infrastructures.Migrations
                     b.Property<int>("NumberOfNotarization")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("StaffId")
+                    b.Property<Guid>("ShipperId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
@@ -238,10 +238,91 @@ namespace Infrastructures.Migrations
                     b.ToTable("AssignmentTranslation");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Attachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DocumentPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DocumentTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("FirstLanguageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("NotarizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("NotarizationRequest")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberOfCopies")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfNotarizatedCopies")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PageNumber")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<Guid?>("RequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SecondLanguageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentTypeId");
+
+                    b.HasIndex("FirstLanguageId");
+
+                    b.HasIndex("NotarizationId");
+
+                    b.HasIndex("RequestId");
+
+                    b.HasIndex("SecondLanguageId");
+
+                    b.ToTable("Attachment");
+                });
+
             modelBuilder.Entity("Domain.Entities.Document", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -311,6 +392,10 @@ namespace Infrastructures.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AttachmentId")
+                        .IsUnique()
+                        .HasFilter("[AttachmentId] IS NOT NULL");
 
                     b.HasIndex("DocumentTypeId");
 
@@ -420,6 +505,9 @@ namespace Infrastructures.Migrations
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -447,9 +535,6 @@ namespace Infrastructures.Migrations
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RequestId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("ShipperId")
                         .HasColumnType("uniqueidentifier");
 
@@ -457,9 +542,9 @@ namespace Infrastructures.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("AttachmentId");
 
-                    b.HasIndex("RequestId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Image");
                 });
@@ -537,6 +622,36 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notarization");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NotificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
@@ -693,6 +808,12 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal?>("EstimatedPrice")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<bool?>("IsConfirmed")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -701,6 +822,9 @@ namespace Infrastructures.Migrations
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("PickUpRequest")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("ShipRequest")
                         .HasColumnType("bit");
@@ -737,32 +861,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fff21685-2c72-42ea-971e-e8b21c110dea"),
+                            Id = new Guid("73f194f6-0329-4a9e-ac53-518470874c30"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("4b26af06-bf66-4608-ba1f-a99a78f50ae4"),
+                            Id = new Guid("30fa1db4-944d-4b94-8bef-1f74f21d7271"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("a9a230a8-bec7-49d9-a66a-0ac4ab542499"),
+                            Id = new Guid("1b827f79-10ba-407e-be1f-0eb3ba44a1d1"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("53f1153b-e721-4208-8e62-4c31d1d09c78"),
+                            Id = new Guid("8f022773-d60b-4e06-864e-9ccfd4a264ff"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("096ddfbc-79ee-48f5-a120-425a45357cc8"),
+                            Id = new Guid("d800dd87-f8e3-4b76-9092-9f1b2c2a77c9"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("7435d350-d42c-464b-9d7c-fe856922d33f"),
+                            Id = new Guid("2187dcdd-e405-4bed-bcbf-f3d1f8ae1500"),
                             Name = "Translator"
                         });
                 });
@@ -845,6 +969,9 @@ namespace Infrastructures.Migrations
 
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CertificateUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -929,8 +1056,45 @@ namespace Infrastructures.Migrations
                     b.Navigation("Document");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Attachment", b =>
+                {
+                    b.HasOne("Domain.Entities.DocumentType", "DocumentType")
+                        .WithMany("Attachments")
+                        .HasForeignKey("DocumentTypeId");
+
+                    b.HasOne("Domain.Entities.Language", "FirstLanguage")
+                        .WithMany("FirstLanguage_Attachment")
+                        .HasForeignKey("FirstLanguageId");
+
+                    b.HasOne("Domain.Entities.Notarization", "Notarization")
+                        .WithMany("Attachments")
+                        .HasForeignKey("NotarizationId");
+
+                    b.HasOne("Domain.Entities.Request", "Request")
+                        .WithMany("Attachments")
+                        .HasForeignKey("RequestId");
+
+                    b.HasOne("Domain.Entities.Language", "SecondLanguage")
+                        .WithMany("SecondLanguage_Attachment")
+                        .HasForeignKey("SecondLanguageId");
+
+                    b.Navigation("DocumentType");
+
+                    b.Navigation("FirstLanguage");
+
+                    b.Navigation("Notarization");
+
+                    b.Navigation("Request");
+
+                    b.Navigation("SecondLanguage");
+                });
+
             modelBuilder.Entity("Domain.Entities.Document", b =>
                 {
+                    b.HasOne("Domain.Entities.Attachment", "Attachment")
+                        .WithOne("Document")
+                        .HasForeignKey("Domain.Entities.Document", "AttachmentId");
+
                     b.HasOne("Domain.Entities.DocumentType", "DocumentType")
                         .WithMany("Documents")
                         .HasForeignKey("DocumentTypeId");
@@ -954,6 +1118,8 @@ namespace Infrastructures.Migrations
                     b.HasOne("Domain.Entities.Language", "SecondLanguage")
                         .WithMany("SecondLanguage_Document")
                         .HasForeignKey("SecondLanguageId");
+
+                    b.Navigation("Attachment");
 
                     b.Navigation("DocumentType");
 
@@ -993,19 +1159,28 @@ namespace Infrastructures.Migrations
                         .WithMany("Images")
                         .HasForeignKey("AccountId");
 
+                    b.HasOne("Domain.Entities.Attachment", "Attachment")
+                        .WithMany("Images")
+                        .HasForeignKey("AttachmentId");
+
                     b.HasOne("Domain.Entities.Order", "Order")
                         .WithMany("Images")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("Domain.Entities.Request", "Request")
-                        .WithMany("Images")
-                        .HasForeignKey("RequestId");
-
                     b.Navigation("Account");
 
-                    b.Navigation("Order");
+                    b.Navigation("Attachment");
 
-                    b.Navigation("Request");
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Notification", b =>
+                {
+                    b.HasOne("Domain.Entities.Account", "Account")
+                        .WithMany("Notifications")
+                        .HasForeignKey("AccountId");
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
@@ -1126,6 +1301,8 @@ namespace Infrastructures.Migrations
 
                     b.Navigation("Images");
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("ShipperRequests");
 
                     b.Navigation("Shippings");
@@ -1142,6 +1319,13 @@ namespace Infrastructures.Migrations
                     b.Navigation("Orders");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Attachment", b =>
+                {
+                    b.Navigation("Document");
+
+                    b.Navigation("Images");
+                });
+
             modelBuilder.Entity("Domain.Entities.Document", b =>
                 {
                     b.Navigation("AssignmentNotarizations");
@@ -1151,14 +1335,20 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.DocumentType", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("Domain.Entities.Language", b =>
                 {
+                    b.Navigation("FirstLanguage_Attachment");
+
                     b.Navigation("FirstLanguage_Document");
 
                     b.Navigation("FirstLanguage_QuotePrice");
+
+                    b.Navigation("SecondLanguage_Attachment");
 
                     b.Navigation("SecondLanguage_Document");
 
@@ -1169,6 +1359,8 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.Notarization", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Documents");
                 });
 
@@ -1192,9 +1384,9 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.Request", b =>
                 {
-                    b.Navigation("Documents");
+                    b.Navigation("Attachments");
 
-                    b.Navigation("Images");
+                    b.Navigation("Documents");
 
                     b.Navigation("Order");
                 });

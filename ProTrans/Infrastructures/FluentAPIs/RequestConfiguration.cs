@@ -23,6 +23,8 @@ namespace Infrastructures.FluentAPIs
                 .WithMany(x => x.ShipperRequests)
                 .HasForeignKey(x => x.ShipperId);
 
+            builder.Property(d => d.EstimatedPrice)
+                .HasColumnType("decimal(18, 2)");
         }
     }
 }

@@ -9,39 +9,34 @@ using System.Threading.Tasks;
 
 namespace Infrastructures.FluentAPIs
 {
-    public class DocumentConfiguration : IEntityTypeConfiguration<Document>
+    public class AttachmentConfiguration : IEntityTypeConfiguration<Attachment>
     {
-        public void Configure(EntityTypeBuilder<Document> builder)
+        public void Configure(EntityTypeBuilder<Attachment> builder)
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Order)
-                .WithMany(x => x.Documents)
-                .HasForeignKey(x => x.OrderId);
-
             builder.HasOne(x => x.Request)
-                .WithMany(x => x.Documents)
+                .WithMany(x => x.Attachments)
                 .HasForeignKey(x => x.RequestId);
 
             builder.HasOne(x => x.Notarization)
-                .WithMany(x => x.Documents)
+                .WithMany(x => x.Attachments)
                 .HasForeignKey(x => x.NotarizationId);
 
             builder.HasOne(x => x.DocumentType)
-                .WithMany(x => x.Documents)
+                .WithMany(x => x.Attachments)
                 .HasForeignKey(x => x.DocumentTypeId);
 
             builder.HasOne(x => x.FirstLanguage)
-                .WithMany(x => x.FirstLanguage_Document)
+                .WithMany(x => x.FirstLanguage_Attachment)
                 .HasForeignKey(x => x.FirstLanguageId);
 
             builder.HasOne(x => x.SecondLanguage)
-                .WithMany(x => x.SecondLanguage_Document)
+                .WithMany(x => x.SecondLanguage_Attachment)
                 .HasForeignKey(x => x.SecondLanguageId);
 
-            builder.HasOne(x => x.Attachment)
-                .WithOne(x => x.Document)
-                .HasForeignKey<Document>(x => x.AttachmentId);
+            builder.Property(d => d.Price)
+                    .HasColumnType("decimal(18, 2)");
         }
     }
 }

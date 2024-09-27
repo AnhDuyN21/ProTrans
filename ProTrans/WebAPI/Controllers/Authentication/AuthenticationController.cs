@@ -28,5 +28,27 @@ namespace WebAPI.Controllers.Authentication
                 return Ok(result);
             }
         }
+        //[HttpPost]
+        //[Route("Login")]
+        //public async Task<IActionResult> LoginAsync(LoginDTO loginDTO)
+        //{
+        //    var result = await _accountService.LoginAsync(loginDTO);
+
+        //    if (!result.Success)
+        //    {
+        //        return BadRequest(result);
+        //    }
+        //    else
+        //    {
+        //        return Ok(
+        //            new
+        //            {
+        //                success = result.Success,
+        //                message = result.Message,
+        //                token = result.Data
+        //            }
+        //        );
+        //    }
+        //}
     }
 }

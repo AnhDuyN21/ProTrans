@@ -219,7 +219,7 @@ namespace Application.Services.Account
         //    // var user = await _unitOfWork.UserRepository.GetUserByEmailAndPassword(usertDTO.Email, usertDTO.Password);
         //    try
         //    {
-        //        var hashedPassword = Utils.HashPassword.HashWithSHA256(accountDTO.Password);
+        //        var hashedPassword = Utils.HashPassword.HashWithSHA256(loginDTO.Password);
         //        var user = await _unitOfWork.AccountRepository.GetUserByEmailAndPassword(accountDTO.Email, hashedPassword);
         //        if (user == null)
         //        {
