@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructures.Migrations
 {
     /// <inheritdoc />
-    public partial class database : Migration
+    public partial class Database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -189,15 +189,40 @@ namespace Infrastructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NotificationTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notification_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Request",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShipRequest = table.Column<bool>(type: "bit", nullable: false),
                     ShipperId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EstimatedPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "bit", nullable: true),
+                    PickUpRequest = table.Column<bool>(type: "bit", nullable: true),
+                    ShipRequest = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -228,6 +253,7 @@ namespace Infrastructures.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TranslatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CertificateUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -251,6 +277,61 @@ namespace Infrastructures.Migrations
                         principalTable: "Language",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Attachment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SecondLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    NotarizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DocumentTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    FileType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PageNumber = table.Column<int>(type: "int", nullable: false),
+                    NumberOfCopies = table.Column<int>(type: "int", nullable: false),
+                    NotarizationRequest = table.Column<bool>(type: "bit", nullable: false),
+                    NumberOfNotarizatedCopies = table.Column<int>(type: "int", nullable: false),
+                    DocumentPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attachment_DocumentType_DocumentTypeId",
+                        column: x => x.DocumentTypeId,
+                        principalTable: "DocumentType",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Attachment_Language_FirstLanguageId",
+                        column: x => x.FirstLanguageId,
+                        principalTable: "Language",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Attachment_Language_SecondLanguageId",
+                        column: x => x.SecondLanguageId,
+                        principalTable: "Language",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Attachment_Notarization_NotarizationId",
+                        column: x => x.NotarizationId,
+                        principalTable: "Notarization",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Attachment_Request_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "Request",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -312,6 +393,7 @@ namespace Infrastructures.Migrations
                     NumberOfNotarizatedCopies = table.Column<int>(type: "int", nullable: false),
                     TranslationStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NotarizationStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttachmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     NotarizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DocumentTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -327,6 +409,11 @@ namespace Infrastructures.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Document", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Document_Attachment_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachment",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Document_DocumentType_DocumentTypeId",
                         column: x => x.DocumentTypeId,
@@ -399,7 +486,7 @@ namespace Infrastructures.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ShipperId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AttachmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -419,14 +506,14 @@ namespace Infrastructures.Migrations
                         principalTable: "Account",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Image_Attachment_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachment",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Image_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Image_Request_RequestId",
-                        column: x => x.RequestId,
-                        principalTable: "Request",
                         principalColumn: "Id");
                 });
 
@@ -493,7 +580,7 @@ namespace Infrastructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShipperId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NumberOfNotarization = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -560,12 +647,12 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("096ddfbc-79ee-48f5-a120-425a45357cc8"), "Staff" },
-                    { new Guid("4b26af06-bf66-4608-ba1f-a99a78f50ae4"), "Customer" },
-                    { new Guid("53f1153b-e721-4208-8e62-4c31d1d09c78"), "Manager" },
-                    { new Guid("7435d350-d42c-464b-9d7c-fe856922d33f"), "Translator" },
-                    { new Guid("a9a230a8-bec7-49d9-a66a-0ac4ab542499"), "Shipper" },
-                    { new Guid("fff21685-2c72-42ea-971e-e8b21c110dea"), "Admin" }
+                    { new Guid("1b827f79-10ba-407e-be1f-0eb3ba44a1d1"), "Shipper" },
+                    { new Guid("2187dcdd-e405-4bed-bcbf-f3d1f8ae1500"), "Translator" },
+                    { new Guid("30fa1db4-944d-4b94-8bef-1f74f21d7271"), "Customer" },
+                    { new Guid("73f194f6-0329-4a9e-ac53-518470874c30"), "Admin" },
+                    { new Guid("8f022773-d60b-4e06-864e-9ccfd4a264ff"), "Manager" },
+                    { new Guid("d800dd87-f8e3-4b76-9092-9f1b2c2a77c9"), "Staff" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -597,6 +684,38 @@ namespace Infrastructures.Migrations
                 name: "IX_AssignmentTranslation_DocumentId",
                 table: "AssignmentTranslation",
                 column: "DocumentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_DocumentTypeId",
+                table: "Attachment",
+                column: "DocumentTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_FirstLanguageId",
+                table: "Attachment",
+                column: "FirstLanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_NotarizationId",
+                table: "Attachment",
+                column: "NotarizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_RequestId",
+                table: "Attachment",
+                column: "RequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_SecondLanguageId",
+                table: "Attachment",
+                column: "SecondLanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Document_AttachmentId",
+                table: "Document",
+                column: "AttachmentId",
+                unique: true,
+                filter: "[AttachmentId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Document_DocumentTypeId",
@@ -644,14 +763,19 @@ namespace Infrastructures.Migrations
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Image_AttachmentId",
+                table: "Image",
+                column: "AttachmentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Image_OrderId",
                 table: "Image",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_RequestId",
-                table: "Image",
-                column: "RequestId");
+                name: "IX_Notification_AccountId",
+                table: "Notification",
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_AgencyId",
@@ -738,6 +862,9 @@ namespace Infrastructures.Migrations
                 name: "Image");
 
             migrationBuilder.DropTable(
+                name: "Notification");
+
+            migrationBuilder.DropTable(
                 name: "QuotePrice");
 
             migrationBuilder.DropTable(
@@ -753,6 +880,12 @@ namespace Infrastructures.Migrations
                 name: "Document");
 
             migrationBuilder.DropTable(
+                name: "Attachment");
+
+            migrationBuilder.DropTable(
+                name: "Order");
+
+            migrationBuilder.DropTable(
                 name: "DocumentType");
 
             migrationBuilder.DropTable(
@@ -760,9 +893,6 @@ namespace Infrastructures.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notarization");
-
-            migrationBuilder.DropTable(
-                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "PaymentMethod");

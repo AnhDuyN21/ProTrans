@@ -23,9 +23,9 @@ namespace Infrastructures.FluentAPIs
                 .WithMany(x => x.Images)
                 .HasForeignKey(x => x.OrderId);
 
-            builder.HasOne(x => x.Request)
+            builder.HasOne(x => x.Attachment)
                 .WithMany(x => x.Images)
-                .HasForeignKey(x => x.RequestId);
+                .HasForeignKey(x => x.AttachmentId);
         }
     }
 }

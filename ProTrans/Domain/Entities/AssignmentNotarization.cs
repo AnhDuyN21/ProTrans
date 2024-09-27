@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class AssignmentNotarization : BaseEntity
     {
-        public Guid StaffId { get; set; }
+        public Guid ShipperId { get; set; }
         public Guid DocumentId { get; set; }
         public int NumberOfNotarization {  get; set; }
         public string Status { get; set; }
