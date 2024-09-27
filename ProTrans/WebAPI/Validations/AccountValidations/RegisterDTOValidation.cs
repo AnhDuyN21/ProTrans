@@ -1,5 +1,7 @@
 ﻿using Application.ViewModels.AccountDTOs;
+using Domain.Enums;
 using FluentValidation;
+using System;
 
 namespace WebAPI.Validations.AccountValidations
 {
@@ -16,6 +18,9 @@ namespace WebAPI.Validations.AccountValidations
             RuleFor(x => x.Address).NotEmpty();
             RuleFor(x => x.Password).NotEmpty().MinimumLength(8)
                 .WithMessage("Password must be at least 8 characters long");
+            RuleFor(x => x.Gender)
+                .Must(value => Enum.IsDefined(typeof(Gender), value))
+                .WithMessage("The value must be a valid string representation of Gender.");
         }
     }
 }
