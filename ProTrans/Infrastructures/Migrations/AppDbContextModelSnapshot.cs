@@ -49,8 +49,8 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly?>("Dob")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("Dob")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -858,32 +858,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("73f194f6-0329-4a9e-ac53-518470874c30"),
+                            Id = new Guid("1124b38e-e025-4de6-b945-47297489bbd1"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("30fa1db4-944d-4b94-8bef-1f74f21d7271"),
+                            Id = new Guid("f096a850-3e26-4554-ab77-d8e84c0775a8"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("1b827f79-10ba-407e-be1f-0eb3ba44a1d1"),
+                            Id = new Guid("8ce76dbe-0ba5-4bac-8a2c-c6c3c8331cd6"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("8f022773-d60b-4e06-864e-9ccfd4a264ff"),
+                            Id = new Guid("93ec98a3-3ae3-4ce4-a7ee-9f648effc77c"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("d800dd87-f8e3-4b76-9092-9f1b2c2a77c9"),
+                            Id = new Guid("7bb5a7de-b044-4f9d-975e-69fadff79004"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("2187dcdd-e405-4bed-bcbf-f3d1f8ae1500"),
+                            Id = new Guid("6e1fee9f-5a5c-40d7-a3bb-1ca5ae12a921"),
                             Name = "Translator"
                         });
                 });
