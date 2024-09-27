@@ -15,7 +15,7 @@ namespace Domain.Entities
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public string? Password { get; set; }
-        public DateOnly? Dob { get; set; }
+        public DateTime? Dob { get; set; }
         public string? Gender { get; set; }
         public Guid? RoleId { get; set; }
         public Guid? AgencyId { get; set; }

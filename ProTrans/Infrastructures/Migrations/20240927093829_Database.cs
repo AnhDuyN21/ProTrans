@@ -161,7 +161,7 @@ namespace Infrastructures.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Dob = table.Column<DateOnly>(type: "date", nullable: true),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     AgencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -647,12 +647,12 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("1b827f79-10ba-407e-be1f-0eb3ba44a1d1"), "Shipper" },
-                    { new Guid("2187dcdd-e405-4bed-bcbf-f3d1f8ae1500"), "Translator" },
-                    { new Guid("30fa1db4-944d-4b94-8bef-1f74f21d7271"), "Customer" },
-                    { new Guid("73f194f6-0329-4a9e-ac53-518470874c30"), "Admin" },
-                    { new Guid("8f022773-d60b-4e06-864e-9ccfd4a264ff"), "Manager" },
-                    { new Guid("d800dd87-f8e3-4b76-9092-9f1b2c2a77c9"), "Staff" }
+                    { new Guid("1124b38e-e025-4de6-b945-47297489bbd1"), "Admin" },
+                    { new Guid("6e1fee9f-5a5c-40d7-a3bb-1ca5ae12a921"), "Translator" },
+                    { new Guid("7bb5a7de-b044-4f9d-975e-69fadff79004"), "Staff" },
+                    { new Guid("8ce76dbe-0ba5-4bac-8a2c-c6c3c8331cd6"), "Shipper" },
+                    { new Guid("93ec98a3-3ae3-4ce4-a7ee-9f648effc77c"), "Manager" },
+                    { new Guid("f096a850-3e26-4554-ab77-d8e84c0775a8"), "Customer" }
                 });
 
             migrationBuilder.CreateIndex(
