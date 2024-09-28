@@ -20,7 +20,7 @@ namespace WebAPI.Validations.AccountValidations
                 .WithMessage("Password must be at least 8 characters long");
             RuleFor(x => x.Gender)
                 .Must(value => Enum.IsDefined(typeof(Gender), value))
-                .WithMessage("The value must be a valid string representation of Gender.");
+                .WithMessage("The value must be Male, Female or Others.");
         }
     }
 }

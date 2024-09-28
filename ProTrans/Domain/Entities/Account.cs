@@ -26,7 +26,6 @@ namespace Domain.Entities
         public virtual ICollection<Request>? ShipperRequests { get; set; }
         public virtual ICollection<TranslatorSkill>? TranslatorSkills { get; set; }
         public virtual ICollection<FeedBack>? FeedBacks { get; set; }
-        public virtual ICollection<Image>? Images { get; set; }
         public virtual ICollection<Shipping>? Shippings { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
         public virtual ICollection<AssignmentNotarization>? AssignmentNotarizations { get; set; }

@@ -378,6 +378,31 @@ namespace Infrastructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Image",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AttachmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Image_Attachment_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachment",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Document",
                 columns: table => new
                 {
@@ -480,50 +505,13 @@ namespace Infrastructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShipperId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    AttachmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Image", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Image_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Image_Attachment_AttachmentId",
-                        column: x => x.AttachmentId,
-                        principalTable: "Attachment",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Image_Order_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Shipping",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ShipperId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsShipped = table.Column<bool>(type: "bit", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -647,12 +635,12 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("1124b38e-e025-4de6-b945-47297489bbd1"), "Admin" },
-                    { new Guid("6e1fee9f-5a5c-40d7-a3bb-1ca5ae12a921"), "Translator" },
-                    { new Guid("7bb5a7de-b044-4f9d-975e-69fadff79004"), "Staff" },
-                    { new Guid("8ce76dbe-0ba5-4bac-8a2c-c6c3c8331cd6"), "Shipper" },
-                    { new Guid("93ec98a3-3ae3-4ce4-a7ee-9f648effc77c"), "Manager" },
-                    { new Guid("f096a850-3e26-4554-ab77-d8e84c0775a8"), "Customer" }
+                    { new Guid("27a6ab21-c262-4a07-ba32-b9d121f9b21f"), "Translator" },
+                    { new Guid("5d9dfd16-277f-46a0-9a08-5ee5e93c7711"), "Admin" },
+                    { new Guid("7b22c186-6080-4288-a726-d56db17663c0"), "Staff" },
+                    { new Guid("ae83fcd4-b72d-4d28-9278-3e42dafe74c7"), "Manager" },
+                    { new Guid("ddd1def5-0afb-401a-be5e-b2775c09bca3"), "Shipper" },
+                    { new Guid("f48e4143-d4cb-4017-87d8-cdda262cc469"), "Customer" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -758,19 +746,9 @@ namespace Infrastructures.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_AccountId",
-                table: "Image",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Image_AttachmentId",
                 table: "Image",
                 column: "AttachmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Image_OrderId",
-                table: "Image",
-                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notification_AccountId",

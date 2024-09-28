@@ -29,6 +29,8 @@ namespace Infrastructures.FluentAPIs
 
             builder.Property(d => d.TotalPrice)
                     .HasColumnType("decimal(18, 2)");
+
+
         }
     }
 }

@@ -23,7 +23,6 @@ namespace Domain.Entities
         public virtual Request? Request { get; set; }
         public virtual ICollection<Document>? Documents { get; set; }
         public virtual ICollection<FeedBack>? FeedBacks { get; set; }
-        public virtual ICollection<Image>? Images { get; set; }
         public virtual TransactionsHistory? TransactionsHistory { get; set; }
         public virtual ICollection<Shipping>? Shippings { get; set; }
     }
