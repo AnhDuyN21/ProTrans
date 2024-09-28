@@ -25,6 +25,7 @@ namespace Infrastructures.FluentAPIs
 
             builder.Property(d => d.EstimatedPrice)
                 .HasColumnType("decimal(18, 2)");
+
         }
     }
 }

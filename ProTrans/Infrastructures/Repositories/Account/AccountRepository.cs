@@ -28,5 +28,8 @@ namespace Infrastructures.Repositories.Account
                                                 _dbContext.Account.AnyAsync(u => u.PhoneNumber == phonenumber);
         public Task<bool> CheckCodeExited(string code) =>
                                                 _dbContext.Account.AnyAsync(u => u.Code == code);
+        public Task<Domain.Entities.Account> CheckLogin(string email, string password) =>
+            _dbContext.Account.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
     }
 }

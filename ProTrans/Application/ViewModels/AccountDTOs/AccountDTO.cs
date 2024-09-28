@@ -18,7 +18,7 @@ namespace Application.ViewModels.AccountDTOs
         public string? Password { get; set; }
         public string? Dob { get; set; }
         public string? Gender { get; set; }
-        public string? Role { get; set; }
+        public Guid? RoleId { get; set; }
         public Guid? AgencyId { get; set; }
         public bool? IsDeleted { get; set; }
     }

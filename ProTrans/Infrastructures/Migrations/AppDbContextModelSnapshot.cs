@@ -499,9 +499,6 @@ namespace Infrastructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
 
@@ -529,19 +526,9 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ShipperId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("AttachmentId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Image");
                 });
@@ -858,32 +845,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1124b38e-e025-4de6-b945-47297489bbd1"),
+                            Id = new Guid("5d9dfd16-277f-46a0-9a08-5ee5e93c7711"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("f096a850-3e26-4554-ab77-d8e84c0775a8"),
+                            Id = new Guid("f48e4143-d4cb-4017-87d8-cdda262cc469"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("8ce76dbe-0ba5-4bac-8a2c-c6c3c8331cd6"),
+                            Id = new Guid("ddd1def5-0afb-401a-be5e-b2775c09bca3"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("93ec98a3-3ae3-4ce4-a7ee-9f648effc77c"),
+                            Id = new Guid("ae83fcd4-b72d-4d28-9278-3e42dafe74c7"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("7bb5a7de-b044-4f9d-975e-69fadff79004"),
+                            Id = new Guid("7b22c186-6080-4288-a726-d56db17663c0"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("6e1fee9f-5a5c-40d7-a3bb-1ca5ae12a921"),
+                            Id = new Guid("27a6ab21-c262-4a07-ba32-b9d121f9b21f"),
                             Name = "Translator"
                         });
                 });
@@ -908,6 +895,10 @@ namespace Infrastructures.Migrations
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
@@ -1152,23 +1143,11 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.Image", b =>
                 {
-                    b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("Images")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("Domain.Entities.Attachment", "Attachment")
                         .WithMany("Images")
                         .HasForeignKey("AttachmentId");
 
-                    b.HasOne("Domain.Entities.Order", "Order")
-                        .WithMany("Images")
-                        .HasForeignKey("OrderId");
-
-                    b.Navigation("Account");
-
                     b.Navigation("Attachment");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Domain.Entities.Notification", b =>
@@ -1296,8 +1275,6 @@ namespace Infrastructures.Migrations
 
                     b.Navigation("FeedBacks");
 
-                    b.Navigation("Images");
-
                     b.Navigation("Notifications");
 
                     b.Navigation("ShipperRequests");
@@ -1366,8 +1343,6 @@ namespace Infrastructures.Migrations
                     b.Navigation("Documents");
 
                     b.Navigation("FeedBacks");
-
-                    b.Navigation("Images");
 
                     b.Navigation("Shippings");
 

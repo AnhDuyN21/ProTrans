@@ -22,6 +22,9 @@ namespace Infrastructures.FluentAPIs
             builder.HasOne(x => x.Document)
                 .WithMany(x => x.AssignmentTranslations)
                 .HasForeignKey(x => x.DocumentId);
+
+            builder.Property(x => x.Deadline)
+                 .HasColumnType("date");
         }
     }
 }

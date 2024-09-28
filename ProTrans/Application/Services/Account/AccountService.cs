@@ -216,11 +216,10 @@ namespace Application.Services.Account
         //public async Task<ServiceResponse<string>> LoginAsync(LoginDTO loginDTO)
         //{
         //    var response = new ServiceResponse<string>();
-        //    // var user = await _unitOfWork.UserRepository.GetUserByEmailAndPassword(usertDTO.Email, usertDTO.Password);
         //    try
         //    {
         //        var hashedPassword = Utils.HashPassword.HashWithSHA256(loginDTO.Password);
-        //        var user = await _unitOfWork.AccountRepository.GetUserByEmailAndPassword(accountDTO.Email, hashedPassword);
+        //        var user = await _unitOfWork.AccountRepository.CheckLogin(loginDTO.Email, hashedPassword);
         //        if (user == null)
         //        {
         //            response.Success = false;
