@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces.InterfaceServices.Account;
 using Application.ViewModels.AccountDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Authentication

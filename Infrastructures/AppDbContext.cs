@@ -8,7 +8,7 @@ namespace Infrastructures
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-           
+
         }
         public DbSet<Account> Account { get; set; }
         public DbSet<Role> Role { get; set; }

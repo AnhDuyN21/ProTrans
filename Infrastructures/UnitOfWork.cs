@@ -1,12 +1,11 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
+using Application.Interfaces.InterfaceRepositories.Notification;
+using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Role;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 
 namespace Infrastructures
 {
@@ -16,8 +15,13 @@ namespace Infrastructures
         private readonly IAccountRepository _accountRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly INotarizationRepository _notarizationRepository;
+        private readonly IQuotePriceRepository _quotePriceRepository;
+        private readonly ILanguageRepository _languageRepository;
+        private readonly ITranslatorSkillRepository _translatorSkillRepository;
+        private readonly INotificationRepository _notificationRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
-            , INotarizationRepository notarizationRepository)
+            , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
+            ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -27,6 +31,10 @@ namespace Infrastructures
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
         public INotarizationRepository NotarizationRepository => _notarizationRepository;
+        public IQuotePriceRepository QuotePriceRepository => _quotePriceRepository;
+        public ILanguageRepository LanguageRepository => _languageRepository;
+        public ITranslatorSkillRepository TranslatorSkillRepository => _translatorSkillRepository;
+        public INotificationRepository NotificationRepository => _notificationRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();
