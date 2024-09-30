@@ -124,5 +124,10 @@ namespace Infrastructures.Repositories
         {
             _dbSet.RemoveRange(entities);
         }
+        public Task DeleteRangeAsync(IEnumerable<TEntity> entities)
+        {
+            _dbSet.RemoveRange(entities);
+            return Task.CompletedTask;
+        }
     }
 }

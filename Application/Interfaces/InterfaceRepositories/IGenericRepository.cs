@@ -20,6 +20,7 @@ namespace Application.Interfaces.InterfaceRepositories
         Task AddRangeAsync(List<TEntity> entities);
         void SoftRemoveRange(List<TEntity> entities);
         void DeleteRange(List<TEntity> entities);
+        Task DeleteRangeAsync(IEnumerable<TEntity> entities);
 
     }
 }

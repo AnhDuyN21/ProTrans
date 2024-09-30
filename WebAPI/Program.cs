@@ -1,7 +1,9 @@
 using Application.Commons;
+using Google.Apis.Auth.OAuth2;
 using Infrastructures;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Linq;
 using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,14 @@ builder.Services.AddSwaggerGen(setup =>
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
+
+//Firebase
+var google = JObject.FromObject(configuration.GoogleImage);
+string g = google.ToString();
+string temp = Path.GetTempFileName();
+File.WriteAllText(temp, g);
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", temp);
+GoogleCredential credential = GoogleCredential.FromFile(temp);
 
 var app = builder.Build();
 

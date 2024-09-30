@@ -18,6 +18,13 @@ using Application.Interfaces.InterfaceRepositories.Notarization;
 using Infrastructures.Repositories.Notarization;
 using Application.Interfaces.InterfaceServices.Notarization;
 using Application.Services.Notarization;
+using Application.Interfaces.InterfaceServices.Firebase;
+using Application.Services.Firebase;
+using Google.Cloud.Storage.V1;
+using Application.Interfaces.InterfaceRepositories.Image;
+using Infrastructures.Repositories.Image;
+using Application.Interfaces.InterfaceServices.Image;
+using Application.Services.Image;
 
 namespace Infrastructures
 {
@@ -35,6 +42,14 @@ namespace Infrastructures
             //Notarizations
             services.AddScoped<INotarizationRepository, NotarizationRepository>();
             services.AddScoped<INotarizationService, NotarizationService>();
+
+            //Firebases
+            services.AddSingleton(opt => StorageClient.Create());
+            services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
+
+            //Images
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IImageService, ImageService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

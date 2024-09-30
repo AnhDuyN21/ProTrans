@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Role;
 using System;
@@ -16,17 +17,20 @@ namespace Infrastructures
         private readonly IAccountRepository _accountRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly INotarizationRepository _notarizationRepository;
+        private readonly IImageRepository _imageRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
-            , INotarizationRepository notarizationRepository)
+            , INotarizationRepository notarizationRepository, IImageRepository imageRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _notarizationRepository = notarizationRepository;
+            _imageRepository = imageRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
         public INotarizationRepository NotarizationRepository => _notarizationRepository;
+        public IImageRepository ImageRepository => _imageRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();
