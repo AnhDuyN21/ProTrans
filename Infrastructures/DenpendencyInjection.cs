@@ -14,6 +14,10 @@ using Application.Services;
 using Infrastructures.Mappers;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Infrastructures.Repositories.Role;
+using Application.Interfaces.InterfaceRepositories.Notarization;
+using Infrastructures.Repositories.Notarization;
+using Application.Interfaces.InterfaceServices.Notarization;
+using Application.Services.Notarization;
 
 namespace Infrastructures
 {
@@ -27,6 +31,10 @@ namespace Infrastructures
 
             //Roles
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+            //Notarizations
+            services.AddScoped<INotarizationRepository, NotarizationRepository>();
+            services.AddScoped<INotarizationService, NotarizationService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

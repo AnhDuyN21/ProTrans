@@ -18,10 +18,14 @@ namespace Application.Services.Account
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        private readonly ICurrentTime _currentTime;
+        public AccountService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, ICurrentTime currentTime)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _configuration = configuration;
+            _currentTime = currentTime;
         }
         public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountAsync()
         {
@@ -76,24 +80,22 @@ namespace Application.Services.Account
         public async Task<ServiceResponse<AccountDTO>> CreateAccountAsync(CreateAccountDTO createAccountDTO)
         {
             var response = new ServiceResponse<AccountDTO>();
-
-            //var exist = await _unitOfWork.AccountRepository.CheckEmailNameExited(createdAccountDTO.Email);
-            //var existed = await _unitOfWork.AccountRepository.CheckPhoneNumberExited(createdAccountDTO.PhoneNumber);
-
-            //if (exist)
-            //{
-            //    response.Success = false;
-            //    response.Message = "Email is existed";
-            //    return response;
-            //}
-            //else if (existed)
-            //{
-            //    response.Success = false;
-            //    response.Message = "Phone is existed";
-            //    return response;
-            //}
             try
             {
+                var emailExsit = await _unitOfWork.AccountRepository.CheckEmailNameExited(createAccountDTO.Email);
+                if (emailExsit)
+                {
+                    response.Success = false;
+                    response.Message = "Email is existed, Create Fail";
+                    return response;
+                }
+                var phoneExsit = await _unitOfWork.AccountRepository.CheckPhoneNumberExited(createAccountDTO.PhoneNumber);
+                if (phoneExsit)
+                {
+                    response.Success = false;
+                    response.Message = "PhoneNumber is existed, Create Fail";
+                    return response;
+                }
                 var account = _mapper.Map<Domain.Entities.Account>(createAccountDTO);
                 account.Password = Utils.HashPassword.HashWithSHA256(createAccountDTO.Password);
 
@@ -103,14 +105,14 @@ namespace Application.Services.Account
                 if (isSuccess)
                 {
                     var accountDTO = _mapper.Map<AccountDTO>(account);
-                    response.Data = accountDTO; // Chuyển đổi sang AccountDTO
+                    response.Data = accountDTO;
                     response.Success = true;
-                    response.Message = "User created successfully.";
+                    response.Message = "Account created successfully.";
                 }
                 else
                 {
                     response.Success = false;
-                    response.Message = "Error saving the user.";
+                    response.Message = "Error saving the account.";
                 }
             }
             catch (DbException ex)
@@ -185,7 +187,7 @@ namespace Application.Services.Account
                     response.Message = "Account is deleted in system";
                     return response;
                 }
-                // Map accountDT0 => existingUser
+                
                 var objectToUpdate = _mapper.Map(accountDTO, accountGetById);
                 objectToUpdate.Password = Utils.HashPassword.HashWithSHA256(accountDTO.Password);
 
@@ -213,60 +215,60 @@ namespace Application.Services.Account
 
             return response;
         }
-        //public async Task<ServiceResponse<string>> LoginAsync(LoginDTO loginDTO)
-        //{
-        //    var response = new ServiceResponse<string>();
-        //    try
-        //    {
-        //        var hashedPassword = Utils.HashPassword.HashWithSHA256(loginDTO.Password);
-        //        var user = await _unitOfWork.AccountRepository.CheckLogin(loginDTO.Email, hashedPassword);
-        //        if (user == null)
-        //        {
-        //            response.Success = false;
-        //            response.Message = "Invalid username or password";
-        //            return response;
-        //        }
-        //        //if (user.ConfirmToken != null)
-        //        //{
-        //        //    //System.Console.WriteLine(user.ConfirmationToken + user.IsConfirmed);
-        //        //    response.Success = false;
-        //        //    response.Message = "Please confirm via link in your mail";
-        //        //    return response;
-        //        //}
-        //        if (user.IsDeleted == true)
-        //        {
-        //            response.Success = false;
-        //            response.Message = "Your account have been deleted!";
-        //            return response;
-        //        }
-        //        var generate = new GenerateJsonWebTokenString(_unitOfWork);
+        public async Task<ServiceResponse<string>> LoginAsync(LoginDTO loginDTO)
+        {
+            var response = new ServiceResponse<string>();
+            try
+            {
+                var hashedPassword = Utils.HashPassword.HashWithSHA256(loginDTO.Password);
+                var user = await _unitOfWork.AccountRepository.CheckLogin(loginDTO.Email, hashedPassword);
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "Invalid username or password";
+                    return response;
+                }
+                //if (user.ConfirmToken != null)
+                //{
+                //    //System.Console.WriteLine(user.ConfirmationToken + user.IsConfirmed);
+                //    response.Success = false;
+                //    response.Message = "Please confirm via link in your mail";
+                //    return response;
+                //}
+                if (user.IsDeleted == true)
+                {
+                    response.Success = false;
+                    response.Message = "Your account have been deleted!";
+                    return response;
+                }
+                var generate = new GenerateJsonWebTokenString(_unitOfWork);
 
-        //        var token = generate.GenerateJsonWebToken(user, _configuration, _configuration.GetSection("JWTSection:SecretKey").Value, _currentTime.GetCurrentTime());
+                var token = generate.GenerateJsonWebToken(user, _configuration, _configuration.GetSection("JWTSection:SecretKey").Value, _currentTime.GetCurrentTime());
 
-        //        //var token = user.GenerateJsonWebToken(
-        //        //    _configuration,
-        //        //    _configuration.JWTSection.SecretKey,
-        //        //    _currentTime.GetCurrentTime()
-        //        //    );
+                //var token = user.GenerateJsonWebToken(
+                //    _configuration,
+                //    _configuration.JWTSection.SecretKey,
+                //    _currentTime.GetCurrentTime()
+                //    );
 
-        //        response.Success = true;
-        //        response.Message = "Login successfully.";
-        //        response.Data = token;
-        //    }
-        //    catch (DbException ex)
-        //    {
-        //        response.Success = false;
-        //        response.Message = "Database error occurred.";
-        //        response.ErrorMessages = new List<string> { ex.Message };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        response.Success = false;
-        //        response.Message = "Error";
-        //        response.ErrorMessages = new List<string> { ex.Message };
-        //    }
-        //    return response;
-        //}
+                response.Success = true;
+                response.Message = "Login successfully.";
+                response.Data = token;
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return response;
+        }
         public async Task<ServiceResponse<AccountDTO>> RegisterAsync(RegisterDTO registerDTO)
         {
             var response = new ServiceResponse<AccountDTO>();

@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Role;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Application.Interfaces
     {
         public IAccountRepository AccountRepository { get; }
         public IRoleRepository RoleRepository { get; }
+        public INotarizationRepository NotarizationRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

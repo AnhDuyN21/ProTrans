@@ -1,4 +1,5 @@
 ﻿using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.NotarizationDTOs;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -18,6 +19,9 @@ namespace Infrastructures.Mappers
             CreateMap<Account, CreateAccountDTO>().ReverseMap();
             CreateMap<Account, RegisterDTO>().ReverseMap();
 
+            //Notarizations
+            CreateMap<Notarization, NotarizationDTO>().ReverseMap();
+            CreateMap<Notarization, CreateNotarizationDTO>().ReverseMap();
         }
     }
 }
