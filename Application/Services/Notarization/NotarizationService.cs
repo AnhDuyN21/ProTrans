@@ -1,16 +1,9 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Notarization;
-using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using AutoMapper;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.Notarization
 {
@@ -116,7 +109,7 @@ namespace Application.Services.Notarization
                 if (getNotarizationById == null)
                 {
                     response.Success = false;
-                    response.Message= "Notarization id not exist!";
+                    response.Message = "Notarization id not exist!";
                     return response;
                 }
                 var updatedNotarization = _mapper.Map(createNotarizationDTO, getNotarizationById);

@@ -1,7 +1,6 @@
 ﻿using Application.ViewModels.AccountDTOs;
 using Domain.Enums;
 using FluentValidation;
-using System;
 
 namespace WebAPI.Validations.AccountValidations
 {

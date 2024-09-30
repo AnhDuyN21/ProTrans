@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces.InterfaceServices.Notarization;
-using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.NotarizationDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Notarization
@@ -9,8 +7,8 @@ namespace WebAPI.Controllers.Notarization
     public class NotarizationController : BaseController
     {
         private readonly INotarizationService _notarizationService;
-        public NotarizationController(INotarizationService notarizationService) 
-        { 
+        public NotarizationController(INotarizationService notarizationService)
+        {
             _notarizationService = notarizationService;
         }
         [HttpGet]
