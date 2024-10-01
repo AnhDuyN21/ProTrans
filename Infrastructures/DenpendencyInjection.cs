@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
+using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Notification;
@@ -9,6 +10,7 @@ using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceServices.Account;
 using Application.Interfaces.InterfaceServices.Feedbacks;
+using Application.Interfaces.InterfaceServices.AssignmentTranslation;
 using Application.Interfaces.InterfaceServices.Language;
 using Application.Interfaces.InterfaceServices.Notarization;
 using Application.Interfaces.InterfaceServices.Notification;
@@ -17,6 +19,7 @@ using Application.Interfaces.InterfaceServices.TranslatorSkill;
 using Application.Services;
 using Application.Services.Account;
 using Application.Services.Feedbacks;
+using Application.Services.AssignmentTranslation;
 using Application.Services.Language;
 using Application.Services.Notarization;
 using Application.Services.Notification;
@@ -25,6 +28,7 @@ using Application.Services.TranslatorSkill;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Account;
 using Infrastructures.Repositories.Feedbacks;
+using Infrastructures.Repositories.AssignmentTranslation;
 using Infrastructures.Repositories.Language;
 using Infrastructures.Repositories.Notarization;
 using Infrastructures.Repositories.Notification;
@@ -62,6 +66,9 @@ namespace Infrastructures
             //Feedbacks
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IFeedbackService, FeedbackService>();
+            //AssignmentTranslations
+            services.AddScoped<IAssignmentTranslationRepository, AssignmentTranslationRepository>();
+            services.AddScoped<IAssignmentTranslationService, AssignmentTranslationService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

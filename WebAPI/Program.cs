@@ -14,6 +14,7 @@ builder.Services.AddSingleton(configuration);
 builder.Services.AddWebAPIService();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
