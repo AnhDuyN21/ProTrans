@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
@@ -21,15 +22,17 @@ namespace Infrastructures
         private readonly ITranslatorSkillRepository _translatorSkillRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly IAssignmentTranslationRepository _assignmentTranslationRepository;
+        private readonly IImageRepository _imageRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
-            IAssignmentTranslationRepository assignmentTranslationRepository)
+            IAssignmentTranslationRepository assignmentTranslationRepository, IImageRepository imageRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _notarizationRepository = notarizationRepository;
+            _imageRepository = imageRepository;
             _quotePriceRepository = quotePriceRepository;
             _translatorSkillRepository = translatorSkillRepository;
             _notificationRepository = notificationRepository;
@@ -39,6 +42,7 @@ namespace Infrastructures
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
         public INotarizationRepository NotarizationRepository => _notarizationRepository;
+        public IImageRepository ImageRepository => _imageRepository;
         public IQuotePriceRepository QuotePriceRepository => _quotePriceRepository;
         public ILanguageRepository LanguageRepository => _languageRepository;
         public ITranslatorSkillRepository TranslatorSkillRepository => _translatorSkillRepository;
