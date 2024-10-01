@@ -1,4 +1,5 @@
 ﻿using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.AssignmentTranslationDTOs;
 using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using Application.ViewModels.NotificationDTOs;
@@ -34,6 +35,9 @@ namespace Infrastructures.Mappers
             //Notificaitons
             CreateMap<Notification, SendNotificationDTO>().ReverseMap();
             CreateMap<Notification, NotificationDTO>().ReverseMap();
+            //AssignmentTranslation
+            CreateMap<AssignmentTranslation,CUAssignmentTranslationDTO>().ReverseMap();
+            CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
         }
     }
 }
