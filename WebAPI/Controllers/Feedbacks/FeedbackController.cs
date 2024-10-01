@@ -46,5 +46,16 @@ namespace WebAPI.Controllers.Feedbacks
 				return BadRequest(result);
 			}
 		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteFeedback(Guid id)
+		{
+			var result = await feedbackService.DeleteFeedbackAsync(id);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
 	}
 }

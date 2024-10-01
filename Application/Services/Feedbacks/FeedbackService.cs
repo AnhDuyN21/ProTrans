@@ -110,5 +110,42 @@ namespace Application.Services.Feedbacks
 
 			return response;
 		}
+
+		public async Task<ServiceResponse<bool>> DeleteFeedbackAsync(Guid id)
+		{
+			var response = new ServiceResponse<bool>();
+
+			var feedback = await _unitOfWork.FeedbackRepository.GetByIdAsync(id);
+			if (feedback == null)
+			{
+				response.Success = false;
+				response.Message = "Delete fail.";
+				return response;
+			}
+			try
+			{
+				_unitOfWork.FeedbackRepository.SoftRemove(feedback);
+
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+				if (isSuccess)
+				{
+					response.Success = true;
+					response.Message = "Delete successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error deleting.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+
+			return response;
+		}
 	}
 }

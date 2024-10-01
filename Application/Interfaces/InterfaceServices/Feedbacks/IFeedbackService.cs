@@ -1,6 +1,5 @@
 ﻿using Application.Commons;
 using Application.ViewModels.FeedbackDTOs;
-using Application.ViewModels.LanguageDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,6 @@ namespace Application.Interfaces.InterfaceServices.Feedbacks
 		public Task<ServiceResponse<FeedbackDTO>> GetFeedbackByIdAsync(Guid id);
 		//public Task<ServiceResponse<FeedbackDTO>> UpdateFeedbackAsync(Guid id, CUFeedbackDTO feedback);
 		public Task<ServiceResponse<FeedbackDTO>> CreateFeedbackAsync(CUFeedbackDTO feedback);
-		//public Task<ServiceResponse<bool>> DeleteFeedbackAsync(Guid id);
+		public Task<ServiceResponse<bool>> DeleteFeedbackAsync(Guid id);
 	}
 }

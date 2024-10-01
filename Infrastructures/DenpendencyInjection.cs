@@ -36,6 +36,8 @@ using Infrastructures.Repositories.Role;
 using Infrastructures.Repositories.TranslatorSkill;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Application.Interfaces.InterfaceRepositories.Documents;
+using Infrastructures.Repositories.Documents;
 
 namespace Infrastructures
 {
@@ -69,6 +71,8 @@ namespace Infrastructures
             //AssignmentTranslations
             services.AddScoped<IAssignmentTranslationRepository, AssignmentTranslationRepository>();
             services.AddScoped<IAssignmentTranslationService, AssignmentTranslationService>();
+            //Documents
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();
