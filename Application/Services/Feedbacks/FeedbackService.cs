@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Feedbacks;
 using Application.ViewModels.FeedbackDTOs;
 using AutoMapper;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -68,6 +69,45 @@ namespace Application.Services.Feedbacks
 				response.Message = "Feedback found.";
 				response.Data = _mapper.Map<FeedbackDTO>(feedback);
 			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<FeedbackDTO>> CreateFeedbackAsync(CUFeedbackDTO CUfeedbackDTO)
+		{
+			var response = new ServiceResponse<FeedbackDTO>();
+			try
+			{
+				var feedback = _mapper.Map<FeedBack>(CUfeedbackDTO);
+
+				await _unitOfWork.FeedbackRepository.AddAsync(feedback);
+
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+				if (isSuccess)
+				{
+					var feedbackDTO = _mapper.Map<FeedbackDTO>(feedback);
+					response.Data = feedbackDTO;
+					response.Success = true;
+					response.Message = "Create successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error saving.";
+				}
+			}
+			catch (DbException ex)
+			{
+				response.Success = false;
+				response.Message = "Database error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+
 			return response;
 		}
 	}

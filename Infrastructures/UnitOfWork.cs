@@ -26,7 +26,7 @@ namespace Infrastructures
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
-            IAssignmentTranslationRepository assignmentTranslationRepository)
+            IAssignmentTranslationRepository assignmentTranslationRepository, IFeedbackRepository feedbackRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -37,6 +37,7 @@ namespace Infrastructures
             _notificationRepository = notificationRepository;
             _languageRepository = languageRepository;
             _assignmentTranslationRepository = assignmentTranslationRepository;
+            _feedbackRepository = feedbackRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;

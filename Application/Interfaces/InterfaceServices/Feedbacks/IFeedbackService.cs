@@ -13,8 +13,8 @@ namespace Application.Interfaces.InterfaceServices.Feedbacks
 	{
 		public Task<ServiceResponse<IEnumerable<FeedbackDTO>>> GetAllFeedbacksAsync();
 		public Task<ServiceResponse<FeedbackDTO>> GetFeedbackByIdAsync(Guid id);
-		//public Task<ServiceResponse<LanguageDTO>> UpdateFeedbackAsync(Guid id, CULanguageDTO cudLanguageDTO);
-		//public Task<ServiceResponse<LanguageDTO>> CreateFeedbackAsync(CULanguageDTO languageDTO);
+		//public Task<ServiceResponse<FeedbackDTO>> UpdateFeedbackAsync(Guid id, CUFeedbackDTO feedback);
+		public Task<ServiceResponse<FeedbackDTO>> CreateFeedbackAsync(CUFeedbackDTO feedback);
 		//public Task<ServiceResponse<bool>> DeleteFeedbackAsync(Guid id);
 	}
 }

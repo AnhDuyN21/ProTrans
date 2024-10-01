@@ -1,5 +1,8 @@
 ﻿using Application.Interfaces.InterfaceServices.Feedbacks;
 using Application.Interfaces.InterfaceServices.Language;
+using Application.Services.Language;
+using Application.ViewModels.FeedbackDTOs;
+using Application.ViewModels.LanguageDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Feedbacks
@@ -28,6 +31,20 @@ namespace WebAPI.Controllers.Feedbacks
 				return NotFound(result);
 			}
 			return Ok(result);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CreateFeedback([FromBody] CUFeedbackDTO feedback)
+		{
+			var result = await feedbackService.CreateFeedbackAsync(feedback);
+			if (result.Success)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
 		}
 	}
 }
