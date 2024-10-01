@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Feedbacks;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Notification;
@@ -17,6 +18,7 @@ namespace Application.Interfaces
         public ILanguageRepository LanguageRepository { get; }
         public ITranslatorSkillRepository TranslatorSkillRepository { get; }
         public INotificationRepository NotificationRepository { get; }
+        public IFeedbackRepository FeedbackRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

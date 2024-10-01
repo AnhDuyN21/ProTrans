@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Feedbacks;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Notification;
@@ -19,6 +20,7 @@ namespace Infrastructures
         private readonly ILanguageRepository _languageRepository;
         private readonly ITranslatorSkillRepository _translatorSkillRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository)
@@ -35,6 +37,7 @@ namespace Infrastructures
         public ILanguageRepository LanguageRepository => _languageRepository;
         public ITranslatorSkillRepository TranslatorSkillRepository => _translatorSkillRepository;
         public INotificationRepository NotificationRepository => _notificationRepository;
+        public IFeedbackRepository FeedbackRepository => _feedbackRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();
