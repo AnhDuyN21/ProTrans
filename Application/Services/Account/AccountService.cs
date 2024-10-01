@@ -5,12 +5,7 @@ using Application.Utils;
 using Application.ViewModels.AccountDTOs;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.Account
 {
@@ -187,7 +182,7 @@ namespace Application.Services.Account
                     response.Message = "Account is deleted in system";
                     return response;
                 }
-                
+
                 var objectToUpdate = _mapper.Map(accountDTO, accountGetById);
                 objectToUpdate.Password = Utils.HashPassword.HashWithSHA256(accountDTO.Password);
 
@@ -273,7 +268,7 @@ namespace Application.Services.Account
         {
             var response = new ServiceResponse<AccountDTO>();
             try
-            {                
+            {
                 var emailExsit = await _unitOfWork.AccountRepository.CheckEmailNameExited(registerDTO.Email);
                 if (emailExsit)
                 {

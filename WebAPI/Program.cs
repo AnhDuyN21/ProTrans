@@ -1,6 +1,7 @@
 using Application.Commons;
 using Google.Apis.Auth.OAuth2;
 using Infrastructures;
+using Infrastructures.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
@@ -15,7 +16,18 @@ builder.Services.AddSingleton(configuration);
 builder.Services.AddWebAPIService();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSignalR();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
 
+    });
+});
 //Swagger
 builder.Services.AddSwaggerGen(setup =>
 {
@@ -64,5 +76,13 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors();
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
 
+    app.MapControllers();
+    endpoints.MapHub<SignalRHub>("/notificationHub");
+
+});
 app.Run();

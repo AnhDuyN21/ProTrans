@@ -2,7 +2,6 @@
 using Application.ViewModels.AccountDTOs;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Infrastructures;
 using System.Diagnostics;
 using WebAPI.Services;
 using WebAPI.Validations.AccountValidations;

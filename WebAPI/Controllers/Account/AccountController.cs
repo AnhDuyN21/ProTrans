@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces.InterfaceServices.Account;
 using Application.ViewModels.AccountDTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Account
@@ -33,15 +31,15 @@ namespace WebAPI.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDTO createdAccountDTO)
         {
-                var result = await _accountService.CreateAccountAsync(createdAccountDTO);
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return BadRequest(result);
-                }
+            var result = await _accountService.CreateAccountAsync(createdAccountDTO);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAccount(Guid id, [FromBody] AccountDTO accountDTO)

@@ -1,12 +1,12 @@
 ﻿using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.AssignmentTranslationDTOs;
+using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
+using Application.ViewModels.NotificationDTOs;
+using Application.ViewModels.QuotePriceDTOs;
+using Application.ViewModels.TranslatorSkillDTOs;
 using AutoMapper;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructures.Mappers
 {
@@ -22,6 +22,22 @@ namespace Infrastructures.Mappers
             //Notarizations
             CreateMap<Notarization, NotarizationDTO>().ReverseMap();
             CreateMap<Notarization, CreateNotarizationDTO>().ReverseMap();
+
+            //QuotePrices
+            CreateMap<QuotePrice, QuotePriceDTO>().ReverseMap();
+            CreateMap<QuotePrice, CUQuotePriceDTO>().ReverseMap();
+            //Languages
+            CreateMap<Language, LanguageDTO>().ReverseMap();
+            CreateMap<Language, CULanguageDTO>().ReverseMap();
+            //TranslatorSkills
+            CreateMap<TranslatorSkill, TranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslatorSkill, CUTranslatorSkillDTO>().ReverseMap();
+            //Notificaitons
+            CreateMap<Notification, SendNotificationDTO>().ReverseMap();
+            CreateMap<Notification, NotificationDTO>().ReverseMap();
+            //AssignmentTranslation
+            CreateMap<AssignmentTranslation,CUAssignmentTranslationDTO>().ReverseMap();
+            CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
         }
     }
 }

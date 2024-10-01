@@ -1,5 +1,5 @@
-﻿using System.Text;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 
 namespace Application.Utils
@@ -21,5 +21,5 @@ namespace Application.Utils
             return builder.ToString();
         }
     }
-    
+
 }

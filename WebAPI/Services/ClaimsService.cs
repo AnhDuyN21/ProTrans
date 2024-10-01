@@ -16,7 +16,7 @@ namespace WebAPI.Services
             }
             else
             {
-                GetCurrentUserId = Guid.Empty; 
+                GetCurrentUserId = Guid.Empty;
             }
         }
 
