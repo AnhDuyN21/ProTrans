@@ -48,7 +48,6 @@ namespace Infrastructures
         public ITranslatorSkillRepository TranslatorSkillRepository => _translatorSkillRepository;
         public INotificationRepository NotificationRepository => _notificationRepository;
         public IAssignmentTranslationRepository AssignmentTranslationRepository => _assignmentTranslationRepository;
-        public IImageRepository ImageRepository => _imageRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();
