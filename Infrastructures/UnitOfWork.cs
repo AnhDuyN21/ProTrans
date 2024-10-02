@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
+using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
@@ -10,6 +11,7 @@ using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.Orders;
+using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 
 namespace Infrastructures
 {
@@ -27,16 +29,20 @@ namespace Infrastructures
         private readonly IAssignmentTranslationRepository _assignmentTranslationRepository;
         private readonly IDocumentRepository _documentRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly IImageRepository _imageRepository;
+        private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
-            IAssignmentTranslationRepository assignmentTranslationRepository, IFeedbackRepository feedbackRepository,
-            IDocumentRepository documentReository, IOrderRepository orderRepository)
+            IAssignmentTranslationRepository assignmentTranslationRepository,
+            IDocumentRepository documentReository, IOrderRepository orderRepository,
+            IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _notarizationRepository = notarizationRepository;
+            _imageRepository = imageRepository;
             _quotePriceRepository = quotePriceRepository;
             _translatorSkillRepository = translatorSkillRepository;
             _notificationRepository = notificationRepository;
@@ -45,10 +51,12 @@ namespace Infrastructures
             _feedbackRepository = feedbackRepository;
             _documentRepository = documentReository;
             _orderRepository = orderRepository;
+            _assignmentNotarizationRepository = assignmentNotarizationRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
         public INotarizationRepository NotarizationRepository => _notarizationRepository;
+        public IImageRepository ImageRepository => _imageRepository;
         public IQuotePriceRepository QuotePriceRepository => _quotePriceRepository;
         public ILanguageRepository LanguageRepository => _languageRepository;
         public ITranslatorSkillRepository TranslatorSkillRepository => _translatorSkillRepository;
@@ -57,6 +65,7 @@ namespace Infrastructures
         public IAssignmentTranslationRepository AssignmentTranslationRepository => _assignmentTranslationRepository;
         public IDocumentRepository DocumentRepository => _documentRepository;
         public IOrderRepository OrderRepository => _orderRepository;
+        public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

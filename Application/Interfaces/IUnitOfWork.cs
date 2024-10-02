@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
+using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
@@ -9,6 +10,7 @@ using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.Orders;
+using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 
 namespace Application.Interfaces
 {
@@ -17,6 +19,7 @@ namespace Application.Interfaces
         public IAccountRepository AccountRepository { get; }
         public IRoleRepository RoleRepository { get; }
         public INotarizationRepository NotarizationRepository { get; }
+        public IImageRepository ImageRepository { get; }
         public IQuotePriceRepository QuotePriceRepository { get; }
         public ILanguageRepository LanguageRepository { get; }
         public ITranslatorSkillRepository TranslatorSkillRepository { get; }
@@ -25,6 +28,7 @@ namespace Application.Interfaces
         public IAssignmentTranslationRepository AssignmentTranslationRepository { get; }
         public IDocumentRepository DocumentRepository { get; }
         public IOrderRepository OrderRepository { get; }
+        public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

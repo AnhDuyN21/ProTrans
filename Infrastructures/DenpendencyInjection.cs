@@ -1,7 +1,9 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
+using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
+using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Notification;
@@ -10,7 +12,10 @@ using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceServices.Account;
 using Application.Interfaces.InterfaceServices.Feedbacks;
+using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
+using Application.Interfaces.InterfaceServices.Firebase;
+using Application.Interfaces.InterfaceServices.Image;
 using Application.Interfaces.InterfaceServices.Language;
 using Application.Interfaces.InterfaceServices.Notarization;
 using Application.Interfaces.InterfaceServices.Notification;
@@ -19,16 +24,22 @@ using Application.Interfaces.InterfaceServices.TranslatorSkill;
 using Application.Services;
 using Application.Services.Account;
 using Application.Services.Feedbacks;
+using Application.Services.AssignmentNotarization;
 using Application.Services.AssignmentTranslation;
+using Application.Services.Firebase;
+using Application.Services.Image;
 using Application.Services.Language;
 using Application.Services.Notarization;
 using Application.Services.Notification;
 using Application.Services.QuotePrice;
 using Application.Services.TranslatorSkill;
+using Google.Cloud.Storage.V1;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Account;
 using Infrastructures.Repositories.Feedbacks;
+using Infrastructures.Repositories.AssignmentNotarization;
 using Infrastructures.Repositories.AssignmentTranslation;
+using Infrastructures.Repositories.Image;
 using Infrastructures.Repositories.Language;
 using Infrastructures.Repositories.Notarization;
 using Infrastructures.Repositories.Notification;
@@ -83,6 +94,17 @@ namespace Infrastructures
             //Orders
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderService, OrderService>();
+                        //AssignmentNotarizations
+            services.AddScoped<IAssignmentNotarizationRepository, AssignmentNotarizationRepository>();
+            services.AddScoped<IAssignmentNotarizationService, AssignmentNotarizationService>();
+
+            //Firebases
+            services.AddSingleton(opt => StorageClient.Create());
+            services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
+
+            //Images
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IImageService, ImageService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();
