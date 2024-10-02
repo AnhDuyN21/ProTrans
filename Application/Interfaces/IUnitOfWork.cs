@@ -7,6 +7,7 @@ using Application.Interfaces.InterfaceRepositories.Notification;
 using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
+using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 
 namespace Application.Interfaces
 {
@@ -21,6 +22,7 @@ namespace Application.Interfaces
         public ITranslatorSkillRepository TranslatorSkillRepository { get; }
         public INotificationRepository NotificationRepository { get; }
         public IAssignmentTranslationRepository AssignmentTranslationRepository { get; }
+        public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }
