@@ -1,4 +1,5 @@
 ﻿using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.AssignmentNotarizationDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
 using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
@@ -38,6 +39,10 @@ namespace Infrastructures.Mappers
             //AssignmentTranslation
             CreateMap<AssignmentTranslation,CUAssignmentTranslationDTO>().ReverseMap();
             CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
+            //AssignmentNotarization
+            CreateMap<AssignmentNotarization, CUAssignmentNotarizationDTO>().ReverseMap();
+            CreateMap<AssignmentNotarization, AssignmentNotarizationDTO>().ReverseMap();
+
         }
     }
 }
