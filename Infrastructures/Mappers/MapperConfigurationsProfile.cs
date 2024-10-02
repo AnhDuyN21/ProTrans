@@ -38,6 +38,9 @@ namespace Infrastructures.Mappers
             //AssignmentTranslation
             CreateMap<AssignmentTranslation,CUAssignmentTranslationDTO>().ReverseMap();
             CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
+            //AssignmentNotarization
+            CreateMap<AssignmentNotarization, CUAssignmentTranslationDTO>().ReverseMap();
+            CreateMap<AssignmentNotarization, AssignmentTranslationDTO>().ReverseMap();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
@@ -19,6 +20,7 @@ namespace Application.Interfaces
         public ITranslatorSkillRepository TranslatorSkillRepository { get; }
         public INotificationRepository NotificationRepository { get; }
         public IAssignmentTranslationRepository AssignmentTranslationRepository { get; }
+        public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

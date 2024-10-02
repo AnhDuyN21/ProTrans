@@ -21,12 +21,19 @@ namespace Infrastructures.Repositories.TranslatorSkill
         public async Task<List<Domain.Entities.TranslatorSkill>> GetAllTranslatorSkillAsync(Expression<Func<Domain.Entities.TranslatorSkill, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<Domain.Entities.TranslatorSkill> query = _dbSet
-            .Select(q => new Domain.Entities.TranslatorSkill
-            {
-                Id = q.Id, // Assuming you want Id in the final result
-                TranslatorId = q.TranslatorId,
-                Language = new Domain.Entities.Language { Name = q.Language.Name }, // Use constructor with Name property
-            })
+            .Join(_dbContext.Account,
+                  t => t.TranslatorId,
+                  a => a.Id,
+                  (t, a) => new { t, a })
+
+          .Select(q => new Domain.Entities.TranslatorSkill
+          {
+              Id = q.t.Id, // Assuming you want Id in the final result
+              TranslatorId = q.t.TranslatorId,
+              Account = q.a,
+              Language = q.t.Language, // Use constructor with Name property
+              CertificateUrl = q.t.CertificateUrl,
+          })
             .AsQueryable();
             if (filter != null)
             {
@@ -44,9 +51,27 @@ namespace Infrastructures.Repositories.TranslatorSkill
             return await query.ToListAsync();
         }
 
-        public Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Guid id)
+        public async Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+           var query = await _dbSet
+            .Join(_dbContext.Account,
+                  t => t.TranslatorId,
+                  a => a.Id,
+                  (t, a) => new { t, a })
+          
+          .Select(q => new Domain.Entities.TranslatorSkill
+          {
+              Id = q.t.Id, // Assuming you want Id in the final result
+              TranslatorId = q.t.TranslatorId, 
+              Account =  q.a,
+              Language = q.t.Language, // Use constructor with Name property
+              CertificateUrl = q.t.CertificateUrl,
+          })
+          .AsQueryable()
+          .FirstOrDefaultAsync();
+           
+            Console.WriteLine(query.Account);
+            return query;
         }
     }
 }

@@ -26,8 +26,8 @@ namespace Infrastructures.Repositories.Account
         {
             Id = q.Id, // Assuming you want Id in the final result
             PricePerPage = q.PricePerPage,
-            FirstLanguage = new Domain.Entities.Language { Name = q.FirstLanguage.Name }, // Use constructor with Name property
-            SecondLanguage = new Domain.Entities.Language { Name = q.SecondLanguage.Name } // Use constructor with Name property
+            FirstLanguage = q.FirstLanguage, // Use constructor with Name property
+            SecondLanguage = q.SecondLanguage // Use constructor with Name property
         })
         .AsQueryable();
 

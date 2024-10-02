@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
@@ -21,10 +22,11 @@ namespace Infrastructures
         private readonly ITranslatorSkillRepository _translatorSkillRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly IAssignmentTranslationRepository _assignmentTranslationRepository;
+        private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
-            IAssignmentTranslationRepository assignmentTranslationRepository)
+            IAssignmentTranslationRepository assignmentTranslationRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -35,6 +37,7 @@ namespace Infrastructures
             _notificationRepository = notificationRepository;
             _languageRepository = languageRepository;
             _assignmentTranslationRepository = assignmentTranslationRepository;
+            _assignmentNotarizationRepository = assignmentNotarizationRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
@@ -44,6 +47,7 @@ namespace Infrastructures
         public ITranslatorSkillRepository TranslatorSkillRepository => _translatorSkillRepository;
         public INotificationRepository NotificationRepository => _notificationRepository;
         public IAssignmentTranslationRepository AssignmentTranslationRepository => _assignmentTranslationRepository;
+        public IAssignmentNotarizationRepository AssignmentNotarizationRepository=> _assignmentNotarizationRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

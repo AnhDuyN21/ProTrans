@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
@@ -8,6 +9,7 @@ using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceServices.Account;
+using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
 using Application.Interfaces.InterfaceServices.Language;
 using Application.Interfaces.InterfaceServices.Notarization;
@@ -16,6 +18,7 @@ using Application.Interfaces.InterfaceServices.QuotePrice;
 using Application.Interfaces.InterfaceServices.TranslatorSkill;
 using Application.Services;
 using Application.Services.Account;
+using Application.Services.AssignmentNotarization;
 using Application.Services.AssignmentTranslation;
 using Application.Services.Language;
 using Application.Services.Notarization;
@@ -24,6 +27,7 @@ using Application.Services.QuotePrice;
 using Application.Services.TranslatorSkill;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Account;
+using Infrastructures.Repositories.AssignmentNotarization;
 using Infrastructures.Repositories.AssignmentTranslation;
 using Infrastructures.Repositories.Language;
 using Infrastructures.Repositories.Notarization;
@@ -63,6 +67,9 @@ namespace Infrastructures
             //AssignmentTranslations
             services.AddScoped<IAssignmentTranslationRepository, AssignmentTranslationRepository>();
             services.AddScoped<IAssignmentTranslationService, AssignmentTranslationService>();
+            //AssignmentNotarizations
+            services.AddScoped<IAssignmentNotarizationRepository, AssignmentNotarizationRepository>();
+            services.AddScoped<IAssignmentNotarizationService, AssignmentNotarizationService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

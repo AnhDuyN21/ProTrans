@@ -48,5 +48,6 @@ namespace Infrastructures
             new Role { Id = Guid.NewGuid(), Name = "Translator" }
             );
         }
+    
     }
 }

@@ -18,6 +18,7 @@ namespace WebAPI.Controllers.Notification
         }
 
         [HttpGet("{id}")]
+        //[Route("AccountId")]
         public async Task<IActionResult> GetNotificationById(Guid id)
         {
             var result = await _notificationService.GetAllNotificationAsync(id);
