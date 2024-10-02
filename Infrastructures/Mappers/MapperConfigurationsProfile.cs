@@ -1,9 +1,11 @@
 ﻿using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
+using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.FeedbackDTOs;
 using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using Application.ViewModels.NotificationDTOs;
+using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.QuotePriceDTOs;
 using Application.ViewModels.TranslatorSkillDTOs;
 using AutoMapper;
@@ -42,6 +44,12 @@ namespace Infrastructures.Mappers
             //Feedbacks
             CreateMap<FeedBack, FeedbackDTO>().ReverseMap();
             CreateMap<FeedBack, CUFeedbackDTO>().ReverseMap();
+            //Documents
+            CreateMap<Document, DocumentDTO>().ReverseMap();
+            CreateMap<Document, CUDocumentDTO>().ReverseMap();
+            //Orders
+            CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<Order, CUOrderDTO>().ReverseMap();
         }
     }
 }

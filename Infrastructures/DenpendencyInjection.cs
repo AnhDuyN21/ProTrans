@@ -38,6 +38,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Infrastructures.Repositories.Documents;
+using Application.Interfaces.InterfaceRepositories.Orders;
+using Application.Interfaces.InterfaceServices.Orders;
+using Application.Services.Orders;
+using Infrastructures.Repositories.Orders;
+using Application.Interfaces.InterfaceServices.Documents;
+using Application.Services.Documents;
 
 namespace Infrastructures
 {
@@ -73,6 +79,10 @@ namespace Infrastructures
             services.AddScoped<IAssignmentTranslationService, AssignmentTranslationService>();
             //Documents
             services.AddScoped<IDocumentRepository, DocumentRepository>();
+            services.AddScoped<IDocumentService, DocumentService>();
+            //Orders
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

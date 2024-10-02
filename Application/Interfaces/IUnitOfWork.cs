@@ -8,6 +8,7 @@ using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
+using Application.Interfaces.InterfaceRepositories.Orders;
 
 namespace Application.Interfaces
 {
@@ -23,6 +24,7 @@ namespace Application.Interfaces
         public IFeedbackRepository FeedbackRepository { get; }
         public IAssignmentTranslationRepository AssignmentTranslationRepository { get; }
         public IDocumentRepository DocumentRepository { get; }
+        public IOrderRepository OrderRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

@@ -9,6 +9,7 @@ using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
+using Application.Interfaces.InterfaceRepositories.Orders;
 
 namespace Infrastructures
 {
@@ -25,11 +26,12 @@ namespace Infrastructures
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly IAssignmentTranslationRepository _assignmentTranslationRepository;
         private readonly IDocumentRepository _documentRepository;
+        private readonly IOrderRepository _orderRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
             IAssignmentTranslationRepository assignmentTranslationRepository, IFeedbackRepository feedbackRepository,
-            IDocumentRepository documentReository)
+            IDocumentRepository documentReository, IOrderRepository orderRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -42,6 +44,7 @@ namespace Infrastructures
             _assignmentTranslationRepository = assignmentTranslationRepository;
             _feedbackRepository = feedbackRepository;
             _documentRepository = documentReository;
+            _orderRepository = orderRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
@@ -53,6 +56,7 @@ namespace Infrastructures
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
         public IAssignmentTranslationRepository AssignmentTranslationRepository => _assignmentTranslationRepository;
         public IDocumentRepository DocumentRepository => _documentRepository;
+        public IOrderRepository OrderRepository => _orderRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();
