@@ -109,7 +109,7 @@ namespace Application.Services.AssignmentTranslation
                 var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync();
                 var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList.Select(q => new AssignmentTranslationDTO
                 {
-                    TranslatorName = q.Account.FullName,
+                    TranslatorName = q.Translator.FullName,
                     DocumentId = q.DocumentId,
                     Status = q.Status,
                     Deadline = q.Deadline,
@@ -148,7 +148,7 @@ namespace Application.Services.AssignmentTranslation
                 var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x=>x.TranslatorId.Equals(Id));
                 var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList.Select(q => new AssignmentTranslationDTO
                 {
-                    TranslatorName = q.Account.FullName,
+                    TranslatorName = q.Translator.FullName,
                     DocumentId = q.DocumentId,
                     Status = q.Status,
                     Deadline = q.Deadline,

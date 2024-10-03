@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -571,7 +572,6 @@ namespace Infrastructures.Migrations
                     DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NumberOfNotarization = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -584,10 +584,11 @@ namespace Infrastructures.Migrations
                 {
                     table.PrimaryKey("PK_AssignmentNotarization", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssignmentNotarization_Account_AccountId",
-                        column: x => x.AccountId,
+                        name: "FK_AssignmentNotarization_Account_ShipperId",
+                        column: x => x.ShipperId,
                         principalTable: "Account",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AssignmentNotarization_Document_DocumentId",
                         column: x => x.DocumentId,
@@ -605,7 +606,6 @@ namespace Infrastructures.Migrations
                     DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -618,8 +618,8 @@ namespace Infrastructures.Migrations
                 {
                     table.PrimaryKey("PK_AssignmentTranslation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssignmentTranslation_Account_AccountId",
-                        column: x => x.AccountId,
+                        name: "FK_AssignmentTranslation_Account_TranslatorId",
+                        column: x => x.TranslatorId,
                         principalTable: "Account",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -634,12 +634,12 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("27a6ab21-c262-4a07-ba32-b9d121f9b21f"), "Translator" },
-                    { new Guid("5d9dfd16-277f-46a0-9a08-5ee5e93c7711"), "Admin" },
-                    { new Guid("7b22c186-6080-4288-a726-d56db17663c0"), "Staff" },
-                    { new Guid("ae83fcd4-b72d-4d28-9278-3e42dafe74c7"), "Manager" },
-                    { new Guid("ddd1def5-0afb-401a-be5e-b2775c09bca3"), "Shipper" },
-                    { new Guid("f48e4143-d4cb-4017-87d8-cdda262cc469"), "Customer" }
+                    { new Guid("0c55df40-7752-4559-a9f7-8fb7751c72c0"), "Admin" },
+                    { new Guid("106a8766-7d6f-4694-9ed2-7aac13dbb3a6"), "Customer" },
+                    { new Guid("11462616-f0a5-4cf8-b5af-c95041efb82a"), "Manager" },
+                    { new Guid("58e52c87-1353-4e83-80b6-b543e41b6f3a"), "Shipper" },
+                    { new Guid("75c47b79-3bde-44f9-911e-7d5ac8beab92"), "Translator" },
+                    { new Guid("d9fc4e82-7a25-414b-be9e-be998d6a5488"), "Staff" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -653,24 +653,24 @@ namespace Infrastructures.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignmentNotarization_AccountId",
-                table: "AssignmentNotarization",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AssignmentNotarization_DocumentId",
                 table: "AssignmentNotarization",
                 column: "DocumentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignmentTranslation_AccountId",
-                table: "AssignmentTranslation",
-                column: "AccountId");
+                name: "IX_AssignmentNotarization_ShipperId",
+                table: "AssignmentNotarization",
+                column: "ShipperId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssignmentTranslation_DocumentId",
                 table: "AssignmentTranslation",
                 column: "DocumentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignmentTranslation_TranslatorId",
+                table: "AssignmentTranslation",
+                column: "TranslatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attachment_DocumentTypeId",

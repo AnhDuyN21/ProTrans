@@ -10,7 +10,7 @@ namespace Infrastructures.FluentAPIs
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.Translator)
                 .WithMany(x => x.AssignmentTranslations)
                 .HasForeignKey(x => x.TranslatorId);
 

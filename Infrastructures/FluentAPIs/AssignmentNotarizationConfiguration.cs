@@ -9,7 +9,7 @@ namespace Infrastructures.FluentAPIs
         public void Configure(EntityTypeBuilder<AssignmentNotarization> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.Shipper)
                 .WithMany(x => x.AssignmentNotarizations)
                 .HasForeignKey(x => x.ShipperId);
 

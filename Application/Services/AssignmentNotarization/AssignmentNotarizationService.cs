@@ -109,7 +109,7 @@ namespace Application.Services.AssignmentNotarization
                 var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync();
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
-                    ShipperName = q.Account.FullName,
+                    ShipperName = q.Shipper.FullName,
                     CustomerName = q.Document.Order.FullName,
                     DocumentCode = q.Document.Code,
                     Status = q.Status,
@@ -149,7 +149,7 @@ namespace Application.Services.AssignmentNotarization
                 var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.ShipperId.Equals(Id));
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
-                    ShipperName = q.Account.FullName,
+                    ShipperName = q.Shipper.FullName,
                     CustomerName = q.Document.Order.FullName,
                     DocumentCode = q.Document.Code,
                     Status = q.Status,

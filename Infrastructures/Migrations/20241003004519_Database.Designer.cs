@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240928154144_Database")]
+    [Migration("20241003004519_Database")]
     partial class Database
     {
         /// <inheritdoc />
@@ -140,9 +140,6 @@ namespace Infrastructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -179,9 +176,9 @@ namespace Infrastructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("DocumentId");
+
+                    b.HasIndex("ShipperId");
 
                     b.ToTable("AssignmentNotarization");
                 });
@@ -190,9 +187,6 @@ namespace Infrastructures.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -231,9 +225,9 @@ namespace Infrastructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("DocumentId");
+
+                    b.HasIndex("TranslatorId");
 
                     b.ToTable("AssignmentTranslation");
                 });
@@ -848,32 +842,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5d9dfd16-277f-46a0-9a08-5ee5e93c7711"),
+                            Id = new Guid("0c55df40-7752-4559-a9f7-8fb7751c72c0"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("f48e4143-d4cb-4017-87d8-cdda262cc469"),
+                            Id = new Guid("106a8766-7d6f-4694-9ed2-7aac13dbb3a6"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("ddd1def5-0afb-401a-be5e-b2775c09bca3"),
+                            Id = new Guid("58e52c87-1353-4e83-80b6-b543e41b6f3a"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("ae83fcd4-b72d-4d28-9278-3e42dafe74c7"),
+                            Id = new Guid("11462616-f0a5-4cf8-b5af-c95041efb82a"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("7b22c186-6080-4288-a726-d56db17663c0"),
+                            Id = new Guid("d9fc4e82-7a25-414b-be9e-be998d6a5488"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("27a6ab21-c262-4a07-ba32-b9d121f9b21f"),
+                            Id = new Guid("75c47b79-3bde-44f9-911e-7d5ac8beab92"),
                             Name = "Translator"
                         });
                 });
@@ -1017,34 +1011,36 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.AssignmentNotarization", b =>
                 {
-                    b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("AssignmentNotarizations")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("Domain.Entities.Document", "Document")
                         .WithMany("AssignmentNotarizations")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.HasOne("Domain.Entities.Account", "Shipper")
+                        .WithMany("AssignmentNotarizations")
+                        .HasForeignKey("ShipperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Document");
+
+                    b.Navigation("Shipper");
                 });
 
             modelBuilder.Entity("Domain.Entities.AssignmentTranslation", b =>
                 {
-                    b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("AssignmentTranslations")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("Domain.Entities.Document", "Document")
                         .WithMany("AssignmentTranslations")
                         .HasForeignKey("DocumentId");
 
-                    b.Navigation("Account");
+                    b.HasOne("Domain.Entities.Account", "Translator")
+                        .WithMany("AssignmentTranslations")
+                        .HasForeignKey("TranslatorId");
 
                     b.Navigation("Document");
+
+                    b.Navigation("Translator");
                 });
 
             modelBuilder.Entity("Domain.Entities.Attachment", b =>
