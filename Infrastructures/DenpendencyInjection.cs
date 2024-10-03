@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Feedbacks;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Attachment;
@@ -11,6 +12,7 @@ using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceServices.Account;
+using Application.Interfaces.InterfaceServices.Feedbacks;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
 using Application.Interfaces.InterfaceServices.Attachment;
@@ -23,6 +25,7 @@ using Application.Interfaces.InterfaceServices.QuotePrice;
 using Application.Interfaces.InterfaceServices.TranslatorSkill;
 using Application.Services;
 using Application.Services.Account;
+using Application.Services.Feedbacks;
 using Application.Services.AssignmentNotarization;
 using Application.Services.AssignmentTranslation;
 using Application.Services.Attachment;
@@ -36,6 +39,7 @@ using Application.Services.TranslatorSkill;
 using Google.Cloud.Storage.V1;
 using Infrastructures.Mappers;
 using Infrastructures.Repositories.Account;
+using Infrastructures.Repositories.Feedbacks;
 using Infrastructures.Repositories.AssignmentNotarization;
 using Infrastructures.Repositories.AssignmentTranslation;
 using Infrastructures.Repositories.Attachment;
@@ -47,6 +51,18 @@ using Infrastructures.Repositories.Role;
 using Infrastructures.Repositories.TranslatorSkill;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Application.Interfaces.InterfaceRepositories.Documents;
+using Infrastructures.Repositories.Documents;
+using Application.Interfaces.InterfaceRepositories.Orders;
+using Application.Interfaces.InterfaceServices.Orders;
+using Application.Services.Orders;
+using Infrastructures.Repositories.Orders;
+using Application.Interfaces.InterfaceServices.Documents;
+using Application.Services.Documents;
+using Application.Interfaces.InterfaceRepositories.Shippings;
+using Infrastructures.Repositories.Shippings;
+using Application.Interfaces.InterfaceServices.Shippings;
+using Application.Services.Shippings;
 
 namespace Infrastructures
 {
@@ -61,7 +77,6 @@ namespace Infrastructures
             //Accounts
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
-
             //Roles
             services.AddScoped<IRoleRepository, RoleRepository>();
 
@@ -84,12 +99,19 @@ namespace Infrastructures
             //Notarizations
             services.AddScoped<INotarizationRepository, NotarizationRepository>();
             services.AddScoped<INotarizationService, NotarizationService>();
-
+            //Feedbacks
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
             //AssignmentTranslations
             services.AddScoped<IAssignmentTranslationRepository, AssignmentTranslationRepository>();
             services.AddScoped<IAssignmentTranslationService, AssignmentTranslationService>();
-
-            //AssignmentNotarizations
+            //Documents
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
+            services.AddScoped<IDocumentService, DocumentService>();
+            //Orders
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+                        //AssignmentNotarizations
             services.AddScoped<IAssignmentNotarizationRepository, AssignmentNotarizationRepository>();
             services.AddScoped<IAssignmentNotarizationService, AssignmentNotarizationService>();
 
@@ -100,6 +122,10 @@ namespace Infrastructures
             //Images
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IImageService, ImageService>();
+
+            //Shippings
+            services.AddScoped<IShippingRepository, ShippingResopitory>();
+            services.AddScoped<IShippingService, ShippingService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();
