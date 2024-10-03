@@ -56,12 +56,12 @@ builder.Services.AddSwaggerGen(setup =>
 });
 
 //Firebase
-//var google = JObject.FromObject(configuration.GoogleImage);
-//string g = google.ToString();
-//string temp = Path.GetTempFileName();
-//File.WriteAllText(temp, g);
-//Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", temp);
-//GoogleCredential credential = GoogleCredential.FromFile(temp);
+var google = JObject.FromObject(configuration.GoogleImage);
+string g = google.ToString();
+string temp = Path.GetTempFileName();
+File.WriteAllText(temp, g);
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", temp);
+GoogleCredential credential = GoogleCredential.FromFile(temp);
 
 var app = builder.Build();
 

@@ -53,6 +53,11 @@ namespace Infrastructures
             new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Nhật", Price = 500000 },    
             new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Trung", Price = 500000 }    
             );
+            modelBuilder.Entity<DocumentType>().HasData(
+            new DocumentType { Id = Guid.NewGuid(), Name = "Khoa học", PriceFactor = 200000},
+            new DocumentType { Id = Guid.NewGuid(), Name = "Trường học", PriceFactor = 200000},
+            new DocumentType { Id = Guid.NewGuid(), Name = "Hộ chiếu", PriceFactor = 200000}
+            );
         }
     }
 }
