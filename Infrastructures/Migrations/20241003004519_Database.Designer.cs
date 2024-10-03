@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241003003402_Database")]
+    [Migration("20241003004519_Database")]
     partial class Database
     {
         /// <inheritdoc />
@@ -189,9 +189,6 @@ namespace Infrastructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -228,9 +225,9 @@ namespace Infrastructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("DocumentId");
+
+                    b.HasIndex("TranslatorId");
 
                     b.ToTable("AssignmentTranslation");
                 });
@@ -845,32 +842,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8b3b1cbe-0927-443a-a286-2e66c1a0abca"),
+                            Id = new Guid("0c55df40-7752-4559-a9f7-8fb7751c72c0"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("7a373d0d-5038-4945-aee6-e928fc68cb98"),
+                            Id = new Guid("106a8766-7d6f-4694-9ed2-7aac13dbb3a6"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("44a2de1a-96f4-4c4c-9574-84453ef290c3"),
+                            Id = new Guid("58e52c87-1353-4e83-80b6-b543e41b6f3a"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("812cb1d0-640a-4ec0-a1ac-c222ec4a7d5e"),
+                            Id = new Guid("11462616-f0a5-4cf8-b5af-c95041efb82a"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("94068638-c661-422b-8534-9518a518b866"),
+                            Id = new Guid("d9fc4e82-7a25-414b-be9e-be998d6a5488"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("6b3abbc5-a062-4d4b-89aa-4538c1377ad5"),
+                            Id = new Guid("75c47b79-3bde-44f9-911e-7d5ac8beab92"),
                             Name = "Translator"
                         });
                 });
@@ -1033,17 +1030,17 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.AssignmentTranslation", b =>
                 {
-                    b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("AssignmentTranslations")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("Domain.Entities.Document", "Document")
                         .WithMany("AssignmentTranslations")
                         .HasForeignKey("DocumentId");
 
-                    b.Navigation("Account");
+                    b.HasOne("Domain.Entities.Account", "Translator")
+                        .WithMany("AssignmentTranslations")
+                        .HasForeignKey("TranslatorId");
 
                     b.Navigation("Document");
+
+                    b.Navigation("Translator");
                 });
 
             modelBuilder.Entity("Domain.Entities.Attachment", b =>
