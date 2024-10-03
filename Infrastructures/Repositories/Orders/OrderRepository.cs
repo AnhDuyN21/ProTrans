@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Orders;
+using Application.ViewModels.OrderDTOs;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,12 @@ namespace Infrastructures.Repositories.Orders
 			: base(context, timeService, claimsService)
 		{
 			_dbContext = context;
+		}
+
+		public async Task<Order> GetByPhoneNumberAsync(string num)
+		{
+			var result = await _dbSet.FirstOrDefaultAsync(x => x.PhoneNumber.Equals(num));
+			return result;
 		}
 	}
 }

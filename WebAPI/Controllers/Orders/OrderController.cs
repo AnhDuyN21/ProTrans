@@ -31,6 +31,17 @@ namespace WebAPI.Controllers.Orders
 			return Ok(result);
 		}
 
+		[HttpGet("GetByPhoneNumber")]
+		public async Task<IActionResult> GetOrderByPhoneNumber(string num)
+		{
+			var result = await orderService.GetByPhoneNumberAsync(num);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateOrder([FromBody] CUOrderDTO order)
 		{

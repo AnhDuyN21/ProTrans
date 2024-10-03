@@ -73,6 +73,25 @@ namespace Application.Services.Orders
 			return response;
 		}
 
+		public async Task<ServiceResponse<OrderDTO>> GetByPhoneNumberAsync(string num)
+		{
+			var response = new ServiceResponse<OrderDTO>();
+
+			var order = await _unitOfWork.OrderRepository.GetByPhoneNumberAsync(num);
+			if (order == null)
+			{
+				response.Success = false;
+				response.Message = "Order is not existed.";
+			}
+			else
+			{
+				response.Success = true;
+				response.Message = "Order found.";
+				response.Data = _mapper.Map<OrderDTO>(order);
+			}
+			return response;
+		}
+
 		public async Task<ServiceResponse<OrderDTO>> CreateOrderAsync(CUOrderDTO CUorderDTO)
 		{
 			var response = new ServiceResponse<OrderDTO>();
