@@ -137,9 +137,6 @@ namespace Infrastructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -176,9 +173,9 @@ namespace Infrastructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("DocumentId");
+
+                    b.HasIndex("ShipperId");
 
                     b.ToTable("AssignmentNotarization");
                 });
@@ -845,32 +842,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5d9dfd16-277f-46a0-9a08-5ee5e93c7711"),
+                            Id = new Guid("8b3b1cbe-0927-443a-a286-2e66c1a0abca"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("f48e4143-d4cb-4017-87d8-cdda262cc469"),
+                            Id = new Guid("7a373d0d-5038-4945-aee6-e928fc68cb98"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("ddd1def5-0afb-401a-be5e-b2775c09bca3"),
+                            Id = new Guid("44a2de1a-96f4-4c4c-9574-84453ef290c3"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("ae83fcd4-b72d-4d28-9278-3e42dafe74c7"),
+                            Id = new Guid("812cb1d0-640a-4ec0-a1ac-c222ec4a7d5e"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("7b22c186-6080-4288-a726-d56db17663c0"),
+                            Id = new Guid("94068638-c661-422b-8534-9518a518b866"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("27a6ab21-c262-4a07-ba32-b9d121f9b21f"),
+                            Id = new Guid("6b3abbc5-a062-4d4b-89aa-4538c1377ad5"),
                             Name = "Translator"
                         });
                 });
@@ -1014,19 +1011,21 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.AssignmentNotarization", b =>
                 {
-                    b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("AssignmentNotarizations")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("Domain.Entities.Document", "Document")
                         .WithMany("AssignmentNotarizations")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.HasOne("Domain.Entities.Account", "Shipper")
+                        .WithMany("AssignmentNotarizations")
+                        .HasForeignKey("ShipperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Document");
+
+                    b.Navigation("Shipper");
                 });
 
             modelBuilder.Entity("Domain.Entities.AssignmentTranslation", b =>

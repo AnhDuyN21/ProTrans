@@ -6,7 +6,8 @@
         public Guid DocumentId { get; set; }
         public int NumberOfNotarization { get; set; }
         public string Status { get; set; }
-        public virtual Account? Account { get; set; }
+        //Relationship
+        public virtual Account? Shipper { get; set; }
         public virtual Document? Document { get; set; }
     }
 }
