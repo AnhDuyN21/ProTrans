@@ -6,7 +6,7 @@
         public Guid? DocumentId { get; set; }
         public string Status { get; set; }
         public DateTime Deadline { get; set; }
-        public virtual Account? Account { get; set; }
+        public virtual Account? Translator { get; set; }
         public virtual Document? Document { get; set; }
     }
 }
