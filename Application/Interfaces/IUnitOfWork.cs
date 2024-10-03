@@ -11,6 +11,7 @@ using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
+using Application.Interfaces.InterfaceRepositories.Shippings;
 
 namespace Application.Interfaces
 {
@@ -29,6 +30,7 @@ namespace Application.Interfaces
         public IDocumentRepository DocumentRepository { get; }
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
+        public IShippingRepository ShippingRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

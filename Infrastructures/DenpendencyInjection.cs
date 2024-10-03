@@ -55,6 +55,10 @@ using Application.Services.Orders;
 using Infrastructures.Repositories.Orders;
 using Application.Interfaces.InterfaceServices.Documents;
 using Application.Services.Documents;
+using Application.Interfaces.InterfaceRepositories.Shippings;
+using Infrastructures.Repositories.Shippings;
+using Application.Interfaces.InterfaceServices.Shippings;
+using Application.Services.Shippings;
 
 namespace Infrastructures
 {
@@ -105,6 +109,10 @@ namespace Infrastructures
             //Images
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IImageService, ImageService>();
+
+            //Shippings
+            services.AddScoped<IShippingRepository, ShippingResopitory>();
+            services.AddScoped<IShippingService, ShippingService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

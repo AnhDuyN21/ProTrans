@@ -12,6 +12,7 @@ using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
+using Application.Interfaces.InterfaceRepositories.Shippings;
 
 namespace Infrastructures
 {
@@ -31,12 +32,14 @@ namespace Infrastructures
         private readonly IOrderRepository _orderRepository;
         private readonly IImageRepository _imageRepository;
         private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
+        private readonly IShippingRepository _shippingRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
             IAssignmentTranslationRepository assignmentTranslationRepository,
             IDocumentRepository documentReository, IOrderRepository orderRepository,
-            IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository)
+            IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository,
+            IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -52,6 +55,7 @@ namespace Infrastructures
             _documentRepository = documentReository;
             _orderRepository = orderRepository;
             _assignmentNotarizationRepository = assignmentNotarizationRepository;
+            _shippingRepository = shippingRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
@@ -66,6 +70,7 @@ namespace Infrastructures
         public IDocumentRepository DocumentRepository => _documentRepository;
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
+        public IShippingRepository ShippingRepository => _shippingRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

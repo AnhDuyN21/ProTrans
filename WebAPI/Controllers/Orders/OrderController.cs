@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces.InterfaceServices.Orders;
 using Application.Services.Orders;
 using Application.ViewModels.OrderDTOs;
-using Application.ViewModels.OrderDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Orders
