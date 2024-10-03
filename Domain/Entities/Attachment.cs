@@ -3,9 +3,7 @@
     public class Attachment : BaseEntity
     {
         public Guid? FirstLanguageId { get; set; }
-        public Language? FirstLanguage { get; set; }
         public Guid? SecondLanguageId { get; set; }
-        public Language? SecondLanguage { get; set; }
         public Guid? RequestId { get; set; }
         public Guid? NotarizationId { get; set; }
         public Guid? DocumentTypeId { get; set; }
@@ -17,6 +15,8 @@
         public string? DocumentPath { get; set; }
         public decimal? Price { get; set; }
         //Relationship
+        public Language? FirstLanguage { get; set; }
+        public Language? SecondLanguage { get; set; }
         public virtual Notarization? Notarization { get; set; }
         public virtual Request? Request { get; set; }
         public virtual DocumentType? DocumentType { get; set; }

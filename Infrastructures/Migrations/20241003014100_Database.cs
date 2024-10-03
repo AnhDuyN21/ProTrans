@@ -630,16 +630,27 @@ namespace Infrastructures.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Notarization",
+                columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Price" },
+                values: new object[,]
+                {
+                    { new Guid("08594d87-8389-4b93-b946-5102c174bb7c"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Nhật", 500000m },
+                    { new Guid("875e93e1-be86-4e8a-af93-c1ff3a8e928e"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Pháp", 500000m },
+                    { new Guid("8c8f6bae-34e7-415d-83c4-6f3180169cbf"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Anh", 500000m },
+                    { new Guid("ee7db120-9332-4882-b85a-10b015e3d519"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Trung", 500000m }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("0c55df40-7752-4559-a9f7-8fb7751c72c0"), "Admin" },
-                    { new Guid("106a8766-7d6f-4694-9ed2-7aac13dbb3a6"), "Customer" },
-                    { new Guid("11462616-f0a5-4cf8-b5af-c95041efb82a"), "Manager" },
-                    { new Guid("58e52c87-1353-4e83-80b6-b543e41b6f3a"), "Shipper" },
-                    { new Guid("75c47b79-3bde-44f9-911e-7d5ac8beab92"), "Translator" },
-                    { new Guid("d9fc4e82-7a25-414b-be9e-be998d6a5488"), "Staff" }
+                    { new Guid("06e4254a-423a-4784-aaae-ca6479320952"), "Customer" },
+                    { new Guid("4903eaa5-56d9-4d43-83bc-6da1447ae7cc"), "Manager" },
+                    { new Guid("bdff2995-9f9b-4170-b8f7-bfa3729e0fd3"), "Admin" },
+                    { new Guid("c67ebde2-97f9-4d13-86e7-21058efabb18"), "Shipper" },
+                    { new Guid("c746e801-2925-4cf8-9c2e-0f3ded01d26c"), "Staff" },
+                    { new Guid("d8bf9215-972e-4ab6-bd4c-3dd566e76d91"), "Translator" }
                 });
 
             migrationBuilder.CreateIndex(
