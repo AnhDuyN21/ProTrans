@@ -7,6 +7,7 @@ using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using Application.ViewModels.NotificationDTOs;
 using Application.ViewModels.OrderDTOs;
+using Application.ViewModels.PaymentMethodDTOs;
 using Application.ViewModels.QuotePriceDTOs;
 using Application.ViewModels.ShippingDTOs;
 using Application.ViewModels.TranslatorSkillDTOs;
@@ -58,6 +59,9 @@ namespace Infrastructures.Mappers
             //Shippings
             CreateMap<Shipping, ShippingDTO>().ReverseMap();
             CreateMap<Shipping, CUShippingDTO>().ReverseMap();
+            //PaymentMethods
+            CreateMap<PaymentMethod, PaymentMethodDTO>().ReverseMap();
+            CreateMap<PaymentMethod, CUPaymentMethodDTO>().ReverseMap();
 
         }
     }

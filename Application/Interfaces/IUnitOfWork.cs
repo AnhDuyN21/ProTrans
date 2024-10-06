@@ -12,6 +12,7 @@ using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.Shippings;
+using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 
 namespace Application.Interfaces
 {
@@ -31,6 +32,7 @@ namespace Application.Interfaces
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
         public IShippingRepository ShippingRepository { get; }
+        public IPaymenMethodRepository PaymenMethodRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

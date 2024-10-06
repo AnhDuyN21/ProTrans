@@ -57,7 +57,7 @@ namespace Infrastructures.Repositories.PaymentMethods
 
 		public void SoftRemove(PaymentMethod entity)
 		{
-			_dbSet.Update(entity);
+			_dbSet.Remove(entity);
 		}
 
 		public void Update(PaymentMethod entity)

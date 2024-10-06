@@ -59,6 +59,10 @@ using Application.Interfaces.InterfaceRepositories.Shippings;
 using Infrastructures.Repositories.Shippings;
 using Application.Interfaces.InterfaceServices.Shippings;
 using Application.Services.Shippings;
+using Application.Interfaces.InterfaceRepositories.PaymentMethods;
+using Infrastructures.Repositories.PaymentMethods;
+using Application.Interfaces.InterfaceServices.PaymentMethods;
+using Application.Services.PaymentMethods;
 
 namespace Infrastructures
 {
@@ -113,6 +117,9 @@ namespace Infrastructures
             //Shippings
             services.AddScoped<IShippingRepository, ShippingResopitory>();
             services.AddScoped<IShippingService, ShippingService>();
+            //PaymentMethods
+            services.AddScoped<IPaymenMethodRepository, PaymentMethodRepository>();
+            services.AddScoped<IPaymentMethodService, PaymentMethodService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();
