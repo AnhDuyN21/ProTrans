@@ -600,6 +600,36 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notarization");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8c8f6bae-34e7-415d-83c4-6f3180169cbf"),
+                            IsDeleted = false,
+                            Name = "Công chứng bản dịch tiếng Anh",
+                            Price = 500000m
+                        },
+                        new
+                        {
+                            Id = new Guid("875e93e1-be86-4e8a-af93-c1ff3a8e928e"),
+                            IsDeleted = false,
+                            Name = "Công chứng bản dịch tiếng Pháp",
+                            Price = 500000m
+                        },
+                        new
+                        {
+                            Id = new Guid("08594d87-8389-4b93-b946-5102c174bb7c"),
+                            IsDeleted = false,
+                            Name = "Công chứng bản dịch tiếng Nhật",
+                            Price = 500000m
+                        },
+                        new
+                        {
+                            Id = new Guid("ee7db120-9332-4882-b85a-10b015e3d519"),
+                            IsDeleted = false,
+                            Name = "Công chứng bản dịch tiếng Trung",
+                            Price = 500000m
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Notification", b =>
@@ -839,32 +869,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0c55df40-7752-4559-a9f7-8fb7751c72c0"),
+                            Id = new Guid("bdff2995-9f9b-4170-b8f7-bfa3729e0fd3"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("106a8766-7d6f-4694-9ed2-7aac13dbb3a6"),
+                            Id = new Guid("06e4254a-423a-4784-aaae-ca6479320952"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("58e52c87-1353-4e83-80b6-b543e41b6f3a"),
+                            Id = new Guid("c67ebde2-97f9-4d13-86e7-21058efabb18"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("11462616-f0a5-4cf8-b5af-c95041efb82a"),
+                            Id = new Guid("4903eaa5-56d9-4d43-83bc-6da1447ae7cc"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("d9fc4e82-7a25-414b-be9e-be998d6a5488"),
+                            Id = new Guid("c746e801-2925-4cf8-9c2e-0f3ded01d26c"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("75c47b79-3bde-44f9-911e-7d5ac8beab92"),
+                            Id = new Guid("d8bf9215-972e-4ab6-bd4c-3dd566e76d91"),
                             Name = "Translator"
                         });
                 });

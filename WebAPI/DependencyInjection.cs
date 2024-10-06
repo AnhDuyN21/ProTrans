@@ -1,10 +1,12 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.AttachmentDTOs;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Diagnostics;
 using WebAPI.Services;
 using WebAPI.Validations.AccountValidations;
+using WebAPI.Validations.AttachmentValidations;
 
 namespace WebAPI
 {
@@ -23,8 +25,12 @@ namespace WebAPI
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
             //Fluent Validator
+
             //AccountDTOs
             services.AddTransient<IValidator<RegisterDTO>, RegisterDTOValidation>();
+
+            //AttachmentDTOs
+            services.AddTransient<IValidator<CreateAttachmentDTO>, CreateAttachmentDTOValidation>();
 
             services.AddMemoryCache();
             return services;

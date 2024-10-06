@@ -12,7 +12,9 @@ using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
+using Application.Interfaces.InterfaceRepositories.Attachment;
 using Application.Interfaces.InterfaceRepositories.Shippings;
+using Application.Interfaces.InterfaceRepositories.DocumentType;
 
 namespace Infrastructures
 {
@@ -29,17 +31,20 @@ namespace Infrastructures
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly IAssignmentTranslationRepository _assignmentTranslationRepository;
         private readonly IDocumentRepository _documentRepository;
+        private readonly IDocumentTypeRepository _documentTypeRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IImageRepository _imageRepository;
         private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
         private readonly IShippingRepository _shippingRepository;
+        private readonly IAttachmentRepository _attachmentRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
             IAssignmentTranslationRepository assignmentTranslationRepository,
             IDocumentRepository documentReository, IOrderRepository orderRepository,
             IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository,
-            IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository)
+            IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository, IAttachmentRepository attachmentRepository,
+            IDocumentTypeRepository documentTypeRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -53,8 +58,10 @@ namespace Infrastructures
             _assignmentTranslationRepository = assignmentTranslationRepository;
             _feedbackRepository = feedbackRepository;
             _documentRepository = documentReository;
+            _documentTypeRepository = documentTypeRepository;
             _orderRepository = orderRepository;
             _assignmentNotarizationRepository = assignmentNotarizationRepository;
+            _attachmentRepository = attachmentRepository;
             _shippingRepository = shippingRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
@@ -68,8 +75,10 @@ namespace Infrastructures
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
         public IAssignmentTranslationRepository AssignmentTranslationRepository => _assignmentTranslationRepository;
         public IDocumentRepository DocumentRepository => _documentRepository;
+        public IDocumentTypeRepository DocumentTypeRepository => _documentTypeRepository;
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
+        public IAttachmentRepository AttachmentRepository => _attachmentRepository;
         public IShippingRepository ShippingRepository => _shippingRepository;
         public async Task<int> SaveChangeAsync()
         {
