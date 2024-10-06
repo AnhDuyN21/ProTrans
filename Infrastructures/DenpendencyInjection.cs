@@ -63,6 +63,10 @@ using Application.Interfaces.InterfaceRepositories.Shippings;
 using Infrastructures.Repositories.Shippings;
 using Application.Interfaces.InterfaceServices.Shippings;
 using Application.Services.Shippings;
+using Application.Interfaces.InterfaceRepositories.DocumentType;
+using Infrastructures.Repositories.DocumentType;
+using Application.Interfaces.InterfaceServices.DocumentType;
+using Application.Services.DocumentType;
 
 namespace Infrastructures
 {
@@ -99,15 +103,23 @@ namespace Infrastructures
             //Notarizations
             services.AddScoped<INotarizationRepository, NotarizationRepository>();
             services.AddScoped<INotarizationService, NotarizationService>();
+
             //Feedbacks
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IFeedbackService, FeedbackService>();
+
             //AssignmentTranslations
             services.AddScoped<IAssignmentTranslationRepository, AssignmentTranslationRepository>();
             services.AddScoped<IAssignmentTranslationService, AssignmentTranslationService>();
+
             //Documents
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IDocumentService, DocumentService>();
+
+            //DocumentType
+            services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+            services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+
             //Orders
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderService, OrderService>();
