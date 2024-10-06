@@ -118,7 +118,7 @@ namespace Infrastructures
             services.AddScoped<IShippingRepository, ShippingResopitory>();
             services.AddScoped<IShippingService, ShippingService>();
             //PaymentMethods
-            services.AddScoped<IPaymenMethodRepository, PaymentMethodRepository>();
+            services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddScoped<IPaymentMethodService, PaymentMethodService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

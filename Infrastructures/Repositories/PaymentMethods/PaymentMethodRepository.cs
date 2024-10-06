@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructures.Repositories.PaymentMethods
 {
-	public class PaymentMethodRepository : IPaymenMethodRepository
+	public class PaymentMethodRepository : IPaymentMethodRepository
 	{
 		private readonly AppDbContext _context;
 		protected DbSet<PaymentMethod> _dbSet;
@@ -55,7 +55,7 @@ namespace Infrastructures.Repositories.PaymentMethods
 			await _dbSet.AddAsync(entity);
 		}
 
-		public void SoftRemove(PaymentMethod entity)
+		public void Delete(PaymentMethod entity)
 		{
 			_dbSet.Remove(entity);
 		}

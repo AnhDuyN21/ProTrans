@@ -34,7 +34,7 @@ namespace Infrastructures
         private readonly IImageRepository _imageRepository;
         private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
         private readonly IShippingRepository _shippingRepository;
-        private readonly IPaymenMethodRepository _paymentMethodRepository;
+        private readonly IPaymentMethodRepository _paymentMethodRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
@@ -42,7 +42,7 @@ namespace Infrastructures
             IDocumentRepository documentReository, IOrderRepository orderRepository,
             IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository,
             IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository,
-            IPaymenMethodRepository paymenMethodRepository)
+            IPaymentMethodRepository paymenMethodRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -75,7 +75,7 @@ namespace Infrastructures
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
         public IShippingRepository ShippingRepository => _shippingRepository;
-        public IPaymenMethodRepository PaymenMethodRepository => _paymentMethodRepository;
+        public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

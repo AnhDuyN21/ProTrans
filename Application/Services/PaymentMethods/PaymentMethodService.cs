@@ -123,7 +123,7 @@ namespace Application.Services.PaymentMethods
 			}
 			try
 			{
-				_unitOfWork.PaymenMethodRepository.SoftRemove(paymentMethod);
+				_unitOfWork.PaymenMethodRepository.Delete(paymentMethod);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)

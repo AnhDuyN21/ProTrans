@@ -32,7 +32,7 @@ namespace Application.Interfaces
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
         public IShippingRepository ShippingRepository { get; }
-        public IPaymenMethodRepository PaymenMethodRepository { get; }
+        public IPaymentMethodRepository PaymenMethodRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }
