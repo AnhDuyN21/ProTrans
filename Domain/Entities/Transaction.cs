@@ -1,8 +1,8 @@
 ﻿namespace Domain.Entities
 {
-	public class Feedback : BaseEntity
+	public class Transaction
 	{
-		public string? Message { get; set; }
+		public Guid Id { get; set; }
 		public Guid AccountId { get; set; }
 		public Guid OrderId { get; set; }
 		public virtual Account? Account { get; set; }

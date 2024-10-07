@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.InterfaceRepositories.Feedbacks
 {
-	public interface IFeedbackRepository : IGenericRepository<FeedBack>
+	public interface IFeedbackRepository : IGenericRepository<Feedback>
 	{
 	}
 }

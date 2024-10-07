@@ -472,7 +472,7 @@ namespace Infrastructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FeedBack",
+                name: "Feedback",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -489,15 +489,15 @@ namespace Infrastructures.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FeedBack", x => x.Id);
+                    table.PrimaryKey("PK_Feedback", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FeedBack_Account_AccountId",
+                        name: "FK_Feedback_Account_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FeedBack_Order_OrderId",
+                        name: "FK_Feedback_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
                         principalColumn: "Id",
@@ -539,7 +539,7 @@ namespace Infrastructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransactionsHistory",
+                name: "Transaction",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -548,15 +548,15 @@ namespace Infrastructures.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TransactionsHistory", x => x.Id);
+                    table.PrimaryKey("PK_Transaction", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TransactionsHistory_Account_AccountId",
+                        name: "FK_Transaction_Account_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TransactionsHistory_Order_OrderId",
+                        name: "FK_Transaction_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
                         principalColumn: "Id",
@@ -630,14 +630,24 @@ namespace Infrastructures.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "DocumentType",
+                columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "PriceFactor" },
+                values: new object[,]
+                {
+                    { new Guid("751b82e1-1a44-482d-ab13-99cca4546fbc"), null, null, null, null, false, null, null, "Trường học", 200000m },
+                    { new Guid("94f48573-220b-4a9b-b235-3d560e5d18c1"), null, null, null, null, false, null, null, "Khoa học", 200000m },
+                    { new Guid("d1e025ac-3bf1-470e-b07d-cd7f7275adce"), null, null, null, null, false, null, null, "Hộ chiếu", 200000m }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Notarization",
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Price" },
                 values: new object[,]
                 {
-                    { new Guid("08594d87-8389-4b93-b946-5102c174bb7c"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Nhật", 500000m },
-                    { new Guid("875e93e1-be86-4e8a-af93-c1ff3a8e928e"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Pháp", 500000m },
-                    { new Guid("8c8f6bae-34e7-415d-83c4-6f3180169cbf"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Anh", 500000m },
-                    { new Guid("ee7db120-9332-4882-b85a-10b015e3d519"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Trung", 500000m }
+                    { new Guid("60bc3348-cc4d-4955-909e-c2df875bda9c"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Anh", 500000m },
+                    { new Guid("7b2071e5-8696-4172-a589-37b2c88912c3"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Pháp", 500000m },
+                    { new Guid("cf93ddd8-040a-4b0d-8048-15d3581ec885"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Trung", 500000m },
+                    { new Guid("d03d19a5-ea99-4680-b27b-15d5cc401a0d"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Nhật", 500000m }
                 });
 
             migrationBuilder.InsertData(
@@ -645,12 +655,12 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("06e4254a-423a-4784-aaae-ca6479320952"), "Customer" },
-                    { new Guid("4903eaa5-56d9-4d43-83bc-6da1447ae7cc"), "Manager" },
-                    { new Guid("bdff2995-9f9b-4170-b8f7-bfa3729e0fd3"), "Admin" },
-                    { new Guid("c67ebde2-97f9-4d13-86e7-21058efabb18"), "Shipper" },
-                    { new Guid("c746e801-2925-4cf8-9c2e-0f3ded01d26c"), "Staff" },
-                    { new Guid("d8bf9215-972e-4ab6-bd4c-3dd566e76d91"), "Translator" }
+                    { new Guid("1f0e7b67-2b09-4f81-8db5-7f31964ecd2a"), "Manager" },
+                    { new Guid("21dc428d-8109-409d-9ee7-aeb51fc35ab5"), "Admin" },
+                    { new Guid("50eff0a1-5588-4968-ae0e-f2cdd342b3c3"), "Shipper" },
+                    { new Guid("51b01093-bc33-4ee6-b0d7-0a0b5e32f3fc"), "Translator" },
+                    { new Guid("77a2f00f-ba6b-443d-931b-0de181f48877"), "Staff" },
+                    { new Guid("f53e508f-374f-4e98-a592-7e7024c42526"), "Customer" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -746,13 +756,13 @@ namespace Infrastructures.Migrations
                 column: "SecondLanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FeedBack_AccountId",
-                table: "FeedBack",
+                name: "IX_Feedback_AccountId",
+                table: "Feedback",
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FeedBack_OrderId",
-                table: "FeedBack",
+                name: "IX_Feedback_OrderId",
+                table: "Feedback",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
@@ -813,13 +823,13 @@ namespace Infrastructures.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionsHistory_AccountId",
-                table: "TransactionsHistory",
+                name: "IX_Transaction_AccountId",
+                table: "Transaction",
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionsHistory_OrderId",
-                table: "TransactionsHistory",
+                name: "IX_Transaction_OrderId",
+                table: "Transaction",
                 column: "OrderId",
                 unique: true);
 
@@ -844,7 +854,7 @@ namespace Infrastructures.Migrations
                 name: "AssignmentTranslation");
 
             migrationBuilder.DropTable(
-                name: "FeedBack");
+                name: "Feedback");
 
             migrationBuilder.DropTable(
                 name: "Image");
@@ -859,7 +869,7 @@ namespace Infrastructures.Migrations
                 name: "Shipping");
 
             migrationBuilder.DropTable(
-                name: "TransactionsHistory");
+                name: "Transaction");
 
             migrationBuilder.DropTable(
                 name: "TranslatorSkill");

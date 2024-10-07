@@ -25,8 +25,8 @@ namespace Infrastructures
         public DbSet<AssignmentNotarization> AssignmentNotarization { get; set; }
         public DbSet<Image> Image { get; set; }
         public DbSet<Shipping> Shipping { get; set; }
-        public DbSet<FeedBack> FeedBack { get; set; }
-        public DbSet<TransactionsHistory> TransactionsHistory { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
