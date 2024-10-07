@@ -77,7 +77,7 @@ namespace Application.Services.Feedbacks
 			var response = new ServiceResponse<FeedbackDTO>();
 			try
 			{
-				var feedback = _mapper.Map<FeedBack>(CUfeedbackDTO);
+				var feedback = _mapper.Map<Feedback>(CUfeedbackDTO);
 
 				await _unitOfWork.FeedbackRepository.AddAsync(feedback);
 

@@ -56,8 +56,8 @@ namespace Infrastructures.Mappers
             CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
 
             //Feedbacks
-            CreateMap<FeedBack, FeedbackDTO>().ReverseMap();
-            CreateMap<FeedBack, CUFeedbackDTO>().ReverseMap();
+            CreateMap<Feedback, FeedbackDTO>().ReverseMap();
+            CreateMap<Feedback, CUFeedbackDTO>().ReverseMap();
 
             //Documents
             CreateMap<Document, DocumentDTO>().ReverseMap();

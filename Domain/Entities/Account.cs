@@ -19,11 +19,11 @@
         public virtual ICollection<Request>? CustomerRequests { get; set; }
         public virtual ICollection<Request>? ShipperRequests { get; set; }
         public virtual ICollection<TranslatorSkill>? TranslatorSkills { get; set; }
-        public virtual ICollection<FeedBack>? FeedBacks { get; set; }
+        public virtual ICollection<Feedback>? Feedbacks { get; set; }
         public virtual ICollection<Shipping>? Shippings { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
         public virtual ICollection<AssignmentNotarization>? AssignmentNotarizations { get; set; }
-        public virtual ICollection<TransactionsHistory>? TransactionsHistory { get; set; }
+        public virtual ICollection<Transaction>? Transactions { get; set; }
         public virtual ICollection<Notification>? Notifications { get; set; }
 
     }

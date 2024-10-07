@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructures.FluentAPIs
 {
-	public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
+	public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 	{
-		public void Configure(EntityTypeBuilder<Feedback> builder)
+		public void Configure(EntityTypeBuilder<Transaction> builder)
 		{
 			builder.HasKey(x => x.Id);
 
 			builder.HasOne(x => x.Account)
-				.WithMany(x => x.Feedbacks)
+				.WithMany(x => x.Transactions)
 				.HasForeignKey(x => x.AccountId);
 
 			builder.HasOne(x => x.Order)
-				.WithMany(x => x.Feedbacks)
-				.HasForeignKey(x => x.OrderId);
+				.WithOne(x => x.Transaction)
+				.HasForeignKey<Transaction>(x => x.OrderId);
 		}
 	}
 }

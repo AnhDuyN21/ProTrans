@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241003014100_Database")]
+    [Migration("20241007132225_Database")]
     partial class Database
     {
         /// <inheritdoc />
@@ -443,9 +443,32 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DocumentType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("94f48573-220b-4a9b-b235-3d560e5d18c1"),
+                            IsDeleted = false,
+                            Name = "Khoa học",
+                            PriceFactor = 200000m
+                        },
+                        new
+                        {
+                            Id = new Guid("751b82e1-1a44-482d-ab13-99cca4546fbc"),
+                            IsDeleted = false,
+                            Name = "Trường học",
+                            PriceFactor = 200000m
+                        },
+                        new
+                        {
+                            Id = new Guid("d1e025ac-3bf1-470e-b07d-cd7f7275adce"),
+                            IsDeleted = false,
+                            Name = "Hộ chiếu",
+                            PriceFactor = 200000m
+                        });
                 });
 
-            modelBuilder.Entity("Domain.Entities.FeedBack", b =>
+            modelBuilder.Entity("Domain.Entities.Feedback", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -487,7 +510,7 @@ namespace Infrastructures.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("FeedBack");
+                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("Domain.Entities.Image", b =>
@@ -607,28 +630,28 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8c8f6bae-34e7-415d-83c4-6f3180169cbf"),
+                            Id = new Guid("60bc3348-cc4d-4955-909e-c2df875bda9c"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Anh",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("875e93e1-be86-4e8a-af93-c1ff3a8e928e"),
+                            Id = new Guid("7b2071e5-8696-4172-a589-37b2c88912c3"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Pháp",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("08594d87-8389-4b93-b946-5102c174bb7c"),
+                            Id = new Guid("d03d19a5-ea99-4680-b27b-15d5cc401a0d"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Nhật",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("ee7db120-9332-4882-b85a-10b015e3d519"),
+                            Id = new Guid("cf93ddd8-040a-4b0d-8048-15d3581ec885"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Trung",
                             Price = 500000m
@@ -872,32 +895,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bdff2995-9f9b-4170-b8f7-bfa3729e0fd3"),
+                            Id = new Guid("21dc428d-8109-409d-9ee7-aeb51fc35ab5"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("06e4254a-423a-4784-aaae-ca6479320952"),
+                            Id = new Guid("f53e508f-374f-4e98-a592-7e7024c42526"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("c67ebde2-97f9-4d13-86e7-21058efabb18"),
+                            Id = new Guid("50eff0a1-5588-4968-ae0e-f2cdd342b3c3"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("4903eaa5-56d9-4d43-83bc-6da1447ae7cc"),
+                            Id = new Guid("1f0e7b67-2b09-4f81-8db5-7f31964ecd2a"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("c746e801-2925-4cf8-9c2e-0f3ded01d26c"),
+                            Id = new Guid("77a2f00f-ba6b-443d-931b-0de181f48877"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("d8bf9215-972e-4ab6-bd4c-3dd566e76d91"),
+                            Id = new Guid("51b01093-bc33-4ee6-b0d7-0a0b5e32f3fc"),
                             Name = "Translator"
                         });
                 });
@@ -954,7 +977,7 @@ namespace Infrastructures.Migrations
                     b.ToTable("Shipping");
                 });
 
-            modelBuilder.Entity("Domain.Entities.TransactionsHistory", b =>
+            modelBuilder.Entity("Domain.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -973,7 +996,7 @@ namespace Infrastructures.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("TransactionsHistory");
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("Domain.Entities.TranslatorSkill", b =>
@@ -1151,16 +1174,16 @@ namespace Infrastructures.Migrations
                     b.Navigation("SecondLanguage");
                 });
 
-            modelBuilder.Entity("Domain.Entities.FeedBack", b =>
+            modelBuilder.Entity("Domain.Entities.Feedback", b =>
                 {
                     b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("FeedBacks")
+                        .WithMany("Feedbacks")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Order", "Order")
-                        .WithMany("FeedBacks")
+                        .WithMany("Feedbacks")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1258,17 +1281,17 @@ namespace Infrastructures.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("Domain.Entities.TransactionsHistory", b =>
+            modelBuilder.Entity("Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("TransactionsHistory")
+                        .WithMany("Transactions")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Order", "Order")
-                        .WithOne("TransactionsHistory")
-                        .HasForeignKey("Domain.Entities.TransactionsHistory", "OrderId")
+                        .WithOne("Transaction")
+                        .HasForeignKey("Domain.Entities.Transaction", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1302,7 +1325,7 @@ namespace Infrastructures.Migrations
 
                     b.Navigation("CustomerRequests");
 
-                    b.Navigation("FeedBacks");
+                    b.Navigation("Feedbacks");
 
                     b.Navigation("Notifications");
 
@@ -1310,7 +1333,7 @@ namespace Infrastructures.Migrations
 
                     b.Navigation("Shippings");
 
-                    b.Navigation("TransactionsHistory");
+                    b.Navigation("Transactions");
 
                     b.Navigation("TranslatorSkills");
                 });
@@ -1371,11 +1394,11 @@ namespace Infrastructures.Migrations
                 {
                     b.Navigation("Documents");
 
-                    b.Navigation("FeedBacks");
+                    b.Navigation("Feedbacks");
 
                     b.Navigation("Shippings");
 
-                    b.Navigation("TransactionsHistory");
+                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("Domain.Entities.PaymentMethod", b =>
