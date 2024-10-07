@@ -11,8 +11,10 @@ using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
+using Application.Interfaces.InterfaceRepositories.Attachment;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.PaymentMethods;
+using Application.Interfaces.InterfaceRepositories.DocumentType;
 
 namespace Application.Interfaces
 {
@@ -29,8 +31,10 @@ namespace Application.Interfaces
         public IFeedbackRepository FeedbackRepository { get; }
         public IAssignmentTranslationRepository AssignmentTranslationRepository { get; }
         public IDocumentRepository DocumentRepository { get; }
+        public IDocumentTypeRepository DocumentTypeRepository { get; }
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
+        public IAttachmentRepository AttachmentRepository { get; }
         public IShippingRepository ShippingRepository { get; }
         public IPaymentMethodRepository PaymenMethodRepository { get; }
         public Task<int> SaveChangeAsync();
