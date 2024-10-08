@@ -87,7 +87,7 @@ namespace Infrastructures
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
         public IAttachmentRepository AttachmentRepository => _attachmentRepository;
         public IShippingRepository ShippingRepository => _shippingRepository;
-        public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;
+        public IPaymentMethodRepository PaymentMethodRepository => _paymentMethodRepository;
         public ITransactionRepository TransactionRepository => _transactionRepository;
         public async Task<int> SaveChangeAsync()
         {

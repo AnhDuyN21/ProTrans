@@ -29,7 +29,7 @@ namespace Application.Services.PaymentMethods
 
 			try
 			{
-				var paymentMethods = await _unitOfWork.PaymenMethodRepository.GetAllAsync();
+				var paymentMethods = await _unitOfWork.PaymentMethodRepository.GetAllAsync();
 				var paymentMethodDTOs = _mapper.Map<List<PaymentMethodDTO>>(paymentMethods);
 
 				if (paymentMethodDTOs.Count != 0)
@@ -57,7 +57,7 @@ namespace Application.Services.PaymentMethods
 		{
 			var response = new ServiceResponse<PaymentMethodDTO>();
 
-			var paymentMethod = await _unitOfWork.PaymenMethodRepository.GetByIdAsync(id);
+			var paymentMethod = await _unitOfWork.PaymentMethodRepository.GetByIdAsync(id);
 			if (paymentMethod == null)
 			{
 				response.Success = false;
@@ -79,7 +79,7 @@ namespace Application.Services.PaymentMethods
 			{
 				var paymentMethod = _mapper.Map<PaymentMethod>(CUpaymentMethodDTO);
 
-				await _unitOfWork.PaymenMethodRepository.AddAsync(paymentMethod);
+				await _unitOfWork.PaymentMethodRepository.AddAsync(paymentMethod);
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
 				if (isSuccess)
@@ -114,7 +114,7 @@ namespace Application.Services.PaymentMethods
 		{
 			var response = new ServiceResponse<bool>();
 
-			var paymentMethod = await _unitOfWork.PaymenMethodRepository.GetByIdAsync(id);
+			var paymentMethod = await _unitOfWork.PaymentMethodRepository.GetByIdAsync(id);
 			if (paymentMethod == null)
 			{
 				response.Success = false;
@@ -123,7 +123,7 @@ namespace Application.Services.PaymentMethods
 			}
 			try
 			{
-				_unitOfWork.PaymenMethodRepository.Delete(paymentMethod);
+				_unitOfWork.PaymentMethodRepository.Delete(paymentMethod);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
@@ -151,7 +151,7 @@ namespace Application.Services.PaymentMethods
 			var response = new ServiceResponse<PaymentMethodDTO>();
 			try
 			{
-				var paymentMethod = await _unitOfWork.PaymenMethodRepository.GetByIdAsync(id);
+				var paymentMethod = await _unitOfWork.PaymentMethodRepository.GetByIdAsync(id);
 
 				if (paymentMethod == null)
 				{
@@ -161,7 +161,7 @@ namespace Application.Services.PaymentMethods
 				}
 				var result = _mapper.Map(CUpaymentMethodDTO, paymentMethod);
 
-				_unitOfWork.PaymenMethodRepository.Update(paymentMethod);
+				_unitOfWork.PaymentMethodRepository.Update(paymentMethod);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
