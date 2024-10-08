@@ -11,6 +11,7 @@ using Application.ViewModels.NotificationDTOs;
 using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.PaymentMethodDTOs;
 using Application.ViewModels.QuotePriceDTOs;
+using Application.ViewModels.RequestDTOs;
 using Application.ViewModels.ShippingDTOs;
 using Application.ViewModels.TransactionDTOs;
 using Application.ViewModels.TranslatorSkillDTOs;
@@ -31,6 +32,10 @@ namespace Infrastructures.Mappers
             CreateMap<Account, AccountDTO>().ReverseMap();
             CreateMap<Account, CreateAccountDTO>().ReverseMap();
             CreateMap<Account, RegisterDTO>().ReverseMap();
+
+            //Requests
+            CreateMap<Request, RequestDTO>().ReverseMap();
+            CreateMap<Request, CreateRequestDTO>().ReverseMap();
 
             //Notarizations
             CreateMap<Notarization, NotarizationDTO>().ReverseMap();
