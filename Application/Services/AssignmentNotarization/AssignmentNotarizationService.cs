@@ -2,14 +2,8 @@
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.ViewModels.AssignmentNotarizationDTOs;
-using Application.ViewModels.AssignmentNotarizationDTOs;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.AssignmentNotarization
 {
@@ -109,9 +103,9 @@ namespace Application.Services.AssignmentNotarization
                 var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync();
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
-                    ShipperName = q.Shipper.FullName,
+                    ShipperId = q.ShipperId,
                     CustomerName = q.Document.Order.FullName,
-                    DocumentCode = q.Document.Code,
+                    DocumentId = q.DocumentId,
                     Status = q.Status,
                     Deadline = q.Document.Order.Deadline
 
@@ -149,9 +143,9 @@ namespace Application.Services.AssignmentNotarization
                 var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.ShipperId.Equals(Id));
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
-                    ShipperName = q.Shipper.FullName,
+                    ShipperId = q.Shipper.Id,
                     CustomerName = q.Document.Order.FullName,
-                    DocumentCode = q.Document.Code,
+                    DocumentId = q.Document.Id,
                     Status = q.Status,
                     Deadline = q.Document.Order.Deadline
 

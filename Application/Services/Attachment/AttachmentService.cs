@@ -2,16 +2,10 @@
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Attachment;
 using Application.Interfaces.InterfaceServices.Image;
-using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AttachmentDTOs;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.Attachment
 {

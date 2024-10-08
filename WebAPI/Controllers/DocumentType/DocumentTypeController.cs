@@ -1,8 +1,5 @@
-﻿using Application.Interfaces.InterfaceServices.Account;
-using Application.Interfaces.InterfaceServices.DocumentType;
-using Application.ViewModels.AccountDTOs;
+﻿using Application.Interfaces.InterfaceServices.DocumentType;
 using Application.ViewModels.DocumentTypeDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.DocumentType

@@ -1,5 +1,4 @@
 ﻿using Application.ViewModels.AssignmentTranslationDTOs;
-using Application.ViewModels.QuotePriceDTOs;
 using Domain.Enums;
 using FluentValidation;
 
@@ -11,7 +10,7 @@ namespace WebAPI.Validations.AccountValidations
         {
             RuleFor(x => x.Deadline).NotEmpty().WithMessage("Date is required.")
             .Must(date => date > DateTime.Now).WithMessage("Date must be in the future.");
-            RuleFor(x=>x.Status).Must(value => Enum.IsDefined(typeof(AssignmentTranslationStatus), value)).WithMessage("The value must be Waiting, Translating or Complete");
+            RuleFor(x => x.Status).Must(value => Enum.IsDefined(typeof(AssignmentTranslationStatus), value)).WithMessage("The value must be Waiting, Translating or Complete");
             //RuleFor(x => x.FullName).NotEmpty().MinimumLength(5);
             //RuleFor(x => x.Email).NotEmpty().EmailAddress().Must(email => email.EndsWith("@gmail.com"))
             //    .WithMessage("Email must end with @gmail.com");
