@@ -16,6 +16,7 @@ using Application.Interfaces.InterfaceRepositories.Attachment;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
+using Application.Interfaces.InterfaceRepositories.Transactions;
 
 namespace Infrastructures
 {
@@ -39,6 +40,7 @@ namespace Infrastructures
         private readonly IShippingRepository _shippingRepository;
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly IAttachmentRepository _attachmentRepository;
+        private readonly ITransactionRepository _transactionRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
@@ -46,7 +48,8 @@ namespace Infrastructures
             IDocumentRepository documentReository, IOrderRepository orderRepository,
             IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository,
             IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository, IAttachmentRepository attachmentRepository,
-            IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository)
+            IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
+			ITransactionRepository transactionRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -66,6 +69,7 @@ namespace Infrastructures
             _attachmentRepository = attachmentRepository;
             _shippingRepository = shippingRepository;
             _paymentMethodRepository = paymenMethodRepository;
+            _transactionRepository = transactionRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IRoleRepository RoleRepository => _roleRepository;
@@ -84,6 +88,7 @@ namespace Infrastructures
         public IAttachmentRepository AttachmentRepository => _attachmentRepository;
         public IShippingRepository ShippingRepository => _shippingRepository;
         public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;
+        public ITransactionRepository TransactionRepository => _transactionRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

@@ -71,6 +71,10 @@ using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Infrastructures.Repositories.DocumentType;
 using Application.Interfaces.InterfaceServices.DocumentType;
 using Application.Services.DocumentType;
+using Application.Interfaces.InterfaceRepositories.Transactions;
+using Infrastructures.Repositories.Transactions;
+using Application.Interfaces.InterfaceServices.Transactions;
+using Application.Services.Transactions;
 
 namespace Infrastructures
 {
@@ -145,6 +149,9 @@ namespace Infrastructures
             //PaymentMethods
             services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddScoped<IPaymentMethodService, PaymentMethodService>();
+            //Transactions
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionService, TransactionService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

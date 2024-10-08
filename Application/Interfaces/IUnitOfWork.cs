@@ -15,6 +15,7 @@ using Application.Interfaces.InterfaceRepositories.Attachment;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
+using Application.Interfaces.InterfaceRepositories.Transactions;
 
 namespace Application.Interfaces
 {
@@ -37,6 +38,7 @@ namespace Application.Interfaces
         public IAttachmentRepository AttachmentRepository { get; }
         public IShippingRepository ShippingRepository { get; }
         public IPaymentMethodRepository PaymenMethodRepository { get; }
+        public ITransactionRepository TransactionRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }
