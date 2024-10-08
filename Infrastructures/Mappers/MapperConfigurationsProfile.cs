@@ -12,6 +12,7 @@ using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.PaymentMethodDTOs;
 using Application.ViewModels.QuotePriceDTOs;
 using Application.ViewModels.ShippingDTOs;
+using Application.ViewModels.TransactionDTOs;
 using Application.ViewModels.TranslatorSkillDTOs;
 using AutoMapper;
 using Domain.Entities;
@@ -81,6 +82,9 @@ namespace Infrastructures.Mappers
             //PaymentMethods
             CreateMap<PaymentMethod, PaymentMethodDTO>().ReverseMap();
             CreateMap<PaymentMethod, CUPaymentMethodDTO>().ReverseMap();
+            //Transactions
+            CreateMap<Transaction, TransactionDTO>().ReverseMap();
+            CreateMap<Transaction, CUTransactionDTO>().ReverseMap();
 
         }
     }
