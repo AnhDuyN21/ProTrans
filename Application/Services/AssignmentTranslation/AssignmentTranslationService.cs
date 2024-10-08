@@ -2,14 +2,8 @@
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
 using Application.ViewModels.AssignmentTranslationDTOs;
-using Application.ViewModels.QuotePriceDTOs;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.AssignmentTranslation
 {
@@ -100,7 +94,7 @@ namespace Application.Services.AssignmentTranslation
             return response;
         }
 
-        public async  Task<ServiceResponse<IEnumerable<AssignmentTranslationDTO>>> GetAllAssignmentTranslationsAsync()
+        public async Task<ServiceResponse<IEnumerable<AssignmentTranslationDTO>>> GetAllAssignmentTranslationsAsync()
         {
             var response = new ServiceResponse<IEnumerable<AssignmentTranslationDTO>>();
 
@@ -109,7 +103,7 @@ namespace Application.Services.AssignmentTranslation
                 var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync();
                 var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList.Select(q => new AssignmentTranslationDTO
                 {
-                    TranslatorName = q.Translator.FullName,
+                    TranslatorId = q.TranslatorId,
                     DocumentId = q.DocumentId,
                     Status = q.Status,
                     Deadline = q.Deadline,
@@ -145,10 +139,10 @@ namespace Application.Services.AssignmentTranslation
 
             try
             {
-                var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x=>x.TranslatorId.Equals(Id));
+                var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.TranslatorId.Equals(Id));
                 var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList.Select(q => new AssignmentTranslationDTO
                 {
-                    TranslatorName = q.Translator.FullName,
+                    TranslatorId = q.TranslatorId,
                     DocumentId = q.DocumentId,
                     Status = q.Status,
                     Deadline = q.Deadline,

@@ -1,20 +1,13 @@
 ﻿using Application.Commons;
-using Application.Interfaces.InterfaceServices.Notarization;
 using Application.Interfaces;
-using Application.ViewModels.NotarizationDTOs;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Interfaces.InterfaceServices.DocumentType;
 using Application.ViewModels.DocumentTypeDTOs;
+using AutoMapper;
+using System.Data.Common;
 
 namespace Application.Services.DocumentType
 {
-    public class DocumentTypeService  : IDocumentTypeService
+    public class DocumentTypeService : IDocumentTypeService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;

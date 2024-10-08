@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.ViewModels.AttachmentDTOs
+﻿namespace Application.ViewModels.AttachmentDTOs
 {
     public class AttachmentDTO
     {
@@ -16,8 +10,8 @@ namespace Application.ViewModels.AttachmentDTOs
         public Guid? DocumentTypeId { get; set; }
         public string? FileType { get; set; }
         public int PageNumber { get; set; }
-        public int NumberOfCopies { get; set; } 
-        public bool NotarizationRequest { get; set; } 
+        public int NumberOfCopies { get; set; }
+        public bool NotarizationRequest { get; set; }
         public int NumberOfNotarizatedCopies { get; set; }
         public string? DocumentPath { get; set; }
         public decimal? Price { get; set; }

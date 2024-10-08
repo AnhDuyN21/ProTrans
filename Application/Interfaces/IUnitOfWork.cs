@@ -19,7 +19,7 @@ using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
 
 namespace Application.Interfaces
 {
-	public interface IUnitOfWork
+    public interface IUnitOfWork
     {
         public IAccountRepository AccountRepository { get; }
         public IRoleRepository RoleRepository { get; }

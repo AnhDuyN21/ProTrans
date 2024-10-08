@@ -105,8 +105,8 @@ namespace Application.Services.TranslatorSkill
                 var translatorSkillDTOs = _mapper.Map<List<TranslatorSkillDTO>>(translatorSkillById.Select(ts => new TranslatorSkillDTO
                 {
                     Id = ts.Id,
-                    TranslatorName = ts.Account.FullName,
-                    LanguageName = ts.Language.Name,
+                    TranslatorId = ts.TranslatorId,
+                    LanguageId = ts.LanguageId,
                     CertificateUrl = ts.CertificateUrl
                 }));
 
@@ -143,8 +143,8 @@ namespace Application.Services.TranslatorSkill
             {
                 var translatorSkillById = await _unitOfWork.TranslatorSkillRepository.GetTranslatorSkillByIdAsync(Id);
                 var translatorSkillDTOs = _mapper.Map<TranslatorSkillDTO>(translatorSkillById);
-                translatorSkillDTOs.TranslatorName = translatorSkillById.Account.FullName;
-                translatorSkillDTOs.LanguageName = translatorSkillById.Language.Name;
+                translatorSkillDTOs.TranslatorId = translatorSkillById.TranslatorId;
+                translatorSkillDTOs.LanguageId = translatorSkillById.LanguageId;
 
                 if (translatorSkillById == null)
                 {

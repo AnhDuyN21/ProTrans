@@ -53,7 +53,7 @@ namespace Infrastructures.Mappers
             CreateMap<Notification, NotificationDTO>().ReverseMap();
 
             //AssignmentTranslation
-            CreateMap<AssignmentTranslation,CUAssignmentTranslationDTO>().ReverseMap();
+            CreateMap<AssignmentTranslation, CUAssignmentTranslationDTO>().ReverseMap();
             CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
 
             //Feedbacks

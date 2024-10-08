@@ -21,11 +21,13 @@ namespace Infrastructures.Repositories.TranslatorSkill
         public async Task<List<Domain.Entities.TranslatorSkill>> GetAllTranslatorSkillAsync(Expression<Func<Domain.Entities.TranslatorSkill, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<Domain.Entities.TranslatorSkill> query = _dbSet
+
             .Select(q => new Domain.Entities.TranslatorSkill
             {
                 Id = q.Id, // Assuming you want Id in the final result
                 TranslatorId = q.TranslatorId,
-                Language = new Domain.Entities.Language { Name = q.Language.Name }, // Use constructor with Name property
+                LanguageId = q.LanguageId, // Use constructor with Name property
+                CertificateUrl = q.CertificateUrl
             })
             .AsQueryable();
             if (filter != null)
@@ -44,9 +46,18 @@ namespace Infrastructures.Repositories.TranslatorSkill
             return await query.ToListAsync();
         }
 
-        public Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Guid id)
+        public async Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var query = await _dbSet
+           .Select(q => new Domain.Entities.TranslatorSkill
+           {
+               Id = q.Id, // Assuming you want Id in the final result
+               TranslatorId = q.TranslatorId,
+               LanguageId = q.LanguageId, // Use constructor with Name property
+               CertificateUrl = q.CertificateUrl
+           })
+           .AsQueryable().FirstOrDefaultAsync(x => x.TranslatorId.Equals(id));
+            return query;
         }
     }
 }

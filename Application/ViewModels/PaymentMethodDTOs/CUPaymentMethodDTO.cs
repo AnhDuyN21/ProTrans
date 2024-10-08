@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.ViewModels.PaymentMethodDTOs
+﻿namespace Application.ViewModels.PaymentMethodDTOs
 {
-	public class CUPaymentMethodDTO
-	{
-		public string Name { get; set; }
-	}
+    public class CUPaymentMethodDTO
+    {
+        public string Name { get; set; }
+    }
 }

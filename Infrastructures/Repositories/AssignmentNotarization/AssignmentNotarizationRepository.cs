@@ -1,13 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
-using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructures.Repositories.AssignmentNotarization
 {
@@ -32,6 +26,7 @@ namespace Infrastructures.Repositories.AssignmentNotarization
         {
             Id = q.Id, // Assuming you want Id in the final result
             ShipperId = q.ShipperId,
+            DocumentId = q.DocumentId,
             Document = q.Document,
             NumberOfNotarization = q.NumberOfNotarization,
             Status = q.Status,
