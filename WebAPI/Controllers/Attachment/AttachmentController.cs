@@ -29,10 +29,10 @@ namespace WebAPI.Controllers.Attachment
             }
             return Ok(result);
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateAttachment([FromForm] CreateAttachmentDTO createAttachmentDTO)
+        [HttpPost("{requestId}")]
+        public async Task<IActionResult> CreateAttachment(Guid requestId, [FromForm] CreateAttachmentDTO createAttachmentDTO)
         {
-            var result = await _attachmentService.CreateAttachmentAsync(createAttachmentDTO);
+            var result = await _attachmentService.CreateAttachmentAsync(requestId,createAttachmentDTO);
             if (result.Success)
             {
                 return Ok(result);

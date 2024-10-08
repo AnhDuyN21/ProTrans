@@ -74,12 +74,13 @@ namespace Application.Services.Attachment
             }
             return response;
         }
-        public async Task<ServiceResponse<AttachmentDTO>> CreateAttachmentAsync(CreateAttachmentDTO createAttachmentDTO)
+        public async Task<ServiceResponse<AttachmentDTO>> CreateAttachmentAsync(Guid requestId ,CreateAttachmentDTO createAttachmentDTO)
         {
             var response = new ServiceResponse<AttachmentDTO>();
             try
             {
                 var attachment = _mapper.Map<Domain.Entities.Attachment>(createAttachmentDTO);
+                attachment.RequestId = requestId;
                 await _unitOfWork.AttachmentRepository.AddAsync(attachment);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (!createAttachmentDTO.AttachmentImages.IsNullOrEmpty())
