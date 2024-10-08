@@ -2,7 +2,7 @@
 using Application.ViewModels.ShippingDTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers.Shippings
 {
 	public class ShippingController : BaseController
 	{
@@ -31,9 +31,9 @@ namespace WebAPI.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateShipping([FromBody] CUShippingDTO Shipping)
+		public async Task<IActionResult> CreateShipping([FromBody] CUShippingDTO shipping)
 		{
-			var result = await shippingService.CreateShippingAsync(Shipping);
+			var result = await shippingService.CreateShippingAsync(shipping);
 			if (result.Success)
 			{
 				return Ok(result);
@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateShipping(Guid id, [FromBody] CUShippingDTO CUShippingDTO)
+		public async Task<IActionResult> UpdateShipping(Guid id, [FromBody] CUShippingDTO CUshippingDTO)
 		{
-			var result = await shippingService.UpdateShippingAsync(id, CUShippingDTO);
+			var result = await shippingService.UpdateShippingAsync(id, CUshippingDTO);
 			if (!result.Success)
 			{
 				return NotFound(result);

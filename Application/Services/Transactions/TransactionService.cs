@@ -1,7 +1,7 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
-using Application.Interfaces.InterfaceServices.PaymentMethods;
-using Application.ViewModels.PaymentMethodDTOs;
+using Application.Interfaces.InterfaceServices.Transactions;
+using Application.ViewModels.TransactionDTOs;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -11,37 +11,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services.PaymentMethods
+namespace Application.Services.Transactions
 {
-	public class PaymentMethodService : IPaymentMethodService
+	public class TransactionService : ITransactionService
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		public PaymentMethodService(IUnitOfWork unitOfWork, IMapper mapper)
+		public TransactionService(IUnitOfWork unitOfWork, IMapper mapper)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}
 
-		public async Task<ServiceResponse<IEnumerable<PaymentMethodDTO>>> GetAllPaymentMethodsAsync()
+		public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetAllTransactionsAsync()
 		{
-			var response = new ServiceResponse<IEnumerable<PaymentMethodDTO>>();
+			var response = new ServiceResponse<IEnumerable<TransactionDTO>>();
 
 			try
 			{
-				var paymentMethods = await _unitOfWork.PaymentMethodRepository.GetAllAsync();
-				var paymentMethodDTOs = _mapper.Map<List<PaymentMethodDTO>>(paymentMethods);
+				var transactions = await _unitOfWork.TransactionRepository.GetAllAsync();
+				var transactionDTOs = _mapper.Map<List<TransactionDTO>>(transactions);
 
-				if (paymentMethodDTOs.Count != 0)
+				if (transactionDTOs.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "Get all successfully.";
-					response.Data = paymentMethodDTOs;
+					response.Data = transactionDTOs;
 				}
 				else
 				{
 					response.Success = true;
-					response.Message = "No payment method exists.";
+					response.Message = "No transaction exists.";
 				}
 			}
 			catch (Exception ex)
@@ -53,39 +53,39 @@ namespace Application.Services.PaymentMethods
 			return response;
 		}
 
-		public async Task<ServiceResponse<PaymentMethodDTO>> GetPaymentMethodByIdAsync(Guid id)
+		public async Task<ServiceResponse<TransactionDTO>> GetTransactionByIdAsync(Guid id)
 		{
-			var response = new ServiceResponse<PaymentMethodDTO>();
+			var response = new ServiceResponse<TransactionDTO>();
 
-			var paymentMethod = await _unitOfWork.PaymentMethodRepository.GetByIdAsync(id);
-			if (paymentMethod == null)
+			var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
+			if (transaction == null)
 			{
 				response.Success = false;
-				response.Message = "Payment method is not existed.";
+				response.Message = "Transaction is not existed.";
 			}
 			else
 			{
 				response.Success = true;
-				response.Message = "Payment method found.";
-				response.Data = _mapper.Map<PaymentMethodDTO>(paymentMethod);
+				response.Message = "Transaction found.";
+				response.Data = _mapper.Map<TransactionDTO>(transaction);
 			}
 			return response;
 		}
 
-		public async Task<ServiceResponse<PaymentMethodDTO>> CreatePaymentMethodAsync(CUPaymentMethodDTO CUpaymentMethodDTO)
+		public async Task<ServiceResponse<TransactionDTO>> CreateTransactionAsync(CUTransactionDTO CUTransactionDTO)
 		{
-			var response = new ServiceResponse<PaymentMethodDTO>();
+			var response = new ServiceResponse<TransactionDTO>();
 			try
 			{
-				var paymentMethod = _mapper.Map<PaymentMethod>(CUpaymentMethodDTO);
+				var transaction = _mapper.Map<Transaction>(CUTransactionDTO);
 
-				await _unitOfWork.PaymentMethodRepository.AddAsync(paymentMethod);
+				await _unitOfWork.TransactionRepository.AddAsync(transaction);
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
 				if (isSuccess)
 				{
-					var paymentMethodDTO = _mapper.Map<PaymentMethodDTO>(paymentMethod);
-					response.Data = paymentMethodDTO;
+					var TransactionDTO = _mapper.Map<TransactionDTO>(transaction);
+					response.Data = TransactionDTO;
 					response.Success = true;
 					response.Message = "Create successfully.";
 				}
@@ -110,12 +110,12 @@ namespace Application.Services.PaymentMethods
 			return response;
 		}
 
-		public async Task<ServiceResponse<bool>> DeletePaymentMethodAsync(Guid id)
+		public async Task<ServiceResponse<bool>> DeleteTransactionAsync(Guid id)
 		{
 			var response = new ServiceResponse<bool>();
 
-			var paymentMethod = await _unitOfWork.PaymentMethodRepository.GetByIdAsync(id);
-			if (paymentMethod == null)
+			var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
+			if (transaction == null)
 			{
 				response.Success = false;
 				response.Message = "Delete fail.";
@@ -123,7 +123,7 @@ namespace Application.Services.PaymentMethods
 			}
 			try
 			{
-				_unitOfWork.PaymentMethodRepository.Delete(paymentMethod);
+				_unitOfWork.TransactionRepository.Delete(transaction);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
@@ -146,27 +146,27 @@ namespace Application.Services.PaymentMethods
 			return response;
 		}
 
-		public async Task<ServiceResponse<PaymentMethodDTO>> UpdatePaymentMethodAsync(Guid id, CUPaymentMethodDTO CUpaymentMethodDTO)
+		public async Task<ServiceResponse<TransactionDTO>> UpdateTransactionAsync(Guid id, CUTransactionDTO CUtransactionDTO)
 		{
-			var response = new ServiceResponse<PaymentMethodDTO>();
+			var response = new ServiceResponse<TransactionDTO>();
 			try
 			{
-				var paymentMethod = await _unitOfWork.PaymentMethodRepository.GetByIdAsync(id);
+				var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
 
-				if (paymentMethod == null)
+				if (transaction == null)
 				{
 					response.Success = false;
-					response.Message = "Payment method is not existed.";
+					response.Message = "Transaction is not existed.";
 					return response;
 				}
-				var result = _mapper.Map(CUpaymentMethodDTO, paymentMethod);
+				var result = _mapper.Map(CUtransactionDTO, transaction);
 
-				_unitOfWork.PaymentMethodRepository.Update(paymentMethod);
+				_unitOfWork.TransactionRepository.Update(transaction);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
-					response.Data = _mapper.Map<PaymentMethodDTO>(result);
+					response.Data = _mapper.Map<TransactionDTO>(result);
 					response.Success = true;
 					response.Message = "Update successfully.";
 				}
