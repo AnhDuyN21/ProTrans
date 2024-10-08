@@ -106,8 +106,8 @@ namespace Application.Services.QuotePrice
                 var quotePriceDTOs = _mapper.Map<List<QuotePriceDTO>>(quotePriceList.Select(q => new QuotePriceDTO
                 {
                     Id = q.Id,
-                    FirstLanguage = q.FirstLanguage.Name, // Get the language name
-                    SecondLanguage = q.SecondLanguage.Name,
+                    FirstLanguageId = q.FirstLanguage.Id, // Get the language name
+                    SecondLanguageId = q.SecondLanguage.Id,
                     PricePerPage = q.PricePerPage
                 }));
 
@@ -142,8 +142,8 @@ namespace Application.Services.QuotePrice
             {
                 var quotePriceById = await _unitOfWork.QuotePriceRepository.GetQuotePriceByIdAsync(Id);
                 var quotePriceDTOs = _mapper.Map<QuotePriceDTO>(quotePriceById);
-                quotePriceDTOs.FirstLanguage = quotePriceById.FirstLanguage.Name;
-                quotePriceDTOs.SecondLanguage = quotePriceById.SecondLanguage.Name;
+                quotePriceDTOs.FirstLanguageId = quotePriceById.FirstLanguage.Id;
+                quotePriceDTOs.SecondLanguageId = quotePriceById.SecondLanguage.Id;
 
                 if (quotePriceById == null)
                 {
