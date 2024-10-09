@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
 using WebAPI;
 
+string[] origins = { "http://localhost:3000", "http://localhost:8082" };
 var builder = WebApplication.CreateBuilder(args);
 
 //Database connection
@@ -21,7 +22,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.WithOrigins(origins)
                .AllowAnyMethod()
                .AllowAnyHeader()
                .AllowCredentials();

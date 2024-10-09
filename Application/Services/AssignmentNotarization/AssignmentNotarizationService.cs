@@ -100,7 +100,7 @@ namespace Application.Services.AssignmentNotarization
 
             try
             {
-                var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync();
+                var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.IsDeleted == false);
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
                     ShipperId = q.ShipperId,
@@ -140,7 +140,7 @@ namespace Application.Services.AssignmentNotarization
 
             try
             {
-                var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.ShipperId.Equals(Id));
+                var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.ShipperId.Equals(Id) && x.IsDeleted == false);
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
                     ShipperId = q.Shipper.Id,

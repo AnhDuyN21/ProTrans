@@ -46,9 +46,9 @@ namespace Infrastructures.Repositories.TranslatorSkill
             return await query.ToListAsync();
         }
 
-        public async Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Guid id)
+        public async Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Expression<Func<Domain.Entities.TranslatorSkill, bool>>? filter = null, string? includeProperties = null)
         {
-            var query = await _dbSet
+            var query = _dbSet
            .Select(q => new Domain.Entities.TranslatorSkill
            {
                Id = q.Id, // Assuming you want Id in the final result
@@ -56,8 +56,21 @@ namespace Infrastructures.Repositories.TranslatorSkill
                LanguageId = q.LanguageId, // Use constructor with Name property
                CertificateUrl = q.CertificateUrl
            })
-           .AsQueryable().FirstOrDefaultAsync(x => x.TranslatorId.Equals(id));
-            return query;
+           .AsQueryable();
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+
+                }
+            }
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

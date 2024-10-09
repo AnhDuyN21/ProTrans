@@ -102,7 +102,7 @@ namespace Application.Services.QuotePrice
 
             try
             {
-                var quotePriceList = await _unitOfWork.QuotePriceRepository.GetAllQuotePriceAsync();
+                var quotePriceList = await _unitOfWork.QuotePriceRepository.GetAllQuotePriceAsync(x => x.IsDeleted == false);
                 var quotePriceDTOs = _mapper.Map<List<QuotePriceDTO>>(quotePriceList.Select(q => new QuotePriceDTO
                 {
                     Id = q.Id,
