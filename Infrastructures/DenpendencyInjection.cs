@@ -75,6 +75,34 @@ using Infrastructures.Repositories.Transactions;
 using Infrastructures.Repositories.TranslatorSkill;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Application.Interfaces.InterfaceRepositories.Documents;
+using Infrastructures.Repositories.Documents;
+using Application.Interfaces.InterfaceRepositories.Orders;
+using Application.Interfaces.InterfaceServices.Orders;
+using Application.Services.Orders;
+using Infrastructures.Repositories.Orders;
+using Application.Interfaces.InterfaceServices.Documents;
+using Application.Services.Documents;
+using Application.Interfaces.InterfaceRepositories.Shippings;
+using Infrastructures.Repositories.Shippings;
+using Application.Interfaces.InterfaceServices.Shippings;
+using Application.Services.Shippings;
+using Application.Interfaces.InterfaceRepositories.PaymentMethods;
+using Infrastructures.Repositories.PaymentMethods;
+using Application.Interfaces.InterfaceServices.PaymentMethods;
+using Application.Services.PaymentMethods;
+using Application.Interfaces.InterfaceRepositories.DocumentType;
+using Infrastructures.Repositories.DocumentType;
+using Application.Interfaces.InterfaceServices.DocumentType;
+using Application.Services.DocumentType;
+using Application.Interfaces.InterfaceRepositories.Transactions;
+using Infrastructures.Repositories.Transactions;
+using Application.Interfaces.InterfaceServices.Transactions;
+using Application.Services.Transactions;
+using Application.Interfaces.InterfaceServices.Request;
+using Application.Services.Request;
+using Application.Interfaces.InterfaceRepositories.Request;
+using Infrastructures.Repositories.Request;
 
 namespace Infrastructures
 {
@@ -89,8 +117,13 @@ namespace Infrastructures
             //Accounts
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
+
             //Roles
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+            //Requests
+            services.AddScoped<IRequestService, RequestService>();
+            services.AddScoped<IRequestRepository, RequestRepository>();
 
             //QuotePrices
             services.AddScoped<IQuotePriceRepository, QuotePriceRepository>();
@@ -146,6 +179,7 @@ namespace Infrastructures
             //Shippings
             services.AddScoped<IShippingRepository, ShippingResopitory>();
             services.AddScoped<IShippingService, ShippingService>();
+
             //PaymentMethods
             services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddScoped<IPaymentMethodService, PaymentMethodService>();

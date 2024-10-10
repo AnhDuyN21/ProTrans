@@ -16,6 +16,9 @@ using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
+using Application.Interfaces.InterfaceRepositories.PaymentMethods;
+using Application.Interfaces.InterfaceRepositories.DocumentType;
+using Application.Interfaces.InterfaceRepositories.Request;
 
 namespace Application.Interfaces
 {
@@ -39,6 +42,8 @@ namespace Application.Interfaces
         public IShippingRepository ShippingRepository { get; }
         public IPaymentMethodRepository PaymentMethodRepository { get; }
         public ITransactionRepository TransactionRepository { get; }
+        public IPaymentMethodRepository PaymenMethodRepository { get; }
+        public IRequestRepository RequestRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

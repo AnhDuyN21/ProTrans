@@ -3,8 +3,10 @@ using Google.Apis.Auth.OAuth2;
 using Infrastructures;
 using Infrastructures.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
+using System.Text;
 using WebAPI;
 
 string[] origins = { "http://localhost:3000", "http://localhost:8082" };
@@ -29,6 +31,23 @@ builder.Services.AddCors(options =>
 
     });
 });
+
+//Authenticate
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = configuration.JWTSection.Issuer,
+            ValidAudience = configuration.JWTSection.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JWTSection.SecretKey)),
+        };
+    });
+
 //Swagger
 builder.Services.AddSwaggerGen(setup =>
 {
