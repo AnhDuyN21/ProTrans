@@ -101,7 +101,7 @@ namespace Application.Services.TranslatorSkill
 
             try
             {
-                var translatorSkillById = await _unitOfWork.TranslatorSkillRepository.GetAllTranslatorSkillAsync(x => x.IsDeleted == false);
+                var translatorSkillById = await _unitOfWork.TranslatorSkillRepository.GetAllAsync(x => x.IsDeleted == false);
                 var translatorSkillDTOs = _mapper.Map<List<TranslatorSkillDTO>>(translatorSkillById.Select(ts => new TranslatorSkillDTO
                 {
                     Id = ts.Id,

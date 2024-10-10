@@ -102,13 +102,14 @@ namespace Application.Services.QuotePrice
 
             try
             {
-                var quotePriceList = await _unitOfWork.QuotePriceRepository.GetAllQuotePriceAsync(x => x.IsDeleted == false);
+                var quotePriceList = await _unitOfWork.QuotePriceRepository.GetAllAsync(x => x.IsDeleted == false);
                 var quotePriceDTOs = _mapper.Map<List<QuotePriceDTO>>(quotePriceList.Select(q => new QuotePriceDTO
                 {
                     Id = q.Id,
-                    FirstLanguageId = q.FirstLanguage.Id, // Get the language name
-                    SecondLanguageId = q.SecondLanguage.Id,
+                    FirstLanguageId = q.FirstLanguageId, // Get the language name
+                    SecondLanguageId = q.SecondLanguageId,
                     PricePerPage = q.PricePerPage
+
                 }));
 
                 if (quotePriceDTOs.Count != 0)

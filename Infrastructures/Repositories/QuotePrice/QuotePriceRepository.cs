@@ -28,6 +28,7 @@ namespace Infrastructures.Repositories.Account
             PricePerPage = q.PricePerPage,
             FirstLanguage = q.FirstLanguage, // Use constructor with Name property
             SecondLanguage = q.SecondLanguage // Use constructor with Name property
+
         })
         .AsQueryable();
 
