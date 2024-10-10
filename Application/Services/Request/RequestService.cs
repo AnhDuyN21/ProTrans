@@ -17,10 +17,12 @@ namespace Application.Services.Request
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public RequestService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IClaimsService _claimsService;
+        public RequestService(IUnitOfWork unitOfWork, IMapper mapper, IClaimsService claimsService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _claimsService = claimsService;
         }
         public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestAsync()
         {
@@ -77,6 +79,8 @@ namespace Application.Services.Request
             try
             {
                 var request = _mapper.Map<Domain.Entities.Request>(createRequestDTO);
+                var customerId = _unitOfWork.RequestRepository.GetCurrentCustomerId();
+                request.CustomerId = customerId;
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
