@@ -48,16 +48,20 @@ namespace Infrastructures
             new Role { Id = Guid.NewGuid(), Name = "Translator" }
             );
             modelBuilder.Entity<Notarization>().HasData(
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Anh", Price = 500000 },    
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Pháp", Price = 500000 },    
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Nhật", Price = 500000 },    
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Trung", Price = 500000 }    
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Anh", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Pháp", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Nhật", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Trung", Price = 500000 }
             );
             modelBuilder.Entity<DocumentType>().HasData(
-            new DocumentType { Id = Guid.NewGuid(), Name = "Khoa học", PriceFactor = 200000},
-            new DocumentType { Id = Guid.NewGuid(), Name = "Trường học", PriceFactor = 200000},
-            new DocumentType { Id = Guid.NewGuid(), Name = "Hộ chiếu", PriceFactor = 200000}
+            new DocumentType { Id = Guid.NewGuid(), Name = "Khoa học", PriceFactor = 200000 },
+            new DocumentType { Id = Guid.NewGuid(), Name = "Trường học", PriceFactor = 200000 },
+            new DocumentType { Id = Guid.NewGuid(), Name = "Hộ chiếu", PriceFactor = 200000 }
             );
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ProTransDB;User ID=sa;Password=12345;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"));
         }
     }
 }

@@ -102,13 +102,14 @@ namespace Application.Services.QuotePrice
 
             try
             {
-                var quotePriceList = await _unitOfWork.QuotePriceRepository.GetAllQuotePriceAsync();
+                var quotePriceList = await _unitOfWork.QuotePriceRepository.GetAllAsync(x => x.IsDeleted == false);
                 var quotePriceDTOs = _mapper.Map<List<QuotePriceDTO>>(quotePriceList.Select(q => new QuotePriceDTO
                 {
                     Id = q.Id,
-                    FirstLanguage = q.FirstLanguage.Name, // Get the language name
-                    SecondLanguage = q.SecondLanguage.Name,
+                    FirstLanguageId = q.FirstLanguageId, // Get the language name
+                    SecondLanguageId = q.SecondLanguageId,
                     PricePerPage = q.PricePerPage
+
                 }));
 
                 if (quotePriceDTOs.Count != 0)
@@ -142,8 +143,8 @@ namespace Application.Services.QuotePrice
             {
                 var quotePriceById = await _unitOfWork.QuotePriceRepository.GetQuotePriceByIdAsync(Id);
                 var quotePriceDTOs = _mapper.Map<QuotePriceDTO>(quotePriceById);
-                quotePriceDTOs.FirstLanguage = quotePriceById.FirstLanguage.Name;
-                quotePriceDTOs.SecondLanguage = quotePriceById.SecondLanguage.Name;
+                quotePriceDTOs.FirstLanguageId = quotePriceById.FirstLanguage.Id;
+                quotePriceDTOs.SecondLanguageId = quotePriceById.SecondLanguage.Id;
 
                 if (quotePriceById == null)
                 {

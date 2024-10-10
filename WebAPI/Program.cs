@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using WebAPI;
 
+string[] origins = { "http://localhost:3000", "http://localhost:8082" };
 var builder = WebApplication.CreateBuilder(args);
 
 //Database connection
@@ -23,7 +24,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.SetIsOriginAllowed(origin => true)
                .AllowAnyMethod()
                .AllowAnyHeader()
                .AllowCredentials();
@@ -89,13 +90,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors();
+
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {

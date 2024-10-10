@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces.InterfaceServices.Attachment;
-using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AttachmentDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Attachment
