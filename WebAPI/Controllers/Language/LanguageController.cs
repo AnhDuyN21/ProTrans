@@ -12,10 +12,16 @@ namespace WebAPI.Controllers.Language
             _languageService = languageService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetLanguageList()
+        [HttpGet("PageCount")]
+        public async Task<IActionResult> GetPageCountAsync(int pageSize)
         {
-            var result = await _languageService.GetAllLanguagesAsync();
+            var result = await _languageService.CountPageAsync(pageSize);
+            return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetLanguageList(string search, bool isAsc, int pageIndex, int PageSize)
+        {
+            var result = await _languageService.GetAllLanguagesAsync(search, isAsc, pageIndex, PageSize);
             return Ok(result);
         }
         [HttpGet("{id}")]
