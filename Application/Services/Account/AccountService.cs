@@ -93,7 +93,7 @@ namespace Application.Services.Account
                 }
                 var account = _mapper.Map<Domain.Entities.Account>(createAccountDTO);
                 account.Password = Utils.HashPassword.HashWithSHA256(createAccountDTO.Password);
-
+                account.Code = GenerateRandomCode(createAccountDTO.RoleId);
                 await _unitOfWork.AccountRepository.AddAsync(account);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
@@ -287,11 +287,12 @@ namespace Application.Services.Account
                 var newAccount = _mapper.Map<Domain.Entities.Account>(registerDTO);
                 newAccount.Password = Utils.HashPassword.HashWithSHA256(registerDTO.Password);
                 //Code
-                var codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(GenerateRandomCode());
+                var roleId = _unitOfWork.RoleRepository.GetIdCustomerRole();
+                var codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(GenerateRandomCode(roleId));
                 string newCode;
                 do
                 {
-                    newCode = GenerateRandomCode();
+                    newCode = GenerateRandomCode(roleId);
                     codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(newCode);
                 }
                 while (codeExist);
@@ -327,7 +328,7 @@ namespace Application.Services.Account
             }
             return response;
         }
-        public string GenerateRandomCode()
+        public string GenerateRandomCode(Guid roleId)
         {
             Random random = new Random();
             string randomNumber = "";
@@ -335,7 +336,32 @@ namespace Application.Services.Account
             {
                 randomNumber += random.Next(1, 10);
             }
-            return "CM" + randomNumber;
+            string roleName = _unitOfWork.AccountRepository.CheckRoleNameByRoleId(roleId);
+            if (roleName.Equals("Customer"))
+            {
+                return "CU" + randomNumber;
+            }
+            else if (roleName.Equals("Translator"))
+            {
+                return "TR" + randomNumber;
+            }
+            else if (roleName.Equals("Staff"))
+            {
+                return "ST" + randomNumber;
+            }
+            else if (roleName.Equals("Manager"))
+            {
+                return "MA" + randomNumber;
+            }
+            else if (roleName.Equals("Admin"))
+            {
+                return "AD" + randomNumber;
+            }
+            else if (roleName.Equals("Shipper"))
+            {
+                return "SH" + randomNumber;
+            }
+            return "không thể tạo code";
         }
     }
 }

@@ -6,5 +6,6 @@
         Task<bool> CheckPhoneNumberExited(string phonenumber);
         Task<bool> CheckCodeExited(string code);
         Task<Domain.Entities.Account> CheckLogin(string email, string password);
+        string CheckRoleNameByRoleId(Guid roleId);
     }
 }
