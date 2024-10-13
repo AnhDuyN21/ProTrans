@@ -2,8 +2,8 @@
 {
     public class CUDocumentDTO
     {
-        public Guid? FirstLanguageId { get; set; }
-        public Guid? SecondLanguageId { get; set; }
+        public Guid FirstLanguageId { get; set; }
+        public Guid SecondLanguageId { get; set; }
         public string? Code { get; set; }
         public string? UrlPath { get; set; }
         public string? FileType { get; set; }
@@ -14,8 +14,8 @@
         public string? TranslationStatus { get; set; }
         public string? NotarizationStatus { get; set; }
         public Guid? AttachmentId { get; set; }
-        public Guid? NotarizationId { get; set; }
-        public Guid? DocumentTypeId { get; set; }
+        public Guid NotarizationId { get; set; }
+        public Guid DocumentTypeId { get; set; }
         public Guid? OrderId { get; set; }
         public Guid? RequestId { get; set; }
     }
