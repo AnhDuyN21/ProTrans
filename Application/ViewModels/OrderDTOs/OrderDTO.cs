@@ -15,6 +15,5 @@ namespace Application.ViewModels.OrderDTOs
         public string? Address { get; set; }
         public string? Status { get; set; }
         public string? Reason { get; set; }
-        public List<DocumentDTO> Documents { get; set; }
     }
 }
