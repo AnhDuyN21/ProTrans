@@ -94,7 +94,7 @@ namespace Application.Services.Orders
 			{
 				var order = _mapper.Map<Order>(CUorderDTO);
 
-				if (!CUorderDTO.Documents.IsNullOrEmpty())
+				if (CUorderDTO.Documents != null)
 				{
 					foreach (var doc in CUorderDTO.Documents)
 					{
@@ -116,7 +116,18 @@ namespace Application.Services.Orders
 					}
 				}
 
+				order.Status = "Status 1";
 				await _unitOfWork.OrderRepository.AddAsync(order);
+				if (order.Documents != null)
+				{
+					foreach (var doc in order.Documents)
+					{
+						doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
+						doc.NotarizationStatus = "Status 1";
+						doc.TranslationStatus = "Status 1";
+					}
+				}
+
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
 				if (isSuccess)
