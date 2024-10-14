@@ -13,7 +13,5 @@
         public Guid? AttachmentId { get; set; }
         public Guid NotarizationId { get; set; }
         public Guid DocumentTypeId { get; set; }
-        public Guid? OrderId { get; set; }
-        public Guid? RequestId { get; set; }
     }
 }
