@@ -85,8 +85,6 @@ namespace Application.Services.Request
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
-                    var result = _mapper.Map<CreateRequestDTO>(request);
-                    response.Data = result;
                     response.Success = true;
                     response.Message = "Created successfully.";
                 }

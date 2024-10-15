@@ -5,6 +5,7 @@ using Application.ViewModels.AttachmentDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.FeedbackDTOs;
+using Application.ViewModels.ImageDTOs;
 using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using Application.ViewModels.NotificationDTOs;
@@ -32,6 +33,9 @@ namespace Infrastructures.Mappers
             CreateMap<Account, AccountDTO>().ReverseMap();
             CreateMap<Account, CreateAccountDTO>().ReverseMap();
             CreateMap<Account, RegisterDTO>().ReverseMap();
+
+            //Images
+            CreateMap<Image, ImageDTO>().ReverseMap();
 
             //Requests
             CreateMap<Request, RequestDTO>().ReverseMap();
