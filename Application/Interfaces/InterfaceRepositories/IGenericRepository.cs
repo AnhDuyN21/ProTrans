@@ -16,6 +16,12 @@ namespace Application.Interfaces.InterfaceRepositories
         void SoftRemoveRange(List<TEntity> entities);
         void DeleteRange(List<TEntity> entities);
         Task DeleteRangeAsync(IEnumerable<TEntity> entities);
-
+        public Task<IEnumerable<TEntity>> GetAllTempAsync(
+     Expression<Func<TEntity, bool>> filter = null,
+     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+     string includeProperties = "",
+     int? pageIndex = null, // Optional parameter for pagination (page number)
+     int? pageSize = null);
+        public Task<int> CountPageAsync(int pageSize);
     }
 }

@@ -16,6 +16,27 @@ namespace Application.Services.Language
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
+        public async Task<ServiceResponse<int>> CountPageAsync(int pageSize)
+        {
+            var response = new ServiceResponse<int>();
+
+            var pageCount = await _unitOfWork.LanguageRepository.CountPageAsync(pageSize);
+            if (pageCount == 0)
+            {
+                response.Success = true;
+                response.Message = "No item in list";
+                response.Data = 0;
+            }
+            else
+            {
+                response.Success = true;
+                response.Message = "Get page number successfully";
+                response.Data = pageCount;
+            }
+            return response;
+        }
+
         public async Task<ServiceResponse<LanguageDTO>> CreateLanguageAsync(CULanguageDTO cudLanguageDTO)
         {
             var response = new ServiceResponse<LanguageDTO>();
@@ -94,13 +115,50 @@ namespace Application.Services.Language
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<LanguageDTO>>> GetAllLanguagesAsync()
+        //public async Task<ServiceResponse<IEnumerable<LanguageDTO>>> GetAllLanguagesAsync()
+        //{
+        //    var response = new ServiceResponse<IEnumerable<LanguageDTO>>();
+
+        //    try
+        //    {
+        //        var languageList = await _unitOfWork.LanguageRepository.GetAllAsync();
+        //        var languageDTOs = _mapper.Map<List<LanguageDTO>>(languageList);
+
+        //        if (languageDTOs.Count != 0)
+        //        {
+        //            response.Success = true;
+        //            response.Message = "Tìm kiếm ngôn ngữ thành công";
+        //            response.Data = languageDTOs;
+        //        }
+        //        else
+        //        {
+        //            response.Success = true;
+        //            response.Message = "Không tồn tại ngôn ngữ nào";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Success = false;
+        //        response.Message = "Lỗi";
+        //        response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+        //    }
+
+        //    return response;
+        //}
+        public async Task<ServiceResponse<IEnumerable<LanguageDTO>>> GetAllLanguagesAsync(string searchString, bool isAsc, int pageIndex, int pageSize)
         {
             var response = new ServiceResponse<IEnumerable<LanguageDTO>>();
 
             try
             {
-                var languageList = await _unitOfWork.LanguageRepository.GetAllAsync();
+                var languageList = await _unitOfWork.LanguageRepository.GetAllTempAsync();
+                if (searchString != null)
+                {
+                    if (isAsc) languageList = await _unitOfWork.LanguageRepository.GetAllTempAsync(x => x.Name.Contains(searchString), orderBy: x => x.OrderByDescending(l => l.Name), "", pageIndex, pageSize);
+
+                    else languageList = await _unitOfWork.LanguageRepository.GetAllTempAsync(x => x.Name.Contains(searchString), orderBy: x => x.OrderBy(l => l.Name), "", pageIndex, pageSize);
+                }
                 var languageDTOs = _mapper.Map<List<LanguageDTO>>(languageList);
 
                 if (languageDTOs.Count != 0)
