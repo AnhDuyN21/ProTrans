@@ -25,6 +25,14 @@ namespace Infrastructures.Repositories.Account
                                                 _dbContext.Account.AnyAsync(u => u.Code == code);
         public Task<Domain.Entities.Account> CheckLogin(string email, string password) =>
             _dbContext.Account.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
-
+        public string CheckRoleNameByRoleId(Guid roleId)
+        {
+            var role = _dbContext.Role.FirstOrDefault(u => u.Id == roleId);
+            if(role == null)
+            {
+                return "Id không tồn tại";
+            }
+            return role.Name;
+        }
     }
 }
