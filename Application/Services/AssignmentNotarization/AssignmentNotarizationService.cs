@@ -134,7 +134,7 @@ namespace Application.Services.AssignmentNotarization
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<AssignmentNotarizationDTO>>> GetAllAssignmentNotarizationByTranslatorIdAsync(Guid Id)
+        public async Task<ServiceResponse<IEnumerable<AssignmentNotarizationDTO>>> GetAllAssignmentNotarizationByShipperIdAsync(Guid Id)
         {
             var response = new ServiceResponse<IEnumerable<AssignmentNotarizationDTO>>();
 

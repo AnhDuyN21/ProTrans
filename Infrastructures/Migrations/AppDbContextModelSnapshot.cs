@@ -444,21 +444,21 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("94f48573-220b-4a9b-b235-3d560e5d18c1"),
+                            Id = new Guid("be884d12-84f1-44dc-864c-e72fba4a4f3d"),
                             IsDeleted = false,
                             Name = "Khoa học",
                             PriceFactor = 200000m
                         },
                         new
                         {
-                            Id = new Guid("751b82e1-1a44-482d-ab13-99cca4546fbc"),
+                            Id = new Guid("4407fd03-02c2-46df-8d4b-fece90740b70"),
                             IsDeleted = false,
                             Name = "Trường học",
                             PriceFactor = 200000m
                         },
                         new
                         {
-                            Id = new Guid("d1e025ac-3bf1-470e-b07d-cd7f7275adce"),
+                            Id = new Guid("c7c9ba57-d227-420f-ba70-f45994567980"),
                             IsDeleted = false,
                             Name = "Hộ chiếu",
                             PriceFactor = 200000m
@@ -627,28 +627,28 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("60bc3348-cc4d-4955-909e-c2df875bda9c"),
+                            Id = new Guid("28b76e88-8ae1-4bfe-9098-76e2ee68496a"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Anh",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("7b2071e5-8696-4172-a589-37b2c88912c3"),
+                            Id = new Guid("53a9d454-6d4e-4f07-a43a-a205411aca4a"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Pháp",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("d03d19a5-ea99-4680-b27b-15d5cc401a0d"),
+                            Id = new Guid("69cad534-2e70-4da9-a446-a82ca49dcbb8"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Nhật",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("cf93ddd8-040a-4b0d-8048-15d3581ec885"),
+                            Id = new Guid("b70e2e0f-c0f9-4473-ab11-3598bdea0376"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Trung",
                             Price = 500000m
@@ -703,8 +703,8 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly?>("Deadline")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("Deadline")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
@@ -892,32 +892,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("21dc428d-8109-409d-9ee7-aeb51fc35ab5"),
+                            Id = new Guid("483ad1d0-e973-40d2-91f1-5ec3bc2ba0c9"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("f53e508f-374f-4e98-a592-7e7024c42526"),
+                            Id = new Guid("cfd0cefc-8f00-46a4-93d0-e0eeeb27cb9a"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("50eff0a1-5588-4968-ae0e-f2cdd342b3c3"),
+                            Id = new Guid("d6761038-06aa-4ea3-83c6-abe96c779b1e"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("1f0e7b67-2b09-4f81-8db5-7f31964ecd2a"),
+                            Id = new Guid("bd4757bb-bff1-4a61-914a-603ae42e7c34"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("77a2f00f-ba6b-443d-931b-0de181f48877"),
+                            Id = new Guid("903a4ee4-a3c8-4641-a18e-ccd6cdc3989c"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("51b01093-bc33-4ee6-b0d7-0a0b5e32f3fc"),
+                            Id = new Guid("d926c69e-0dc4-43f7-add4-96e689727782"),
                             Name = "Translator"
                         });
                 });
@@ -950,9 +950,6 @@ namespace Infrastructures.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsShipped")
-                        .HasColumnType("bit");
-
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -964,6 +961,10 @@ namespace Infrastructures.Migrations
 
                     b.Property<Guid>("ShipperId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
