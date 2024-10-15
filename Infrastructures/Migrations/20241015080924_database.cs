@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace Infrastructures.Migrations
 {
     /// <inheritdoc />
-    public partial class Database : Migration
+    public partial class database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -341,7 +342,7 @@ namespace Infrastructures.Migrations
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     AgencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Deadline = table.Column<DateOnly>(type: "date", nullable: true),
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -511,7 +512,7 @@ namespace Infrastructures.Migrations
                     ShipperId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsShipped = table.Column<bool>(type: "bit", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -633,9 +634,9 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "PriceFactor" },
                 values: new object[,]
                 {
-                    { new Guid("751b82e1-1a44-482d-ab13-99cca4546fbc"), null, null, null, null, false, null, null, "Trường học", 200000m },
-                    { new Guid("94f48573-220b-4a9b-b235-3d560e5d18c1"), null, null, null, null, false, null, null, "Khoa học", 200000m },
-                    { new Guid("d1e025ac-3bf1-470e-b07d-cd7f7275adce"), null, null, null, null, false, null, null, "Hộ chiếu", 200000m }
+                    { new Guid("4407fd03-02c2-46df-8d4b-fece90740b70"), null, null, null, null, false, null, null, "Trường học", 200000m },
+                    { new Guid("be884d12-84f1-44dc-864c-e72fba4a4f3d"), null, null, null, null, false, null, null, "Khoa học", 200000m },
+                    { new Guid("c7c9ba57-d227-420f-ba70-f45994567980"), null, null, null, null, false, null, null, "Hộ chiếu", 200000m }
                 });
 
             migrationBuilder.InsertData(
@@ -643,10 +644,10 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Price" },
                 values: new object[,]
                 {
-                    { new Guid("60bc3348-cc4d-4955-909e-c2df875bda9c"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Anh", 500000m },
-                    { new Guid("7b2071e5-8696-4172-a589-37b2c88912c3"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Pháp", 500000m },
-                    { new Guid("cf93ddd8-040a-4b0d-8048-15d3581ec885"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Trung", 500000m },
-                    { new Guid("d03d19a5-ea99-4680-b27b-15d5cc401a0d"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Nhật", 500000m }
+                    { new Guid("28b76e88-8ae1-4bfe-9098-76e2ee68496a"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Anh", 500000m },
+                    { new Guid("53a9d454-6d4e-4f07-a43a-a205411aca4a"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Pháp", 500000m },
+                    { new Guid("69cad534-2e70-4da9-a446-a82ca49dcbb8"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Nhật", 500000m },
+                    { new Guid("b70e2e0f-c0f9-4473-ab11-3598bdea0376"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Trung", 500000m }
                 });
 
             migrationBuilder.InsertData(
@@ -654,12 +655,12 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("1f0e7b67-2b09-4f81-8db5-7f31964ecd2a"), "Manager" },
-                    { new Guid("21dc428d-8109-409d-9ee7-aeb51fc35ab5"), "Admin" },
-                    { new Guid("50eff0a1-5588-4968-ae0e-f2cdd342b3c3"), "Shipper" },
-                    { new Guid("51b01093-bc33-4ee6-b0d7-0a0b5e32f3fc"), "Translator" },
-                    { new Guid("77a2f00f-ba6b-443d-931b-0de181f48877"), "Staff" },
-                    { new Guid("f53e508f-374f-4e98-a592-7e7024c42526"), "Customer" }
+                    { new Guid("483ad1d0-e973-40d2-91f1-5ec3bc2ba0c9"), "Admin" },
+                    { new Guid("903a4ee4-a3c8-4641-a18e-ccd6cdc3989c"), "Staff" },
+                    { new Guid("bd4757bb-bff1-4a61-914a-603ae42e7c34"), "Manager" },
+                    { new Guid("cfd0cefc-8f00-46a4-93d0-e0eeeb27cb9a"), "Customer" },
+                    { new Guid("d6761038-06aa-4ea3-83c6-abe96c779b1e"), "Shipper" },
+                    { new Guid("d926c69e-0dc4-43f7-add4-96e689727782"), "Translator" }
                 });
 
             migrationBuilder.CreateIndex(

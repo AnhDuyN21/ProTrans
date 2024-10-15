@@ -13,15 +13,15 @@ namespace WebAPI.Controllers.assignmentNotarization
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetassignmentNotarizationList()
+        public async Task<IActionResult> GetAssignmentNotarizationList()
         {
             var result = await _assignmentNotarizationService.GetAllAssignmentNotarizationsAsync();
             return Ok(result);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetassignmentNotarizationById(Guid id)
+        public async Task<IActionResult> GetAssignmentNotarizationById(Guid id)
         {
-            var result = await _assignmentNotarizationService.GetAllAssignmentNotarizationByTranslatorIdAsync(id);
+            var result = await _assignmentNotarizationService.GetAllAssignmentNotarizationByShipperIdAsync(id);
             if (!result.Success)
             {
                 return NotFound(result);
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers.assignmentNotarization
             return Ok(result);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateassignmentNotarization([FromBody] CUAssignmentNotarizationDTO cuAssignmentNotarizationDTO)
+        public async Task<IActionResult> CreateAssignmentNotarization([FromBody] CUAssignmentNotarizationDTO cuAssignmentNotarizationDTO)
         {
             var result = await _assignmentNotarizationService.CreateAssignmentNotarizationAsync(cuAssignmentNotarizationDTO);
             if (result.Success)
@@ -42,7 +42,7 @@ namespace WebAPI.Controllers.assignmentNotarization
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateassignmentNotarization(Guid id, [FromBody] CUAssignmentNotarizationDTO cudassignmentNotarizationDTO)
+        public async Task<IActionResult> UpdateAssignmentNotarization(Guid id, [FromBody] CUAssignmentNotarizationDTO cudassignmentNotarizationDTO)
         {
             var result = await _assignmentNotarizationService.UpdateAssignmentNotarizationAsync(id, cudassignmentNotarizationDTO);
             if (!result.Success)
@@ -52,7 +52,7 @@ namespace WebAPI.Controllers.assignmentNotarization
             return Ok(result);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteassignmentNotarization(Guid id)
+        public async Task<IActionResult> DeleteAssignmentNotarization(Guid id)
         {
             var result = await _assignmentNotarizationService.DeleteAssignmentNotarizationAsync(id);
             if (!result.Success)
