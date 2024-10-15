@@ -163,7 +163,7 @@ namespace Application.Services.Orders
 			return response;
 		}
 
-		public async Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id)
+		public async Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id, string reason)
 		{
 			var response = new ServiceResponse<bool>();
 
@@ -176,6 +176,7 @@ namespace Application.Services.Orders
 			}
 			try
 			{
+				order.Reason = reason;
 				_unitOfWork.OrderRepository.SoftRemove(order);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
