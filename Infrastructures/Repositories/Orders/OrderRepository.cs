@@ -8,7 +8,8 @@ namespace Infrastructures.Repositories.Orders
     public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         private readonly AppDbContext _dbContext;
-        public OrderRepository(
+		private readonly IClaimsService _claimsService;
+		public OrderRepository(
             AppDbContext context,
             ICurrentTime timeService,
             IClaimsService claimsService
@@ -16,9 +17,16 @@ namespace Infrastructures.Repositories.Orders
             : base(context, timeService, claimsService)
         {
             _dbContext = context;
-        }
+			_claimsService = claimsService;
+		}
 
-        public async Task<Order> GetByPhoneNumberAsync(string num)
+		public Guid GetCurrentStaffId()
+		{
+			var id = _claimsService.GetCurrentUserId;
+			return id;
+		}
+
+		public async Task<Order> GetByPhoneNumberAsync(string num)
         {
             var result = await _dbSet.FirstOrDefaultAsync(x => x.PhoneNumber.Equals(num));
             return result;

@@ -116,7 +116,12 @@ namespace Application.Services.Orders
 					}
 				}
 
+				var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
+				order.CreatedBy = staffId;
+				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
+				order.AgencyId = (staff != null) ? staff.AgencyId : null;
 				order.Status = "Status 1";
+
 				await _unitOfWork.OrderRepository.AddAsync(order);
 				if (order.Documents != null)
 				{
