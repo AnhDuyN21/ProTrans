@@ -66,5 +66,11 @@ namespace Infrastructures.Repositories.Account
 
             return result;
         }
+
+        public async Task<QuotePrice> GetQuotePriceBy2LanguageId(Guid id1, Guid id2)
+        {
+            var result = await _dbSet.FirstOrDefaultAsync(x => x.FirstLanguageId == id1 & x.SecondLanguageId == id2);
+            return result;
+        }
     }
 }
