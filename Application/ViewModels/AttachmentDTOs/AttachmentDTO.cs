@@ -1,4 +1,6 @@
-﻿namespace Application.ViewModels.AttachmentDTOs
+﻿using Application.ViewModels.ImageDTOs;
+
+namespace Application.ViewModels.AttachmentDTOs
 {
     public class AttachmentDTO
     {
@@ -16,5 +18,6 @@
         public string? DocumentPath { get; set; }
         public decimal? Price { get; set; }
         public bool IsDeleted { get; set; }
+        public List<string> Images { get; set; } = new List<string>();
     }
 }

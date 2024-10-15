@@ -4,6 +4,7 @@ using Application.Interfaces.InterfaceServices.Attachment;
 using Application.Interfaces.InterfaceServices.Image;
 using Application.ViewModels.AttachmentDTOs;
 using AutoMapper;
+using Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.Data.Common;
 
@@ -75,11 +76,26 @@ namespace Application.Services.Attachment
             {
                 var attachment = _mapper.Map<Domain.Entities.Attachment>(createAttachmentDTO);
                 attachment.RequestId = requestId;
+                foreach (var attachmentImage in createAttachmentDTO.AttachmentImages)
+                {
+                    Domain.Entities.Image newImage = new Domain.Entities.Image
+                    {
+                        AttachmentId = attachment.Id,
+                        ImageUrl = attachmentImage
+                    };
+
+                    await _unitOfWork.ImageRepository.AddAsync(newImage);
+                }
                 await _unitOfWork.AttachmentRepository.AddAsync(attachment);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
+                    var listAttachmentImage = await _unitOfWork.ImageRepository.GetAllAsync(x => x.AttachmentId == attachment.Id);
                     var attachmentDTO = _mapper.Map<AttachmentDTO>(attachment);
+                    foreach(var attachmentImage in listAttachmentImage)
+                    {
+                        attachmentDTO.Images.Add(attachmentImage.ImageUrl);
+                    }
                     response.Data = attachmentDTO;
                     response.Success = true;
                     response.Message = "Attachment created successfully.";

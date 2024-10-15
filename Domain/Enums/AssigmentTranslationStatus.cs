@@ -4,6 +4,6 @@ namespace Domain.Enums
     {
         Waiting,
         Translating,
-        Complete
+        Completed
     }
 }
