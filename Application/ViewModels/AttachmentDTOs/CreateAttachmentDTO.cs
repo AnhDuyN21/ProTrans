@@ -4,7 +4,7 @@ namespace Application.ViewModels.AttachmentDTOs
 {
     public class CreateAttachmentDTO
     {
-        public List<IFormFile> AttachmentImages { get; set; } = new List<IFormFile>();
+        public List<string> AttachmentImages { get; set; } = new List<string>();
         public Guid? FirstLanguageId { get; set; }
         public Guid? SecondLanguageId { get; set; }
         public Guid? NotarizationId { get; set; }

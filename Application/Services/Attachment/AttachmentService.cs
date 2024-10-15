@@ -13,12 +13,12 @@ namespace Application.Services.Attachment
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IImageService _imageService;
-        public AttachmentService(IUnitOfWork unitOfWork, IMapper mapper, IImageService imageService)
+ 
+        public AttachmentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _imageService = imageService;
+
         }
         public async Task<ServiceResponse<IEnumerable<AttachmentDTO>>> GetAttachmentAsync()
         {
@@ -77,10 +77,6 @@ namespace Application.Services.Attachment
                 attachment.RequestId = requestId;
                 await _unitOfWork.AttachmentRepository.AddAsync(attachment);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (!createAttachmentDTO.AttachmentImages.IsNullOrEmpty())
-                {
-                    await _imageService.UploadAttachmentImages(createAttachmentDTO.AttachmentImages, attachment.Id);
-                }
                 if (isSuccess)
                 {
                     var attachmentDTO = _mapper.Map<AttachmentDTO>(attachment);
