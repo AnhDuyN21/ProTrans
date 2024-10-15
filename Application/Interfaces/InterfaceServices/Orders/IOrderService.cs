@@ -9,7 +9,7 @@ namespace Application.Interfaces.InterfaceServices.Orders
         public Task<ServiceResponse<OrderDTO>> GetOrderByIdAsync(Guid id);
         public Task<ServiceResponse<OrderDTO>> UpdateOrderAsync(Guid id, CUOrderDTO order);
         public Task<ServiceResponse<OrderDTO>> CreateOrderAsync(CUOrderDTO order);
-        public Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id);
+        public Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id, string reason);
         public Task<ServiceResponse<OrderDTO>> GetByPhoneNumberAsync(string num);
     }
 }
