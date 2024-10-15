@@ -30,7 +30,7 @@ namespace Application.Services.AssignmentTranslation
                 if (isSuccess)
                 {
                     var assignmentTranslationDTO = _mapper.Map<AssignmentTranslationDTO>(assignmentTranslation);
-                    response.Data = assignmentTranslationDTO; // Chuyển đổi sang QuotePriceDTO
+                    response.Data = assignmentTranslationDTO; 
                     response.Success = true;
                     response.Message = "Assignment Translation created successfully.";
                 }
