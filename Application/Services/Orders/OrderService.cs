@@ -116,7 +116,12 @@ namespace Application.Services.Orders
 					}
 				}
 
+				var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
+				order.CreatedBy = staffId;
+				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
+				order.AgencyId = (staff != null) ? staff.AgencyId : null;
 				order.Status = "Status 1";
+
 				await _unitOfWork.OrderRepository.AddAsync(order);
 				if (order.Documents != null)
 				{
@@ -158,7 +163,7 @@ namespace Application.Services.Orders
 			return response;
 		}
 
-		public async Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id)
+		public async Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id, string reason)
 		{
 			var response = new ServiceResponse<bool>();
 
@@ -171,6 +176,7 @@ namespace Application.Services.Orders
 			}
 			try
 			{
+				order.Reason = reason;
 				_unitOfWork.OrderRepository.SoftRemove(order);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;

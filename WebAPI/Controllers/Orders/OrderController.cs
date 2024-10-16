@@ -67,9 +67,9 @@ namespace WebAPI.Controllers.Orders
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(Guid id)
+        public async Task<IActionResult> DeleteOrder(Guid id, string reason)
         {
-            var result = await orderService.DeleteOrderAsync(id);
+            var result = await orderService.DeleteOrderAsync(id, reason);
             if (!result.Success)
             {
                 return NotFound(result);
