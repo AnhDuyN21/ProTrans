@@ -8,6 +8,6 @@ namespace Application.ViewModels.ImageDTOs
 {
     public class ImageDTO
     {
-        public string UrlPath {  get; set; }
+        public string ImageUrl {  get; set; }
     }
 }
