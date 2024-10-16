@@ -68,21 +68,32 @@ namespace Application.Services.Orders
 			return response;
 		}
 
-		public async Task<ServiceResponse<OrderDTO>> GetByPhoneNumberAsync(string num)
+		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByPhoneNumberAsync(string num)
 		{
-			var response = new ServiceResponse<OrderDTO>();
+			var response = new ServiceResponse<IEnumerable<OrderDTO>>();
 
-			var order = await _unitOfWork.OrderRepository.GetByPhoneNumberAsync(num);
-			if (order == null)
+			try
+			{
+				var orders = await _unitOfWork.OrderRepository.GetByPhoneNumberAsync(num);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+
+				if (orderDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = orderDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No order exists.";
+				}
+			}
+			catch (Exception ex)
 			{
 				response.Success = false;
-				response.Message = "Order is not existed.";
-			}
-			else
-			{
-				response.Success = true;
-				response.Message = "Order found.";
-				response.Data = _mapper.Map<OrderDTO>(order);
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
 			}
 			return response;
 		}
