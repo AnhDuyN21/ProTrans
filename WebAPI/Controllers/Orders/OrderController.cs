@@ -31,9 +31,9 @@ namespace WebAPI.Controllers.Orders
         }
 
         [HttpGet("GetByPhoneNumber")]
-        public async Task<IActionResult> GetOrderByPhoneNumber(string num)
+        public async Task<IActionResult> GetOrdersByPhoneNumber(string num)
         {
-            var result = await orderService.GetByPhoneNumberAsync(num);
+            var result = await orderService.GetOrdersByPhoneNumberAsync(num);
             if (!result.Success)
             {
                 return NotFound(result);
