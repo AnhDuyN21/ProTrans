@@ -444,21 +444,21 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("be884d12-84f1-44dc-864c-e72fba4a4f3d"),
+                            Id = new Guid("7bca2768-c67f-4d3f-87b7-e27e0c7b8bf2"),
                             IsDeleted = false,
                             Name = "Khoa học",
                             PriceFactor = 200000m
                         },
                         new
                         {
-                            Id = new Guid("4407fd03-02c2-46df-8d4b-fece90740b70"),
+                            Id = new Guid("b8702a1e-1173-4c5a-afbd-033b2062e0a6"),
                             IsDeleted = false,
                             Name = "Trường học",
                             PriceFactor = 200000m
                         },
                         new
                         {
-                            Id = new Guid("c7c9ba57-d227-420f-ba70-f45994567980"),
+                            Id = new Guid("9db1a475-5476-40b4-9466-d862496e9a9c"),
                             IsDeleted = false,
                             Name = "Hộ chiếu",
                             PriceFactor = 200000m
@@ -627,28 +627,28 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("28b76e88-8ae1-4bfe-9098-76e2ee68496a"),
+                            Id = new Guid("79c1e3d1-979c-48c2-8ba2-bef80de5b63a"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Anh",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("53a9d454-6d4e-4f07-a43a-a205411aca4a"),
+                            Id = new Guid("f7e82201-3151-49c6-a3e8-514268665921"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Pháp",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("69cad534-2e70-4da9-a446-a82ca49dcbb8"),
+                            Id = new Guid("28e45ecc-303b-40c8-8453-381811155da7"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Nhật",
                             Price = 500000m
                         },
                         new
                         {
-                            Id = new Guid("b70e2e0f-c0f9-4473-ab11-3598bdea0376"),
+                            Id = new Guid("07153cb3-fd82-4ce1-a4bc-3603c7188d10"),
                             IsDeleted = false,
                             Name = "Công chứng bản dịch tiếng Trung",
                             Price = 500000m
@@ -892,32 +892,32 @@ namespace Infrastructures.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("483ad1d0-e973-40d2-91f1-5ec3bc2ba0c9"),
+                            Id = new Guid("53109532-6e9a-428b-b10f-97bebec1b74d"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("cfd0cefc-8f00-46a4-93d0-e0eeeb27cb9a"),
+                            Id = new Guid("3c10b9c5-7867-4149-8550-19e82685fb57"),
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = new Guid("d6761038-06aa-4ea3-83c6-abe96c779b1e"),
+                            Id = new Guid("2d640b79-ccb3-4129-9b6c-4c95029e4563"),
                             Name = "Shipper"
                         },
                         new
                         {
-                            Id = new Guid("bd4757bb-bff1-4a61-914a-603ae42e7c34"),
+                            Id = new Guid("440ea7fe-38e2-4a72-a7e6-021e2b2f70e6"),
                             Name = "Manager"
                         },
                         new
                         {
-                            Id = new Guid("903a4ee4-a3c8-4641-a18e-ccd6cdc3989c"),
+                            Id = new Guid("788c75fb-2955-4b4f-a05f-1dab678141af"),
                             Name = "Staff"
                         },
                         new
                         {
-                            Id = new Guid("d926c69e-0dc4-43f7-add4-96e689727782"),
+                            Id = new Guid("c22dac42-992b-402a-b678-608e62bfb584"),
                             Name = "Translator"
                         });
                 });
@@ -926,9 +926,6 @@ namespace Infrastructures.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -968,9 +965,9 @@ namespace Infrastructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ShipperId");
 
                     b.ToTable("Shipping");
                 });
@@ -1264,19 +1261,21 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.Shipping", b =>
                 {
-                    b.HasOne("Domain.Entities.Account", "Account")
-                        .WithMany("Shippings")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("Domain.Entities.Order", "Order")
                         .WithMany("Shippings")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.HasOne("Domain.Entities.Account", "Shipper")
+                        .WithMany("Shippings")
+                        .HasForeignKey("ShipperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
+
+                    b.Navigation("Shipper");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transaction", b =>

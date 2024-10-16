@@ -513,7 +513,6 @@ namespace Infrastructures.Migrations
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -526,10 +525,11 @@ namespace Infrastructures.Migrations
                 {
                     table.PrimaryKey("PK_Shipping", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shipping_Account_AccountId",
-                        column: x => x.AccountId,
+                        name: "FK_Shipping_Account_ShipperId",
+                        column: x => x.ShipperId,
                         principalTable: "Account",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Shipping_Order_OrderId",
                         column: x => x.OrderId,
@@ -634,9 +634,9 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "PriceFactor" },
                 values: new object[,]
                 {
-                    { new Guid("4407fd03-02c2-46df-8d4b-fece90740b70"), null, null, null, null, false, null, null, "Trường học", 200000m },
-                    { new Guid("be884d12-84f1-44dc-864c-e72fba4a4f3d"), null, null, null, null, false, null, null, "Khoa học", 200000m },
-                    { new Guid("c7c9ba57-d227-420f-ba70-f45994567980"), null, null, null, null, false, null, null, "Hộ chiếu", 200000m }
+                    { new Guid("7bca2768-c67f-4d3f-87b7-e27e0c7b8bf2"), null, null, null, null, false, null, null, "Khoa học", 200000m },
+                    { new Guid("9db1a475-5476-40b4-9466-d862496e9a9c"), null, null, null, null, false, null, null, "Hộ chiếu", 200000m },
+                    { new Guid("b8702a1e-1173-4c5a-afbd-033b2062e0a6"), null, null, null, null, false, null, null, "Trường học", 200000m }
                 });
 
             migrationBuilder.InsertData(
@@ -644,10 +644,10 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Price" },
                 values: new object[,]
                 {
-                    { new Guid("28b76e88-8ae1-4bfe-9098-76e2ee68496a"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Anh", 500000m },
-                    { new Guid("53a9d454-6d4e-4f07-a43a-a205411aca4a"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Pháp", 500000m },
-                    { new Guid("69cad534-2e70-4da9-a446-a82ca49dcbb8"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Nhật", 500000m },
-                    { new Guid("b70e2e0f-c0f9-4473-ab11-3598bdea0376"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Trung", 500000m }
+                    { new Guid("07153cb3-fd82-4ce1-a4bc-3603c7188d10"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Trung", 500000m },
+                    { new Guid("28e45ecc-303b-40c8-8453-381811155da7"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Nhật", 500000m },
+                    { new Guid("79c1e3d1-979c-48c2-8ba2-bef80de5b63a"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Anh", 500000m },
+                    { new Guid("f7e82201-3151-49c6-a3e8-514268665921"), null, null, null, null, false, null, null, "Công chứng bản dịch tiếng Pháp", 500000m }
                 });
 
             migrationBuilder.InsertData(
@@ -655,12 +655,12 @@ namespace Infrastructures.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("483ad1d0-e973-40d2-91f1-5ec3bc2ba0c9"), "Admin" },
-                    { new Guid("903a4ee4-a3c8-4641-a18e-ccd6cdc3989c"), "Staff" },
-                    { new Guid("bd4757bb-bff1-4a61-914a-603ae42e7c34"), "Manager" },
-                    { new Guid("cfd0cefc-8f00-46a4-93d0-e0eeeb27cb9a"), "Customer" },
-                    { new Guid("d6761038-06aa-4ea3-83c6-abe96c779b1e"), "Shipper" },
-                    { new Guid("d926c69e-0dc4-43f7-add4-96e689727782"), "Translator" }
+                    { new Guid("2d640b79-ccb3-4129-9b6c-4c95029e4563"), "Shipper" },
+                    { new Guid("3c10b9c5-7867-4149-8550-19e82685fb57"), "Customer" },
+                    { new Guid("440ea7fe-38e2-4a72-a7e6-021e2b2f70e6"), "Manager" },
+                    { new Guid("53109532-6e9a-428b-b10f-97bebec1b74d"), "Admin" },
+                    { new Guid("788c75fb-2955-4b4f-a05f-1dab678141af"), "Staff" },
+                    { new Guid("c22dac42-992b-402a-b678-608e62bfb584"), "Translator" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -813,14 +813,14 @@ namespace Infrastructures.Migrations
                 column: "ShipperId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shipping_AccountId",
-                table: "Shipping",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Shipping_OrderId",
                 table: "Shipping",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shipping_ShipperId",
+                table: "Shipping",
+                column: "ShipperId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transaction_AccountId",
