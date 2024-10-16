@@ -93,7 +93,8 @@ namespace Infrastructures.Mappers
 
             //Shippings
             CreateMap<Shipping, ShippingDTO>().ReverseMap();
-            CreateMap<Shipping, CUShippingDTO>().ReverseMap();
+            CreateMap<Shipping, UpdateShippingDTO>().ReverseMap();
+            CreateMap<Shipping, CreateShippingDTO>().ReverseMap();
             //PaymentMethods
             CreateMap<PaymentMethod, PaymentMethodDTO>().ReverseMap();
             CreateMap<PaymentMethod, CUPaymentMethodDTO>().ReverseMap();

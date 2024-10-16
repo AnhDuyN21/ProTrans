@@ -35,7 +35,7 @@ namespace WebAPI
             services.AddTransient<IValidator<CreateAttachmentDTO>, CreateAttachmentDTOValidation>();
 
             //Shippings
-            services.AddTransient<IValidator<CUShippingDTO>, ShippingValidation>();
+            services.AddTransient<IValidator<UpdateShippingDTO>, ShippingValidation>();
 
             services.AddMemoryCache();
             return services;
