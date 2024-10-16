@@ -77,7 +77,8 @@ namespace Infrastructures.Mappers
 
             //Documents
             CreateMap<Document, DocumentDTO>().ReverseMap();
-            CreateMap<Document, CUDocumentDTO>().ReverseMap();
+            CreateMap<Document, CreateDocumentDTO>().ReverseMap();
+            CreateMap<Document, UpdateDocumentDTO>().ReverseMap();
 
             //DocumentType
             CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
