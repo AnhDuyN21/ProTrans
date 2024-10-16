@@ -27,7 +27,8 @@ namespace Infrastructures.Repositories.TranslatorSkill
                 Id = q.Id, // Assuming you want Id in the final result
                 TranslatorId = q.TranslatorId,
                 LanguageId = q.LanguageId, // Use constructor with Name property
-                CertificateUrl = q.CertificateUrl
+                CertificateUrl = q.CertificateUrl,
+                IsDeleted = q.IsDeleted,
             })
             .AsQueryable();
             if (filter != null)
