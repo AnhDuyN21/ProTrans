@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructures.Repositories.Shippings
 {
@@ -16,5 +17,11 @@ namespace Infrastructures.Repositories.Shippings
         {
             _dbContext = context;
         }
-    }
+
+		public async Task<List<Shipping>> GetByShipperIdAsync(Guid id)
+		{
+			var result = await _dbSet.Where(x => x.ShipperId.Equals(id)).ToListAsync();
+			return result;
+		}
+	}
 }
