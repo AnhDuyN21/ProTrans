@@ -181,5 +181,35 @@ namespace Application.Services.Documents
             }
             return response;
         }
-    }
+
+		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id)
+        {
+			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
+
+			try
+			{
+				var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id);
+				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+
+				if (documentDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = documentDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No document exists.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+	}
 }

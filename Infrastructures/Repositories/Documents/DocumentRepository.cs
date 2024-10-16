@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructures.Repositories.Documents
 {
@@ -16,5 +17,10 @@ namespace Infrastructures.Repositories.Documents
         {
             _dbContext = context;
         }
-    }
+		public async Task<List<Document>> GetByOrderIdAsync(Guid id)
+		{
+			var result = await _dbSet.Where(x => x.OrderId.Equals(id)).ToListAsync();
+			return result;
+		}
+	}
 }
