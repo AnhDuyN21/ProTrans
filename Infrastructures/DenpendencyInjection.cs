@@ -103,6 +103,10 @@ using Application.Interfaces.InterfaceServices.Request;
 using Application.Services.Request;
 using Application.Interfaces.InterfaceRepositories.Request;
 using Infrastructures.Repositories.Request;
+using Application.Interfaces.InterfaceServices.Agency;
+using Application.Services.Agency;
+using Application.Interfaces.InterfaceRepositories.Agency;
+using Infrastructures.Repositories.Agency;
 
 namespace Infrastructures
 {
@@ -117,6 +121,10 @@ namespace Infrastructures
             //Accounts
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
+
+            //Agencys
+            services.AddScoped<IAgencyService, AgencyService>();
+            services.AddScoped<IAgencyRepository, AgencyRepository>();
 
             //Roles
             services.AddScoped<IRoleRepository, RoleRepository>();

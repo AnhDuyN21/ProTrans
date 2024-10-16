@@ -18,6 +18,7 @@ using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
+using Application.Interfaces.InterfaceRepositories.Agency;
 
 namespace Infrastructures
 {
@@ -43,6 +44,7 @@ namespace Infrastructures
         private readonly IAttachmentRepository _attachmentRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IRequestRepository _requestRepository;
+        private readonly IAgencyRepository _agencyRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
@@ -51,7 +53,7 @@ namespace Infrastructures
             IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository,
             IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository, IAttachmentRepository attachmentRepository,
             IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
-			ITransactionRepository transactionRepository, IRequestRepository requestRepository)
+			ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -73,8 +75,10 @@ namespace Infrastructures
             _paymentMethodRepository = paymenMethodRepository;
             _transactionRepository = transactionRepository;
             _requestRepository = requestRepository;
+            _agencyRepository = agencyRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
+        public IAgencyRepository AgencyRepository => _agencyRepository;
         public IRoleRepository RoleRepository => _roleRepository;
         public INotarizationRepository NotarizationRepository => _notarizationRepository;
         public IImageRepository ImageRepository => _imageRepository;

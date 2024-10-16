@@ -1,4 +1,5 @@
 ﻿using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.AgencyDTOs;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
 using Application.ViewModels.AttachmentDTOs;
@@ -33,6 +34,10 @@ namespace Infrastructures.Mappers
             CreateMap<Account, AccountDTO>().ReverseMap();
             CreateMap<Account, CreateAccountDTO>().ReverseMap();
             CreateMap<Account, RegisterDTO>().ReverseMap();
+
+            //Agencys
+            CreateMap<Agency, AgencyDTO>().ReverseMap();
+            CreateMap<Agency, CUAgencyDTO>().ReverseMap();
 
             //Images
             CreateMap<Image, ImageDTO>().ReverseMap();
