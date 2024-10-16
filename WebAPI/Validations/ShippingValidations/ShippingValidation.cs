@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace WebAPI.Validations.ShippingValidations
 {
-	public class ShippingValidation : AbstractValidator<CUShippingDTO>
+	public class ShippingValidation : AbstractValidator<UpdateShippingDTO>
 	{
 		public ShippingValidation()
 		{

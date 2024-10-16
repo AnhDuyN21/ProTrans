@@ -7,8 +7,8 @@ namespace Application.Interfaces.InterfaceServices.Orders
 	{
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetAllOrdersAsync();
 		public Task<ServiceResponse<OrderDTO>> GetOrderByIdAsync(Guid id);
-		public Task<ServiceResponse<OrderDTO>> UpdateOrderAsync(Guid id, CUOrderDTO order);
-		public Task<ServiceResponse<OrderDTO>> CreateOrderAsync(CUOrderDTO order);
+		public Task<ServiceResponse<OrderDTO>> UpdateOrderAsync(Guid id, UpdateOrderDTO order);
+		public Task<ServiceResponse<OrderDTO>> CreateOrderAsync(CreateOrderDTO order);
 		public Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id, string reason);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByPhoneNumberAsync(string num);
 	}

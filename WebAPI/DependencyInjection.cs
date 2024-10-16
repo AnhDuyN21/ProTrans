@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AttachmentDTOs;
+using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.ShippingDTOs;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -8,6 +9,7 @@ using System.Diagnostics;
 using WebAPI.Services;
 using WebAPI.Validations.AccountValidations;
 using WebAPI.Validations.AttachmentValidations;
+using WebAPI.Validations.OrderValidations;
 using WebAPI.Validations.ShippingValidations;
 
 namespace WebAPI
@@ -34,8 +36,11 @@ namespace WebAPI
             //AttachmentDTOs
             services.AddTransient<IValidator<CreateAttachmentDTO>, CreateAttachmentDTOValidation>();
 
+            //Orders
+            services.AddTransient<IValidator<UpdateOrderDTO>, OrderValidation>();
+
             //Shippings
-            services.AddTransient<IValidator<CUShippingDTO>, ShippingValidation>();
+            services.AddTransient<IValidator<UpdateShippingDTO>, ShippingValidation>();
 
             services.AddMemoryCache();
             return services;

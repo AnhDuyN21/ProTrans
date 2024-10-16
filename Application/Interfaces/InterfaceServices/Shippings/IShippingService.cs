@@ -7,8 +7,8 @@ namespace Application.Interfaces.InterfaceServices.Shippings
     {
         public Task<ServiceResponse<IEnumerable<ShippingDTO>>> GetAllShippingsAsync();
         public Task<ServiceResponse<ShippingDTO>> GetShippingByIdAsync(Guid id);
-        public Task<ServiceResponse<ShippingDTO>> UpdateShippingAsync(Guid id, CUShippingDTO shipping);
-        public Task<ServiceResponse<ShippingDTO>> CreateShippingAsync(CUShippingDTO shipping);
+        public Task<ServiceResponse<ShippingDTO>> UpdateShippingAsync(Guid id, UpdateShippingDTO shipping);
+        public Task<ServiceResponse<ShippingDTO>> CreateShippingAsync(CreateShippingDTO shipping);
         public Task<ServiceResponse<bool>> DeleteShippingAsync(Guid id);
     }
 }

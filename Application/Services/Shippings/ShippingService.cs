@@ -67,12 +67,13 @@ namespace Application.Services.Shippings
             return response;
         }
 
-        public async Task<ServiceResponse<ShippingDTO>> CreateShippingAsync(CUShippingDTO CUshippingDTO)
+        public async Task<ServiceResponse<ShippingDTO>> CreateShippingAsync(CreateShippingDTO CUshippingDTO)
         {
             var response = new ServiceResponse<ShippingDTO>();
             try
             {
                 var shipping = _mapper.Map<Shipping>(CUshippingDTO);
+                shipping.Status = "Preparing";
 
                 await _unitOfWork.ShippingRepository.AddAsync(shipping);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
@@ -154,7 +155,7 @@ namespace Application.Services.Shippings
             return response;
         }
 
-        public async Task<ServiceResponse<ShippingDTO>> UpdateShippingAsync(Guid id, CUShippingDTO CUshippingDTO)
+        public async Task<ServiceResponse<ShippingDTO>> UpdateShippingAsync(Guid id, UpdateShippingDTO CUshippingDTO)
         {
             var response = new ServiceResponse<ShippingDTO>();
             try
@@ -167,7 +168,20 @@ namespace Application.Services.Shippings
                     response.Message = "Shipping is not existed.";
                     return response;
                 }
-                var result = _mapper.Map(CUshippingDTO, shipping);
+
+				var properties = typeof(UpdateShippingDTO).GetProperties();
+				foreach (var property in properties)
+				{
+					var newValue = property.GetValue(CUshippingDTO);
+					var oldValue = typeof(Shipping).GetProperty(property.Name)?.GetValue(shipping);
+
+					if (newValue == null)
+					{
+						typeof(UpdateShippingDTO).GetProperty(property.Name)?.SetValue(CUshippingDTO, oldValue);
+					}
+				}
+
+				var result = _mapper.Map(CUshippingDTO, shipping);
 
                 _unitOfWork.ShippingRepository.Update(shipping);
 

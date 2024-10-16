@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Orders;
 using Application.ViewModels.OrderDTOs;
+using Application.ViewModels.ShippingDTOs;
 using AutoMapper;
 using Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
@@ -98,7 +99,7 @@ namespace Application.Services.Orders
 			return response;
 		}
 
-		public async Task<ServiceResponse<OrderDTO>> CreateOrderAsync(CUOrderDTO CUorderDTO)
+		public async Task<ServiceResponse<OrderDTO>> CreateOrderAsync(CreateOrderDTO CUorderDTO)
 		{
 			var response = new ServiceResponse<OrderDTO>();
 			try
@@ -131,7 +132,7 @@ namespace Application.Services.Orders
 				order.CreatedBy = staffId;
 				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
 				order.AgencyId = (staff != null) ? staff.AgencyId : null;
-				order.Status = "Status 1";
+				order.Status = "Preparing";
 
 				await _unitOfWork.OrderRepository.AddAsync(order);
 				if (order.Documents != null)
@@ -211,7 +212,7 @@ namespace Application.Services.Orders
 			return response;
 		}
 
-		public async Task<ServiceResponse<OrderDTO>> UpdateOrderAsync(Guid id, CUOrderDTO CUorderDTO)
+		public async Task<ServiceResponse<OrderDTO>> UpdateOrderAsync(Guid id, UpdateOrderDTO CUorderDTO)
 		{
 			var response = new ServiceResponse<OrderDTO>();
 			try
@@ -224,6 +225,19 @@ namespace Application.Services.Orders
 					response.Message = "Order is not existed.";
 					return response;
 				}
+
+				var properties = typeof(UpdateOrderDTO).GetProperties();
+				foreach (var property in properties)
+				{
+					var newValue = property.GetValue(CUorderDTO);
+					var oldValue = typeof(Order).GetProperty(property.Name)?.GetValue(order);
+
+					if (newValue == null)
+					{
+						typeof(UpdateOrderDTO).GetProperty(property.Name)?.SetValue(CUorderDTO, oldValue);
+					}
+				}
+
 				var result = _mapper.Map(CUorderDTO, order);
 
 				_unitOfWork.OrderRepository.Update(order);

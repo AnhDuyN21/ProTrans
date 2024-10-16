@@ -31,7 +31,7 @@ namespace WebAPI.Controllers.Shippings
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateShipping([FromBody] CUShippingDTO shipping)
+        public async Task<IActionResult> CreateShipping([FromBody] CreateShippingDTO shipping)
         {
             var result = await shippingService.CreateShippingAsync(shipping);
             if (result.Success)
@@ -45,7 +45,7 @@ namespace WebAPI.Controllers.Shippings
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateShipping(Guid id, [FromBody] CUShippingDTO CUshippingDTO)
+        public async Task<IActionResult> UpdateShipping(Guid id, [FromBody] UpdateShippingDTO CUshippingDTO)
         {
             var result = await shippingService.UpdateShippingAsync(id, CUshippingDTO);
             if (!result.Success)
