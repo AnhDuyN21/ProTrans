@@ -108,9 +108,9 @@ namespace Application.Services.Request
             }
             return response;
         }
-        public async Task<ServiceResponse<CreateRequestDTO>> UpdateRequestAsync(Guid id, CreateRequestDTO createRequestDTO)
+        public async Task<ServiceResponse<UpdateRequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO)
         {
-            var response = new ServiceResponse<CreateRequestDTO>();
+            var response = new ServiceResponse<UpdateRequestDTO>();
             try
             {
                 var getRequestById = await _unitOfWork.RequestRepository.GetByIdAsync(id);
@@ -120,12 +120,12 @@ namespace Application.Services.Request
                     response.Message = "Id not exist!";
                     return response;
                 }
-                var updated = _mapper.Map(createRequestDTO, getRequestById);
+                var updated = _mapper.Map(updateRequestDTO, getRequestById);
                 _unitOfWork.RequestRepository.Update(updated);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
-                    var result = _mapper.Map<CreateRequestDTO>(updated);
+                    var result = _mapper.Map<UpdateRequestDTO>(updated);
                     response.Data = result;
                     response.Success = true;
                     response.Message = "Updated successfully.";

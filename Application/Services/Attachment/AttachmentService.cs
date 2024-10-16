@@ -90,12 +90,8 @@ namespace Application.Services.Attachment
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
-                    var listAttachmentImage = await _unitOfWork.ImageRepository.GetAllAsync(x => x.AttachmentId == attachment.Id);
-                    var attachmentDTO = _mapper.Map<AttachmentDTO>(attachment);
-                    foreach(var attachmentImage in listAttachmentImage)
-                    {
-                        attachmentDTO.Images.Add(attachmentImage.ImageUrl);
-                    }
+                    var attachmentById = await _unitOfWork.AttachmentRepository.GetAsync(x => x.Id == attachment.Id, includeProperties: "Images");
+                    var attachmentDTO = _mapper.Map<AttachmentDTO>(attachmentById);
                     response.Data = attachmentDTO;
                     response.Success = true;
                     response.Message = "Attachment created successfully.";

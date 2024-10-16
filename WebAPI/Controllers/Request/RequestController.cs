@@ -43,9 +43,9 @@ namespace WebAPI.Controllers.Request
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, CreateRequestDTO createRequestDTO)
+        public async Task<IActionResult> Update(Guid id, UpdateRequestDTO updateRequestDTO)
         {
-            var result = await _service.UpdateRequestAsync(id, createRequestDTO);
+            var result = await _service.UpdateRequestAsync(id, updateRequestDTO);
             if (!result.Success)
             {
                 return NotFound(result);
