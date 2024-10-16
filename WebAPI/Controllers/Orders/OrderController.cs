@@ -42,7 +42,7 @@ namespace WebAPI.Controllers.Orders
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] CUOrderDTO order)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO order)
         {
             var result = await orderService.CreateOrderAsync(order);
             if (result.Success)
@@ -56,7 +56,7 @@ namespace WebAPI.Controllers.Orders
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] CUOrderDTO CUorderDTO)
+        public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] UpdateOrderDTO CUorderDTO)
         {
             var result = await orderService.UpdateOrderAsync(id, CUorderDTO);
             if (!result.Success)
