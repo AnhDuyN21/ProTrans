@@ -27,7 +27,8 @@ namespace Infrastructures.Repositories.Account
             Id = q.Id, // Assuming you want Id in the final result
             PricePerPage = q.PricePerPage,
             FirstLanguage = q.FirstLanguage, // Use constructor with Name property
-            SecondLanguage = q.SecondLanguage // Use constructor with Name property
+            SecondLanguage = q.SecondLanguage, // Use constructor with Name property
+            IsDeleted = q.IsDeleted,
 
         })
         .AsQueryable();

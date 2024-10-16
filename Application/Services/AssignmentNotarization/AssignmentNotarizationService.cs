@@ -103,12 +103,11 @@ namespace Application.Services.AssignmentNotarization
                 var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.IsDeleted == false);
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
+                    Id = q.Id,
                     ShipperId = q.ShipperId,
-                    CustomerName = q.Document.Order.FullName,
-                    DocumentId = q.DocumentId,
+                    Code = q.Document.Code,
+                    OrderId = q.Document.OrderId,
                     Status = q.Status,
-                    Deadline = q.Document.Order.Deadline
-
                 }));
 
                 if (AssignmentNotarizationDTOs.Count != 0)
@@ -143,11 +142,11 @@ namespace Application.Services.AssignmentNotarization
                 var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.ShipperId.Equals(Id) && x.IsDeleted == false);
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
-                    ShipperId = q.Shipper.Id,
-                    CustomerName = q.Document.Order.FullName,
-                    DocumentId = q.Document.Id,
+                    Id = q.Id,
+                    ShipperId = q.ShipperId,
+                    Code = q.Document.Code,
+                    OrderId = q.Document.OrderId,
                     Status = q.Status,
-                    Deadline = q.Document.Order.Deadline
 
                 }));
 

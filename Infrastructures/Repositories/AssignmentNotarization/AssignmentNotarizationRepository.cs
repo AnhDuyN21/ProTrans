@@ -26,10 +26,10 @@ namespace Infrastructures.Repositories.AssignmentNotarization
         {
             Id = q.Id, // Assuming you want Id in the final result
             ShipperId = q.ShipperId,
-            DocumentId = q.DocumentId,
             Document = q.Document,
             NumberOfNotarization = q.NumberOfNotarization,
             Status = q.Status,
+            IsDeleted = q.IsDeleted,
         })
         .AsQueryable();
 
