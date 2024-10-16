@@ -1,6 +1,6 @@
 ﻿namespace Application.ViewModels.DocumentDTOs
 {
-    public class CUDocumentDTO
+    public class CreateDocumentDTO
     {
         public Guid FirstLanguageId { get; set; }
         public Guid SecondLanguageId { get; set; }

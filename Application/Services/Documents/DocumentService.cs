@@ -4,6 +4,7 @@ using Application.Interfaces.InterfaceServices.Documents;
 using Application.ViewModels.DocumentDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Google.Apis.Storage.v1.Data;
 using System.Data.Common;
 
 namespace Application.Services.Documents
@@ -67,7 +68,7 @@ namespace Application.Services.Documents
             return response;
         }
 
-        public async Task<ServiceResponse<DocumentDTO>> CreateDocumentAsync(CUDocumentDTO CUdocumentDTO)
+        public async Task<ServiceResponse<DocumentDTO>> CreateDocumentAsync(CreateDocumentDTO CUdocumentDTO)
         {
             var response = new ServiceResponse<DocumentDTO>();
             try
@@ -143,7 +144,7 @@ namespace Application.Services.Documents
             return response;
         }
 
-        public async Task<ServiceResponse<DocumentDTO>> UpdateDocumentAsync(Guid id, CUDocumentDTO CUdocumentDTO)
+        public async Task<ServiceResponse<DocumentDTO>> UpdateDocumentAsync(Guid id, UpdateDocumentDTO CUdocumentDTO)
         {
             var response = new ServiceResponse<DocumentDTO>();
             try
@@ -156,7 +157,20 @@ namespace Application.Services.Documents
                     response.Message = "Document is not existed.";
                     return response;
                 }
-                var result = _mapper.Map(CUdocumentDTO, document);
+
+				var properties = typeof(UpdateDocumentDTO).GetProperties();
+				foreach (var property in properties)
+				{
+					var newValue = property.GetValue(CUdocumentDTO);
+					var oldValue = typeof(Document).GetProperty(property.Name)?.GetValue(document);
+
+					if (newValue == null)
+					{
+						typeof(UpdateDocumentDTO).GetProperty(property.Name)?.SetValue(CUdocumentDTO, oldValue);
+					}
+				}
+
+				var result = _mapper.Map(CUdocumentDTO, document);
 
                 _unitOfWork.DocumentRepository.Update(document);
 

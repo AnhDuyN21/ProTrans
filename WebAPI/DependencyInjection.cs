@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AttachmentDTOs;
+using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.ShippingDTOs;
 using FluentValidation;
@@ -9,6 +10,7 @@ using System.Diagnostics;
 using WebAPI.Services;
 using WebAPI.Validations.AccountValidations;
 using WebAPI.Validations.AttachmentValidations;
+using WebAPI.Validations.DocumentValidations;
 using WebAPI.Validations.OrderValidations;
 using WebAPI.Validations.ShippingValidations;
 
@@ -35,6 +37,9 @@ namespace WebAPI
 
             //AttachmentDTOs
             services.AddTransient<IValidator<CreateAttachmentDTO>, CreateAttachmentDTOValidation>();
+
+            //Documents
+            services.AddTransient<IValidator<UpdateDocumentDTO>, DocumentValidation>();
 
             //Orders
             services.AddTransient<IValidator<UpdateOrderDTO>, OrderValidation>();

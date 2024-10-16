@@ -140,8 +140,8 @@ namespace Application.Services.Orders
 					foreach (var doc in order.Documents)
 					{
 						doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
-						doc.NotarizationStatus = "Status 1";
-						doc.TranslationStatus = "Status 1";
+						doc.NotarizationStatus = "Preparing";
+						doc.TranslationStatus = "Preparing";
 					}
 				}
 
