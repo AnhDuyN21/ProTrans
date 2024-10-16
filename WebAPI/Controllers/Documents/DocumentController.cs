@@ -65,5 +65,16 @@ namespace WebAPI.Controllers.Documents
             }
             return Ok(result);
         }
-    }
+
+		[HttpGet("GetByOrderId")]
+		public async Task<IActionResult> GetDocumentsByOrderId(Guid id)
+		{
+			var result = await documentService.GetDocumentsByOrderIdAsync(id);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
+	}
 }
