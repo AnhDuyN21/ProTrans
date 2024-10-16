@@ -16,15 +16,15 @@ using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
-using Application.Interfaces.InterfaceRepositories.PaymentMethods;
-using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Request;
+using Application.Interfaces.InterfaceRepositories.Agency;
 
 namespace Application.Interfaces
 {
     public interface IUnitOfWork
     {
         public IAccountRepository AccountRepository { get; }
+        public IAgencyRepository AgencyRepository { get; }
         public IRoleRepository RoleRepository { get; }
         public INotarizationRepository NotarizationRepository { get; }
         public IImageRepository ImageRepository { get; }
