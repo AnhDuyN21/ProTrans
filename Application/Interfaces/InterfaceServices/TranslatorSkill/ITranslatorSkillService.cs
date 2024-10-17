@@ -10,6 +10,6 @@ namespace Application.Interfaces.InterfaceServices.TranslatorSkill
         public Task<ServiceResponse<TranslatorSkillDTO>> UpdateTranslatorSkillAsync(Guid id, CUTranslatorSkillDTO cuTranslatorSkillDTO);
         public Task<ServiceResponse<TranslatorSkillDTO>> CreateTranslatorSkillAsync(CUTranslatorSkillDTO cuTranslatorSkillDTO);
         public Task<ServiceResponse<bool>> DeleteTranslatorSkillAsync(Guid id);
-
+        public Task<ServiceResponse<IEnumerable<TranslatorSkillDTO>>> GetTranslatorSkillByLanguageAsync(Guid Id);
     }
 }
