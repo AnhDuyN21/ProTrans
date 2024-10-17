@@ -218,5 +218,43 @@ namespace Application.Services.TranslatorSkill
 
             return response;
         }
+        public async Task<ServiceResponse<IEnumerable<TranslatorSkillDTO>>> GetTranslatorSkillByLanguageAsync(Guid Id)
+        {
+            var response = new ServiceResponse<IEnumerable<TranslatorSkillDTO>>();
+
+            try
+            {
+                var translatorSkillById = await _unitOfWork.TranslatorSkillRepository.GetAllAsync(x => x.LanguageId.Equals(Id) && x.IsDeleted == false);
+                var translatorSkillDTOs = _mapper.Map<List<TranslatorSkillDTO>>(translatorSkillById.Select(ts => new TranslatorSkillDTO
+                {
+                    Id = ts.Id,
+                    TranslatorId = ts.TranslatorId,
+                    LanguageId = ts.LanguageId,
+                    CertificateUrl = ts.CertificateUrl
+                }));
+
+                if (translatorSkillById == null)
+                {
+                    response.Success = false;
+                    response.Message = "Translator skills not found";
+
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Translator skill retrieved successfully ";
+                    response.Data = translatorSkillDTOs;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
     }
 }

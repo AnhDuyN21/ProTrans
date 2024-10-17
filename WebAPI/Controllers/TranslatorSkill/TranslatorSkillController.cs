@@ -11,7 +11,12 @@ namespace WebAPI.Controllers.TranslatorSkill
         {
             _translatorSkillService = TranslatorSkillService;
         }
-
+        [HttpGet("Get-By-Language")]
+        public async Task<IActionResult> GetTranslatorSkillList(Guid id)
+        {
+            var result = await _translatorSkillService.GetTranslatorSkillByLanguageAsync(id);
+            return Ok(result);
+        }
         [HttpGet]
         public async Task<IActionResult> GetTranslatorSkillList()
         {
