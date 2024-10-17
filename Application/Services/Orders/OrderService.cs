@@ -116,7 +116,7 @@ namespace Application.Services.Orders
 						{
 							order.TotalPrice += quotePrice.PricePerPage.Value * doc.PageNumber * documentType.PriceFactor;
 						}
-						order.TotalPrice += (doc.NumberOfCopies - 1) * 10000;
+						order.TotalPrice += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
 						if (doc.NotarizationRequest)
 						{
 							var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId);
