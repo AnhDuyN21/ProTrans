@@ -12,5 +12,6 @@ namespace Application.Interfaces.InterfaceServices.Account
         Task<ServiceResponse<AccountDTO>> UpdateAccountAsync(Guid id, AccountDTO accountDTO);
         Task<ServiceResponse<AccountDTO>> RegisterAsync(RegisterDTO registerDTO);
         Task<ServiceResponse<string>> LoginAsync(LoginDTO loginDTO);
+        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorsByLanguageId(Guid id);
     }
 }
