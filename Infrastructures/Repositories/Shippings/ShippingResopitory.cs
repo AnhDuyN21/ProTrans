@@ -18,10 +18,10 @@ namespace Infrastructures.Repositories.Shippings
             _dbContext = context;
         }
 
-		public async Task<List<Shipping>> GetByShipperIdAsync(Guid id)
-		{
-			var result = await _dbSet.Where(x => x.ShipperId.Equals(id)).ToListAsync();
-			return result;
-		}
-	}
+        public async Task<List<Shipping>> GetByShipperIdAsync(Guid id)
+        {
+            var result = await _dbSet.Where(x => x.ShipperId.Equals(id)).ToListAsync();
+            return result;
+        }
+    }
 }

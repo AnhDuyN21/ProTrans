@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Application.ViewModels.AttachmentDTOs
+﻿namespace Application.ViewModels.AttachmentDTOs
 {
     public class CreateAttachmentDTO
     {

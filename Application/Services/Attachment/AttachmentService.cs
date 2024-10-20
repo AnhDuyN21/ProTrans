@@ -1,11 +1,8 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Attachment;
-using Application.Interfaces.InterfaceServices.Image;
 using Application.ViewModels.AttachmentDTOs;
 using AutoMapper;
-using Domain.Entities;
-using Microsoft.IdentityModel.Tokens;
 using System.Data.Common;
 
 namespace Application.Services.Attachment
@@ -14,7 +11,7 @@ namespace Application.Services.Attachment
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
- 
+
         public AttachmentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -69,7 +66,7 @@ namespace Application.Services.Attachment
             }
             return response;
         }
-        public async Task<ServiceResponse<AttachmentDTO>> CreateAttachmentAsync(Guid requestId ,CreateAttachmentDTO createAttachmentDTO)
+        public async Task<ServiceResponse<AttachmentDTO>> CreateAttachmentAsync(Guid requestId, CreateAttachmentDTO createAttachmentDTO)
         {
             var response = new ServiceResponse<AttachmentDTO>();
             try

@@ -28,7 +28,7 @@ namespace Infrastructures.Repositories.Account
         public string CheckRoleNameByRoleId(Guid roleId)
         {
             var role = _dbContext.Role.FirstOrDefault(u => u.Id == roleId);
-            if(role == null)
+            if (role == null)
             {
                 return "Id không tồn tại";
             }

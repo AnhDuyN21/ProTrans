@@ -1,6 +1,4 @@
-﻿using Application.ViewModels.DocumentDTOs;
-
-namespace Application.ViewModels.OrderDTOs
+﻿namespace Application.ViewModels.OrderDTOs
 {
     public class UpdateOrderDTO
     {

@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Account;
+using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Attachment;
@@ -13,12 +14,11 @@ using Application.Interfaces.InterfaceRepositories.Notification;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.QuotePrice;
+using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
-using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
-using Application.Interfaces.InterfaceRepositories.Agency;
 
 namespace Infrastructures
 {
@@ -53,7 +53,7 @@ namespace Infrastructures
             IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository,
             IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository, IAttachmentRepository attachmentRepository,
             IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
-			ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository)
+            ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;

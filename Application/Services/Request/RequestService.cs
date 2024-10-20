@@ -1,15 +1,9 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Request;
-using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.RequestDTOs;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.Request
 {

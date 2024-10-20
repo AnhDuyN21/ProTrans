@@ -18,6 +18,6 @@ namespace Application.ViewModels.AttachmentDTOs
         public string? DocumentPath { get; set; }
         public decimal? Price { get; set; }
         public bool IsDeleted { get; set; }
-        public List<ImageDTO>? Images { get; set; } 
+        public List<ImageDTO>? Images { get; set; }
     }
 }
