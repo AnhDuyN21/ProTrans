@@ -17,10 +17,10 @@ namespace Infrastructures.Repositories.Documents
         {
             _dbContext = context;
         }
-		public async Task<List<Document>> GetByOrderIdAsync(Guid id)
-		{
-			var result = await _dbSet.Where(x => x.OrderId.Equals(id)).ToListAsync();
-			return result;
-		}
-	}
+        public async Task<List<Document>> GetByOrderIdAsync(Guid id)
+        {
+            var result = await _dbSet.Where(x => x.OrderId.Equals(id)).ToListAsync();
+            return result;
+        }
+    }
 }

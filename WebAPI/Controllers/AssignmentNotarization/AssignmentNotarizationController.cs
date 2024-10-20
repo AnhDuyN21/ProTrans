@@ -61,6 +61,26 @@ namespace WebAPI.Controllers.assignmentNotarization
             }
             return Ok(result);
         }
+        [HttpPut("Notarize")]
+        public async Task<IActionResult> UpdateStatus2AssignmentNotarization(Guid id)
+        {
+            var result = await _assignmentNotarizationService.UpdateStatusAssignmentNotarizationAsync(id, Domain.Enums.AssignmentNotarizationStatus.Notarize);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("Completed")]
+        public async Task<IActionResult> UpdateStatus3AssignmentNotarization(Guid id)
+        {
+            var result = await _assignmentNotarizationService.UpdateStatusAssignmentNotarizationAsync(id, Domain.Enums.AssignmentNotarizationStatus.Completed);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
 
 
     }

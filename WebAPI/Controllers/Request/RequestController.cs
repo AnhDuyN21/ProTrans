@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces.InterfaceServices.Request;
-using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.RequestDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Request

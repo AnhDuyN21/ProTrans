@@ -1,16 +1,9 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Agency;
-using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AgencyDTOs;
-using Application.ViewModels.DocumentTypeDTOs;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.Agency
 {

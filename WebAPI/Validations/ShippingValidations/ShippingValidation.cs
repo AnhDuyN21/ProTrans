@@ -4,13 +4,13 @@ using FluentValidation;
 
 namespace WebAPI.Validations.ShippingValidations
 {
-	public class ShippingValidation : AbstractValidator<UpdateShippingDTO>
-	{
-		public ShippingValidation()
-		{
-			RuleFor(x => x.Status)
-				.Must(value => Enum.IsDefined(typeof(ShippingStatus), value))
-				.WithMessage("The status must be Preparing, Shipping or Completed.");
-		}
-	}
+    public class ShippingValidation : AbstractValidator<UpdateShippingDTO>
+    {
+        public ShippingValidation()
+        {
+            RuleFor(x => x.Status)
+                .Must(value => Enum.IsDefined(typeof(ShippingStatus), value))
+                .WithMessage("The status must be Preparing, Shipping or Completed.");
+        }
+    }
 }

@@ -4,7 +4,6 @@ using Application.Interfaces.InterfaceServices.Documents;
 using Application.ViewModels.DocumentDTOs;
 using AutoMapper;
 using Domain.Entities;
-using Google.Apis.Storage.v1.Data;
 using System.Data.Common;
 
 namespace Application.Services.Documents
@@ -158,19 +157,19 @@ namespace Application.Services.Documents
                     return response;
                 }
 
-				var properties = typeof(UpdateDocumentDTO).GetProperties();
-				foreach (var property in properties)
-				{
-					var newValue = property.GetValue(CUdocumentDTO);
-					var oldValue = typeof(Document).GetProperty(property.Name)?.GetValue(document);
+                var properties = typeof(UpdateDocumentDTO).GetProperties();
+                foreach (var property in properties)
+                {
+                    var newValue = property.GetValue(CUdocumentDTO);
+                    var oldValue = typeof(Document).GetProperty(property.Name)?.GetValue(document);
 
-					if (newValue == null)
-					{
-						typeof(UpdateDocumentDTO).GetProperty(property.Name)?.SetValue(CUdocumentDTO, oldValue);
-					}
-				}
+                    if (newValue == null)
+                    {
+                        typeof(UpdateDocumentDTO).GetProperty(property.Name)?.SetValue(CUdocumentDTO, oldValue);
+                    }
+                }
 
-				var result = _mapper.Map(CUdocumentDTO, document);
+                var result = _mapper.Map(CUdocumentDTO, document);
 
                 _unitOfWork.DocumentRepository.Update(document);
 
@@ -196,34 +195,34 @@ namespace Application.Services.Documents
             return response;
         }
 
-		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id)
+        public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id)
         {
-			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
+            var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
 
-			try
-			{
-				var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id);
-				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+            try
+            {
+                var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id);
+                var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
 
-				if (documentDTOs.Count != 0)
-				{
-					response.Success = true;
-					response.Message = "Get successfully.";
-					response.Data = documentDTOs;
-				}
-				else
-				{
-					response.Success = true;
-					response.Message = "No document exists.";
-				}
-			}
-			catch (Exception ex)
-			{
-				response.Success = false;
-				response.Message = "Error.";
-				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-			}
-			return response;
-		}
-	}
+                if (documentDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "Get successfully.";
+                    response.Data = documentDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "No document exists.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+            return response;
+        }
+    }
 }

@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using AutoMapper;
+using Domain.Enums;
 using System.Data.Common;
 
 namespace Application.Services.AssignmentNotarization
@@ -22,7 +23,7 @@ namespace Application.Services.AssignmentNotarization
             try
             {
                 var assignmentNotarization = _mapper.Map<Domain.Entities.AssignmentNotarization>(cuAssignmentNotarizationDTO);
-
+                assignmentNotarization.Status = AssignmentNotarizationStatus.Waiting.ToString();
 
                 await _unitOfWork.AssignmentNotarizationRepository.AddAsync(assignmentNotarization);
 
@@ -147,7 +148,6 @@ namespace Application.Services.AssignmentNotarization
                     Code = q.Document.Code,
                     OrderId = q.Document.OrderId,
                     Status = q.Status,
-
                 }));
 
                 if (AssignmentNotarizationDTOs.Count != 0)
@@ -203,6 +203,54 @@ namespace Application.Services.AssignmentNotarization
                 if (isSuccess)
                 {
                     response.Data = _mapper.Map<AssignmentNotarizationDTO>(objectToUpdate);
+                    response.Success = true;
+                    response.Message = "AssignmentNotarization updated successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error updating the Aassignment Notarization.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<AssignmentNotarizationDTO>> UpdateStatusAssignmentNotarizationAsync(Guid id, AssignmentNotarizationStatus status)
+        {
+            var response = new ServiceResponse<AssignmentNotarizationDTO>();
+
+            try
+            {
+                var assignmentNotarizationGetById = await _unitOfWork.AssignmentNotarizationRepository.GetByIdAsync(id);
+
+                if (assignmentNotarizationGetById == null)
+                {
+                    response.Success = false;
+                    response.Message = "Assignment Notarization not found.";
+                    return response;
+                }
+                if ((bool)assignmentNotarizationGetById.IsDeleted)
+                {
+                    response.Success = false;
+                    response.Message = "Assignment Notarization is deleted in system";
+                    return response;
+                }
+                // Map assignmentNotarizationDT0 => existingUser
+                assignmentNotarizationGetById.Status = status.ToString();
+
+
+                _unitOfWork.AssignmentNotarizationRepository.Update(assignmentNotarizationGetById);
+
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    response.Data = _mapper.Map<AssignmentNotarizationDTO>(assignmentNotarizationGetById);
                     response.Success = true;
                     response.Message = "AssignmentNotarization updated successfully.";
                 }

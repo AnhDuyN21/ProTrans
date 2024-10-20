@@ -47,13 +47,13 @@ namespace Infrastructures.Repositories.TranslatorSkill
             return await query.ToListAsync();
         }
 
-		public async Task<List<Guid>> GetTranslatorIdsByLanguageIdAsync(Guid id)
+        public async Task<List<Guid>> GetTranslatorIdsByLanguageIdAsync(Guid id)
         {
-            var result = await _dbSet.Where(x => x.LanguageId  == id).Select(x => x.TranslatorId).ToListAsync();
+            var result = await _dbSet.Where(x => x.LanguageId == id).Select(x => x.TranslatorId).ToListAsync();
             return result;
         }
 
-		public async Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Expression<Func<Domain.Entities.TranslatorSkill, bool>>? filter = null, string? includeProperties = null)
+        public async Task<Domain.Entities.TranslatorSkill> GetTranslatorSkillByIdAsync(Expression<Func<Domain.Entities.TranslatorSkill, bool>>? filter = null, string? includeProperties = null)
         {
             var query = _dbSet
            .Select(q => new Domain.Entities.TranslatorSkill

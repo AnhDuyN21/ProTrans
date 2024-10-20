@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
 using Application.ViewModels.AssignmentTranslationDTOs;
 using AutoMapper;
+using Domain.Enums;
 using System.Data.Common;
 
 namespace Application.Services.AssignmentTranslation
@@ -22,7 +23,7 @@ namespace Application.Services.AssignmentTranslation
             try
             {
                 var assignmentTranslation = _mapper.Map<Domain.Entities.AssignmentTranslation>(cuAssignmentTranslationDTO);
-
+                assignmentTranslation.Status = AssignmentNotarizationStatus.Waiting.ToString();
 
                 await _unitOfWork.AssignmentTranslationRepository.AddAsync(assignmentTranslation);
 
@@ -30,7 +31,7 @@ namespace Application.Services.AssignmentTranslation
                 if (isSuccess)
                 {
                     var assignmentTranslationDTO = _mapper.Map<AssignmentTranslationDTO>(assignmentTranslation);
-                    response.Data = assignmentTranslationDTO; 
+                    response.Data = assignmentTranslationDTO;
                     response.Success = true;
                     response.Message = "Assignment Translation created successfully.";
                 }
@@ -101,14 +102,7 @@ namespace Application.Services.AssignmentTranslation
             try
             {
                 var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.IsDeleted == false);
-                var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList.Select(q => new AssignmentTranslationDTO
-                {
-                    TranslatorId = q.TranslatorId,
-                    DocumentId = q.DocumentId,
-                    Status = q.Status,
-                    Deadline = q.Deadline,
-
-                }));
+                var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList);
 
                 if (AssignmentTranslationDTOs.Count != 0)
                 {
@@ -140,14 +134,7 @@ namespace Application.Services.AssignmentTranslation
             try
             {
                 var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.TranslatorId.Equals(Id) && x.IsDeleted == false);
-                var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList.Select(q => new AssignmentTranslationDTO
-                {
-                    TranslatorId = q.TranslatorId,
-                    DocumentId = q.DocumentId,
-                    Status = q.Status,
-                    Deadline = q.Deadline,
-
-                }));
+                var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList);
 
                 if (AssignmentTranslationDTOs.Count != 0)
                 {
@@ -202,6 +189,54 @@ namespace Application.Services.AssignmentTranslation
                 if (isSuccess)
                 {
                     response.Data = _mapper.Map<AssignmentTranslationDTO>(objectToUpdate);
+                    response.Success = true;
+                    response.Message = "AssignmentTranslation updated successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error updating the Aassignment Translation.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<AssignmentTranslationDTO>> UpdateStatusAssignmentTranslationAsync(Guid id, AssignmentTranslationStatus status)
+        {
+            var response = new ServiceResponse<AssignmentTranslationDTO>();
+
+            try
+            {
+                var assignmentTranslationGetById = await _unitOfWork.AssignmentTranslationRepository.GetByIdAsync(id);
+
+                if (assignmentTranslationGetById == null)
+                {
+                    response.Success = false;
+                    response.Message = "Assignment Translation not found.";
+                    return response;
+                }
+                if ((bool)assignmentTranslationGetById.IsDeleted)
+                {
+                    response.Success = false;
+                    response.Message = "Assignment Translation is deleted in system";
+                    return response;
+                }
+                // Map assignmentTranslationDT0 => existingUser
+
+                assignmentTranslationGetById.Status = status.ToString();
+
+                _unitOfWork.AssignmentTranslationRepository.Update(assignmentTranslationGetById);
+
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    response.Data = _mapper.Map<AssignmentTranslationDTO>(assignmentTranslationGetById);
                     response.Success = true;
                     response.Message = "AssignmentTranslation updated successfully.";
                 }

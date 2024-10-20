@@ -57,8 +57,8 @@ namespace Application.Services.Notification
 
         public async Task<string> GetRoleStringAsync(Guid RoleId)
         {
-            var response = await _unitOfWork.NotificationRepository.GetRoleStringAsync(a => a.Id.Equals(RoleId));
-            var roleName = response.Name;
+            var response = _unitOfWork.RoleRepository.GetRoleName(RoleId);
+            var roleName = response;
             return roleName;
         }
 

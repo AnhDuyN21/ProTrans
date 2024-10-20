@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.InterfaceServices.AssignmentTranslation;
 using Application.ViewModels.AssignmentTranslationDTOs;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.assignmentTranslation
@@ -61,7 +62,26 @@ namespace WebAPI.Controllers.assignmentTranslation
             }
             return Ok(result);
         }
-
+        [HttpPut("Translating")]
+        public async Task<IActionResult> UpdateStatusAssignmentTranslation1(Guid id)
+        {
+            var result = await _assignmentTranslationService.UpdateStatusAssignmentTranslationAsync(id, AssignmentTranslationStatus.Translating);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("Complete")]
+        public async Task<IActionResult> UpdateStatusAssignmentTranslation2(Guid id)
+        {
+            var result = await _assignmentTranslationService.UpdateStatusAssignmentTranslationAsync(id, AssignmentTranslationStatus.Completed);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
 
     }
 }

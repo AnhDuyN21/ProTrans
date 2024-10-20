@@ -11,5 +11,5 @@ namespace Application.Interfaces.InterfaceServices.Documents
         public Task<ServiceResponse<DocumentDTO>> CreateDocumentAsync(CreateDocumentDTO document);
         public Task<ServiceResponse<bool>> DeleteDocumentAsync(Guid id);
         public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id);
-	}
+    }
 }

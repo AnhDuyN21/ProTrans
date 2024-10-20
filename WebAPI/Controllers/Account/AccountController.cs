@@ -11,22 +11,22 @@ namespace WebAPI.Controllers.Account
         {
             _accountService = accountService;
         }
-		
-		[HttpGet]
+
+        [HttpGet]
         public async Task<IActionResult> GetAccountList()
         {
             var result = await _accountService.GetAccountAsync();
             return Ok(result);
         }
 
-		[HttpGet("GetByLanguageId")]
-		public async Task<IActionResult> GetTranslatorsByLanguageId(Guid id)
-		{
-			var result = await _accountService.GetTranslatorsByLanguageId(id);
-			return Ok(result);
-		}
+        [HttpGet("GetByLanguageId")]
+        public async Task<IActionResult> GetTranslatorsByLanguageId(Guid id)
+        {
+            var result = await _accountService.GetTranslatorsByLanguageId(id);
+            return Ok(result);
+        }
 
-		[HttpGet("{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(Guid id)
         {
             var result = await _accountService.GetAccountByIdAsync(id);

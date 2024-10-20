@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.ViewModels.RequestDTOs
+﻿namespace Application.ViewModels.RequestDTOs
 {
     public class RequestDTO
     {
@@ -16,7 +10,7 @@ namespace Application.ViewModels.RequestDTOs
         public string? Status { get; set; }
         public bool? IsConfirmed { get; set; }
         public bool? PickUpRequest { get; set; }
-        public bool ShipRequest { get; set; } 
+        public bool ShipRequest { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

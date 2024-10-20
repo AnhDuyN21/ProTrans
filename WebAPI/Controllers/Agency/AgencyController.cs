@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces.InterfaceServices.Agency;
 using Application.ViewModels.AgencyDTOs;
-using Application.ViewModels.DocumentTypeDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Agency

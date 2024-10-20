@@ -62,26 +62,5 @@ namespace Infrastructures.Repositories.Notification
 
             return;
         }
-        public async Task<Domain.Entities.Role> GetRoleStringAsync(Expression<Func<Domain.Entities.Role, bool>>? filter = null, string? includeProperties = null)
-        {
-            IQueryable<Domain.Entities.Role> query = _context.Role;
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (includeProperties != null)
-            {
-                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(includeProp);
-
-                }
-            }
-
-            return await query.FirstOrDefaultAsync();
-
-
-        }
     }
 }

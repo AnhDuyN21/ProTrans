@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace Application.ViewModels.AssignmentNotarizationDTOs
+﻿namespace Application.ViewModels.AssignmentNotarizationDTOs
 {
     public class AssignmentNotarizationDTO
     {
@@ -10,6 +8,5 @@ namespace Application.ViewModels.AssignmentNotarizationDTOs
         public string? Code { get; set; }
         public int NumberOfNotarization { get; set; }
         public string Status { get; set; }
-        public DateTime? Deadline { get; set; }
     }
 }
