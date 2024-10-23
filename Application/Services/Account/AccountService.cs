@@ -402,5 +402,36 @@ namespace Application.Services.Account
             }
             return "không thể tạo code";
         }
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountByRoleAsync(Guid id,Guid agencyId)
+        {
+            var response = new ServiceResponse<IEnumerable<AccountDTO>>();
+
+            try
+            {
+                var accountList = await _unitOfWork.AccountRepository.GetAllAsync( x=>x.RoleId.Equals(id) && x.AgencyId.Equals(agencyId));
+                var accountDTOs = _mapper.Map<List<AccountDTO>>(accountList);
+
+                if (accountDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "Account list retrieved successfully";
+                    response.Data = accountDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have account in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
     }
 }
