@@ -26,6 +26,13 @@ namespace WebAPI.Controllers.Account
             return Ok(result);
         }
 
+        [HttpGet("GetByRoleId")]
+        public async Task<IActionResult> GetAccountByRoleId(Guid Roleid,Guid AgencyId)
+        {
+            var result = await _accountService.GetAccountByRoleAsync(Roleid,AgencyId);
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(Guid id)
         {
