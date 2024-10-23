@@ -27,9 +27,15 @@ namespace WebAPI.Controllers.Account
         }
 
         [HttpGet("GetByRoleId")]
-        public async Task<IActionResult> GetAccountByRoleId(Guid Roleid,Guid AgencyId)
+        public async Task<IActionResult> GetAccountByAgencyId(Guid AgencyId)
         {
-            var result = await _accountService.GetAccountByRoleAsync(Roleid,AgencyId);
+            var result = await _accountService.GetAccountByAgencyAsync(AgencyId);
+            return Ok(result);
+        }
+        [HttpGet("GetAllShipper")]
+        public async Task<IActionResult> GetAllShipper()
+        {
+            var result = await _accountService.GetShipperAsync();
             return Ok(result);
         }
 
