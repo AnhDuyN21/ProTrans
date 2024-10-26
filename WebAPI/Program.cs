@@ -92,11 +92,13 @@ app.UseSwaggerUI();
 app.UseCors();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
 app.MapControllers();
 
 app.UseRouting();
+app.UseAuthorization();
+app.UseAuthentication();
+
 app.UseEndpoints(endpoints =>
 {
 
@@ -104,4 +106,5 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<SignalRHub>("/notificationHub");
 
 });
+
 app.Run();
