@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.InterfaceServices.Account;
 using Application.ViewModels.AccountDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Account
@@ -12,6 +13,7 @@ namespace WebAPI.Controllers.Account
             _accountService = accountService;
         }
 
+        [Authorize(Roles ="Shipper")]
         [HttpGet]
         public async Task<IActionResult> GetAccountList()
         {

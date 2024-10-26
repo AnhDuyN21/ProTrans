@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Enums;
 using System.Data.Common;
 
@@ -23,15 +24,17 @@ namespace Application.Services.AssignmentNotarization
             try
             {
                 var assignmentNotarization = _mapper.Map<Domain.Entities.AssignmentNotarization>(cuAssignmentNotarizationDTO);
-                assignmentNotarization.Status = AssignmentNotarizationStatus.Waiting.ToString();
-
+                var doc = await _unitOfWork.DocumentRepository.GetByIdAsync(assignmentNotarization.DocumentId);
+                assignmentNotarization.Status = AssignmentNotarizationStatus.Notarizating.ToString();
+                assignmentNotarization.NumberOfNotarization = doc.NumberOfNotarizatedCopies;
+                
                 await _unitOfWork.AssignmentNotarizationRepository.AddAsync(assignmentNotarization);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
                     var assignmentNotarizationDTO = _mapper.Map<AssignmentNotarizationDTO>(assignmentNotarization);
-                    response.Data = assignmentNotarizationDTO; // Chuyển đổi sang QuotePriceDTO
+                    response.Data = assignmentNotarizationDTO;
                     response.Success = true;
                     response.Message = "Assignment Notarization created successfully.";
                 }
@@ -109,6 +112,7 @@ namespace Application.Services.AssignmentNotarization
                     Code = q.Document.Code,
                     OrderId = q.Document.OrderId,
                     Status = q.Status,
+                    NumberOfNotarization = q.NumberOfNotarization
                 }));
 
                 if (AssignmentNotarizationDTOs.Count != 0)
@@ -148,6 +152,7 @@ namespace Application.Services.AssignmentNotarization
                     Code = q.Document.Code,
                     OrderId = q.Document.OrderId,
                     Status = q.Status,
+                    NumberOfNotarization = q.NumberOfNotarization
                 }));
 
                 if (AssignmentNotarizationDTOs.Count != 0)
@@ -195,8 +200,8 @@ namespace Application.Services.AssignmentNotarization
                 }
                 // Map assignmentNotarizationDT0 => existingUser
                 var objectToUpdate = _mapper.Map(cuAssignmentNotarizationDTO, assignmentNotarizationGetById);
-
-
+                var doc = await _unitOfWork.DocumentRepository.GetByIdAsync(assignmentNotarizationGetById.DocumentId);
+                assignmentNotarizationGetById.NumberOfNotarization = doc.NumberOfNotarizatedCopies;
                 _unitOfWork.AssignmentNotarizationRepository.Update(assignmentNotarizationGetById);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
