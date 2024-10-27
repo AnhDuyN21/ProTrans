@@ -49,10 +49,12 @@ namespace Infrastructures
             new Role { Id = Guid.NewGuid(), Name = "Translator" }
             );
             modelBuilder.Entity<Notarization>().HasData(
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Anh", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Pháp", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Nhật", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch tiếng Trung", Price = 500000 }
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng hợp đồng", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản sao", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng di chúc và thừa kế", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng giấy ủy quyền", Price = 500000 },
+            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng xác nhận chữ ký", Price = 500000 }
             );
             modelBuilder.Entity<DocumentType>().HasData(
             new DocumentType { Id = Guid.NewGuid(), Name = "Khoa học", PriceFactor = 200000 },
