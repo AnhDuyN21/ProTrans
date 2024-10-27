@@ -19,7 +19,15 @@ namespace WebAPI.Controllers.Orders
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+		[HttpGet("GetCompletedOrders")]
+		public async Task<IActionResult> GetCompletedOrders()
+		{
+			var result = await orderService.GetCompletedOrdersAsync();
+			return Ok(result);
+		}
+
+
+		[HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {
             var result = await orderService.GetOrderByIdAsync(id);
