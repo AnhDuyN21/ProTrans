@@ -2,8 +2,7 @@
 {
     public enum AssignmentNotarizationStatus
     {
-        Waiting,
-        Notarize,
-        Completed
+        Notarizating,
+        Notarized
     }
 }

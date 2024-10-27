@@ -23,7 +23,7 @@ namespace Application.Services.AssignmentTranslation
             try
             {
                 var assignmentTranslation = _mapper.Map<Domain.Entities.AssignmentTranslation>(cuAssignmentTranslationDTO);
-                assignmentTranslation.Status = AssignmentNotarizationStatus.Waiting.ToString();
+                assignmentTranslation.Status = AssignmentTranslationStatus.Translating.ToString();
 
                 await _unitOfWork.AssignmentTranslationRepository.AddAsync(assignmentTranslation);
 
