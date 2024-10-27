@@ -26,7 +26,7 @@ namespace Application.Services.AssignmentNotarization
                 var assignmentNotarization = _mapper.Map<Domain.Entities.AssignmentNotarization>(cuAssignmentNotarizationDTO);
                 var doc = await _unitOfWork.DocumentRepository.GetByIdAsync(assignmentNotarization.DocumentId);
                 assignmentNotarization.Status = AssignmentNotarizationStatus.Notarizating.ToString();
-                assignmentNotarization.NumberOfNotarization = doc.NumberOfNotarizatedCopies;
+                assignmentNotarization.NumberOfNotarization = doc.NumberOfNotarizedCopies;
                 
                 await _unitOfWork.AssignmentNotarizationRepository.AddAsync(assignmentNotarization);
 
@@ -201,7 +201,7 @@ namespace Application.Services.AssignmentNotarization
                 // Map assignmentNotarizationDT0 => existingUser
                 var objectToUpdate = _mapper.Map(cuAssignmentNotarizationDTO, assignmentNotarizationGetById);
                 var doc = await _unitOfWork.DocumentRepository.GetByIdAsync(assignmentNotarizationGetById.DocumentId);
-                assignmentNotarizationGetById.NumberOfNotarization = doc.NumberOfNotarizatedCopies;
+                assignmentNotarizationGetById.NumberOfNotarization = doc.NumberOfNotarizedCopies;
                 _unitOfWork.AssignmentNotarizationRepository.Update(assignmentNotarizationGetById);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
