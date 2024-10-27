@@ -1,9 +1,11 @@
 ﻿namespace Domain.Enums
 {
-    public enum OrderStatus
-    {
-        Preparing,
-        Shipping,
-        Completed
-    }
+	public enum OrderStatus
+	{
+		Processing,
+		Implementing,
+		Completed,
+		Delivering,
+		Delivered
+	}
 }
