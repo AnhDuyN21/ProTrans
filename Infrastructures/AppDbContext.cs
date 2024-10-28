@@ -61,6 +61,14 @@ namespace Infrastructures
             new DocumentType { Id = Guid.NewGuid(), Name = "Trường học", PriceFactor = 200000 },
             new DocumentType { Id = Guid.NewGuid(), Name = "Hộ chiếu", PriceFactor = 200000 }
             );
+            modelBuilder.Entity<Language>().HasData(
+            new Language { Id = Guid.NewGuid(), Name = "Tiếng Anh"},
+            new Language { Id = Guid.NewGuid(), Name = "Tiếng Pháp"},
+            new Language { Id = Guid.NewGuid(), Name = "Tiếng Đức"},
+            new Language { Id = Guid.NewGuid(), Name = "Tiếng Việt"},
+            new Language { Id = Guid.NewGuid(), Name = "Tiếng Trung"},
+            new Language { Id = Guid.NewGuid(), Name = "Tiếng Tây Ban Nha"}
+            );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

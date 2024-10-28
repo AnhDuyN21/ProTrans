@@ -14,7 +14,7 @@ namespace Infrastructures.FluentAPIs
                 .WithMany(x => x.TranslatorSkills)
                 .HasForeignKey(x => x.LanguageId);
 
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.Translator)
                 .WithMany(x => x.TranslatorSkills)
                 .HasForeignKey(x => x.TranslatorId);
         }

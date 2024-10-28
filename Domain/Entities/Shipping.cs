@@ -4,7 +4,7 @@
     {
         public Guid ShipperId { get; set; }
         public Guid OrderId { get; set; }
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
         public string Status { get; set; }
         public virtual Account? Shipper { get; set; }
         public virtual Order? Order { get; set; }
