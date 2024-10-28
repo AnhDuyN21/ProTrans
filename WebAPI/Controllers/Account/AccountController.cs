@@ -39,6 +39,18 @@ namespace WebAPI.Controllers.Account
             var result = await _accountService.GetShipperAsync();
             return Ok(result);
         }
+        [HttpGet("GetAllTranslator")]
+        public async Task<IActionResult> GetAllTranslator()
+        {
+            var result = await _accountService.GetTranslatorAsync();
+            return Ok(result);
+        }
+        [HttpGet("GetStaffAndShipper")]
+        public async Task<IActionResult> GetStaffAndShipper()
+        {
+            var result = await _accountService.GetStaffAndShipperAsync();
+            return Ok(result);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(Guid id)
