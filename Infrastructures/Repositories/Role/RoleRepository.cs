@@ -19,9 +19,9 @@ namespace Infrastructures.Repositories.Role
             var role = _dbContext.Role.Where(r => r.Id == roleId).FirstOrDefault();
             return role.Name;
         }
-        public Guid GetIdCustomerRole()
+        public Guid GetRoleIdByName(string roleName)
         {
-            var customerRole = _dbContext.Role.FirstOrDefault(r => r.Name == "Customer");
+            var customerRole = _dbContext.Role.FirstOrDefault(r => r.Name == roleName);
             return customerRole.Id;
         }
 

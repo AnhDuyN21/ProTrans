@@ -13,7 +13,6 @@ namespace WebAPI.Controllers.Account
             _accountService = accountService;
         }
 
-        [Authorize(Roles ="Shipper")]
         [HttpGet]
         public async Task<IActionResult> GetAccountList()
         {
@@ -28,7 +27,7 @@ namespace WebAPI.Controllers.Account
             return Ok(result);
         }
 
-        [HttpGet("GetByRoleId")]
+        [HttpGet("GetByAgencyId")]
         public async Task<IActionResult> GetAccountByAgencyId(Guid AgencyId)
         {
             var result = await _accountService.GetAccountByAgencyAsync(AgencyId);
@@ -55,6 +54,19 @@ namespace WebAPI.Controllers.Account
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDTO createdAccountDTO)
         {
             var result = await _accountService.CreateAccountAsync(createdAccountDTO);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
+        [HttpPost("Translator")]
+        public async Task<IActionResult> CreateTranslator([FromBody] CreateTranslatorDTO createTranslatorDTO)
+        {
+            var result = await _accountService.CreateTranslatorAccountAsync(createTranslatorDTO);
             if (result.Success)
             {
                 return Ok(result);

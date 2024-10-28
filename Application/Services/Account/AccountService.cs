@@ -326,7 +326,7 @@ namespace Application.Services.Account
                 var newAccount = _mapper.Map<Domain.Entities.Account>(registerDTO);
                 newAccount.Password = Utils.HashPassword.HashWithSHA256(registerDTO.Password);
                 //Code
-                var roleId = _unitOfWork.RoleRepository.GetIdCustomerRole();
+                var roleId = _unitOfWork.RoleRepository.GetRoleIdByName("Customer");
                 var codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(GenerateRandomCode(roleId));
                 string newCode;
                 do
@@ -336,7 +336,7 @@ namespace Application.Services.Account
                 }
                 while (codeExist);
                 newAccount.Code = newCode;
-                newAccount.RoleId = _unitOfWork.RoleRepository.GetIdCustomerRole();
+                newAccount.RoleId = _unitOfWork.RoleRepository.GetRoleIdByName("Customer");
                 await _unitOfWork.AccountRepository.AddAsync(newAccount);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
@@ -453,6 +453,79 @@ namespace Application.Services.Account
                     response.Success = true;
                     response.Message = "Not have account in list";
                 }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<CreateTranslatorDTO>> CreateTranslatorAccountAsync(CreateTranslatorDTO createTranslatorDTO)
+        {
+            var response = new ServiceResponse<CreateTranslatorDTO>();
+            try
+            {
+                var emailExsit = await _unitOfWork.AccountRepository.CheckEmailNameExited(createTranslatorDTO.Email);
+                if (emailExsit)
+                {
+                    response.Success = false;
+                    response.Message = "Email is existed, Create Fail";
+                    return response;
+                }
+                var phoneExsit = await _unitOfWork.AccountRepository.CheckPhoneNumberExited(createTranslatorDTO.PhoneNumber);
+                if (phoneExsit)
+                {
+                    response.Success = false;
+                    response.Message = "PhoneNumber is existed, Create Fail";
+                    return response;
+                }
+                var newAccount = _mapper.Map<Domain.Entities.Account>(createTranslatorDTO);
+                newAccount.Password = Utils.HashPassword.HashWithSHA256(createTranslatorDTO.Password);
+                //Code
+                var roleId = _unitOfWork.RoleRepository.GetRoleIdByName("Translator");
+                var codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(GenerateRandomCode(roleId));
+                string newCode;
+                do
+                {
+                    newCode = GenerateRandomCode(roleId);
+                    codeExist = await _unitOfWork.AccountRepository.CheckCodeExited(newCode);
+                }
+                while (codeExist);
+                newAccount.Code = newCode;
+                newAccount.RoleId = _unitOfWork.RoleRepository.GetRoleIdByName("Translator");
+                //Skills
+                if(createTranslatorDTO.Skills != null)
+                {
+                    foreach(var skill in createTranslatorDTO.Skills)
+                    {
+                        var mappedObject = _mapper.Map<Domain.Entities.TranslatorSkill>(skill);
+                        mappedObject.TranslatorId = newAccount.Id;
+                        await _unitOfWork.TranslatorSkillRepository.AddAsync(mappedObject);
+                    }
+                }
+                await _unitOfWork.AccountRepository.AddAsync(newAccount);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var result = _mapper.Map<CreateTranslatorDTO>(newAccount);
+                    response.Data = result;
+                    response.Success = true;
+                    response.Message = "Success !";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving the account.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
 
             }
             catch (Exception ex)

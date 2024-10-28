@@ -3,6 +3,6 @@
     public interface IRoleRepository
     {
         string GetRoleName(Guid roleId);
-        Guid GetIdCustomerRole();
+        public Guid GetRoleIdByName(string roleName);
     }
 }

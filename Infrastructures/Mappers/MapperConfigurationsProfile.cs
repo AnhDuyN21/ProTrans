@@ -34,6 +34,7 @@ namespace Infrastructures.Mappers
             CreateMap<Account, AccountDTO>().ReverseMap();
             CreateMap<Account, CreateAccountDTO>().ReverseMap();
             CreateMap<Account, RegisterDTO>().ReverseMap();
+            CreateMap<Account, CreateTranslatorDTO>().ReverseMap();
 
             //Agencys
             CreateMap<Agency, AgencyDTO>().ReverseMap();
@@ -62,6 +63,7 @@ namespace Infrastructures.Mappers
             //TranslatorSkills
             CreateMap<TranslatorSkill, TranslatorSkillDTO>().ReverseMap();
             CreateMap<TranslatorSkill, CUTranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslatorSkill, CreateTranslatorSkillDTO>().ReverseMap();
 
             //Notificaitons
             CreateMap<Notification, SendNotificationDTO>().ReverseMap();
