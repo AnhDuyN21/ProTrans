@@ -511,8 +511,6 @@ namespace Application.Services.Account
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
-                    var result = _mapper.Map<CreateTranslatorDTO>(newAccount);
-                    response.Data = result;
                     response.Success = true;
                     response.Message = "Success !";
                 }
