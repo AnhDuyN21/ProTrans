@@ -2,8 +2,8 @@
 
 namespace Application.Interfaces.InterfaceRepositories.Shippings
 {
-    public interface IShippingRepository : IGenericRepository<Shipping>
+    public interface IShippingRepository : IGenericRepository<AssignmentShipping>
     {
-        Task<List<Shipping>> GetByShipperIdAsync(Guid id);
+        Task<List<AssignmentShipping>> GetByShipperIdAsync(Guid id);
     }
 }

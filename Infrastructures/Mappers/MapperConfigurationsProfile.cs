@@ -2,11 +2,9 @@
 using Application.ViewModels.AgencyDTOs;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
-using Application.ViewModels.AttachmentDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.FeedbackDTOs;
-using Application.ViewModels.ImageDTOs;
 using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using Application.ViewModels.NotificationDTOs;
@@ -27,10 +25,6 @@ namespace Infrastructures.Mappers
     {
         public MapperConfigurationsProfile()
         {
-            //Attachments
-            CreateMap<Attachment, AttachmentDTO>().ReverseMap();
-            CreateMap<Attachment, CreateAttachmentDTO>().ReverseMap();
-
             //Accounts
             CreateMap<Account, AccountDTO>().ReverseMap();
             CreateMap<Account, CreateAccountDTO>().ReverseMap();
@@ -41,8 +35,6 @@ namespace Infrastructures.Mappers
             CreateMap<Agency, AgencyDTO>().ReverseMap();
             CreateMap<Agency, CUAgencyDTO>().ReverseMap();
 
-            //Images
-            CreateMap<Image, ImageDTO>().ReverseMap();
 
             //Requests
             CreateMap<Request, RequestDTO>().ReverseMap();
@@ -62,9 +54,9 @@ namespace Infrastructures.Mappers
             CreateMap<Language, CULanguageDTO>().ReverseMap();
 
             //TranslatorSkills
-            CreateMap<TranslatorSkill, TranslatorSkillDTO>().ReverseMap();
-            CreateMap<TranslatorSkill, CUTranslatorSkillDTO>().ReverseMap();
-            CreateMap<TranslatorSkill, CreateTranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslationSkill, TranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslationSkill, CUTranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslationSkill, CreateTranslatorSkillDTO>().ReverseMap();
 
             //Notificaitons
             CreateMap<Notification, SendNotificationDTO>().ReverseMap();
@@ -97,9 +89,9 @@ namespace Infrastructures.Mappers
             CreateMap<AssignmentNotarization, AssignmentNotarizationDTO>().ReverseMap();
 
             //Shippings
-            CreateMap<Shipping, ShippingDTO>().ReverseMap();
-            CreateMap<Shipping, UpdateShippingDTO>().ReverseMap();
-            CreateMap<Shipping, CreateShippingDTO>().ReverseMap();
+            CreateMap<AssignmentShipping, ShippingDTO>().ReverseMap();
+            CreateMap<AssignmentShipping, UpdateShippingDTO>().ReverseMap();
+            CreateMap<AssignmentShipping, CreateShippingDTO>().ReverseMap();
             //PaymentMethods
             CreateMap<PaymentMethod, PaymentMethodDTO>().ReverseMap();
             CreateMap<PaymentMethod, CUPaymentMethodDTO>().ReverseMap();

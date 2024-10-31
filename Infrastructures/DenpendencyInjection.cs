@@ -3,11 +3,9 @@ using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
-using Application.Interfaces.InterfaceRepositories.Attachment;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
-using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Notification;
@@ -18,17 +16,15 @@ using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
-using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
+using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 using Application.Interfaces.InterfaceServices.Account;
 using Application.Interfaces.InterfaceServices.Agency;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
-using Application.Interfaces.InterfaceServices.Attachment;
 using Application.Interfaces.InterfaceServices.Documents;
 using Application.Interfaces.InterfaceServices.DocumentType;
 using Application.Interfaces.InterfaceServices.Feedbacks;
 using Application.Interfaces.InterfaceServices.Firebase;
-using Application.Interfaces.InterfaceServices.Image;
 using Application.Interfaces.InterfaceServices.Language;
 using Application.Interfaces.InterfaceServices.Notarization;
 using Application.Interfaces.InterfaceServices.Notification;
@@ -44,12 +40,10 @@ using Application.Services.Account;
 using Application.Services.Agency;
 using Application.Services.AssignmentNotarization;
 using Application.Services.AssignmentTranslation;
-using Application.Services.Attachment;
 using Application.Services.Documents;
 using Application.Services.DocumentType;
 using Application.Services.Feedbacks;
 using Application.Services.Firebase;
-using Application.Services.Image;
 using Application.Services.Language;
 using Application.Services.Notarization;
 using Application.Services.Notification;
@@ -67,11 +61,9 @@ using Infrastructures.Repositories.Account;
 using Infrastructures.Repositories.Agency;
 using Infrastructures.Repositories.AssignmentNotarization;
 using Infrastructures.Repositories.AssignmentTranslation;
-using Infrastructures.Repositories.Attachment;
 using Infrastructures.Repositories.Documents;
 using Infrastructures.Repositories.DocumentType;
 using Infrastructures.Repositories.Feedbacks;
-using Infrastructures.Repositories.Image;
 using Infrastructures.Repositories.Language;
 using Infrastructures.Repositories.Notarization;
 using Infrastructures.Repositories.Notification;
@@ -81,7 +73,7 @@ using Infrastructures.Repositories.Request;
 using Infrastructures.Repositories.Role;
 using Infrastructures.Repositories.Shippings;
 using Infrastructures.Repositories.Transactions;
-using Infrastructures.Repositories.TranslatorSkill;
+using Infrastructures.Repositories.TranslationSkill;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -91,10 +83,6 @@ namespace Infrastructures
     {
         public static IServiceCollection AddInfrastructuresService(this IServiceCollection services, string databaseConnection)
         {
-            //Attachments
-            services.AddScoped<IAttachmentRepository, AttachmentRepository>();
-            services.AddScoped<IAttachmentService, AttachmentService>();
-
             //Accounts
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
@@ -157,9 +145,6 @@ namespace Infrastructures
             services.AddSingleton(opt => StorageClient.Create());
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 
-            //Images
-            services.AddScoped<IImageRepository, ImageRepository>();
-            services.AddScoped<IImageService, ImageService>();
 
             //Shippings
             services.AddScoped<IShippingRepository, ShippingResopitory>();

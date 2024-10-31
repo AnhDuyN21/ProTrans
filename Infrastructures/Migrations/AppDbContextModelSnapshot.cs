@@ -143,14 +143,14 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("DocumentId")
-                        .HasColumnType("uuid");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("boolean");
@@ -161,9 +161,6 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("NumberOfNotarization")
-                        .HasColumnType("integer");
-
                     b.Property<Guid>("ShipperId")
                         .HasColumnType("uuid");
 
@@ -173,11 +170,62 @@ namespace Infrastructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DocumentId");
-
                     b.HasIndex("ShipperId");
 
                     b.ToTable("AssignmentNotarization");
+                });
+
+            modelBuilder.Entity("Domain.Entities.AssignmentShipping", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ShipperId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ShipperId");
+
+                    b.ToTable("AssignmentShipping");
                 });
 
             modelBuilder.Entity("Domain.Entities.AssignmentTranslation", b =>
@@ -229,91 +277,10 @@ namespace Infrastructures.Migrations
                     b.ToTable("AssignmentTranslation");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Attachment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DocumentPath")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("DocumentTypeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("FileType")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("FirstLanguageId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("NotarizationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("NotarizationRequest")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("NumberOfCopies")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("NumberOfNotarizatedCopies")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PageNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<Guid?>("RequestId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("SecondLanguageId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DocumentTypeId");
-
-                    b.HasIndex("FirstLanguageId");
-
-                    b.HasIndex("NotarizationId");
-
-                    b.HasIndex("RequestId");
-
-                    b.HasIndex("SecondLanguageId");
-
-                    b.ToTable("Attachment");
-                });
-
             modelBuilder.Entity("Domain.Entities.Document", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("AttachmentId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Code")
@@ -384,9 +351,6 @@ namespace Infrastructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttachmentId")
-                        .IsUnique();
-
                     b.HasIndex("DocumentTypeId");
 
                     b.HasIndex("FirstLanguageId");
@@ -400,6 +364,96 @@ namespace Infrastructures.Migrations
                     b.HasIndex("SecondLanguageId");
 
                     b.ToTable("Document");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DocumentHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("oldValue")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("DocumentHistory");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DocumentPrice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal?>("NotarizationPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("TranslationPrice")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId")
+                        .IsUnique();
+
+                    b.ToTable("DocumentPrice");
                 });
 
             modelBuilder.Entity("Domain.Entities.DocumentType", b =>
@@ -439,29 +493,6 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DocumentType");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("9db98648-734b-423e-b4d4-d1b18f88bdd1"),
-                            IsDeleted = false,
-                            Name = "Khoa học",
-                            PriceFactor = 200000m
-                        },
-                        new
-                        {
-                            Id = new Guid("f349061f-506f-4e17-91ce-5ca9d7c39a6c"),
-                            IsDeleted = false,
-                            Name = "Trường học",
-                            PriceFactor = 200000m
-                        },
-                        new
-                        {
-                            Id = new Guid("4d73f2cd-6c76-4190-b53c-6e58f337a619"),
-                            IsDeleted = false,
-                            Name = "Hộ chiếu",
-                            PriceFactor = 200000m
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Feedback", b =>
@@ -509,13 +540,13 @@ namespace Infrastructures.Migrations
                     b.ToTable("Feedback");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Image", b =>
+            modelBuilder.Entity("Domain.Entities.ImageShipping", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AttachmentId")
+                    b.Property<Guid>("AssignmentShippingId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("CreatedBy")
@@ -530,8 +561,8 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("boolean");
@@ -542,11 +573,17 @@ namespace Infrastructures.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("UrlPath")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AttachmentId");
+                    b.HasIndex("AssignmentShippingId");
 
-                    b.ToTable("Image");
+                    b.HasIndex("DocumentId")
+                        .IsUnique();
+
+                    b.ToTable("ImageShipping");
                 });
 
             modelBuilder.Entity("Domain.Entities.Language", b =>
@@ -583,44 +620,6 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Language");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b9193866-c632-476f-965a-e0b2ecbc9659"),
-                            IsDeleted = false,
-                            Name = "Tiếng Anh"
-                        },
-                        new
-                        {
-                            Id = new Guid("c52254c8-8e12-48d6-a151-e07e62250a1a"),
-                            IsDeleted = false,
-                            Name = "Tiếng Pháp"
-                        },
-                        new
-                        {
-                            Id = new Guid("6b3ff685-8917-4ac5-afbd-32635e65734c"),
-                            IsDeleted = false,
-                            Name = "Tiếng Đức"
-                        },
-                        new
-                        {
-                            Id = new Guid("517de1fd-8646-4db1-a1b5-2e3b58038c5e"),
-                            IsDeleted = false,
-                            Name = "Tiếng Việt"
-                        },
-                        new
-                        {
-                            Id = new Guid("0e9ea5ea-010a-4892-bcde-d8dbff919d37"),
-                            IsDeleted = false,
-                            Name = "Tiếng Trung"
-                        },
-                        new
-                        {
-                            Id = new Guid("3de885ba-1f04-41a6-9e58-86dfc2ae5f00"),
-                            IsDeleted = false,
-                            Name = "Tiếng Tây Ban Nha"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Notarization", b =>
@@ -660,50 +659,49 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notarization");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d6cb9aa0-dc50-4cf6-9961-4b765e0fe593"),
-                            IsDeleted = false,
-                            Name = "Công chứng hợp đồng",
-                            Price = 500000m
-                        },
-                        new
-                        {
-                            Id = new Guid("a88e2875-c13c-440d-84c1-3f81e8f86df6"),
-                            IsDeleted = false,
-                            Name = "Công chứng bản dịch",
-                            Price = 500000m
-                        },
-                        new
-                        {
-                            Id = new Guid("6c952f9e-c2f2-4ba6-a219-47e42eb16b2a"),
-                            IsDeleted = false,
-                            Name = "Công chứng bản sao",
-                            Price = 500000m
-                        },
-                        new
-                        {
-                            Id = new Guid("c15b18c4-95e9-4756-ba32-f9d8102535e6"),
-                            IsDeleted = false,
-                            Name = "Công chứng di chúc và thừa kế",
-                            Price = 500000m
-                        },
-                        new
-                        {
-                            Id = new Guid("49a30a70-b14c-45ec-8edb-2481c4965af8"),
-                            IsDeleted = false,
-                            Name = "Công chứng giấy ủy quyền",
-                            Price = 500000m
-                        },
-                        new
-                        {
-                            Id = new Guid("62f5782d-c266-41b8-af36-de1b632dad32"),
-                            IsDeleted = false,
-                            Name = "Công chứng xác nhận chữ ký",
-                            Price = 500000m
-                        });
+            modelBuilder.Entity("Domain.Entities.NotarizationDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AssignmentNotarizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentNotarizationId");
+
+                    b.HasIndex("DocumentId")
+                        .IsUnique();
+
+                    b.ToTable("NotarizationDetail");
                 });
 
             modelBuilder.Entity("Domain.Entities.Notification", b =>
@@ -787,10 +785,13 @@ namespace Infrastructures.Migrations
                     b.Property<Guid?>("RequestId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("ShipRequest")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Status")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("TotalPrice")
+                    b.Property<decimal?>("TotalPrice")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
@@ -871,6 +872,9 @@ namespace Infrastructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uuid");
 
@@ -910,17 +914,14 @@ namespace Infrastructures.Migrations
                     b.Property<bool>("ShipRequest")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("ShipperId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Status")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("AccountId");
 
-                    b.HasIndex("ShipperId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Request");
                 });
@@ -938,87 +939,6 @@ namespace Infrastructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8d1dde75-c603-4dcb-b053-06d75ab06d03"),
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("7599b3c7-525e-4ca7-964a-b16cd84e55f4"),
-                            Name = "Customer"
-                        },
-                        new
-                        {
-                            Id = new Guid("3abb0cb2-48cf-479c-9678-7464e379644d"),
-                            Name = "Shipper"
-                        },
-                        new
-                        {
-                            Id = new Guid("c584bbb7-ccf9-4368-9a1d-107be580350b"),
-                            Name = "Manager"
-                        },
-                        new
-                        {
-                            Id = new Guid("e8458100-5ae7-40c5-a229-b2f8ceb15664"),
-                            Name = "Staff"
-                        },
-                        new
-                        {
-                            Id = new Guid("939c0aad-0950-4813-98f0-1f9bcab372fb"),
-                            Name = "Translator"
-                        });
-                });
-
-            modelBuilder.Entity("Domain.Entities.Shipping", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ShipperId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ShipperId");
-
-                    b.ToTable("Shipping");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transaction", b =>
@@ -1043,7 +963,7 @@ namespace Infrastructures.Migrations
                     b.ToTable("Transaction");
                 });
 
-            modelBuilder.Entity("Domain.Entities.TranslatorSkill", b =>
+            modelBuilder.Entity("Domain.Entities.TranslationSkill", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1085,7 +1005,7 @@ namespace Infrastructures.Migrations
 
                     b.HasIndex("TranslatorId");
 
-                    b.ToTable("TranslatorSkill");
+                    b.ToTable("TranslationSkill");
                 });
 
             modelBuilder.Entity("Domain.Entities.Account", b =>
@@ -1105,19 +1025,30 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.AssignmentNotarization", b =>
                 {
-                    b.HasOne("Domain.Entities.Document", "Document")
-                        .WithMany("AssignmentNotarizations")
-                        .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Account", "Shipper")
                         .WithMany("AssignmentNotarizations")
                         .HasForeignKey("ShipperId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Document");
+                    b.Navigation("Shipper");
+                });
+
+            modelBuilder.Entity("Domain.Entities.AssignmentShipping", b =>
+                {
+                    b.HasOne("Domain.Entities.Order", "Order")
+                        .WithMany("AssignmentShippings")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Account", "Shipper")
+                        .WithMany("AssignmentShippings")
+                        .HasForeignKey("ShipperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Shipper");
                 });
@@ -1137,45 +1068,8 @@ namespace Infrastructures.Migrations
                     b.Navigation("Translator");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Attachment", b =>
-                {
-                    b.HasOne("Domain.Entities.DocumentType", "DocumentType")
-                        .WithMany("Attachments")
-                        .HasForeignKey("DocumentTypeId");
-
-                    b.HasOne("Domain.Entities.Language", "FirstLanguage")
-                        .WithMany("FirstLanguage_Attachment")
-                        .HasForeignKey("FirstLanguageId");
-
-                    b.HasOne("Domain.Entities.Notarization", "Notarization")
-                        .WithMany("Attachments")
-                        .HasForeignKey("NotarizationId");
-
-                    b.HasOne("Domain.Entities.Request", "Request")
-                        .WithMany("Attachments")
-                        .HasForeignKey("RequestId");
-
-                    b.HasOne("Domain.Entities.Language", "SecondLanguage")
-                        .WithMany("SecondLanguage_Attachment")
-                        .HasForeignKey("SecondLanguageId");
-
-                    b.Navigation("DocumentType");
-
-                    b.Navigation("FirstLanguage");
-
-                    b.Navigation("Notarization");
-
-                    b.Navigation("Request");
-
-                    b.Navigation("SecondLanguage");
-                });
-
             modelBuilder.Entity("Domain.Entities.Document", b =>
                 {
-                    b.HasOne("Domain.Entities.Attachment", "Attachment")
-                        .WithOne("Document")
-                        .HasForeignKey("Domain.Entities.Document", "AttachmentId");
-
                     b.HasOne("Domain.Entities.DocumentType", "DocumentType")
                         .WithMany("Documents")
                         .HasForeignKey("DocumentTypeId");
@@ -1200,8 +1094,6 @@ namespace Infrastructures.Migrations
                         .WithMany("SecondLanguage_Document")
                         .HasForeignKey("SecondLanguageId");
 
-                    b.Navigation("Attachment");
-
                     b.Navigation("DocumentType");
 
                     b.Navigation("FirstLanguage");
@@ -1213,6 +1105,28 @@ namespace Infrastructures.Migrations
                     b.Navigation("Request");
 
                     b.Navigation("SecondLanguage");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DocumentHistory", b =>
+                {
+                    b.HasOne("Domain.Entities.Document", "Document")
+                        .WithMany("DocumentHistorys")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("Domain.Entities.DocumentPrice", b =>
+                {
+                    b.HasOne("Domain.Entities.Document", "Document")
+                        .WithOne("DocumentPrice")
+                        .HasForeignKey("Domain.Entities.DocumentPrice", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("Domain.Entities.Feedback", b =>
@@ -1234,13 +1148,40 @@ namespace Infrastructures.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Image", b =>
+            modelBuilder.Entity("Domain.Entities.ImageShipping", b =>
                 {
-                    b.HasOne("Domain.Entities.Attachment", "Attachment")
-                        .WithMany("Images")
-                        .HasForeignKey("AttachmentId");
+                    b.HasOne("Domain.Entities.AssignmentShipping", "AssignmentShipping")
+                        .WithMany("ImageShippings")
+                        .HasForeignKey("AssignmentShippingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Attachment");
+                    b.HasOne("Domain.Entities.Document", "Document")
+                        .WithOne("ImageShipping")
+                        .HasForeignKey("Domain.Entities.ImageShipping", "DocumentId");
+
+                    b.Navigation("AssignmentShipping");
+
+                    b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("Domain.Entities.NotarizationDetail", b =>
+                {
+                    b.HasOne("Domain.Entities.AssignmentNotarization", "AssignmentNotarization")
+                        .WithMany("NotarizationDetails")
+                        .HasForeignKey("AssignmentNotarizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Document", "Document")
+                        .WithOne("NotarizationDetails")
+                        .HasForeignKey("Domain.Entities.NotarizationDetail", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignmentNotarization");
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("Domain.Entities.Notification", b =>
@@ -1292,36 +1233,15 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.Request", b =>
                 {
+                    b.HasOne("Domain.Entities.Account", null)
+                        .WithMany("ShipperRequests")
+                        .HasForeignKey("AccountId");
+
                     b.HasOne("Domain.Entities.Account", "CustomerAccount")
                         .WithMany("CustomerRequests")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("Domain.Entities.Account", "ShipperAccount")
-                        .WithMany("ShipperRequests")
-                        .HasForeignKey("ShipperId");
-
                     b.Navigation("CustomerAccount");
-
-                    b.Navigation("ShipperAccount");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Shipping", b =>
-                {
-                    b.HasOne("Domain.Entities.Order", "Order")
-                        .WithMany("Shippings")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Account", "Shipper")
-                        .WithMany("Shippings")
-                        .HasForeignKey("ShipperId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Shipper");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transaction", b =>
@@ -1343,16 +1263,16 @@ namespace Infrastructures.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("Domain.Entities.TranslatorSkill", b =>
+            modelBuilder.Entity("Domain.Entities.TranslationSkill", b =>
                 {
                     b.HasOne("Domain.Entities.Language", "Language")
-                        .WithMany("TranslatorSkills")
+                        .WithMany("TranslationSkills")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Account", "Translator")
-                        .WithMany("TranslatorSkills")
+                        .WithMany("TranslationSkills")
                         .HasForeignKey("TranslatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1366,6 +1286,8 @@ namespace Infrastructures.Migrations
                 {
                     b.Navigation("AssignmentNotarizations");
 
+                    b.Navigation("AssignmentShippings");
+
                     b.Navigation("AssignmentTranslations");
 
                     b.Navigation("CustomerRequests");
@@ -1376,11 +1298,9 @@ namespace Infrastructures.Migrations
 
                     b.Navigation("ShipperRequests");
 
-                    b.Navigation("Shippings");
-
                     b.Navigation("Transactions");
 
-                    b.Navigation("TranslatorSkills");
+                    b.Navigation("TranslationSkills");
                 });
 
             modelBuilder.Entity("Domain.Entities.Agency", b =>
@@ -1390,58 +1310,59 @@ namespace Infrastructures.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Attachment", b =>
+            modelBuilder.Entity("Domain.Entities.AssignmentNotarization", b =>
                 {
-                    b.Navigation("Document");
+                    b.Navigation("NotarizationDetails");
+                });
 
-                    b.Navigation("Images");
+            modelBuilder.Entity("Domain.Entities.AssignmentShipping", b =>
+                {
+                    b.Navigation("ImageShippings");
                 });
 
             modelBuilder.Entity("Domain.Entities.Document", b =>
                 {
-                    b.Navigation("AssignmentNotarizations");
-
                     b.Navigation("AssignmentTranslations");
+
+                    b.Navigation("DocumentHistorys");
+
+                    b.Navigation("DocumentPrice");
+
+                    b.Navigation("ImageShipping");
+
+                    b.Navigation("NotarizationDetails");
                 });
 
             modelBuilder.Entity("Domain.Entities.DocumentType", b =>
                 {
-                    b.Navigation("Attachments");
-
                     b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("Domain.Entities.Language", b =>
                 {
-                    b.Navigation("FirstLanguage_Attachment");
-
                     b.Navigation("FirstLanguage_Document");
 
                     b.Navigation("FirstLanguage_QuotePrice");
-
-                    b.Navigation("SecondLanguage_Attachment");
 
                     b.Navigation("SecondLanguage_Document");
 
                     b.Navigation("SecondLanguage_QuotePrice");
 
-                    b.Navigation("TranslatorSkills");
+                    b.Navigation("TranslationSkills");
                 });
 
             modelBuilder.Entity("Domain.Entities.Notarization", b =>
                 {
-                    b.Navigation("Attachments");
-
                     b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
+                    b.Navigation("AssignmentShippings");
+
                     b.Navigation("Documents");
 
                     b.Navigation("Feedbacks");
-
-                    b.Navigation("Shippings");
 
                     b.Navigation("Transaction");
                 });
@@ -1453,8 +1374,6 @@ namespace Infrastructures.Migrations
 
             modelBuilder.Entity("Domain.Entities.Request", b =>
                 {
-                    b.Navigation("Attachments");
-
                     b.Navigation("Documents");
 
                     b.Navigation("Order");

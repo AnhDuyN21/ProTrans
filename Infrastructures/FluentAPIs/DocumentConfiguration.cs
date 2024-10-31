@@ -34,9 +34,6 @@ namespace Infrastructures.FluentAPIs
                 .WithMany(x => x.SecondLanguage_Document)
                 .HasForeignKey(x => x.SecondLanguageId);
 
-            builder.HasOne(x => x.Attachment)
-                .WithOne(x => x.Document)
-                .HasForeignKey<Document>(x => x.AttachmentId);
         }
     }
 }

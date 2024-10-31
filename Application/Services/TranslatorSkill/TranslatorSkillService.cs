@@ -21,7 +21,7 @@ namespace Application.Services.TranslatorSkill
             var response = new ServiceResponse<TranslatorSkillDTO>();
             try
             {
-                var translatorSkill = _mapper.Map<Domain.Entities.TranslatorSkill>(cuTranslatorSkillDTO);
+                var translatorSkill = _mapper.Map<Domain.Entities.TranslationSkill>(cuTranslatorSkillDTO);
 
 
                 await _unitOfWork.TranslatorSkillRepository.AddAsync(translatorSkill);
