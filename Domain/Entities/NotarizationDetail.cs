@@ -8,6 +8,7 @@ namespace Domain.Entities
 {
     public class NotarizationDetail : BaseEntity
     {
+        //Foreignkey
         public Guid AssignmentNotarizationId { get; set; }
         public Guid DocumentId { get; set; }
         //Relationship
