@@ -144,7 +144,7 @@ namespace Application.Services.AssignmentNotarization
 
             try
             {
-                var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.ShipperId.Equals(Id) && x.IsDeleted == false);
+                var AssignmentNotarizationList = await _unitOfWork.AssignmentNotarizationRepository.GetAllAssignmentNotarizationAsync(x => x.ShipperId.Equals(Id) && x.IsDeleted == false && x.Status != AssignmentNotarizationStatus.Notarized.ToString());
                 var AssignmentNotarizationDTOs = _mapper.Map<List<AssignmentNotarizationDTO>>(AssignmentNotarizationList.Select(q => new AssignmentNotarizationDTO
                 {
                     Id = q.Id,

@@ -57,6 +57,7 @@ using Application.Services.Orders;
 using Application.Services.PaymentMethods;
 using Application.Services.QuotePrice;
 using Application.Services.Request;
+using Application.Services.role;
 using Application.Services.Shippings;
 using Application.Services.Transactions;
 using Application.Services.TranslatorSkill;
@@ -170,6 +171,9 @@ namespace Infrastructures
             //Transactions
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionService, TransactionService>();
+            //Role
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRoleService, RoleService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

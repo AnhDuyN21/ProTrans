@@ -18,5 +18,6 @@ namespace Application.Interfaces.InterfaceServices.Account
         Task<ServiceResponse<CreateTranslatorDTO>> CreateTranslatorAccountAsync(CreateTranslatorDTO createTranslatorDTO);
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetStaffAndShipperAsync();
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorAsync();
+        
     }
 }

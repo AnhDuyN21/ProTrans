@@ -14,6 +14,7 @@ using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.PaymentMethodDTOs;
 using Application.ViewModels.QuotePriceDTOs;
 using Application.ViewModels.RequestDTOs;
+using Application.ViewModels.RoleDTOs;
 using Application.ViewModels.ShippingDTOs;
 using Application.ViewModels.TransactionDTOs;
 using Application.ViewModels.TranslatorSkillDTOs;
@@ -105,6 +106,8 @@ namespace Infrastructures.Mappers
             //Transactions
             CreateMap<Transaction, TransactionDTO>().ReverseMap();
             CreateMap<Transaction, CUTransactionDTO>().ReverseMap();
+            //Role
+            CreateMap<Role,RoleDTO>().ReverseMap();
 
         }
     }
