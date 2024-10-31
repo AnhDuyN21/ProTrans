@@ -14,7 +14,7 @@ namespace Infrastructures
         public DbSet<Account> Account { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Agency> Agency { get; set; }
-        public DbSet<TranslatorSkill> TranslatorSkill { get; set; }
+        public DbSet<TranslationSkill> TranslationSkill { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<QuotePrice> QuotePrice { get; set; }
         public DbSet<Document> Document { get; set; }
@@ -40,35 +40,6 @@ namespace Infrastructures
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new AttachmentConfiguration());
 
-            modelBuilder.Entity<Role>().HasData(
-            new Role { Id = Guid.NewGuid(), Name = "Admin" },
-            new Role { Id = Guid.NewGuid(), Name = "Customer" },
-            new Role { Id = Guid.NewGuid(), Name = "Shipper" },
-            new Role { Id = Guid.NewGuid(), Name = "Manager" },
-            new Role { Id = Guid.NewGuid(), Name = "Staff" },
-            new Role { Id = Guid.NewGuid(), Name = "Translator" }
-            );
-            modelBuilder.Entity<Notarization>().HasData(
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng hợp đồng", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản dịch", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng bản sao", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng di chúc và thừa kế", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng giấy ủy quyền", Price = 500000 },
-            new Notarization { Id = Guid.NewGuid(), Name = "Công chứng xác nhận chữ ký", Price = 500000 }
-            );
-            modelBuilder.Entity<DocumentType>().HasData(
-            new DocumentType { Id = Guid.NewGuid(), Name = "Khoa học", PriceFactor = 200000 },
-            new DocumentType { Id = Guid.NewGuid(), Name = "Trường học", PriceFactor = 200000 },
-            new DocumentType { Id = Guid.NewGuid(), Name = "Hộ chiếu", PriceFactor = 200000 }
-            );
-            modelBuilder.Entity<Language>().HasData(
-            new Language { Id = Guid.NewGuid(), Name = "Tiếng Anh"},
-            new Language { Id = Guid.NewGuid(), Name = "Tiếng Pháp"},
-            new Language { Id = Guid.NewGuid(), Name = "Tiếng Đức"},
-            new Language { Id = Guid.NewGuid(), Name = "Tiếng Việt"},
-            new Language { Id = Guid.NewGuid(), Name = "Tiếng Trung"},
-            new Language { Id = Guid.NewGuid(), Name = "Tiếng Tây Ban Nha"}
-            );
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

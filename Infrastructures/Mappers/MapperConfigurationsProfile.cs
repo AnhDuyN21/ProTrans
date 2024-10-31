@@ -62,9 +62,9 @@ namespace Infrastructures.Mappers
             CreateMap<Language, CULanguageDTO>().ReverseMap();
 
             //TranslatorSkills
-            CreateMap<TranslatorSkill, TranslatorSkillDTO>().ReverseMap();
-            CreateMap<TranslatorSkill, CUTranslatorSkillDTO>().ReverseMap();
-            CreateMap<TranslatorSkill, CreateTranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslationSkill, TranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslationSkill, CUTranslatorSkillDTO>().ReverseMap();
+            CreateMap<TranslationSkill, CreateTranslatorSkillDTO>().ReverseMap();
 
             //Notificaitons
             CreateMap<Notification, SendNotificationDTO>().ReverseMap();

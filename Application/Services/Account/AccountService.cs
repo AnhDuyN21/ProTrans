@@ -502,7 +502,7 @@ namespace Application.Services.Account
                 {
                     foreach(var skill in createTranslatorDTO.Skills)
                     {
-                        var mappedObject = _mapper.Map<Domain.Entities.TranslatorSkill>(skill);
+                        var mappedObject = _mapper.Map<Domain.Entities.TranslationSkill>(skill);
                         mappedObject.TranslatorId = newAccount.Id;
                         await _unitOfWork.TranslatorSkillRepository.AddAsync(mappedObject);
                     }

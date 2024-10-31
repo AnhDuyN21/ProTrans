@@ -18,7 +18,7 @@
         public virtual Role? Role { get; set; }
         public virtual ICollection<Request>? CustomerRequests { get; set; }
         public virtual ICollection<Request>? ShipperRequests { get; set; }
-        public virtual ICollection<TranslatorSkill>? TranslatorSkills { get; set; }
+        public virtual ICollection<TranslationSkill>? TranslationSkills { get; set; }
         public virtual ICollection<Feedback>? Feedbacks { get; set; }
         public virtual ICollection<Shipping>? Shippings { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }

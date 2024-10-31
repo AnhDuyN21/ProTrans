@@ -17,7 +17,7 @@ using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
-using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
+using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 
 namespace Application.Interfaces
 {

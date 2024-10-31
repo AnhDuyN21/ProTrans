@@ -18,7 +18,7 @@ using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.Shippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
-using Application.Interfaces.InterfaceRepositories.TranslatorSkill;
+using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 using Application.Interfaces.InterfaceServices.Account;
 using Application.Interfaces.InterfaceServices.Agency;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
@@ -81,7 +81,7 @@ using Infrastructures.Repositories.Request;
 using Infrastructures.Repositories.Role;
 using Infrastructures.Repositories.Shippings;
 using Infrastructures.Repositories.Transactions;
-using Infrastructures.Repositories.TranslatorSkill;
+using Infrastructures.Repositories.TranslationSkill;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
