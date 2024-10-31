@@ -28,5 +28,7 @@
         public virtual NotarizationDetail? NotarizationDetails { get; set; }
         public Language? FirstLanguage { get; set; }
         public Language? SecondLanguage { get; set; }
+        public virtual ImageShipping? ImageShipping { get; set; }
+        public virtual ICollection<DocumentHistory>? DocumentHistorys { get; set; }
     }
 }

@@ -19,10 +19,12 @@ namespace Infrastructures
         public DbSet<QuotePrice> QuotePrice { get; set; }
         public DbSet<Document> Document { get; set; }
         public DbSet<DocumentType> DocumentType { get; set; }
+        public DbSet<DocumentHistory> DocumentHistory { get; set; }
         public DbSet<Notarization> Notarization { get; set; }
         public DbSet<NotarizationDetail> NotarizationDetail { get; set; }
         public DbSet<Request> Request { get; set; }
         public DbSet<Order> Order { get; set; }
+        public DbSet<ImageShipping> ImageShipping { get; set; }
         public DbSet<AssignmentTranslation> AssignmentTranslation { get; set; }
         public DbSet<AssignmentNotarization> AssignmentNotarization { get; set; }
         public DbSet<AssignmentShipping> AssignmentShipping { get; set; }

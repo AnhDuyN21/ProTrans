@@ -18,5 +18,6 @@ namespace Domain.Entities
         //Relationship
         public virtual Account? Shipper { get; set; }
         public virtual Order? Order { get; set; }
+        public virtual ICollection<ImageShipping>? ImageShippings { get; set; }
     }
 }
