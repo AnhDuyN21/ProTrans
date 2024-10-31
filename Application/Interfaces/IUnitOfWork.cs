@@ -5,7 +5,6 @@ using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
-using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Notification;
@@ -26,7 +25,6 @@ namespace Application.Interfaces
         public IAgencyRepository AgencyRepository { get; }
         public IRoleRepository RoleRepository { get; }
         public INotarizationRepository NotarizationRepository { get; }
-        public IImageRepository ImageRepository { get; }
         public IQuotePriceRepository QuotePriceRepository { get; }
         public ILanguageRepository LanguageRepository { get; }
         public ITranslatorSkillRepository TranslatorSkillRepository { get; }

@@ -25,7 +25,6 @@ namespace Infrastructures
         public DbSet<Order> Order { get; set; }
         public DbSet<AssignmentTranslation> AssignmentTranslation { get; set; }
         public DbSet<AssignmentNotarization> AssignmentNotarization { get; set; }
-        public DbSet<Image> Image { get; set; }
         public DbSet<AssignmentShipping> AssignmentShipping { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
         public DbSet<Transaction> Transaction { get; set; }

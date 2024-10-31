@@ -5,7 +5,6 @@ using Application.ViewModels.AssignmentTranslationDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.FeedbackDTOs;
-using Application.ViewModels.ImageDTOs;
 using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using Application.ViewModels.NotificationDTOs;
@@ -36,8 +35,6 @@ namespace Infrastructures.Mappers
             CreateMap<Agency, AgencyDTO>().ReverseMap();
             CreateMap<Agency, CUAgencyDTO>().ReverseMap();
 
-            //Images
-            CreateMap<Image, ImageDTO>().ReverseMap();
 
             //Requests
             CreateMap<Request, RequestDTO>().ReverseMap();

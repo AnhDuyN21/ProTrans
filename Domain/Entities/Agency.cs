@@ -2,6 +2,7 @@
 {
     public class Agency : BaseEntity
     {
+        //Field
         public string Name { get; set; }
         public string Address { get; set; }
         //Relationship

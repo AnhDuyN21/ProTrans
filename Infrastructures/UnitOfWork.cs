@@ -6,7 +6,6 @@ using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
-using Application.Interfaces.InterfaceRepositories.Image;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.Notification;
@@ -36,7 +35,6 @@ namespace Infrastructures
         private readonly IDocumentRepository _documentRepository;
         private readonly IDocumentTypeRepository _documentTypeRepository;
         private readonly IOrderRepository _orderRepository;
-        private readonly IImageRepository _imageRepository;
         private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
         private readonly IShippingRepository _shippingRepository;
         private readonly IPaymentMethodRepository _paymentMethodRepository;
@@ -48,7 +46,7 @@ namespace Infrastructures
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
             IAssignmentTranslationRepository assignmentTranslationRepository,
             IDocumentRepository documentReository, IOrderRepository orderRepository,
-            IImageRepository imageRepository, IAssignmentNotarizationRepository assignmentNotarizationRepository,
+            IAssignmentNotarizationRepository assignmentNotarizationRepository,
             IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository,
             IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
             ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository)
@@ -57,7 +55,6 @@ namespace Infrastructures
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _notarizationRepository = notarizationRepository;
-            _imageRepository = imageRepository;
             _quotePriceRepository = quotePriceRepository;
             _translatorSkillRepository = translatorSkillRepository;
             _notificationRepository = notificationRepository;
@@ -78,7 +75,6 @@ namespace Infrastructures
         public IAgencyRepository AgencyRepository => _agencyRepository;
         public IRoleRepository RoleRepository => _roleRepository;
         public INotarizationRepository NotarizationRepository => _notarizationRepository;
-        public IImageRepository ImageRepository => _imageRepository;
         public IQuotePriceRepository QuotePriceRepository => _quotePriceRepository;
         public ILanguageRepository LanguageRepository => _languageRepository;
         public ITranslatorSkillRepository TranslatorSkillRepository => _translatorSkillRepository;
