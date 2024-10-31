@@ -13,9 +13,6 @@ namespace Infrastructures.FluentAPIs
                 .WithMany(x => x.AssignmentNotarizations)
                 .HasForeignKey(x => x.ShipperId);
 
-            builder.HasOne(x => x.Document)
-                .WithMany(x => x.AssignmentNotarizations)
-                .HasForeignKey(x => x.DocumentId);
         }
     }
 }
