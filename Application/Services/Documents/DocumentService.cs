@@ -48,7 +48,7 @@ namespace Application.Services.Documents
 			return response;
 		}
 
-		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizatedAsync()
+		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedAsync()
 		{
 			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
 
@@ -233,6 +233,37 @@ namespace Application.Services.Documents
 			try
 			{
 				var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id);
+				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+
+				if (documentDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = documentDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No document exists.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByOrderIdAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
+
+			try
+			{
+				var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id);
+				var targetDocuments = documents.Where(x => x.NotarizationRequest).ToList();
 				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
 
 				if (documentDTOs.Count != 0)
