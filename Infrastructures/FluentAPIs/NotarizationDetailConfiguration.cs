@@ -16,10 +16,11 @@ namespace Infrastructures.FluentAPIs
             builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.AssignmentNotarization)
-                .WithMany(x => x.NotarizationDetails);
+                .WithMany(x => x.NotarizationDetails)
+                .HasForeignKey(x => x.AssignmentNotarizationId);
 
             builder.HasOne(x => x.Document)
-                .WithMany(x => x.NotarizationDetails);
+                .WithOne(x => x.NotarizationDetails);
 
         }
     }

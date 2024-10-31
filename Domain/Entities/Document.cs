@@ -25,7 +25,7 @@
         public virtual Notarization? Notarization { get; set; }
         public virtual DocumentType? DocumentType { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
-        public virtual ICollection<NotarizationDetail>? NotarizationDetails { get; set; }
+        public virtual NotarizationDetail? NotarizationDetails { get; set; }
         public Language? FirstLanguage { get; set; }
         public Language? SecondLanguage { get; set; }
     }
