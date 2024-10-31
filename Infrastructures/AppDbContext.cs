@@ -20,6 +20,7 @@ namespace Infrastructures
         public DbSet<Document> Document { get; set; }
         public DbSet<DocumentType> DocumentType { get; set; }
         public DbSet<Notarization> Notarization { get; set; }
+        public DbSet<NotarizationDetail> NotarizationDetail { get; set; }
         public DbSet<Request> Request { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<AssignmentTranslation> AssignmentTranslation { get; set; }
@@ -40,20 +41,7 @@ namespace Infrastructures
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
 
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    //base.OnConfiguring(optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ProTransDB;User ID=sa;Password=12345;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"));
-        //}
 
     }
-    //public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
-    //{
-    //    public AppDbContext CreateDbContext(string[] args)
-    //    {
-    //        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-    //        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ProTransDB;User ID=sa;Password=12345;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
-    //        return new AppDbContext(optionsBuilder.Options);
-    //    }
-    //}
 }

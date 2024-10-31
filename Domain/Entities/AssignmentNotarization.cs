@@ -9,5 +9,6 @@
         //Relationship
         public virtual Account? Shipper { get; set; }
         public virtual Document? Document { get; set; }
+        public virtual ICollection<NotarizationDetail>? NotarizationDetails { get; set; }
     }
 }
