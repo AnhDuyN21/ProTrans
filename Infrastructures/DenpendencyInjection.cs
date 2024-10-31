@@ -175,9 +175,10 @@ namespace Infrastructures
             services.AddSingleton<ICurrentTime, CurrentTime>();
             services.AddDbContext<AppDbContext>(option =>
             {
-                option.UseSqlServer(databaseConnection);
+                option.UseNpgsql(databaseConnection);
             });
             services.AddAutoMapper(typeof(MapperConfigurationsProfile).Assembly);
+
             return services;
         }
     }
