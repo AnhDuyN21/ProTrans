@@ -2,7 +2,6 @@
 using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
-using Application.Interfaces.InterfaceRepositories.Attachment;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
@@ -38,7 +37,6 @@ namespace Application.Interfaces
         public IDocumentTypeRepository DocumentTypeRepository { get; }
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
-        public IAttachmentRepository AttachmentRepository { get; }
         public IShippingRepository ShippingRepository { get; }
         public IPaymentMethodRepository PaymentMethodRepository { get; }
         public ITransactionRepository TransactionRepository { get; }

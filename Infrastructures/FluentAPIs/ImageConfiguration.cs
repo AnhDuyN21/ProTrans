@@ -10,9 +10,6 @@ namespace Infrastructures.FluentAPIs
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Attachment)
-                .WithMany(x => x.Images)
-                .HasForeignKey(x => x.AttachmentId);
         }
     }
 }

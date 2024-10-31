@@ -3,7 +3,6 @@ using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
-using Application.Interfaces.InterfaceRepositories.Attachment;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
@@ -23,7 +22,6 @@ using Application.Interfaces.InterfaceServices.Account;
 using Application.Interfaces.InterfaceServices.Agency;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
-using Application.Interfaces.InterfaceServices.Attachment;
 using Application.Interfaces.InterfaceServices.Documents;
 using Application.Interfaces.InterfaceServices.DocumentType;
 using Application.Interfaces.InterfaceServices.Feedbacks;
@@ -44,7 +42,6 @@ using Application.Services.Account;
 using Application.Services.Agency;
 using Application.Services.AssignmentNotarization;
 using Application.Services.AssignmentTranslation;
-using Application.Services.Attachment;
 using Application.Services.Documents;
 using Application.Services.DocumentType;
 using Application.Services.Feedbacks;
@@ -67,7 +64,6 @@ using Infrastructures.Repositories.Account;
 using Infrastructures.Repositories.Agency;
 using Infrastructures.Repositories.AssignmentNotarization;
 using Infrastructures.Repositories.AssignmentTranslation;
-using Infrastructures.Repositories.Attachment;
 using Infrastructures.Repositories.Documents;
 using Infrastructures.Repositories.DocumentType;
 using Infrastructures.Repositories.Feedbacks;
@@ -91,10 +87,6 @@ namespace Infrastructures
     {
         public static IServiceCollection AddInfrastructuresService(this IServiceCollection services, string databaseConnection)
         {
-            //Attachments
-            services.AddScoped<IAttachmentRepository, AttachmentRepository>();
-            services.AddScoped<IAttachmentService, AttachmentService>();
-
             //Accounts
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();

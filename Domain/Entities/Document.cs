@@ -24,7 +24,6 @@
         public virtual Request? Request { get; set; }
         public virtual Notarization? Notarization { get; set; }
         public virtual DocumentType? DocumentType { get; set; }
-        public virtual Attachment? Attachment { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
         public virtual ICollection<AssignmentNotarization>? AssignmentNotarizations { get; set; }
         //public virtual Language? Language { get; set; }

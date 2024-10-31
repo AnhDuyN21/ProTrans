@@ -13,7 +13,6 @@
         public virtual Account? CustomerAccount { get; set; }
         public virtual Account? ShipperAccount { get; set; }
         public virtual ICollection<Document>? Documents { get; set; }
-        public virtual ICollection<Attachment>? Attachments { get; set; }
         public virtual Order? Order { get; set; }
 
     }

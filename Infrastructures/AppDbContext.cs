@@ -38,7 +38,6 @@ namespace Infrastructures
             modelBuilder.ApplyConfiguration(new DocumentTypeConfiguration());
             modelBuilder.ApplyConfiguration(new NotarizationConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            modelBuilder.ApplyConfiguration(new AttachmentConfiguration());
 
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

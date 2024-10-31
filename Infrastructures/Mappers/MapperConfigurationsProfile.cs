@@ -2,7 +2,6 @@
 using Application.ViewModels.AgencyDTOs;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
-using Application.ViewModels.AttachmentDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.FeedbackDTOs;
@@ -27,10 +26,6 @@ namespace Infrastructures.Mappers
     {
         public MapperConfigurationsProfile()
         {
-            //Attachments
-            CreateMap<Attachment, AttachmentDTO>().ReverseMap();
-            CreateMap<Attachment, CreateAttachmentDTO>().ReverseMap();
-
             //Accounts
             CreateMap<Account, AccountDTO>().ReverseMap();
             CreateMap<Account, CreateAccountDTO>().ReverseMap();
