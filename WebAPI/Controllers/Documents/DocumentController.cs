@@ -19,10 +19,10 @@ namespace WebAPI.Controllers.Documents
 			return Ok(result);
 		}
 
-		[HttpGet("GetDocumentsToBeNotarizated")]
-		public async Task<IActionResult> GetDocumentsToBeNotarizated()
+		[HttpGet("GetDocumentsToBeNotarized")]
+		public async Task<IActionResult> GetDocumentsToBeNotarized()
 		{
-			var result = await documentService.GetDocumentsToBeNotarizatedAsync();
+			var result = await documentService.GetDocumentsToBeNotarizedAsync();
 			return Ok(result);
 		}
 

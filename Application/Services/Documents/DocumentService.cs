@@ -48,7 +48,7 @@ namespace Application.Services.Documents
 			return response;
 		}
 
-		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizatedAsync()
+		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedAsync()
 		{
 			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
 
