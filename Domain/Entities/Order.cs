@@ -18,6 +18,6 @@
         public virtual ICollection<Document>? Documents { get; set; }
         public virtual ICollection<Feedback>? Feedbacks { get; set; }
         public virtual Transaction? Transaction { get; set; }
-        public virtual ICollection<Shipping>? Shippings { get; set; }
+        public virtual ICollection<AssignmentShipping>? AssignmentShippings { get; set; }
     }
 }

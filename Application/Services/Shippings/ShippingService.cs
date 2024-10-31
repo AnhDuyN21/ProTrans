@@ -102,7 +102,7 @@ namespace Application.Services.Shippings
             var response = new ServiceResponse<ShippingDTO>();
             try
             {
-                var shipping = _mapper.Map<Shipping>(CUshippingDTO);
+                var shipping = _mapper.Map<AssignmentShipping>(CUshippingDTO);
                 shipping.Status = "Preparing";
 
                 await _unitOfWork.ShippingRepository.AddAsync(shipping);
@@ -203,7 +203,7 @@ namespace Application.Services.Shippings
                 foreach (var property in properties)
                 {
                     var newValue = property.GetValue(CUshippingDTO);
-                    var oldValue = typeof(Shipping).GetProperty(property.Name)?.GetValue(shipping);
+                    var oldValue = typeof(AssignmentShipping).GetProperty(property.Name)?.GetValue(shipping);
 
                     if (newValue == null)
                     {

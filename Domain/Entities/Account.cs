@@ -20,7 +20,7 @@
         public virtual ICollection<Request>? ShipperRequests { get; set; }
         public virtual ICollection<TranslationSkill>? TranslationSkills { get; set; }
         public virtual ICollection<Feedback>? Feedbacks { get; set; }
-        public virtual ICollection<Shipping>? Shippings { get; set; }
+        public virtual ICollection<AssignmentShipping>? AssignmentShippings { get; set; }
         public virtual ICollection<AssignmentTranslation>? AssignmentTranslations { get; set; }
         public virtual ICollection<AssignmentNotarization>? AssignmentNotarizations { get; set; }
         public virtual ICollection<Transaction>? Transactions { get; set; }
