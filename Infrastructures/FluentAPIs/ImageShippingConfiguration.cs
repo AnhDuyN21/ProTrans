@@ -20,7 +20,8 @@ namespace Infrastructures.FluentAPIs
                 .HasForeignKey(x => x.AssignmentShippingId);
 
             builder.HasOne(x => x.Document)
-                .WithOne(x => x.ImageShipping);
+                .WithOne(x => x.ImageShipping)
+                .HasForeignKey<ImageShipping>(x => x.DocumentId);
         }
     }
 }

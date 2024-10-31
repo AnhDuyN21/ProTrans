@@ -20,7 +20,8 @@ namespace Infrastructures.FluentAPIs
                 .HasForeignKey(x => x.AssignmentNotarizationId);
 
             builder.HasOne(x => x.Document)
-                .WithOne(x => x.NotarizationDetails);
+                .WithOne(x => x.NotarizationDetails)
+                .HasForeignKey<NotarizationDetail>(x => x.DocumentId);
 
         }
     }

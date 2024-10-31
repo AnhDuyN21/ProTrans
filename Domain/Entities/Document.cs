@@ -30,5 +30,6 @@
         public Language? SecondLanguage { get; set; }
         public virtual ImageShipping? ImageShipping { get; set; }
         public virtual ICollection<DocumentHistory>? DocumentHistorys { get; set; }
+        public virtual DocumentPrice? DocumentPrice { get; set; }
     }
 }

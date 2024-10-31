@@ -18,8 +18,6 @@ namespace Infrastructures.FluentAPIs
                 .WithMany(x => x.AssignmentTranslations)
                 .HasForeignKey(x => x.DocumentId);
 
-            builder.Property(x => x.Deadline)
-                 .HasColumnType("date");
         }
     }
 }

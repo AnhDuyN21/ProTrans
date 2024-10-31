@@ -20,6 +20,7 @@ namespace Infrastructures
         public DbSet<Document> Document { get; set; }
         public DbSet<DocumentType> DocumentType { get; set; }
         public DbSet<DocumentHistory> DocumentHistory { get; set; }
+        public DbSet<DocumentPrice> DocumentPrice { get; set; }
         public DbSet<Notarization> Notarization { get; set; }
         public DbSet<NotarizationDetail> NotarizationDetail { get; set; }
         public DbSet<Request> Request { get; set; }
