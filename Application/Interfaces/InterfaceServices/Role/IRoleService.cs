@@ -5,8 +5,9 @@ namespace Application.Interfaces.InterfaceServices.Account
 {
     public interface IRoleService
     {
-        Task<ServiceResponse<IEnumerable<RoleDTO>>> GetRolesAsync();
- 
-        
+        Task<ServiceResponse<IEnumerable<RoleDTO>>> GetRolesShipperAndStaffAsync();
+        Task<ServiceResponse<IEnumerable<RoleDTO>>> GetAllRolesAsync();
+
+
     }
 }
