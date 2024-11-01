@@ -6,10 +6,10 @@
         public Guid? SecondLanguageId { get; set; }
         public string? UrlPath { get; set; }
         public string? FileType { get; set; }
-        public int? PageNumber { get; set; } = 0;
-        public int? NumberOfCopies { get; set; } = 0;
-        public bool? NotarizationRequest { get; set; } = false;
-        public int? NumberOfNotarizatedCopies { get; set; } = 0;
+        public int? PageNumber { get; set; }
+        public int? NumberOfCopies { get; set; }
+        public bool? NotarizationRequest { get; set; }
+        public int? NumberOfNotarizatedCopies { get; set; }
         public string? TranslationStatus { get; set; }
         public string? NotarizationStatus { get; set; }
         public Guid? AttachmentId { get; set; }

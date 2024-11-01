@@ -535,13 +535,13 @@ namespace Application.Services.Account
 
             return response;
         }
-        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetStaffAndShipperAsync()
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorAsync()
         {
             var response = new ServiceResponse<IEnumerable<AccountDTO>>();
 
             try
             {
-                var accountList = await _unitOfWork.AccountRepository.GetAllAsync(x => x.Role.Name.Equals("Staff") || x.Role.Name.Equals("Shipper"));
+                var accountList = await _unitOfWork.AccountRepository.GetAllAsync(x => x.Role.Name.Equals("Translator"));
                 var accountDTOs = _mapper.Map<List<AccountDTO>>(accountList);
 
                 if (accountDTOs.Count != 0)
@@ -566,13 +566,13 @@ namespace Application.Services.Account
 
             return response;
         }
-        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorAsync()
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetStaffAsync()
         {
             var response = new ServiceResponse<IEnumerable<AccountDTO>>();
 
             try
             {
-                var accountList = await _unitOfWork.AccountRepository.GetAllAsync(x => x.Role.Name.Equals("Translator"));
+                var accountList = await _unitOfWork.AccountRepository.GetAllAsync(x => x.Role.Name.Equals("Staff"));
                 var accountDTOs = _mapper.Map<List<AccountDTO>>(accountList);
 
                 if (accountDTOs.Count != 0)
