@@ -18,17 +18,27 @@ namespace WebAPI.Controllers.Role
 
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> GetRole()
+        [HttpGet("ShipperAndStaff")]
+        public async Task<IActionResult> GetShipperAndStaff()
         {
-            var result = await _RoleService.GetRolesAsync();
+            var result = await _RoleService.GetRolesShipperAndStaffAsync();
             if (!result.Success)
             {
                 return NotFound(result);
             }
             return Ok(result);
         }
-     
+        [HttpGet()]
+        public async Task<IActionResult> GetAllRole()
+        {
+            var result = await _RoleService.GetAllRolesAsync();
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+
 
 
     }
