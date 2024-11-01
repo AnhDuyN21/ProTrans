@@ -3,6 +3,7 @@ using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
+using Application.Interfaces.InterfaceRepositories.DocumentHistory;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
@@ -61,6 +62,7 @@ using Infrastructures.Repositories.Account;
 using Infrastructures.Repositories.Agency;
 using Infrastructures.Repositories.AssignmentNotarization;
 using Infrastructures.Repositories.AssignmentTranslation;
+using Infrastructures.Repositories.DocumentHistory;
 using Infrastructures.Repositories.Documents;
 using Infrastructures.Repositories.DocumentType;
 using Infrastructures.Repositories.Feedbacks;
@@ -133,6 +135,9 @@ namespace Infrastructures
             //DocumentType
             services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
             services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+
+            //DocumentHistory
+            services.AddScoped<IDocumentHistoryRepository, DocumentHistoryRepository>();
 
             //Orders
             services.AddScoped<IOrderRepository, OrderRepository>();

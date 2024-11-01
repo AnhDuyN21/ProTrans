@@ -20,4 +20,5 @@
         public Guid? OrderId { get; set; }
         public Guid? RequestId { get; set; }
     }
+
 }

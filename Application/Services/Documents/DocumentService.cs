@@ -189,27 +189,47 @@ namespace Application.Services.Documents
 				}
 
 				var properties = typeof(UpdateDocumentDTO).GetProperties();
-				foreach (var property in properties)
+                var documentHistoryList = new List<DocumentHistory>();
+
+                foreach (var property in properties)
 				{
 					var newValue = property.GetValue(CUdocumentDTO);
 					var oldValue = typeof(Document).GetProperty(property.Name)?.GetValue(document);
 
-					if (newValue == null)
+                    if (!Equals(newValue, oldValue) && newValue != null)
+                    {
+                        documentHistoryList.Add(new DocumentHistory
+                        {
+                            DocumentId = id,
+                            Name = property.Name,
+                            oldValue = oldValue?.ToString(),
+                        });
+                    }
+
+                    if (newValue == null)
 					{
 						typeof(UpdateDocumentDTO).GetProperty(property.Name)?.SetValue(CUdocumentDTO, oldValue);
 					}
 				}
-
-				var result = _mapper.Map(CUdocumentDTO, document);
+                if (documentHistoryList.Any())
+                {
+                    foreach (var documentHistory in documentHistoryList)
+                    {
+                        await _unitOfWork.DocumentHistoryRepository.AddAsync(documentHistory);
+                    }
+                }
+                var result = _mapper.Map(CUdocumentDTO, document);
 
 				_unitOfWork.DocumentRepository.Update(document);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
-					response.Data = _mapper.Map<DocumentDTO>(result);
+
+                    response.Data = _mapper.Map<DocumentDTO>(result);
 					response.Success = true;
 					response.Message = "Update successfully.";
+					
 				}
 				else
 				{

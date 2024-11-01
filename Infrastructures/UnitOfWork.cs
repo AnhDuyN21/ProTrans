@@ -3,6 +3,7 @@ using Application.Interfaces.InterfaceRepositories.Account;
 using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
+using Application.Interfaces.InterfaceRepositories.DocumentHistory;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
@@ -41,6 +42,7 @@ namespace Infrastructures
         private readonly ITransactionRepository _transactionRepository;
         private readonly IRequestRepository _requestRepository;
         private readonly IAgencyRepository _agencyRepository;
+        private readonly IDocumentHistoryRepository _documentHistoryRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
@@ -49,7 +51,8 @@ namespace Infrastructures
             IAssignmentNotarizationRepository assignmentNotarizationRepository,
             IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository,
             IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
-            ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository)
+            ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository,
+            IDocumentHistoryRepository documentHistoryRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -70,6 +73,7 @@ namespace Infrastructures
             _transactionRepository = transactionRepository;
             _requestRepository = requestRepository;
             _agencyRepository = agencyRepository;
+            _documentHistoryRepository = documentHistoryRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IAgencyRepository AgencyRepository => _agencyRepository;
@@ -83,6 +87,7 @@ namespace Infrastructures
         public IAssignmentTranslationRepository AssignmentTranslationRepository => _assignmentTranslationRepository;
         public IDocumentRepository DocumentRepository => _documentRepository;
         public IDocumentTypeRepository DocumentTypeRepository => _documentTypeRepository;
+        public IDocumentHistoryRepository DocumentHistoryRepository => _documentHistoryRepository;
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
         public IShippingRepository ShippingRepository => _shippingRepository;
