@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Documents;
+using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.DocumentDTOs;
 using AutoMapper;
 using Domain.Entities;
@@ -371,7 +372,7 @@ namespace Application.Services.Documents
             var response = new ServiceResponse<DocumentPriceDTO>();
 			try
 			{
-				var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAllAsync(x => x.DocumentId == documentId);
+				var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAsync(x => x.DocumentId == documentId);
                 var documentPriceDTO = _mapper.Map<DocumentPriceDTO>(documentPrice);
 
                 if (documentPriceDTO == null)
@@ -393,5 +394,99 @@ namespace Application.Services.Documents
             }
             return response;
         }
+        public async Task<ServiceResponse<CreateDocumentPriceDTO>> CreateDocumentPriceAsync(CreateDocumentPriceDTO createDocumentPriceDTO)
+        {
+            var response = new ServiceResponse<CreateDocumentPriceDTO>();
+            try
+            {
+				var checkExist = await _unitOfWork.DocumentPriceRepository.GetAsync(x => x.DocumentId == createDocumentPriceDTO.DocumentId);
+				if(checkExist != null)
+				{
+
+                    response.Success = false;
+                    response.Message = "Document id already have DocumentPrice, cannot create new.";
+					return response;
+                }
+                var documentPrice = _mapper.Map<DocumentPrice>(createDocumentPriceDTO);
+
+                await _unitOfWork.DocumentPriceRepository.AddAsync(documentPrice);
+
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var documentPriceDTO = _mapper.Map<CreateDocumentPriceDTO>(documentPrice);
+                    response.Data = documentPriceDTO;
+                    response.Success = true;
+                    response.Message = "Create successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<UpdateDocumentPriceDTO>> UpdateDocumentPriceAsync(Guid id,UpdateDocumentPriceDTO updateDocumentPriceDTO)
+        {
+            var response = new ServiceResponse<UpdateDocumentPriceDTO>();
+            try
+            {
+				var checkExist = await _unitOfWork.DocumentPriceRepository.GetAsync(x => x.Id == id);
+				if(checkExist == null)
+				{
+
+                    response.Success = false;
+                    response.Message = " id not exist.";
+					return response;
+                }
+                var objectToUpdate = _mapper.Map(updateDocumentPriceDTO, checkExist);
+
+                _unitOfWork.DocumentPriceRepository.Update(checkExist);
+
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var documentPriceDTO = _mapper.Map<UpdateDocumentPriceDTO>(objectToUpdate);
+                    response.Data = documentPriceDTO;
+                    response.Success = true;
+                    response.Message = "Update successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+
     }
 }
