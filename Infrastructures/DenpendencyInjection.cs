@@ -4,6 +4,7 @@ using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.DocumentHistory;
+using Application.Interfaces.InterfaceRepositories.DocumentPrice;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
@@ -63,6 +64,7 @@ using Infrastructures.Repositories.Agency;
 using Infrastructures.Repositories.AssignmentNotarization;
 using Infrastructures.Repositories.AssignmentTranslation;
 using Infrastructures.Repositories.DocumentHistory;
+using Infrastructures.Repositories.DocumentPrice;
 using Infrastructures.Repositories.Documents;
 using Infrastructures.Repositories.DocumentType;
 using Infrastructures.Repositories.Feedbacks;
@@ -138,6 +140,9 @@ namespace Infrastructures
 
             //DocumentHistory
             services.AddScoped<IDocumentHistoryRepository, DocumentHistoryRepository>();
+
+            //DocumentPrice
+            services.AddScoped<IDocumentPriceRepository, DocumentPriceRepository>();
 
             //Orders
             services.AddScoped<IOrderRepository, OrderRepository>();
