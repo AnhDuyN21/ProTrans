@@ -12,10 +12,20 @@ namespace WebAPI.Controllers.DocumentHistory
         {
             this.documentService = documentService;
         }
-        [HttpGet("{documentId}")]
+        [HttpGet("ByDocument/{documentId}")]
         public async Task<IActionResult> GetByDocumentId(Guid documentId)
         {
             var result = await documentService.GetDocumentHistoryByDocumentIdAsync(documentId);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var result = await documentService.GetDocumentHistoryByIdAsync(id);
             if (!result.Success)
             {
                 return NotFound(result);

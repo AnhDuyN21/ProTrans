@@ -335,5 +335,34 @@ namespace Application.Services.Documents
             }
             return response;
         }
+		public async Task<ServiceResponse<DocumentHistoryDTO>> GetDocumentHistoryByIdAsync(Guid id)
+        {
+            var response = new ServiceResponse<DocumentHistoryDTO>();
+
+            try
+            {
+                var documentHistory = await _unitOfWork.DocumentHistoryRepository.GetByIdAsync(id);
+                var documentHistoryDTO = _mapper.Map<DocumentHistoryDTO>(documentHistory);
+
+                if (documentHistoryDTO != null)
+                {
+                    response.Success = true;
+                    response.Message = "Get successfully.";
+                    response.Data = documentHistoryDTO;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "No document history exists.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+            return response;
+        }
     }
 }
