@@ -13,5 +13,7 @@ namespace Application.Interfaces.InterfaceServices.Documents
 		public Task<ServiceResponse<bool>> DeleteDocumentAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByOrderIdAsync(Guid id);
-	}
+		Task<ServiceResponse<IEnumerable<DocumentHistoryDTO>>> GetDocumentHistoryByDocumentIdAsync(Guid documentId);
+
+    }
 }

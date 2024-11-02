@@ -306,5 +306,34 @@ namespace Application.Services.Documents
 			}
 			return response;
 		}
-	}
+        public async Task<ServiceResponse<IEnumerable<DocumentHistoryDTO>>> GetDocumentHistoryByDocumentIdAsync(Guid documentId)
+        {
+            var response = new ServiceResponse<IEnumerable<DocumentHistoryDTO>>();
+
+            try
+            {
+                var documentHistory = await _unitOfWork.DocumentHistoryRepository.GetAllAsync(x => x.DocumentId == documentId);
+                var documentHistoryDTOs = _mapper.Map<List<DocumentHistoryDTO>>(documentHistory);
+
+                if (documentHistoryDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "Get successfully.";
+                    response.Data = documentHistoryDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "No document history exists.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+            return response;
+        }
+    }
 }
