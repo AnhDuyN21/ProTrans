@@ -86,6 +86,7 @@ namespace Infrastructures.Mappers
             //DocumentPrice
             CreateMap<DocumentPrice, DocumentPriceDTO>().ReverseMap();
             CreateMap<DocumentPrice, CreateDocumentPriceDTO>().ReverseMap();
+            CreateMap<DocumentPrice, UpdateDocumentPriceDTO>().ReverseMap();
 
             //Orders
             CreateMap<Order, OrderDTO>().ReverseMap();

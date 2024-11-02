@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.InterfaceServices.Documents;
 using Application.Services.Documents;
+using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,16 @@ namespace WebAPI.Controllers.DocumentPrice
             {
                 return BadRequest(result);
             }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDocumentPriceByDocumentId(Guid id, [FromBody] UpdateDocumentPriceDTO updateDocumentPriceDTO)
+        {
+            var result = await service.UpdateDocumentPriceAsync(id, updateDocumentPriceDTO);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
         }
     }
 }

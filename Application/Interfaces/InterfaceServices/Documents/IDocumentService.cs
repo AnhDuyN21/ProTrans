@@ -20,6 +20,7 @@ namespace Application.Interfaces.InterfaceServices.Documents
 		//DocumentPrice
 		Task<ServiceResponse<DocumentPriceDTO>> GetDocumentPriceByDocumentId(Guid documentId);
 		Task<ServiceResponse<CreateDocumentPriceDTO>> CreateDocumentPriceAsync(CreateDocumentPriceDTO createDocumentPriceDTO);
+		Task<ServiceResponse<UpdateDocumentPriceDTO>> UpdateDocumentPriceAsync(Guid documentId, UpdateDocumentPriceDTO updateDocumentPriceDTO);
 
     }
 }
