@@ -371,7 +371,7 @@ namespace Application.Services.Documents
             var response = new ServiceResponse<DocumentPriceDTO>();
 			try
 			{
-				var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAllAsync(x => x.DocumentId == documentId);
+				var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAsync(x => x.DocumentId == documentId);
                 var documentPriceDTO = _mapper.Map<DocumentPriceDTO>(documentPrice);
 
                 if (documentPriceDTO == null)
@@ -393,5 +393,44 @@ namespace Application.Services.Documents
             }
             return response;
         }
+        public async Task<ServiceResponse<CreateDocumentPriceDTO>> CreateDocumentPriceAsync(CreateDocumentPriceDTO createDocumentPriceDTO)
+        {
+            var response = new ServiceResponse<CreateDocumentPriceDTO>();
+            try
+            {
+                var documentPrice = _mapper.Map<DocumentPrice>(createDocumentPriceDTO);
+
+                await _unitOfWork.DocumentPriceRepository.AddAsync(documentPrice);
+
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var documentPriceDTO = _mapper.Map<CreateDocumentPriceDTO>(documentPrice);
+                    response.Data = documentPriceDTO;
+                    response.Success = true;
+                    response.Message = "Create successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
     }
 }
