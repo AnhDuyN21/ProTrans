@@ -306,6 +306,7 @@ namespace Application.Services.Documents
 			}
 			return response;
 		}
+		//DocumentHistory
         public async Task<ServiceResponse<IEnumerable<DocumentHistoryDTO>>> GetDocumentHistoryByDocumentIdAsync(Guid documentId)
         {
             var response = new ServiceResponse<IEnumerable<DocumentHistoryDTO>>();
@@ -355,6 +356,34 @@ namespace Application.Services.Documents
                     response.Success = true;
                     response.Message = "No document history exists.";
                 }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+            return response;
+        }
+		//DocumentPrice
+		public async Task<ServiceResponse<DocumentPriceDTO>> GetDocumentPriceByDocumentId(Guid documentId)
+		{
+            var response = new ServiceResponse<DocumentPriceDTO>();
+			try
+			{
+				var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAllAsync(x => x.DocumentId == documentId);
+                var documentPriceDTO = _mapper.Map<DocumentPriceDTO>(documentPrice);
+
+                if (documentPriceDTO == null)
+                {
+                    response.Success = true;
+                    response.Message = "No document price exists.";
+					return response;
+                }
+
+                response.Success = true;
+                response.Message = "Get successfully.";
+                response.Data = documentPriceDTO;
             }
             catch (Exception ex)
             {
