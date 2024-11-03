@@ -5,6 +5,7 @@ using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.DocumentDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using System.Data.Common;
 
 namespace Application.Services.Documents
@@ -104,7 +105,24 @@ namespace Application.Services.Documents
 			var response = new ServiceResponse<DocumentDTO>();
 			try
 			{
-				var document = _mapper.Map<Document>(CUdocumentDTO);
+                if (CUdocumentDTO.FileType == "Hard")
+                {
+                    bool isExist = true;
+                    do
+                    {
+                        CUdocumentDTO.Code = GenerateRandomNumberSequence();
+                        var checkCode = await _unitOfWork.DocumentRepository.GetAsync(x => x.Code == CUdocumentDTO.Code);
+
+                        if (checkCode == null)
+                        {
+                            isExist = false; 
+                        }
+                    }
+                    while (isExist); 
+                }
+
+
+                var document = _mapper.Map<Document>(CUdocumentDTO);
 
 				await _unitOfWork.DocumentRepository.AddAsync(document);
 
@@ -486,7 +504,19 @@ namespace Application.Services.Documents
 
             return response;
         }
+        public string GenerateRandomNumberSequence()
+        {
+            Random random = new Random();
+            string result = "";
 
+            for (int i = 0; i < 6; i++)
+            {
+                int digit = random.Next(0, 10); 
+                result += digit.ToString();
+            }
+
+            return result;
+        }
 
     }
 }
