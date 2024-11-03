@@ -56,7 +56,6 @@ using Application.Services.PaymentMethods;
 using Application.Services.QuotePrice;
 using Application.Services.Request;
 using Application.Services.role;
-using Application.Services.Shippings;
 using Application.Services.Transactions;
 using Application.Services.TranslatorSkill;
 using Google.Cloud.Storage.V1;
@@ -78,12 +77,13 @@ using Infrastructures.Repositories.Orders;
 using Infrastructures.Repositories.PaymentMethods;
 using Infrastructures.Repositories.Request;
 using Infrastructures.Repositories.Role;
-using Infrastructures.Repositories.Shippings;
 using Infrastructures.Repositories.Transactions;
 using Infrastructures.Repositories.TranslationSkill;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Interfaces.InterfaceServices.AssignmentShippings;
+using Application.Services.AssignmentShippings;
+using Infrastructures.Repositories.AssignmentShippings;
 
 namespace Infrastructures
 {
