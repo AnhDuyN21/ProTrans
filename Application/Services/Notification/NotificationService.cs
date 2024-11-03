@@ -1,5 +1,6 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
+using Application.Interfaces.InterfaceServices.NotarizationDetail;
 using Application.Interfaces.InterfaceServices.Notification;
 using Application.ViewModels.NotificationDTOs;
 using AutoMapper;
