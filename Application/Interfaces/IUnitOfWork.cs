@@ -16,7 +16,7 @@ using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
-using Application.Interfaces.InterfaceRepositories.Shippings;
+using Application.Interfaces.InterfaceRepositories.IAssignmentShippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 
@@ -40,7 +40,7 @@ namespace Application.Interfaces
         public IDocumentPriceRepository DocumentPriceRepository { get; }
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
-        public IShippingRepository ShippingRepository { get; }
+        public IAssignmentShippingRepository AssignmentShippingRepository { get; }
         public IPaymentMethodRepository PaymentMethodRepository { get; }
         public ITransactionRepository TransactionRepository { get; }
         public IPaymentMethodRepository PaymenMethodRepository { get; }

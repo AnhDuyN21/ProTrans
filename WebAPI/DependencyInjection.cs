@@ -1,20 +1,20 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.AssignmentShippingDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.OrderDTOs;
-using Application.ViewModels.ShippingDTOs;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Diagnostics;
 using WebAPI.Services;
 using WebAPI.Validations.AccountValidations;
+using WebAPI.Validations.AssignmentShippingValidations;
 using WebAPI.Validations.DocumentValidations;
 using WebAPI.Validations.OrderValidations;
-using WebAPI.Validations.ShippingValidations;
 
 namespace WebAPI
 {
-    public static class DependencyInjection
+	public static class DependencyInjection
     {
         public static IServiceCollection AddWebAPIService(this IServiceCollection services)
         {
@@ -41,7 +41,7 @@ namespace WebAPI
             services.AddTransient<IValidator<UpdateOrderDTO>, OrderValidation>();
 
             //Shippings
-            services.AddTransient<IValidator<UpdateShippingDTO>, ShippingValidation>();
+            services.AddTransient<IValidator<UpdateAssignmentShippingDTO>, AssignmentShippingValidation>();
 
             services.AddMemoryCache();
             return services;

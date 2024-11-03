@@ -1,6 +1,7 @@
 ﻿using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AgencyDTOs;
 using Application.ViewModels.AssignmentNotarizationDTOs;
+using Application.ViewModels.AssignmentShippingDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
@@ -13,7 +14,6 @@ using Application.ViewModels.PaymentMethodDTOs;
 using Application.ViewModels.QuotePriceDTOs;
 using Application.ViewModels.RequestDTOs;
 using Application.ViewModels.RoleDTOs;
-using Application.ViewModels.ShippingDTOs;
 using Application.ViewModels.TransactionDTOs;
 using Application.ViewModels.TranslatorSkillDTOs;
 using AutoMapper;
@@ -21,7 +21,7 @@ using Domain.Entities;
 
 namespace Infrastructures.Mappers
 {
-    public class MapperConfigurationsProfile : Profile
+	public class MapperConfigurationsProfile : Profile
     {
         public MapperConfigurationsProfile()
         {
@@ -98,9 +98,9 @@ namespace Infrastructures.Mappers
             CreateMap<AssignmentNotarization, AssignmentNotarizationDTO>().ReverseMap();
 
             //Shippings
-            CreateMap<AssignmentShipping, ShippingDTO>().ReverseMap();
-            CreateMap<AssignmentShipping, UpdateShippingDTO>().ReverseMap();
-            CreateMap<AssignmentShipping, CreateShippingDTO>().ReverseMap();
+            CreateMap<AssignmentShipping, AssignmentShippingDTO>().ReverseMap();
+            CreateMap<AssignmentShipping, UpdateAssignmentShippingDTO>().ReverseMap();
+            CreateMap<AssignmentShipping, CreateAssignmentShippingDTO>().ReverseMap();
             //PaymentMethods
             CreateMap<PaymentMethod, PaymentMethodDTO>().ReverseMap();
             CreateMap<PaymentMethod, CUPaymentMethodDTO>().ReverseMap();

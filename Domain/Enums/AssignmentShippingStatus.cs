@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums
 {
-    public enum ShippingStatus
+    public enum AssignmentShippingStatus
     {
         Preparing,
         Shipping,
