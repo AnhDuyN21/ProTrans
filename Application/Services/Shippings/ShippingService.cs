@@ -1,6 +1,6 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
-using Application.Interfaces.InterfaceServices.Shippings;
+using Application.Interfaces.InterfaceServices.AssignmentShippings;
 using Application.ViewModels.ShippingDTOs;
 using AutoMapper;
 using Domain.Entities;
@@ -8,7 +8,7 @@ using System.Data.Common;
 
 namespace Application.Services.Shippings
 {
-    public class ShippingService : IShippingService
+	public class ShippingService : IShippingService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;

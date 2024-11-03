@@ -1,10 +1,10 @@
-﻿using Application.Interfaces.InterfaceServices.Shippings;
+﻿using Application.Interfaces.InterfaceServices.AssignmentShippings;
 using Application.ViewModels.ShippingDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Shippings
 {
-    public class ShippingController : BaseController
+	public class ShippingController : BaseController
     {
         private readonly IShippingService shippingService;
         public ShippingController(IShippingService shippingService)

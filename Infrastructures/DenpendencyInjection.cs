@@ -17,7 +17,7 @@ using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
-using Application.Interfaces.InterfaceRepositories.Shippings;
+using Application.Interfaces.InterfaceRepositories.IAssignmentShippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 using Application.Interfaces.InterfaceServices.Account;
@@ -36,7 +36,6 @@ using Application.Interfaces.InterfaceServices.Orders;
 using Application.Interfaces.InterfaceServices.PaymentMethods;
 using Application.Interfaces.InterfaceServices.QuotePrice;
 using Application.Interfaces.InterfaceServices.Request;
-using Application.Interfaces.InterfaceServices.Shippings;
 using Application.Interfaces.InterfaceServices.Transactions;
 using Application.Interfaces.InterfaceServices.TranslatorSkill;
 using Application.Services;
@@ -84,10 +83,11 @@ using Infrastructures.Repositories.Transactions;
 using Infrastructures.Repositories.TranslationSkill;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Application.Interfaces.InterfaceServices.AssignmentShippings;
 
 namespace Infrastructures
 {
-    public static class DenpendencyInjection
+	public static class DenpendencyInjection
     {
         public static IServiceCollection AddInfrastructuresService(this IServiceCollection services, string databaseConnection)
         {

@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Interfaces.InterfaceRepositories.Shippings;
+using Application.Interfaces.InterfaceRepositories.IAssignmentShippings;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

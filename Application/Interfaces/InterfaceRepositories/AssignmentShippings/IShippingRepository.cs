@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace Application.Interfaces.InterfaceRepositories.Shippings
+namespace Application.Interfaces.InterfaceRepositories.IAssignmentShippings
 {
     public interface IShippingRepository : IGenericRepository<AssignmentShipping>
     {
