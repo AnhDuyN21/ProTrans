@@ -110,6 +110,9 @@ namespace Infrastructures.Mappers
             //Role
             CreateMap<Role,RoleDTO>().ReverseMap();
 
+            //NotarizationDetail
+            CreateMap<NotarizationDetail, NotarizationDetailDTO>().ReverseMap();
+
         }
     }
 }

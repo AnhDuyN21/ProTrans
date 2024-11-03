@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.InterfaceServices.Notification;
+﻿using Application.Interfaces.InterfaceServices.NotarizationDetail;
+using Application.Interfaces.InterfaceServices.Notification;
 using Application.ViewModels.NotificationDTOs;
 using Infrastructures.SignalR;
 using Microsoft.AspNetCore.Mvc;
