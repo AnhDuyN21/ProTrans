@@ -39,7 +39,7 @@ namespace Infrastructures
         private readonly IDocumentTypeRepository _documentTypeRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
-        private readonly IShippingRepository _shippingRepository;
+        private readonly IAssignmentShippingRepository _shippingRepository;
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IRequestRepository _requestRepository;
@@ -53,7 +53,7 @@ namespace Infrastructures
             IAssignmentTranslationRepository assignmentTranslationRepository,
             IDocumentRepository documentReository, IOrderRepository orderRepository,
             IAssignmentNotarizationRepository assignmentNotarizationRepository,
-            IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository,
+            IAssignmentShippingRepository shippingRepository, IFeedbackRepository feedbackRepository,
             IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
             ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository,
             IDocumentHistoryRepository documentHistoryRepository,
@@ -98,7 +98,7 @@ namespace Infrastructures
         public IDocumentPriceRepository DocumentPriceRepository => _documentPriceRepository;
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
-        public IShippingRepository ShippingRepository => _shippingRepository;
+        public IAssignmentShippingRepository ShippingRepository => _shippingRepository;
         public IPaymentMethodRepository PaymentMethodRepository => _paymentMethodRepository;
         public ITransactionRepository TransactionRepository => _transactionRepository;
         public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;

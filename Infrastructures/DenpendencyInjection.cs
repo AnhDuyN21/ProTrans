@@ -161,8 +161,8 @@ namespace Infrastructures
 
 
             //Shippings
-            services.AddScoped<IShippingRepository, ShippingResopitory>();
-            services.AddScoped<IShippingService, ShippingService>();
+            services.AddScoped<IAssignmentShippingRepository, AssignmentShippingResopitory>();
+            services.AddScoped<IAssignmentShippingService, AssignmentShippingService>();
 
             //PaymentMethods
             services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();

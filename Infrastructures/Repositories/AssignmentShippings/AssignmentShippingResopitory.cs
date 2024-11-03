@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructures.Repositories.AssignmentShippings
 {
-	public class ShippingResopitory : GenericRepository<AssignmentShipping>, IShippingRepository
+	public class AssignmentShippingResopitory : GenericRepository<AssignmentShipping>, IAssignmentShippingRepository
 	{
 		private readonly AppDbContext _dbContext;
-		public ShippingResopitory(
+		public AssignmentShippingResopitory(
 			AppDbContext context,
 			ICurrentTime timeService,
 			IClaimsService claimsService
