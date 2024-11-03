@@ -188,6 +188,7 @@ namespace Application.Services.Orders
 					}
 				}
 
+				if (order.Deadline != DateTime.MinValue) order.Deadline = order.Deadline.Value.ToUniversalTime();
 				var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
 				order.CreatedBy = staffId;
 				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
@@ -199,7 +200,7 @@ namespace Application.Services.Orders
 				{
 					foreach (var doc in order.Documents)
 					{
-						doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
+						if (doc.FileType == "Hard") doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
 						if (doc.NotarizationRequest) doc.NotarizationStatus = "Processing";
 						else doc.NotarizationStatus = "None";
 						doc.TranslationStatus = "Processing";
