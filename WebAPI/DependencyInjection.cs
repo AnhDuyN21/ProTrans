@@ -35,6 +35,7 @@ namespace WebAPI
 
             //Documents
             services.AddTransient<IValidator<UpdateDocumentDTO>, DocumentValidation>();
+            services.AddTransient<IValidator<CreateDocumentDTO>, CreateDocumentValidation>();
 
             //Orders
             services.AddTransient<IValidator<UpdateOrderDTO>, OrderValidation>();

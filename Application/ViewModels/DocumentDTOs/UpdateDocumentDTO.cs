@@ -12,7 +12,6 @@
         public int? NumberOfNotarizatedCopies { get; set; }
         public string? TranslationStatus { get; set; }
         public string? NotarizationStatus { get; set; }
-        public Guid? AttachmentId { get; set; }
         public Guid? NotarizationId { get; set; }
         public Guid? DocumentTypeId { get; set; }
     }
