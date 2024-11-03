@@ -98,7 +98,7 @@ namespace Infrastructures
         public IDocumentPriceRepository DocumentPriceRepository => _documentPriceRepository;
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
-        public IAssignmentShippingRepository ShippingRepository => _shippingRepository;
+        public IAssignmentShippingRepository AssignmentShippingRepository => _shippingRepository;
         public IPaymentMethodRepository PaymentMethodRepository => _paymentMethodRepository;
         public ITransactionRepository TransactionRepository => _transactionRepository;
         public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;

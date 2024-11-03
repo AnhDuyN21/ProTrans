@@ -40,7 +40,7 @@ namespace Application.Interfaces
         public IDocumentPriceRepository DocumentPriceRepository { get; }
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
-        public IAssignmentShippingRepository ShippingRepository { get; }
+        public IAssignmentShippingRepository AssignmentShippingRepository { get; }
         public IPaymentMethodRepository PaymentMethodRepository { get; }
         public ITransactionRepository TransactionRepository { get; }
         public IPaymentMethodRepository PaymenMethodRepository { get; }

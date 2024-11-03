@@ -24,7 +24,7 @@ namespace Application.Services.AssignmentShippings
 
 			try
 			{
-				var assignmentShippings = await _unitOfWork.ShippingRepository.GetAllAsync();
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync();
 				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
 
 				if (assignmentShippingDTOs.Count != 0)
@@ -54,7 +54,7 @@ namespace Application.Services.AssignmentShippings
 
 			try
 			{
-				var assignmentShippings = await _unitOfWork.ShippingRepository.GetByShipperIdAsync(id);
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetByShipperIdAsync(id);
 				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
 
 				if (assignmentShippingDTOs.Count != 0)
@@ -82,7 +82,7 @@ namespace Application.Services.AssignmentShippings
 		{
 			var response = new ServiceResponse<AssignmentShippingDTO>();
 
-			var assignmentShipping = await _unitOfWork.ShippingRepository.GetByIdAsync(id);
+			var assignmentShipping = await _unitOfWork.AssignmentShippingRepository.GetByIdAsync(id);
 			if (assignmentShipping == null)
 			{
 				response.Success = false;
@@ -105,7 +105,7 @@ namespace Application.Services.AssignmentShippings
 				var assignmentShipping = _mapper.Map<AssignmentShipping>(CUassignmentShippingDTO);
 				assignmentShipping.Status = "Preparing";
 
-				await _unitOfWork.ShippingRepository.AddAsync(assignmentShipping);
+				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
 				//if (!CUShippingDTO.Shippings.IsNullOrEmpty())
@@ -153,7 +153,7 @@ namespace Application.Services.AssignmentShippings
 		{
 			var response = new ServiceResponse<bool>();
 
-			var assignmentShipping = await _unitOfWork.ShippingRepository.GetByIdAsync(id);
+			var assignmentShipping = await _unitOfWork.AssignmentShippingRepository.GetByIdAsync(id);
 			if (assignmentShipping == null)
 			{
 				response.Success = false;
@@ -162,7 +162,7 @@ namespace Application.Services.AssignmentShippings
 			}
 			try
 			{
-				_unitOfWork.ShippingRepository.SoftRemove(assignmentShipping);
+				_unitOfWork.AssignmentShippingRepository.SoftRemove(assignmentShipping);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
@@ -190,7 +190,7 @@ namespace Application.Services.AssignmentShippings
 			var response = new ServiceResponse<AssignmentShippingDTO>();
 			try
 			{
-				var assignmentShipping = await _unitOfWork.ShippingRepository.GetByIdAsync(id);
+				var assignmentShipping = await _unitOfWork.AssignmentShippingRepository.GetByIdAsync(id);
 
 				if (assignmentShipping == null)
 				{
@@ -213,7 +213,7 @@ namespace Application.Services.AssignmentShippings
 
 				var result = _mapper.Map(CUassignmentShippingDTO, assignmentShipping);
 
-				_unitOfWork.ShippingRepository.Update(assignmentShipping);
+				_unitOfWork.AssignmentShippingRepository.Update(assignmentShipping);
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
