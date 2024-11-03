@@ -45,10 +45,10 @@ namespace WebAPI.Controllers.Account
             var result = await _accountService.GetTranslatorAsync();
             return Ok(result);
         }
-        [HttpGet("GetStaffAndShipper")]
-        public async Task<IActionResult> GetStaffAndShipper()
+        [HttpGet("GetAllStaff")]
+        public async Task<IActionResult> GetAllStaff()
         {
-            var result = await _accountService.GetStaffAndShipperAsync();
+            var result = await _accountService.GetStaffAsync();
             return Ok(result);
         }
 

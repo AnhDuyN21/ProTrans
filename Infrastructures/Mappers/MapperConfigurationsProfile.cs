@@ -83,6 +83,11 @@ namespace Infrastructures.Mappers
             CreateMap<DocumentHistory, DocumentHistoryDTO>().ReverseMap();
             CreateMap<DocumentHistory, CreateDocumentHistoryDTO>().ReverseMap();
 
+            //DocumentPrice
+            CreateMap<DocumentPrice, DocumentPriceDTO>().ReverseMap();
+            CreateMap<DocumentPrice, CreateDocumentPriceDTO>().ReverseMap();
+            CreateMap<DocumentPrice, UpdateDocumentPriceDTO>().ReverseMap();
+
             //Orders
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<Order, UpdateOrderDTO>().ReverseMap();
@@ -104,6 +109,9 @@ namespace Infrastructures.Mappers
             CreateMap<Transaction, CUTransactionDTO>().ReverseMap();
             //Role
             CreateMap<Role,RoleDTO>().ReverseMap();
+
+            //NotarizationDetail
+            CreateMap<NotarizationDetail, NotarizationDetailDTO>().ReverseMap();
 
         }
     }

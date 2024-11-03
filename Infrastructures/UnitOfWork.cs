@@ -4,11 +4,13 @@ using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.DocumentHistory;
+using Application.Interfaces.InterfaceRepositories.DocumentPrice;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
+using Application.Interfaces.InterfaceRepositories.NotarizationDetail;
 using Application.Interfaces.InterfaceRepositories.Notification;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.PaymentMethods;
@@ -43,6 +45,8 @@ namespace Infrastructures
         private readonly IRequestRepository _requestRepository;
         private readonly IAgencyRepository _agencyRepository;
         private readonly IDocumentHistoryRepository _documentHistoryRepository;
+        private readonly IDocumentPriceRepository _documentPriceRepository;
+        private readonly INotarizationDetailRepository _notarizationDetailRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
@@ -52,7 +56,8 @@ namespace Infrastructures
             IShippingRepository shippingRepository, IFeedbackRepository feedbackRepository,
             IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
             ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository,
-            IDocumentHistoryRepository documentHistoryRepository)
+            IDocumentHistoryRepository documentHistoryRepository,
+            IDocumentPriceRepository documentPriceRepository, INotarizationDetailRepository notarizationDetailRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -74,6 +79,8 @@ namespace Infrastructures
             _requestRepository = requestRepository;
             _agencyRepository = agencyRepository;
             _documentHistoryRepository = documentHistoryRepository;
+            _documentPriceRepository = documentPriceRepository;
+            _notarizationDetailRepository = notarizationDetailRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IAgencyRepository AgencyRepository => _agencyRepository;
@@ -88,6 +95,7 @@ namespace Infrastructures
         public IDocumentRepository DocumentRepository => _documentRepository;
         public IDocumentTypeRepository DocumentTypeRepository => _documentTypeRepository;
         public IDocumentHistoryRepository DocumentHistoryRepository => _documentHistoryRepository;
+        public IDocumentPriceRepository DocumentPriceRepository => _documentPriceRepository;
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
         public IShippingRepository ShippingRepository => _shippingRepository;
@@ -95,6 +103,9 @@ namespace Infrastructures
         public ITransactionRepository TransactionRepository => _transactionRepository;
         public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;
         public IRequestRepository RequestRepository => _requestRepository;
+
+        public INotarizationDetailRepository NotarizationDetailRepository => _notarizationDetailRepository;
+
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

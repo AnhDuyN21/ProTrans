@@ -5,6 +5,7 @@ namespace Application.Interfaces.InterfaceServices.Documents
 {
 	public interface IDocumentService
 	{
+		//Document
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetAllDocumentsAsync();
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedAsync();
 		public Task<ServiceResponse<DocumentDTO>> GetDocumentByIdAsync(Guid id);
@@ -13,5 +14,13 @@ namespace Application.Interfaces.InterfaceServices.Documents
 		public Task<ServiceResponse<bool>> DeleteDocumentAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByOrderIdAsync(Guid id);
-	}
+		//DocumentHistory
+		Task<ServiceResponse<IEnumerable<DocumentHistoryDTO>>> GetDocumentHistoryByDocumentIdAsync(Guid documentId);
+		Task<ServiceResponse<DocumentHistoryDTO>> GetDocumentHistoryByIdAsync(Guid id);
+		//DocumentPrice
+		Task<ServiceResponse<DocumentPriceDTO>> GetDocumentPriceByDocumentId(Guid documentId);
+		Task<ServiceResponse<CreateDocumentPriceDTO>> CreateDocumentPriceAsync(CreateDocumentPriceDTO createDocumentPriceDTO);
+		Task<ServiceResponse<UpdateDocumentPriceDTO>> UpdateDocumentPriceAsync(Guid documentId, UpdateDocumentPriceDTO updateDocumentPriceDTO);
+
+    }
 }

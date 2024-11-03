@@ -3,11 +3,13 @@ using Application.Interfaces.InterfaceRepositories.Agency;
 using Application.Interfaces.InterfaceRepositories.AssignmentNotarization;
 using Application.Interfaces.InterfaceRepositories.AssignmentTranslation;
 using Application.Interfaces.InterfaceRepositories.DocumentHistory;
+using Application.Interfaces.InterfaceRepositories.DocumentPrice;
 using Application.Interfaces.InterfaceRepositories.Documents;
 using Application.Interfaces.InterfaceRepositories.DocumentType;
 using Application.Interfaces.InterfaceRepositories.Feedbacks;
 using Application.Interfaces.InterfaceRepositories.Language;
 using Application.Interfaces.InterfaceRepositories.Notarization;
+using Application.Interfaces.InterfaceRepositories.NotarizationDetail;
 using Application.Interfaces.InterfaceRepositories.Notification;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Application.Interfaces.InterfaceRepositories.PaymentMethods;
@@ -35,6 +37,7 @@ namespace Application.Interfaces
         public IDocumentRepository DocumentRepository { get; }
         public IDocumentTypeRepository DocumentTypeRepository { get; }
         public IDocumentHistoryRepository DocumentHistoryRepository { get; }
+        public IDocumentPriceRepository DocumentPriceRepository { get; }
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
         public IShippingRepository ShippingRepository { get; }
@@ -42,6 +45,7 @@ namespace Application.Interfaces
         public ITransactionRepository TransactionRepository { get; }
         public IPaymentMethodRepository PaymenMethodRepository { get; }
         public IRequestRepository RequestRepository { get; }
+        public INotarizationDetailRepository NotarizationDetailRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

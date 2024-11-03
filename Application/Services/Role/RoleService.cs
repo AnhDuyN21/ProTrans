@@ -17,7 +17,7 @@ namespace Application.Services.role
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<IEnumerable<RoleDTO>>> GetRolesAsync()
+        public async Task<ServiceResponse<IEnumerable<RoleDTO>>> GetRolesShipperAndStaffAsync()
         {
             var response = new ServiceResponse<IEnumerable<RoleDTO>>();
 
@@ -48,6 +48,37 @@ namespace Application.Services.role
 
             return response;
         }
-    
+        public async Task<ServiceResponse<IEnumerable<RoleDTO>>> GetAllRolesAsync()
+        {
+            var response = new ServiceResponse<IEnumerable<RoleDTO>>();
+
+            try
+            {
+                var roleList = await _unitOfWork.RoleRepository.GetRoles();
+                var roleDTOs = _mapper.Map<List<RoleDTO>>(roleList);
+
+                if (roleDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "Role list retrieved successfully";
+                    response.Data = roleDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have role in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
+
     }
 }
