@@ -1,8 +1,11 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Request;
+using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.RequestDTOs;
 using AutoMapper;
+using Domain.Entities;
+using Google.Apis.Storage.v1.Data;
 using System.Data.Common;
 
 namespace Application.Services.Request
@@ -75,6 +78,30 @@ namespace Application.Services.Request
                 var request = _mapper.Map<Domain.Entities.Request>(createRequestDTO);
                 var customerId = _unitOfWork.RequestRepository.GetCurrentCustomerId();
                 request.CustomerId = customerId;
+
+                if(createRequestDTO.Documents != null)
+                {
+                    foreach (var doc in createRequestDTO.Documents)
+                    {
+                        var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId, doc.SecondLanguageId);
+                        var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(doc.DocumentTypeId);
+                        if (quotePrice.PricePerPage != null && documentType != null)
+                        {
+                            request.EstimatedPrice += quotePrice.PricePerPage.Value * doc.PageNumber * documentType.PriceFactor;
+                        }
+                        request.EstimatedPrice += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
+                        if (doc.NotarizationRequest)
+                        {
+                            var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId);
+                            if (notarization != null)
+                            {
+                                request.EstimatedPrice += notarization.Price * doc.NumberOfNotarizatedCopies;
+                            }
+                        }
+                    }
+                }
+                if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
+                request.Status = "Processing";
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
