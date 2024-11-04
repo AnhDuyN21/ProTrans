@@ -22,7 +22,7 @@ namespace WebAPI.Controllers.AssignmentShippings
 		[HttpGet("GetByShipperId")]
 		public async Task<IActionResult> GetAssignmentShippingsByShipperId(Guid id)
 		{
-			var result = await assignmentShippingService.GetAssignmentShippingByIdAsync(id);
+			var result = await assignmentShippingService.GetAssignmentShippingsByShipperIdAsync(id);
 			return Ok(result);
 		}
 
