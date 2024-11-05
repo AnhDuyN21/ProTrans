@@ -5,6 +5,7 @@ using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.RequestDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Google.Apis.Storage.v1.Data;
 using System.Data.Common;
 
@@ -101,7 +102,7 @@ namespace Application.Services.Request
                     }
                 }
                 if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
-                request.Status = "Processing";
+                request.Status = RequestStatus.Waitting.ToString();
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
