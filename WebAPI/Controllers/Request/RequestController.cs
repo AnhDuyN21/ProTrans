@@ -70,10 +70,20 @@ namespace WebAPI.Controllers.Request
                 return BadRequest(result);
             }
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, UpdateRequestDTO updateRequestDTO)
+        [HttpPut("StaffUpdate")]
+        public async Task<IActionResult> Update(Guid requestId, UpdateRequestDTO updateRequestDTO)
         {
-            var result = await _service.UpdateRequestAsync(id, updateRequestDTO);
+            var result = await _service.UpdateRequestAsync(requestId, updateRequestDTO);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("CustomerUpdate")]
+        public async Task<IActionResult> UpdateByCustomer(Guid requestId, CustomerUpdateRequestDTO customerUpdateRequestDTO)
+        {
+            var result = await _service.UpdateRequestByCustomerAsync(requestId, customerUpdateRequestDTO);
             if (!result.Success)
             {
                 return NotFound(result);

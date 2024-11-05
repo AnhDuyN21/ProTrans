@@ -234,6 +234,54 @@ namespace Application.Services.Request
             }
             return response;
         }
+        public async Task<ServiceResponse<RequestDTO>> UpdateRequestByCustomerAsync(Guid id, CustomerUpdateRequestDTO customerUpdateRequestDTO)
+        {
+            var response = new ServiceResponse<RequestDTO>();
+            try
+            {
+                var getRequestById = await _unitOfWork.RequestRepository.GetByIdAsync(id);
+                if (getRequestById == null)
+                {
+                    response.Success = false;
+                    response.Message = "Id not exist!";
+                    return response;
+                }
+                if (getRequestById.Status != RequestStatus.Quoted.ToString())
+                {
+                    response.Success = false;
+                    response.Message = "Request chưa được báo giá bởi staff! Cập nhật thất bại";
+                    return response;
+                }
+                var updated = _mapper.Map(customerUpdateRequestDTO, getRequestById);
+                _unitOfWork.RequestRepository.Update(updated);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var result = _mapper.Map<RequestDTO>(updated);
+                    response.Data = result;
+                    response.Success = true;
+                    response.Message = "Updated successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving data.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return response;
+        }
         public async Task<ServiceResponse<bool>> DeleteRequestAsync(Guid id)
         {
             var response = new ServiceResponse<bool>();
