@@ -5,6 +5,7 @@ using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.RequestDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Google.Apis.Storage.v1.Data;
 using System.Data.Common;
 
@@ -28,6 +29,37 @@ namespace Application.Services.Request
             try
             {
                 var requestList = await _unitOfWork.RequestRepository.GetAllAsync();
+                var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
+
+                if (requestDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "List retrieved successfully";
+                    response.Data = requestDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have data in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestWithStatusAsync(string status)
+        {
+            var response = new ServiceResponse<IEnumerable<RequestDTO>>();
+
+            try
+            {
+                var requestList = await _unitOfWork.RequestRepository.GetAllAsync(x => x.Status == status);
                 var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
 
                 if (requestDTOs.Count != 0)
@@ -101,7 +133,7 @@ namespace Application.Services.Request
                     }
                 }
                 if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
-                request.Status = "Processing";
+                request.Status = RequestStatus.Waitting.ToString();
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
