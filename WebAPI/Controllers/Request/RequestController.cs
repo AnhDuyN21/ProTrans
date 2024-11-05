@@ -17,6 +17,25 @@ namespace WebAPI.Controllers.Request
             var result = await _service.GetRequestAsync();
             return Ok(result);
         }
+
+        [HttpGet("GetStatusWaitting")]
+        public async Task<IActionResult> GetStatusWaitting()
+        {
+            var result = await _service.GetRequestWithStatusAsync("Waitting");
+            return Ok(result);
+        }
+        [HttpGet("GetStatusQuoted")]
+        public async Task<IActionResult> GetStatusQuoted()
+        {
+            var result = await _service.GetRequestWithStatusAsync("Quoted");
+            return Ok(result);
+        }
+        [HttpGet("GetStatusAccept")]
+        public async Task<IActionResult> GetStatusAccept()
+        {
+            var result = await _service.GetRequestWithStatusAsync("Accept");
+            return Ok(result);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {

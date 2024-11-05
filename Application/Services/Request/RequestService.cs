@@ -53,6 +53,37 @@ namespace Application.Services.Request
 
             return response;
         }
+        public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestWithStatusAsync(string status)
+        {
+            var response = new ServiceResponse<IEnumerable<RequestDTO>>();
+
+            try
+            {
+                var requestList = await _unitOfWork.RequestRepository.GetAllAsync(x => x.Status == status);
+                var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
+
+                if (requestDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "List retrieved successfully";
+                    response.Data = requestDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have data in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
         public async Task<ServiceResponse<RequestDTO>> GetRequestByIdAsync(Guid id)
         {
             var response = new ServiceResponse<RequestDTO>();
