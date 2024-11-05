@@ -46,6 +46,17 @@ namespace WebAPI.Controllers.Request
             }
             return Ok(result);
         }
+
+        [HttpGet("GetByCustomerId")]
+        public async Task<IActionResult> GetByCustomerId(Guid customerId)
+        {
+            var result = await _service.GetRequestByCustomerAsync(customerId);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
         [HttpPost]
         public async Task<IActionResult> Create(CreateRequestDTO createRequestDTO)
         {
