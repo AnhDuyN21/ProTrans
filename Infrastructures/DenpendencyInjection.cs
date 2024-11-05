@@ -84,11 +84,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Application.Interfaces.InterfaceServices.AssignmentShippings;
 using Application.Services.AssignmentShippings;
 using Infrastructures.Repositories.AssignmentShippings;
+using Microsoft.Extensions.Configuration;
+using Application.Interfaces.InterfaceRepositories;
+using Infrastructures.Repositories;
+using System.Net;
+using System.Net.Mail;
 
 namespace Infrastructures
 {
 	public static class DenpendencyInjection
     {
+
         public static IServiceCollection AddInfrastructuresService(this IServiceCollection services, string databaseConnection)
         {
             //Accounts
@@ -159,9 +165,22 @@ namespace Infrastructures
             services.AddSingleton(opt => StorageClient.Create());
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 
-
-            //Shippings
-            services.AddScoped<IAssignmentShippingRepository, AssignmentShippingResopitory>();
+            //Mails
+            services.AddScoped<ISendMail, SendMail>();
+            services.AddScoped<ISendMailRepository, SendMailRepository>();
+            services.AddScoped<SmtpClient>(provider =>
+            {
+                var smtpClient = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    Credentials = new NetworkCredential("duynguyenbt21093@gmail.com", "vcel reqo rtcd esaj"),
+                    EnableSsl = true
+                };
+                return smtpClient;
+            });
+                //Shippings
+                services.AddScoped<IAssignmentShippingRepository, AssignmentShippingResopitory>();
             services.AddScoped<IAssignmentShippingService, AssignmentShippingService>();
 
             //PaymentMethods
@@ -185,7 +204,9 @@ namespace Infrastructures
             });
             services.AddAutoMapper(typeof(MapperConfigurationsProfile).Assembly);
 
+            services.AddOptions();
             return services;
         }
     }
+
 }
