@@ -20,6 +20,7 @@ using Application.Interfaces.InterfaceRepositories.Role;
 using Application.Interfaces.InterfaceRepositories.IAssignmentShippings;
 using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.TranslationSkill;
+using Application.Interfaces.InterfaceRepositories;
 
 namespace Infrastructures
 {
@@ -47,6 +48,7 @@ namespace Infrastructures
         private readonly IDocumentHistoryRepository _documentHistoryRepository;
         private readonly IDocumentPriceRepository _documentPriceRepository;
         private readonly INotarizationDetailRepository _notarizationDetailRepository;
+        private readonly ISendMailRepository _sendMailRepository;
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
@@ -57,7 +59,8 @@ namespace Infrastructures
             IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
             ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository,
             IDocumentHistoryRepository documentHistoryRepository,
-            IDocumentPriceRepository documentPriceRepository, INotarizationDetailRepository notarizationDetailRepository)
+            IDocumentPriceRepository documentPriceRepository, INotarizationDetailRepository notarizationDetailRepository,
+            ISendMailRepository sendMailRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -81,6 +84,7 @@ namespace Infrastructures
             _documentHistoryRepository = documentHistoryRepository;
             _documentPriceRepository = documentPriceRepository;
             _notarizationDetailRepository = notarizationDetailRepository;
+            _sendMailRepository = sendMailRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IAgencyRepository AgencyRepository => _agencyRepository;
@@ -103,7 +107,7 @@ namespace Infrastructures
         public ITransactionRepository TransactionRepository => _transactionRepository;
         public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;
         public IRequestRepository RequestRepository => _requestRepository;
-
+        public ISendMailRepository SendMailRepository => _sendMailRepository;
         public INotarizationDetailRepository NotarizationDetailRepository => _notarizationDetailRepository;
 
         public async Task<int> SaveChangeAsync()

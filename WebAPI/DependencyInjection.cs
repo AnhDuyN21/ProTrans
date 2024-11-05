@@ -43,6 +43,7 @@ namespace WebAPI
             //Shippings
             services.AddTransient<IValidator<UpdateAssignmentShippingDTO>, AssignmentShippingValidation>();
 
+
             services.AddMemoryCache();
             return services;
         }
