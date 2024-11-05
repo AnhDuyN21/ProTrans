@@ -63,6 +63,47 @@ namespace Application.Services.Notification
             return roleName;
         }
 
+        public async Task<ServiceResponse<NotificationDTO>> SendANotificationAsync(SendNotificationDTO sendNotificationDTO)
+        {
+            var response = new ServiceResponse<NotificationDTO>();
+            try
+            {
+                var notification = _mapper.Map<Domain.Entities.Notification>(sendNotificationDTO);
+
+
+                await _unitOfWork.NotificationRepository.SendANotificationAsync(notification, sendNotificationDTO.SpecId);
+
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var notificationDTO = _mapper.Map<NotificationDTO>(notification);
+                    response.Data = notificationDTO; // Chuyển đổi sang NotificationDTO
+                    response.Success = true;
+                    response.Message = "Send Notification successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving the user.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+    
+
         public async Task<ServiceResponse<NotificationDTO>> SendNotificationAsync(SendNotificationDTO sendNotificationDTO)
         {
             var response = new ServiceResponse<NotificationDTO>();
@@ -71,7 +112,7 @@ namespace Application.Services.Notification
                 var notification = _mapper.Map<Domain.Entities.Notification>(sendNotificationDTO);
 
 
-                await _unitOfWork.NotificationRepository.SendNotificationAsync(notification, sendNotificationDTO.RoleId);
+                await _unitOfWork.NotificationRepository.SendNotificationAsync(notification, sendNotificationDTO.SpecId);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)

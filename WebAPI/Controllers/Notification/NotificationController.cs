@@ -32,8 +32,24 @@ namespace WebAPI.Controllers.Notification
         public async Task<IActionResult> CreateNotification([FromBody] SendNotificationDTO sendNotificationDTO)
         {
             var result = await _notificationService.SendNotificationAsync(sendNotificationDTO);
-            var roleName = await _notificationService.GetRoleStringAsync(sendNotificationDTO.RoleId);
+            var roleName = await _notificationService.GetRoleStringAsync(sendNotificationDTO.SpecId);
             await _signalRHub.Clients.All.SendAsync(roleName, sendNotificationDTO.Title, sendNotificationDTO.Author, sendNotificationDTO.Message);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
+        [HttpPost("Single")]
+        public async Task<IActionResult> CreateANotification([FromBody] SendNotificationDTO sendNotificationDTO)
+        {
+            var result = await _notificationService.SendANotificationAsync(sendNotificationDTO);
+         
+            await _signalRHub.Clients.All.SendAsync(sendNotificationDTO.SpecId.ToString(), sendNotificationDTO.Title, sendNotificationDTO.Author, sendNotificationDTO.Message);
 
             if (result.Success)
             {
