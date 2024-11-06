@@ -6,6 +6,7 @@ using Application.ViewModels.AssignmentTranslationDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.FeedbackDTOs;
+using Application.ViewModels.ImageShippingDTOs;
 using Application.ViewModels.LanguageDTOs;
 using Application.ViewModels.NotarizationDTOs;
 using Application.ViewModels.NotificationDTOs;
@@ -113,6 +114,11 @@ namespace Infrastructures.Mappers
 
             //NotarizationDetail
             CreateMap<NotarizationDetail, NotarizationDetailDTO>().ReverseMap();
+            //ImageShippings
+            CreateMap<ImageShipping, ImageShippingDTO>().ReverseMap();
+            CreateMap<ImageShipping, CreateImageShippingDTO>().ReverseMap();
+            CreateMap<ImageShipping, UpdateImageShippingDTO>().ReverseMap();
+            
 
         }
     }

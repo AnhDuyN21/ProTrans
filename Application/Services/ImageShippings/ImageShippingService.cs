@@ -2,9 +2,12 @@
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.ImageShippings;
 using Application.ViewModels.ImageShippingDTOs;
+using Application.ViewModels.OrderDTOs;
+using Application.ViewModels.TransactionDTOs;
 using AutoMapper;
 using Domain.Entities;
 using System.Data.Common;
+using System.Transactions;
 
 namespace Application.Services.ImageShippings
 {
@@ -103,6 +106,45 @@ namespace Application.Services.ImageShippings
 				response.ErrorMessages = new List<string> { ex.Message };
 			}
 
+			return response;
+		}
+
+		public async Task<ServiceResponse<ImageShippingDTO>> UpdateImageShippingAsync(Guid id, UpdateImageShippingDTO updateImageShipping)
+		{
+			var response = new ServiceResponse<ImageShippingDTO>();
+			try
+			{
+				var imageShipping = await _unitOfWork.ImageShippingRepository.GetByIdAsync(id);
+
+				if (imageShipping == null)
+				{
+					response.Success = false;
+					response.Message = "Not exist.";
+					return response;
+				}
+				var result = _mapper.Map(updateImageShipping, imageShipping);
+
+				_unitOfWork.ImageShippingRepository.Update(imageShipping);
+
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+				if (isSuccess)
+				{
+					response.Data = _mapper.Map<ImageShippingDTO>(result);
+					response.Success = true;
+					response.Message = "Update successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error updating.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
 			return response;
 		}
 
