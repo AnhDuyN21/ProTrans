@@ -188,7 +188,7 @@ namespace Application.Services.Orders
 					}
 				}
 
-				if (order.Deadline != DateTime.MinValue) order.Deadline = order.Deadline.Value.ToUniversalTime();
+				//if (order.Deadline != DateTime.MinValue) order.Deadline = order.Deadline.Value.ToUniversalTime();
 				var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
 				order.CreatedBy = staffId;
 				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
