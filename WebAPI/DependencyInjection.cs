@@ -41,7 +41,7 @@ namespace WebAPI
             services.AddTransient<IValidator<UpdateOrderDTO>, OrderValidation>();
 
             //Shippings
-            services.AddTransient<IValidator<UpdateAssignmentShippingDTO>, AssignmentShippingValidation>();
+            services.AddTransient<IValidator<UpdateAssignmentShippingDTO>, UpdateAssignmentShipping>();
 
 
             services.AddMemoryCache();
