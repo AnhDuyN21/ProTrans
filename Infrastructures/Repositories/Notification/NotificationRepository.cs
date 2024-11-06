@@ -62,5 +62,21 @@ namespace Infrastructures.Repositories.Notification
 
             return;
         }
+        public async Task SendANotificationAsync(Domain.Entities.Notification notification, Guid accountId)
+        {
+            notification.NotificationTime = _timeService.GetCurrentTime();
+            var newNotification = new Domain.Entities.Notification
+                {
+                    NotificationTime = notification.NotificationTime,
+                    Title = notification.Title,
+                    Author = notification.Author,
+                    Message = notification.Message,
+                    AccountId = accountId
+                };
+                await _dbSet.AddAsync(newNotification);
+
+            return;
+        }
+
     }
 }

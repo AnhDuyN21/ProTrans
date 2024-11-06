@@ -17,10 +17,40 @@ namespace WebAPI.Controllers.Request
             var result = await _service.GetRequestAsync();
             return Ok(result);
         }
+
+        [HttpGet("GetStatusWaitting")]
+        public async Task<IActionResult> GetStatusWaitting()
+        {
+            var result = await _service.GetRequestWithStatusAsync("Waitting");
+            return Ok(result);
+        }
+        [HttpGet("GetStatusQuoted")]
+        public async Task<IActionResult> GetStatusQuoted()
+        {
+            var result = await _service.GetRequestWithStatusAsync("Quoted");
+            return Ok(result);
+        }
+        [HttpGet("GetStatusAccept")]
+        public async Task<IActionResult> GetStatusAccept()
+        {
+            var result = await _service.GetRequestWithStatusAsync("Accept");
+            return Ok(result);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _service.GetRequestByIdAsync(id);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("GetByCustomerId")]
+        public async Task<IActionResult> GetByCustomerId(Guid customerId)
+        {
+            var result = await _service.GetRequestByCustomerAsync(customerId);
             if (!result.Success)
             {
                 return NotFound(result);
@@ -40,10 +70,20 @@ namespace WebAPI.Controllers.Request
                 return BadRequest(result);
             }
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, UpdateRequestDTO updateRequestDTO)
+        [HttpPut("StaffUpdate")]
+        public async Task<IActionResult> Update(Guid requestId, UpdateRequestDTO updateRequestDTO)
         {
-            var result = await _service.UpdateRequestAsync(id, updateRequestDTO);
+            var result = await _service.UpdateRequestAsync(requestId, updateRequestDTO);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("CustomerUpdate")]
+        public async Task<IActionResult> UpdateByCustomer(Guid requestId, CustomerUpdateRequestDTO customerUpdateRequestDTO)
+        {
+            var result = await _service.UpdateRequestByCustomerAsync(requestId, customerUpdateRequestDTO);
             if (!result.Success)
             {
                 return NotFound(result);

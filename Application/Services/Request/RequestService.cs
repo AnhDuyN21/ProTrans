@@ -5,6 +5,7 @@ using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.RequestDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Google.Apis.Storage.v1.Data;
 using System.Data.Common;
 
@@ -28,6 +29,68 @@ namespace Application.Services.Request
             try
             {
                 var requestList = await _unitOfWork.RequestRepository.GetAllAsync();
+                var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
+
+                if (requestDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "List retrieved successfully";
+                    response.Data = requestDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have data in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestByCustomerAsync(Guid customerId)
+        {
+            var response = new ServiceResponse<IEnumerable<RequestDTO>>();
+
+            try
+            {
+                var requestList = await _unitOfWork.RequestRepository.GetAllAsync(x => x.CustomerId == customerId);
+                var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
+
+                if (requestDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "List retrieved successfully";
+                    response.Data = requestDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have data in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestWithStatusAsync(string status)
+        {
+            var response = new ServiceResponse<IEnumerable<RequestDTO>>();
+
+            try
+            {
+                var requestList = await _unitOfWork.RequestRepository.GetAllAsync(x => x.Status == status);
                 var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
 
                 if (requestDTOs.Count != 0)
@@ -101,7 +164,7 @@ namespace Application.Services.Request
                     }
                 }
                 if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
-                request.Status = "Processing";
+                request.Status = RequestStatus.Waitting.ToString();
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
@@ -147,6 +210,54 @@ namespace Application.Services.Request
                 if (isSuccess)
                 {
                     var result = _mapper.Map<UpdateRequestDTO>(updated);
+                    response.Data = result;
+                    response.Success = true;
+                    response.Message = "Updated successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving data.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return response;
+        }
+        public async Task<ServiceResponse<RequestDTO>> UpdateRequestByCustomerAsync(Guid id, CustomerUpdateRequestDTO customerUpdateRequestDTO)
+        {
+            var response = new ServiceResponse<RequestDTO>();
+            try
+            {
+                var getRequestById = await _unitOfWork.RequestRepository.GetByIdAsync(id);
+                if (getRequestById == null)
+                {
+                    response.Success = false;
+                    response.Message = "Id not exist!";
+                    return response;
+                }
+                if (getRequestById.Status != RequestStatus.Quoted.ToString())
+                {
+                    response.Success = false;
+                    response.Message = "Request chưa được báo giá bởi staff! Cập nhật thất bại";
+                    return response;
+                }
+                var updated = _mapper.Map(customerUpdateRequestDTO, getRequestById);
+                _unitOfWork.RequestRepository.Update(updated);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var result = _mapper.Map<RequestDTO>(updated);
                     response.Data = result;
                     response.Success = true;
                     response.Message = "Updated successfully.";
