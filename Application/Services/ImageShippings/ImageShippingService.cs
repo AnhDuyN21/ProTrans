@@ -148,6 +148,46 @@ namespace Application.Services.ImageShippings
 			return response;
 		}
 
+		public async Task<ServiceResponse<bool>> UpdateImageAsync(Guid id, string urlPath)
+		{
+			var response = new ServiceResponse<bool>();
+			try
+			{
+				var imageShipping = await _unitOfWork.ImageShippingRepository.GetByIdAsync(id);
+
+				if (imageShipping == null)
+				{
+					response.Success = false;
+					response.Message = "Not exist.";
+					return response;
+				}
+
+				imageShipping.UrlPath = urlPath;
+
+				_unitOfWork.ImageShippingRepository.Update(imageShipping);
+
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+				if (isSuccess)
+				{
+					response.Data = true;
+					response.Success = true;
+					response.Message = "Update successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error updating.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			return response;
+		}
+
 		public async Task<ServiceResponse<bool>> DeleteImageShippingAsync(Guid id)
 		{
 			var response = new ServiceResponse<bool>();

@@ -9,7 +9,7 @@
         public int? PageNumber { get; set; }
         public int? NumberOfCopies { get; set; }
         public bool? NotarizationRequest { get; set; }
-        public int? NumberOfNotarizatedCopies { get; set; }
+        public int? NumberOfNotarizedCopies { get; set; }
         public string? TranslationStatus { get; set; }
         public string? NotarizationStatus { get; set; }
         public Guid? NotarizationId { get; set; }

@@ -15,5 +15,6 @@ namespace Application.Interfaces.InterfaceServices.ImageShippings
 		public Task<ServiceResponse<ImageShippingDTO>> UpdateImageShippingAsync(Guid id, UpdateImageShippingDTO imageShipping);
 		public Task<ServiceResponse<ImageShippingDTO>> CreateImageShippingAsync(CreateImageShippingDTO imageShipping);
 		public Task<ServiceResponse<bool>> DeleteImageShippingAsync(Guid id);
+		public Task<ServiceResponse<bool>> UpdateImageAsync(Guid id, string urlPath);
 	}
 }

@@ -11,7 +11,7 @@
         public int PageNumber { get; set; } = 0;
         public int NumberOfCopies { get; set; } = 0;
         public bool NotarizationRequest { get; set; } = false;
-        public int NumberOfNotarizatedCopies { get; set; } = 0;
+        public int NumberOfNotarizedCopies { get; set; } = 0;
         public string? TranslationStatus { get; set; }
         public string? NotarizationStatus { get; set; }
         public Guid? NotarizationId { get; set; }
@@ -19,5 +19,4 @@
         public Guid? OrderId { get; set; }
         public Guid? RequestId { get; set; }
     }
-
 }

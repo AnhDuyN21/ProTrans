@@ -55,6 +55,17 @@ namespace WebAPI.Controllers.ImageShippings
 			return Ok(result);
 		}
 
+		[HttpPut("UpdateImage")]
+		public async Task<IActionResult> UpdateImage(Guid id, string urlPath)
+		{
+			var result = await imageShippingService.UpdateImageAsync(id, urlPath);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
+
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteImageShipping(Guid id)
 		{
