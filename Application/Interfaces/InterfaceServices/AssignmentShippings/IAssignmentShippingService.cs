@@ -11,5 +11,7 @@ namespace Application.Interfaces.InterfaceServices.AssignmentShippings
 		public Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingAsync(CreateAssignmentShippingDTO assignmentShipping);
 		public Task<ServiceResponse<bool>> DeleteAssignmentShippingAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetAssignmentShippingsByShipperIdAsync(Guid id);
+		public Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetShipAssignmentShippingsByShipperIdAsync(Guid id);
+		public Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetPickUpAssignmentShippingsByShipperIdAsync(Guid id);
 	}
 }

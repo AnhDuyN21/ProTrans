@@ -80,6 +80,66 @@ namespace Application.Services.AssignmentShippings
 			}
 			return response;
 		}
+		
+		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetShipAssignmentShippingsByShipperIdAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
+
+			try
+			{
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship");
+				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
+
+				if (assignmentShippingDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = assignmentShippingDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No shipping exists.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetPickUpAssignmentShippingsByShipperIdAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
+
+			try
+			{
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "PickUp");
+				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
+
+				if (assignmentShippingDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = assignmentShippingDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No shipping exists.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
 
 		public async Task<ServiceResponse<AssignmentShippingDTO>> GetAssignmentShippingByIdAsync(Guid id)
 		{
