@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentShippings;
+using Application.Interfaces.InterfaceServices.Documents;
 using Application.ViewModels.AssignmentShippingDTOs;
 using AutoMapper;
 using Domain.Entities;
@@ -12,10 +13,12 @@ namespace Application.Services.AssignmentShippings
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		public AssignmentShippingService(IUnitOfWork unitOfWork, IMapper mapper)
+		private readonly IDocumentService _documentService;
+		public AssignmentShippingService(IUnitOfWork unitOfWork, IMapper mapper, IDocumentService documentService)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_documentService = documentService;
 		}
 
 		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetAllAssignmentShippingsAsync()
@@ -106,21 +109,33 @@ namespace Application.Services.AssignmentShippings
 				assignmentShipping.Status = "Preparing";
 
 				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
+
+				var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
+				if (documents != null)
+				{
+					if (CUassignmentShippingDTO.Type == "PickUp")
+					{
+						foreach (var doc in documents.Data)
+						{
+							var imageShipping = new ImageShipping
+							{
+								DocumentId = doc.Id,
+								AssignmentShippingId = assignmentShipping.Id
+							};
+							await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+						}
+					}
+					else
+					{
+						var imageShipping = new ImageShipping
+						{
+							AssignmentShippingId = assignmentShipping.Id
+						};
+						await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+					}
+				}
+
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-
-				//if (!CUShippingDTO.Shippings.IsNullOrEmpty())
-				//{
-				//	foreach (var doc in CUShippingDTO.Shippings)
-				//	{
-				//		if (doc != null)
-				//		{
-				//			var result = _mapper.Map<Shipping>(doc);
-				//			await _unitOfWork.ShippingRepository.AddAsync(result);
-				//			await _unitOfWork.SaveChangeAsync();
-				//		}
-				//	}
-				//}
-
 				if (isSuccess)
 				{
 					var assignmentShippingDTO = _mapper.Map<AssignmentShippingDTO>(assignmentShipping);

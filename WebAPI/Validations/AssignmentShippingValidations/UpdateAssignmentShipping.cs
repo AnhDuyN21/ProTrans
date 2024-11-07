@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace WebAPI.Validations.AssignmentShippingValidations
 {
-	public class AssignmentShippingValidation : AbstractValidator<UpdateAssignmentShippingDTO>
+	public class UpdateAssignmentShipping : AbstractValidator<UpdateAssignmentShippingDTO>
 	{
-		public AssignmentShippingValidation()
+		public UpdateAssignmentShipping()
 		{
 			RuleFor(x => x.Status)
 				.Must(value => Enum.IsDefined(typeof(AssignmentShippingStatus), value))

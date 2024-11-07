@@ -158,8 +158,8 @@ namespace Application.Services.Request
                             var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId);
                             if (notarization != null)
                             {
-                                request.EstimatedPrice += notarization.Price * doc.NumberOfNotarizatedCopies;
-                            }
+                                request.EstimatedPrice += notarization.Price * doc.NumberOfNotarizedCopies;
+							}
                         }
                     }
                 }

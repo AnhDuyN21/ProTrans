@@ -182,13 +182,13 @@ namespace Application.Services.Orders
 							var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId);
 							if (notarization != null)
 							{
-								order.TotalPrice += notarization.Price * doc.NumberOfNotarizatedCopies;
+								order.TotalPrice += notarization.Price * doc.NumberOfNotarizedCopies;
 							}
 						}
 					}
 				}
 
-				if (order.Deadline != DateTime.MinValue) order.Deadline = order.Deadline.Value.ToUniversalTime();
+				//if (order.Deadline != DateTime.MinValue) order.Deadline = order.Deadline.Value.ToUniversalTime();
 				var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
 				order.CreatedBy = staffId;
 				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);

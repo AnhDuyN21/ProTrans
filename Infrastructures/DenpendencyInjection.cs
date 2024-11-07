@@ -89,6 +89,10 @@ using Application.Interfaces.InterfaceRepositories;
 using Infrastructures.Repositories;
 using System.Net;
 using System.Net.Mail;
+using Application.Interfaces.InterfaceRepositories.ImageShippings;
+using Infrastructures.Repositories.ImageShippings;
+using Application.Interfaces.InterfaceServices.ImageShippings;
+using Application.Services.ImageShippings;
 
 namespace Infrastructures
 {
@@ -192,6 +196,9 @@ namespace Infrastructures
             //Role
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleService, RoleService>();
+            //ImageShippings
+            services.AddScoped<IImageShippingRepository, ImageShippingRepository>();
+            services.AddScoped<IImageShippingService, ImageShippingService>();
             
             //NotarizationDetail
             services.AddScoped<INotarizationDetailRepository,NotarizationDetailRepository>();
