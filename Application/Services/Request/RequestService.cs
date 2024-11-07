@@ -144,6 +144,7 @@ namespace Application.Services.Request
 
                 if(createRequestDTO.Documents != null)
                 {
+                    request.EstimatedPrice = 0;
                     foreach (var doc in createRequestDTO.Documents)
                     {
                         var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId, doc.SecondLanguageId);
@@ -159,11 +160,11 @@ namespace Application.Services.Request
                             if (notarization != null)
                             {
                                 request.EstimatedPrice += notarization.Price * doc.NumberOfNotarizedCopies;
-							}
+                            }
                         }
                     }
                 }
-                if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
+               // if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
                 request.Status = RequestStatus.Waitting.ToString();
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
