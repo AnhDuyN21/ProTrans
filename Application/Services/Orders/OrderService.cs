@@ -225,6 +225,7 @@ namespace Application.Services.Orders
 			try
 			{
 				var order = _mapper.Map<Order>(CUorderDTO);
+				order.TotalPrice = 0;
 
 				if (CUorderDTO.Documents != null)
 				{

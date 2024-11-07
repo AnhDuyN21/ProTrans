@@ -295,6 +295,36 @@ namespace Application.Services.Documents
 			return response;
 		}
 
+		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByRequestIdAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
+
+			try
+			{
+				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.RequestId == id);
+				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+
+				if (documentDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = documentDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No document exists.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
 		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByOrderIdAsync(Guid id)
 		{
 			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();

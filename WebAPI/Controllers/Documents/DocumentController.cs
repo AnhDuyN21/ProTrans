@@ -90,5 +90,16 @@ namespace WebAPI.Controllers.Documents
 			}
 			return Ok(result);
 		}
+
+		[HttpGet("GetByRequestId")]
+		public async Task<IActionResult> GetDocumentsByRequestId(Guid id)
+		{
+			var result = await documentService.GetDocumentsByRequestIdAsync(id);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
 	}
 }
