@@ -26,6 +26,20 @@ namespace WebAPI.Controllers.Orders
 			return Ok(result);
 		}
 
+		[HttpGet("GetOfflineOrders")]
+		public async Task<IActionResult> GetOfflineOrders()
+		{
+			var result = await orderService.GetOfflineOrdersAsync();
+			return Ok(result);
+		}
+
+		[HttpGet("GetOnlineOrders")]
+		public async Task<IActionResult> GetOnlineOrders()
+		{
+			var result = await orderService.GetOnlineOrdersAsync();
+			return Ok(result);
+		}
+
 		[HttpGet("GetCompletedOrdersByAgencyId")]
 		public async Task<IActionResult> GetCompletedOrdersByAgencyId(Guid id)
 		{
