@@ -117,12 +117,15 @@ namespace Application.Services.AssignmentShippings
 					{
 						foreach (var doc in documents.Data)
 						{
-							var imageShipping = new ImageShipping
+							if (doc.NotarizationRequest)
 							{
-								DocumentId = doc.Id,
-								AssignmentShippingId = assignmentShipping.Id
-							};
-							await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+								var imageShipping = new ImageShipping
+								{
+									DocumentId = doc.Id,
+									AssignmentShippingId = assignmentShipping.Id
+								};
+								await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+							}
 						}
 					}
 					else
