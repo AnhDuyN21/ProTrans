@@ -25,13 +25,7 @@ namespace Application.Services.Notification
             try
             {
                 var notificationList = await _unitOfWork.NotificationRepository.GetAllNotificationAsync(a => a.AccountId.Equals(Id));
-                var notificationDTOs = _mapper.Map<List<NotificationDTO>>(notificationList.Select(q => new NotificationDTO
-                {
-                    Title = q.Title,
-                    Author = q.Author,
-                    Message = q.Message,
-                    NotificationTime = q.NotificationTime
-                }));
+                var notificationDTOs = _mapper.Map<List<NotificationDTO>>(notificationList);
 
                 if (notificationDTOs.Count != 0)
                 {
