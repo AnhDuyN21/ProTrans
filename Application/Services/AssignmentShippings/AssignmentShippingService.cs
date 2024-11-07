@@ -109,23 +109,33 @@ namespace Application.Services.AssignmentShippings
 				assignmentShipping.Status = "Preparing";
 
 				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
-				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
 				var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
 				if (documents != null)
 				{
-					foreach (var doc in documents.Data)
+					if (CUassignmentShippingDTO.Type == "PickUp")
+					{
+						foreach (var doc in documents.Data)
+						{
+							var imageShipping = new ImageShipping
+							{
+								DocumentId = doc.Id,
+								AssignmentShippingId = assignmentShipping.Id
+							};
+							await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+						}
+					}
+					else
 					{
 						var imageShipping = new ImageShipping
 						{
-							DocumentId = doc.Id,
 							AssignmentShippingId = assignmentShipping.Id
 						};
 						await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
-						await _unitOfWork.SaveChangeAsync();
 					}
 				}
 
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
 					var assignmentShippingDTO = _mapper.Map<AssignmentShippingDTO>(assignmentShipping);
