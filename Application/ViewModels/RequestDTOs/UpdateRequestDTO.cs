@@ -12,6 +12,5 @@ namespace Application.ViewModels.RequestDTOs
         public string? Status { get; set; }
         public bool? PickUpRequest { get; set; }
         public bool ShipRequest { get; set; }
-        public List<CreateDocumentDTO>? Documents { get; set; }
     }
 }
