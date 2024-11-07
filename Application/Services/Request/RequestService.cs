@@ -84,14 +84,42 @@ namespace Application.Services.Request
 
             return response;
         }
-        public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestWithStatusAsync(string status)
+
+        public async Task<ServiceResponse<IEnumerable<RequestCustomerDTO>>> GetRequestWithStatusAsync(string status)
         {
-            var response = new ServiceResponse<IEnumerable<RequestDTO>>();
+            var response = new ServiceResponse<IEnumerable<RequestCustomerDTO>>();
 
             try
             {
                 var requestList = await _unitOfWork.RequestRepository.GetAllAsync(x => x.Status == status);
-                var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
+                var requestDTOs = new List<RequestCustomerDTO>();
+                foreach (var request in requestList)
+                {
+                    var customer = await _unitOfWork.AccountRepository.GetAsync(x => x.Id == request.CustomerId);
+                    if(customer == null )
+                    {
+                        response.Success = false;
+                        response.Message = "request không có thông tin khách hàng";
+                        return response;
+                    }
+                    var requestDTO = new RequestCustomerDTO
+                    {
+                        Id = request.Id,
+                        Deadline = request.Deadline,
+                        EstimatedPrice = request.EstimatedPrice,
+                        Status = request.Status,
+                        IsConfirmed = request.IsConfirmed,
+                        PickUpRequest = request.PickUpRequest,
+                        ShipRequest = request.ShipRequest,
+                        IsDeleted = (bool)request.IsDeleted,
+                        CustomerId = request.CustomerId,
+                        FullName = customer.FullName,
+                        PhoneNumber = customer.PhoneNumber,
+                        Email = customer.Email,
+                        Address = customer.Address
+                    };
+                    requestDTOs.Add(requestDTO);
+                }
 
                 if (requestDTOs.Count != 0)
                 {
@@ -115,12 +143,13 @@ namespace Application.Services.Request
 
             return response;
         }
+
         public async Task<ServiceResponse<RequestDTO>> GetRequestByIdAsync(Guid id)
         {
             var response = new ServiceResponse<RequestDTO>();
 
             var requestGetById = await _unitOfWork.RequestRepository.GetByIdAsync(id);
-            if (requestGetById == null)
+            if (requestGetById == null )
             {
                 response.Success = false;
                 response.Message = "Id is not existed";

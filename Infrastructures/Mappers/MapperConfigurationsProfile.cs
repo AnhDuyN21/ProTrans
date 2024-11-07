@@ -42,6 +42,7 @@ namespace Infrastructures.Mappers
             CreateMap<Request, CreateRequestDTO>().ReverseMap();
             CreateMap<Request, UpdateRequestDTO>().ReverseMap();
             CreateMap<Request, CustomerUpdateRequestDTO>().ReverseMap();
+            CreateMap<Request, RequestCustomerDTO>().ReverseMap();
 
             //Notarizations
             CreateMap<Notarization, NotarizationDTO>().ReverseMap();
