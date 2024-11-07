@@ -26,6 +26,20 @@ namespace WebAPI.Controllers.AssignmentShippings
 			return Ok(result);
 		}
 
+		[HttpGet("GetShipByShipperId")]
+		public async Task<IActionResult> GetShipAssignmentShippingsByShipperId(Guid id)
+		{
+			var result = await assignmentShippingService.GetShipAssignmentShippingsByShipperIdAsync(id);
+			return Ok(result);
+		}
+
+		[HttpGet("GetPickUpByShipperId")]
+		public async Task<IActionResult> GetPickUpAssignmentShippingsByShipperId(Guid id)
+		{
+			var result = await assignmentShippingService.GetPickUpAssignmentShippingsByShipperIdAsync(id);
+			return Ok(result);
+		}
+
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetAssignmentShippingById(Guid id)
 		{
