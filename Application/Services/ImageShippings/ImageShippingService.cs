@@ -58,7 +58,7 @@ namespace Application.Services.ImageShippings
 
 			try
 			{
-				var imageShippings = await _unitOfWork.ImageShippingRepository.GetAllAsync(x => x.AssignmentShippingId == id);
+				var imageShippings = await _unitOfWork.ImageShippingRepository.GetAllAsync(x => x.AssignmentShippingId == id && x.UrlPath == null);
 				var imageShippingDTOs = _mapper.Map<List<ImageShippingDTO>>(imageShippings);
 				foreach (var i in imageShippingDTOs)
 				{
