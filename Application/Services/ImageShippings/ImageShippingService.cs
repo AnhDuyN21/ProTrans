@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.ImageShippings;
+using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.ImageShippingDTOs;
 using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.TransactionDTOs;
@@ -34,6 +35,42 @@ namespace Application.Services.ImageShippings
 				{
 					response.Success = true;
 					response.Message = "Get all successfully.";
+					response.Data = imageShippingDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "Not exist.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<IEnumerable<ImageShippingDTO>>> GetImageShippingsByAssignmentShippingIdAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<ImageShippingDTO>>();
+
+			try
+			{
+				var imageShippings = await _unitOfWork.ImageShippingRepository.GetAllAsync(x => x.AssignmentShippingId == id);
+				var imageShippingDTOs = _mapper.Map<List<ImageShippingDTO>>(imageShippings);
+				foreach (var i in imageShippingDTOs)
+				{
+					var document = await _unitOfWork.DocumentRepository.GetByIdAsync(i.DocumentId);
+					var documentDTO = _mapper.Map<DocumentDTO>(document);
+					i.Document = documentDTO;
+				}
+
+				if (imageShippingDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
 					response.Data = imageShippingDTOs;
 				}
 				else
