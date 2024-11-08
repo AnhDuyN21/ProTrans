@@ -12,6 +12,7 @@ namespace Application.Interfaces.InterfaceServices.ImageShippings
 	{
 		public Task<ServiceResponse<IEnumerable<ImageShippingDTO>>> GetAllImageShippingsAsync();
 		public Task<ServiceResponse<ImageShippingDTO>> GetImageShippingByIdAsync(Guid id);
+		public Task<ServiceResponse<IEnumerable<ImageShippingDTO>>> GetImageShippingsByAssignmentShippingIdAsync(Guid id);
 		public Task<ServiceResponse<ImageShippingDTO>> UpdateImageShippingAsync(Guid id, UpdateImageShippingDTO imageShipping);
 		public Task<ServiceResponse<ImageShippingDTO>> CreateImageShippingAsync(CreateImageShippingDTO imageShipping);
 		public Task<ServiceResponse<bool>> DeleteImageShippingAsync(Guid id);

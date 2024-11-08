@@ -30,6 +30,17 @@ namespace WebAPI.Controllers.ImageShippings
 			return Ok(result);
 		}
 
+		[HttpGet("GetByAssignmentShippingId")]
+		public async Task<IActionResult> GetImageShippingsByAssignmentShippingId(Guid id)
+		{
+			var result = await imageShippingService.GetImageShippingsByAssignmentShippingIdAsync(id);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateImageShipping([FromBody] CreateImageShippingDTO imageShipping)
 		{
