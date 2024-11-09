@@ -256,7 +256,6 @@ namespace Application.Services.Request
                         }
                     }
                 }
-               // if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
                 request.Status = RequestStatus.Waitting.ToString();
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;

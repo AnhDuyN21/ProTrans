@@ -6,5 +6,6 @@ namespace Application.Interfaces.InterfaceRepositories.Orders
     {
         Task<List<Order>> GetByPhoneNumberAsync(string num);
         Guid GetCurrentStaffId();
+        Task<Order> GetByDocumentId(Guid? documentId);
     }
 }
