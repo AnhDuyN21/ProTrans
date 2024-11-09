@@ -83,6 +83,20 @@ namespace WebAPI.Controllers.Orders
 			}
 		}
 
+		[HttpPost("CreateOrderFromRequest")]
+		public async Task<IActionResult> CreateOrderFromRequest(Guid requestId)
+		{
+			var result = await orderService.CreateOrderFromRequestAsync(requestId);
+			if (result.Success)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
+
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] UpdateOrderDTO CUorderDTO)
 		{
