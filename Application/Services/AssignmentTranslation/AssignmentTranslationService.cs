@@ -238,6 +238,23 @@ namespace Application.Services.AssignmentTranslation
                     response.Message = "Assignment Translation is deleted in system";
                     return response;
                 }
+                //Thay đổi trạng thái order 
+                var order = await _unitOfWork.OrderRepository.GetByDocumentId(assignmentTranslationGetById.DocumentId);
+                bool allDocumentsTranslated = order.Documents.All(d => d.TranslationStatus == "Translated");
+                bool anyDocumentNotarized = order.Documents.Any(d => d.NotarizationRequest == true);
+                bool allNotarizedDocumentsCompleted = order.Documents
+                                                   .Where(d => d.NotarizationRequest == true)
+                                                   .All(d => d.NotarizationStatus == "Completed");
+                if (allDocumentsTranslated && !anyDocumentNotarized)
+                {
+                    order.Status = "Completed";
+                    _unitOfWork.OrderRepository.Update(order);
+                }
+                else if(allDocumentsTranslated && allNotarizedDocumentsCompleted)
+                {
+                    order.Status = "Completed";
+                    _unitOfWork.OrderRepository.Update(order);
+                }
                 // Map assignmentTranslationDT0 => existingUser
 
                 assignmentTranslationGetById.Status = status.ToString();
