@@ -27,20 +27,20 @@ namespace Application.Services.AssignmentTranslation
 
                 await _unitOfWork.AssignmentTranslationRepository.AddAsync(assignmentTranslation);
 
+                //thay đổi status của order mà document đang thuộc về
+                var order = await _unitOfWork.OrderRepository.GetByDocumentId(cuAssignmentTranslationDTO.DocumentId);
+                if (order == null)
+                {
+                    response.Success = false;
+                    response.Message = "Tài liệu không thuộc về đơn hàng nào.";
+                    return response;
+                }
+                order.Status = OrderStatus.Implementing.ToString();
+                _unitOfWork.OrderRepository.Update(order);
+
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
-                    //thay đổi status của order mà document đang thuộc về
-                    var order = await _unitOfWork.OrderRepository.GetByDocumentId(cuAssignmentTranslationDTO.DocumentId);
-                    if (order == null)
-                    {
-                        response.Success = false;
-                        response.Message = "Tài liệu không thuộc về đơn hàng nào.";
-                        return response;
-                    }
-                    order.Status = OrderStatus.Implementing.ToString();
-                     _unitOfWork.OrderRepository.Update(order);
-
                     var assignmentTranslationDTO = _mapper.Map<AssignmentTranslationDTO>(assignmentTranslation);
                     response.Data = assignmentTranslationDTO;
                     response.Success = true;
