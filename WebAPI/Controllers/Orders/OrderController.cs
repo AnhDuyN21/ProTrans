@@ -84,7 +84,7 @@ namespace WebAPI.Controllers.Orders
 		}
 
 		[HttpPost("CreateOrderFromRequest")]
-		public async Task<IActionResult> CreateOrderFromRequest(Guid requestId)
+		public async Task<IActionResult> CreateOrderFromRequest([FromBody] Guid requestId)
 		{
 			var result = await orderService.CreateOrderFromRequestAsync(requestId);
 			if (result.Success)
