@@ -256,7 +256,6 @@ namespace Application.Services.Request
                         }
                     }
                 }
-               // if (request.Deadline != DateTime.MinValue) request.Deadline = request.Deadline.Value.ToUniversalTime();
                 request.Status = RequestStatus.Waitting.ToString();
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
@@ -346,6 +345,14 @@ namespace Application.Services.Request
                     return response;
                 }
                 var updated = _mapper.Map(customerUpdateRequestDTO, getRequestById);
+                if(customerUpdateRequestDTO.Status == "Accept")
+                {
+                    updated.IsConfirmed = true;
+                }
+                else
+                {
+                    updated.IsConfirmed = false;
+                }
                 _unitOfWork.RequestRepository.Update(updated);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)

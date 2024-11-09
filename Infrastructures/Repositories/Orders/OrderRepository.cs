@@ -31,5 +31,13 @@ namespace Infrastructures.Repositories.Orders
             var result = await _dbSet.Where(x => x.PhoneNumber.Equals(num)).ToListAsync();
             return result;
         }
+        public async Task<Order> GetByDocumentId(Guid? documentId)
+        {
+            var order = await _dbContext.Order
+                                        .Include(o => o.Documents)
+                                        .FirstOrDefaultAsync(o => o.Documents.Any(d => d.Id == documentId));
+
+            return order;
+        }
     }
 }

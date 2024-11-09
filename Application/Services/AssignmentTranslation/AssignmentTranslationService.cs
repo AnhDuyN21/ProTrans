@@ -27,6 +27,17 @@ namespace Application.Services.AssignmentTranslation
 
                 await _unitOfWork.AssignmentTranslationRepository.AddAsync(assignmentTranslation);
 
+                //thay đổi status của order mà document đang thuộc về
+                var order = await _unitOfWork.OrderRepository.GetByDocumentId(cuAssignmentTranslationDTO.DocumentId);
+                if (order == null)
+                {
+                    response.Success = false;
+                    response.Message = "Tài liệu không thuộc về đơn hàng nào.";
+                    return response;
+                }
+                order.Status = OrderStatus.Implementing.ToString();
+                _unitOfWork.OrderRepository.Update(order);
+
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
@@ -226,6 +237,23 @@ namespace Application.Services.AssignmentTranslation
                     response.Success = false;
                     response.Message = "Assignment Translation is deleted in system";
                     return response;
+                }
+                //Thay đổi trạng thái order 
+                var order = await _unitOfWork.OrderRepository.GetByDocumentId(assignmentTranslationGetById.DocumentId);
+                bool allDocumentsTranslated = order.Documents.All(d => d.TranslationStatus == "Translated");
+                bool anyDocumentNotarized = order.Documents.Any(d => d.NotarizationRequest == true);
+                bool allNotarizedDocumentsCompleted = order.Documents
+                                                   .Where(d => d.NotarizationRequest == true)
+                                                   .All(d => d.NotarizationStatus == "Completed");
+                if (allDocumentsTranslated && !anyDocumentNotarized)
+                {
+                    order.Status = "Completed";
+                    _unitOfWork.OrderRepository.Update(order);
+                }
+                else if(allDocumentsTranslated && allNotarizedDocumentsCompleted)
+                {
+                    order.Status = "Completed";
+                    _unitOfWork.OrderRepository.Update(order);
                 }
                 // Map assignmentTranslationDT0 => existingUser
 
