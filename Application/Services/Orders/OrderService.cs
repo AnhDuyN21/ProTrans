@@ -4,6 +4,7 @@ using Application.Interfaces.InterfaceServices.Orders;
 using Application.ViewModels.OrderDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using System.Data.Common;
 
 namespace Application.Services.Orders
@@ -276,6 +277,73 @@ namespace Application.Services.Orders
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
+				if (isSuccess)
+				{
+					var orderDTO = _mapper.Map<OrderDTO>(order);
+					response.Data = orderDTO;
+					response.Success = true;
+					response.Message = "Create successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error saving.";
+				}
+			}
+			catch (DbException ex)
+			{
+				response.Success = false;
+				response.Message = "Database error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<OrderDTO>> CreateOrderFromRequestAsync(Guid requestId)
+		{
+			var response = new ServiceResponse<OrderDTO>();
+			try
+			{
+				var order = new Order();
+				var request = await _unitOfWork.RequestRepository.GetByIdAsync(requestId);
+				if (request != null)
+				{
+					if (request.CustomerId != null)
+					{
+						var customer = await _unitOfWork.AccountRepository.GetByIdAsync(request.CustomerId.Value);
+						if (customer != null)
+						{
+							order.FullName = customer.FullName;
+							order.PhoneNumber = customer.PhoneNumber;
+							order.Address = customer.Address;
+						}
+					}
+					order.ShipRequest = request.ShipRequest;
+					order.Deadline = request.Deadline;
+					order.TotalPrice = request.EstimatedPrice;
+					order.Status = OrderStatus.Processing.ToString();
+					var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
+					var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
+					order.AgencyId = (staff != null) ? staff.AgencyId : null;
+					order.RequestId = requestId;
+					await _unitOfWork.OrderRepository.AddAsync(order);
+					var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.RequestId == requestId);
+					if (documents != null)
+					{
+						foreach (var doc in documents)
+						{
+							doc.OrderId = order.Id;
+						}
+					}
+				}
+
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
 					var orderDTO = _mapper.Map<OrderDTO>(order);
