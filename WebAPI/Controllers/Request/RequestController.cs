@@ -25,9 +25,9 @@ namespace WebAPI.Controllers.Request
             return Ok(result);
         }
         [HttpGet("GetStatusQuoted")]
-        public async Task<IActionResult> GetStatusQuoted()
+        public async Task<IActionResult> GetStatusQuoted(Guid customerId)
         {
-            var result = await _service.GetRequestWithStatusAsync("Quoted");
+            var result = await _service.GetRequestWithStatusQuotedAsync(customerId);
             return Ok(result);
         }
         [HttpGet("GetStatusAccept")]
