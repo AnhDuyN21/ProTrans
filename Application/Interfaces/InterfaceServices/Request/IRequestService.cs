@@ -8,6 +8,7 @@ namespace Application.Interfaces.InterfaceServices.Request
         Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestAsync();
         Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestByCustomerAsync(Guid customerId);
         Task<ServiceResponse<IEnumerable<RequestCustomerDTO>>> GetRequestWithStatusAsync(string status);
+        Task<ServiceResponse<IEnumerable<RequestCustomerDTO>>> GetRequestWithStatusQuotedAsync(Guid customerId);
         Task<ServiceResponse<RequestDTO>> GetRequestByIdAsync(Guid id);
         Task<ServiceResponse<CreateRequestDTO>> CreateRequestAsync(CreateRequestDTO createRequestDTO);
         Task<ServiceResponse<UpdateRequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO);

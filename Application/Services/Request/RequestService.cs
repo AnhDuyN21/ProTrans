@@ -143,6 +143,69 @@ namespace Application.Services.Request
 
             return response;
         }
+        public async Task<ServiceResponse<IEnumerable<RequestCustomerDTO>>> GetRequestWithStatusQuotedAsync(Guid customerId)
+        {
+            var response = new ServiceResponse<IEnumerable<RequestCustomerDTO>>();
+
+            try
+            {
+                var requestList = await _unitOfWork.RequestRepository.GetAllAsync(x => x.Status == "Quoted");
+                var requestDTOs = new List<RequestCustomerDTO>();
+                foreach (var request in requestList)
+                {
+                    if(request.CustomerId == customerId)
+                    {
+                        var customer = await _unitOfWork.AccountRepository.GetAsync(x => x.Id == request.CustomerId);
+                        if (customer == null)
+                        {
+                            response.Success = false;
+                            response.Message = "request không có thông tin khách hàng";
+                            return response;
+                        }
+                        var requestDTO = new RequestCustomerDTO
+                        {
+                            Id = request.Id,
+                            Deadline = request.Deadline,
+                            EstimatedPrice = request.EstimatedPrice,
+                            Status = request.Status,
+                            IsConfirmed = request.IsConfirmed,
+                            PickUpRequest = request.PickUpRequest,
+                            ShipRequest = request.ShipRequest,
+                            IsDeleted = (bool)request.IsDeleted,
+                            CustomerId = request.CustomerId,
+                            FullName = customer.FullName,
+                            PhoneNumber = customer.PhoneNumber,
+                            Email = customer.Email,
+                            Address = customer.Address
+                        };
+                        requestDTOs.Add(requestDTO);
+                    }
+
+                }
+
+                if (requestDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "List retrieved successfully";
+                    response.Data = requestDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have data in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
+
 
         public async Task<ServiceResponse<RequestDTO>> GetRequestByIdAsync(Guid id)
         {
