@@ -9,8 +9,11 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Services.Tools
 {
+    
+
     public class VNPayUtil
     {
+   
 
         public const string VERSION = "2.1.0";
         private SortedList<String, String> _requestData = new SortedList<String, String>(new VnPayCompare());
@@ -233,6 +236,14 @@ namespace Services.Tools
 }
 //public async Task<string> Payment(string TransactionId, int Price)
 //{
+
+//string url = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+//string returnUrl = "http://localhost:3000/CheckPayment.html"; // thay đổi đường link phù hợp, là đường link sẽ redirect tới sau khi thanh toán thành công ( hoặc thất bại )
+//string tmnCode = "1OYKR3XB";
+//string hashSecret = "2DOHB8KEZ4TC1JSDK4EPPT4B27DLC8SF";
+
+//Đặt 4 biến trên ở trong service hoặc appsettings.json
+
 //    string random = SomeTool.GenerateId();
 //    string Tref = TransactionId + random;
 
@@ -282,3 +293,4 @@ namespace Services.Tools
 //        return (false, "Invalid signature");
 //    }
 //}
+
