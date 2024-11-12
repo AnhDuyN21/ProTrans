@@ -111,6 +111,26 @@ namespace Application.Services.Account
 
             return response;
         }
+        public async Task<ServiceResponse<AccountDTO>> GetAccountByPhoneNumberAsync(string phoneNumber)
+        {
+            var response = new ServiceResponse<AccountDTO>();
+
+            var accountGetByPhoneNumber = await _unitOfWork.AccountRepository.GetAsync(x => x.PhoneNumber == phoneNumber);
+            if (accountGetByPhoneNumber == null)
+            {
+                response.Success = false;
+                response.Message = "Không tìm thấy số điện thoại";
+            }
+            else
+            {
+                response.Success = true;
+                response.Message = "Account found";
+                response.Data = _mapper.Map<AccountDTO>(accountGetByPhoneNumber);
+            }
+
+            return response;
+        }
+
         public async Task<ServiceResponse<AccountDTO>> CreateAccountAsync(CreateAccountDTO createAccountDTO)
         {
             var response = new ServiceResponse<AccountDTO>();

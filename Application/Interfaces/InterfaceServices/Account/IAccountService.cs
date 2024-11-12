@@ -7,6 +7,7 @@ namespace Application.Interfaces.InterfaceServices.Account
     {
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountAsync();
         Task<ServiceResponse<AccountDTO>> GetAccountByIdAsync(Guid id);
+        Task<ServiceResponse<AccountDTO>> GetAccountByPhoneNumberAsync(string phoneNumber);
         Task<ServiceResponse<AccountDTO>> CreateAccountAsync(CreateAccountDTO createAccountDTO);
         Task<ServiceResponse<bool>> DeleteAccountAsync(Guid id);
         Task<ServiceResponse<AccountDTO>> UpdateAccountAsync(Guid id, AccountDTO accountDTO);

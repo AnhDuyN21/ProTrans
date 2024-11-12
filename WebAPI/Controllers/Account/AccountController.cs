@@ -26,6 +26,12 @@ namespace WebAPI.Controllers.Account
             var result = await _accountService.GetTranslatorsByLanguageId(id);
             return Ok(result);
         }
+        [HttpGet("GetByPhoneNumber")]
+        public async Task<IActionResult> GetByPhoneNumber(string phoneNumber)
+        {
+            var result = await _accountService.GetAccountByPhoneNumberAsync(phoneNumber);
+            return Ok(result);
+        }
 
         [HttpGet("GetByAgencyId")]
         public async Task<IActionResult> GetAccountByAgencyId(Guid AgencyId)
