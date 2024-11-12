@@ -16,5 +16,7 @@ namespace Application.Interfaces.InterfaceServices.Orders
 		public Task<ServiceResponse<OrderDTO>> CreateOrderFromRequestAsync(Guid requestId);
 		public Task<ServiceResponse<bool>> DeleteOrderAsync(Guid id, string reason);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByPhoneNumberAsync(string num);
-	}
+		Task<ServiceResponse<OrderDTO>> UpdateOrderStatusAsync(Guid id, string status);
+
+    }
 }
