@@ -6,6 +6,6 @@ namespace Application.Interfaces.InterfaceRepositories.TranslationSkill
     {
         Task<List<Domain.Entities.TranslationSkill>> GetAllTranslatorSkillAsync(Expression<Func<Domain.Entities.TranslationSkill, bool>>? filter = null, string? includeProperties = null);
         Task<Domain.Entities.TranslationSkill> GetTranslatorSkillByIdAsync(Expression<Func<Domain.Entities.TranslationSkill, bool>>? filter = null, string? includeProperties = null);
-        Task<List<Guid>> GetTranslatorIdsByLanguageIdAsync(Guid id);
+        Task<List<Guid>> GetTranslatorIdListByLanguageIdAsync(Guid id);
     }
 }

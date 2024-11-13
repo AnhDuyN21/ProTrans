@@ -47,7 +47,7 @@ namespace Infrastructures.Repositories.TranslationSkill
             return await query.ToListAsync();
         }
 
-        public async Task<List<Guid>> GetTranslatorIdsByLanguageIdAsync(Guid id)
+        public async Task<List<Guid>> GetTranslatorIdListByLanguageIdAsync(Guid id)
         {
             var result = await _dbSet.Where(x => x.LanguageId == id).Select(x => x.TranslatorId).ToListAsync();
             return result;

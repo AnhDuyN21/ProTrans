@@ -13,7 +13,7 @@ namespace Application.Interfaces.InterfaceServices.Account
         Task<ServiceResponse<AccountDTO>> UpdateAccountAsync(Guid id, AccountDTO accountDTO);
         Task<ServiceResponse<AccountDTO>> RegisterAsync(RegisterDTO registerDTO);
         Task<ServiceResponse<string>> LoginAsync(LoginDTO loginDTO);
-        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorsByLanguageId(Guid id);
+        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorsBy2LanguageId(Guid firstLanguageId, Guid secondLanguageId);
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountByAgencyAsync(Guid agencyid);
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetShipperAsync();
         Task<ServiceResponse<CreateTranslatorDTO>> CreateTranslatorAccountAsync(CreateTranslatorDTO createTranslatorDTO);
