@@ -51,10 +51,38 @@ namespace WebAPI.Controllers.AssignmentShippings
 			return Ok(result);
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> CreateAssignmentShipping([FromBody] CreateAssignmentShippingDTO assignmentShipping)
+		//[HttpPost]
+		//public async Task<IActionResult> CreateAssignmentShipping([FromBody] CreateAssignmentShippingDTO assignmentShipping)
+		//{
+		//	var result = await assignmentShippingService.CreateAssignmentShippingAsync(assignmentShipping);
+		//	if (result.Success)
+		//	{
+		//		return Ok(result);
+		//	}
+		//	else
+		//	{
+		//		return BadRequest(result);
+		//	}
+		//}
+
+		[HttpPost("Ship")]
+		public async Task<IActionResult> CreateAssignmentShippingToShip([FromBody] CreateAssignmentShippingDTO assignmentShipping)
 		{
-			var result = await assignmentShippingService.CreateAssignmentShippingAsync(assignmentShipping);
+			var result = await assignmentShippingService.CreateAssignmentShippingToShipAsync(assignmentShipping);
+			if (result.Success)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
+
+		[HttpPost("PickUp")]
+		public async Task<IActionResult> CreateAssignmentShippingToPickUp([FromBody] CreateAssignmentShippingDTO assignmentShipping)
+		{
+			var result = await assignmentShippingService.CreateAssignmentShippingToPickUpAsync(assignmentShipping);
 			if (result.Success)
 			{
 				return Ok(result);

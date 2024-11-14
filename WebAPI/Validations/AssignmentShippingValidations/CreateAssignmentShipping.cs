@@ -8,9 +8,9 @@ namespace WebAPI.Validations.AssignmentShippingValidations
 	{
 		public CreateAssignmentShipping()
 		{
-			RuleFor(x => x.Type)
-				.Must(value => Enum.IsDefined(typeof(AssignmentShippingType), value))
-				.WithMessage("The type must be Ship or PickUp.");
+			//RuleFor(x => x.Type)
+			//	.Must(value => Enum.IsDefined(typeof(AssignmentShippingType), value))
+			//	.WithMessage("The type must be Ship or PickUp.");
 		}
 	}
 }

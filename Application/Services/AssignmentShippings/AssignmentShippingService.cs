@@ -80,7 +80,7 @@ namespace Application.Services.AssignmentShippings
 			}
 			return response;
 		}
-		
+
 		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetShipAssignmentShippingsByShipperIdAsync(Guid id)
 		{
 			var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
@@ -160,41 +160,148 @@ namespace Application.Services.AssignmentShippings
 			return response;
 		}
 
-		public async Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingAsync(CreateAssignmentShippingDTO CUassignmentShippingDTO)
+		//public async Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingAsync(CreateAssignmentShippingDTO CUassignmentShippingDTO)
+		//{
+		//	var response = new ServiceResponse<AssignmentShippingDTO>();
+		//	try
+		//	{
+		//		var assignmentShipping = _mapper.Map<AssignmentShipping>(CUassignmentShippingDTO);
+		//		assignmentShipping.Status = "Preparing";
+
+		//		await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
+
+		//		var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
+		//		if (documents != null)
+		//		{
+		//			if (CUassignmentShippingDTO.Type == "PickUp")
+		//			{
+		//				foreach (var doc in documents.Data)
+		//				{
+		//					if (doc.NotarizationRequest)
+		//					{
+		//						var imageShipping = new ImageShipping
+		//						{
+		//							DocumentId = doc.Id,
+		//							AssignmentShippingId = assignmentShipping.Id
+		//						};
+		//						await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+		//					}
+		//				}
+		//			}
+		//			else
+		//			{
+		//				var imageShipping = new ImageShipping
+		//				{
+		//					AssignmentShippingId = assignmentShipping.Id
+		//				};
+		//				await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+		//			}
+		//		}
+
+		//		var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+		//		if (isSuccess)
+		//		{
+		//			var assignmentShippingDTO = _mapper.Map<AssignmentShippingDTO>(assignmentShipping);
+		//			response.Data = assignmentShippingDTO;
+		//			response.Success = true;
+		//			response.Message = "Create successfully.";
+		//		}
+		//		else
+		//		{
+		//			response.Success = false;
+		//			response.Message = "Error saving.";
+		//		}
+		//	}
+		//	catch (DbException ex)
+		//	{
+		//		response.Success = false;
+		//		response.Message = "Database error.";
+		//		response.ErrorMessages = new List<string> { ex.Message };
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		response.Success = false;
+		//		response.Message = "Error.";
+		//		response.ErrorMessages = new List<string> { ex.Message };
+		//	}
+		//	return response;
+		//}
+
+		public async Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingToShipAsync(CreateAssignmentShippingDTO CUassignmentShippingDTO)
 		{
 			var response = new ServiceResponse<AssignmentShippingDTO>();
 			try
 			{
 				var assignmentShipping = _mapper.Map<AssignmentShipping>(CUassignmentShippingDTO);
 				assignmentShipping.Status = "Preparing";
+				assignmentShipping.Type = "Ship";
 
 				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
 
 				var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
 				if (documents != null)
 				{
-					if (CUassignmentShippingDTO.Type == "PickUp")
+					var imageShipping = new ImageShipping
 					{
-						foreach (var doc in documents.Data)
+						AssignmentShippingId = assignmentShipping.Id
+					};
+					await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
+				}
+
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+				if (isSuccess)
+				{
+					var assignmentShippingDTO = _mapper.Map<AssignmentShippingDTO>(assignmentShipping);
+					response.Data = assignmentShippingDTO;
+					response.Success = true;
+					response.Message = "Create successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error saving.";
+				}
+			}
+			catch (DbException ex)
+			{
+				response.Success = false;
+				response.Message = "Database error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingToPickUpAsync(CreateAssignmentShippingDTO CUassignmentShippingDTO)
+		{
+			var response = new ServiceResponse<AssignmentShippingDTO>();
+			try
+			{
+				var assignmentShipping = _mapper.Map<AssignmentShipping>(CUassignmentShippingDTO);
+				assignmentShipping.Status = "Preparing";
+				assignmentShipping.Type = "PickUp";
+
+				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
+
+				var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
+				if (documents != null)
+				{
+					foreach (var doc in documents.Data)
+					{
+						if (doc.NotarizationRequest)
 						{
-							if (doc.NotarizationRequest)
+							var imageShipping = new ImageShipping
 							{
-								var imageShipping = new ImageShipping
-								{
-									DocumentId = doc.Id,
-									AssignmentShippingId = assignmentShipping.Id
-								};
-								await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
-							}
+								DocumentId = doc.Id,
+								AssignmentShippingId = assignmentShipping.Id
+							};
+							await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
 						}
-					}
-					else
-					{
-						var imageShipping = new ImageShipping
-						{
-							AssignmentShippingId = assignmentShipping.Id
-						};
-						await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
 					}
 				}
 
