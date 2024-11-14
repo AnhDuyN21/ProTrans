@@ -147,7 +147,7 @@ namespace Application.Services.Orders
 			try
 			{
 				var orders = await _unitOfWork.OrderRepository.GetAllAsync();
-				var targetOrders = orders.Where(order => order.Status == "Completed" && order.AgencyId == id).ToList();
+				var targetOrders = orders.Where(order => order.ShipRequest && order.Status == "Completed" && order.AgencyId == id).ToList();
 				var orderDTOs = _mapper.Map<List<OrderDTO>>(targetOrders);
 
 				if (orderDTOs.Count != 0)
