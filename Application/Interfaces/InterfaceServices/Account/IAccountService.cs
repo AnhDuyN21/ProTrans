@@ -16,6 +16,7 @@ namespace Application.Interfaces.InterfaceServices.Account
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorsBy2LanguageId(Guid firstLanguageId, Guid secondLanguageId);
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetAccountByAgencyAsync(Guid agencyid);
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetShipperAsync();
+        Task<ServiceResponse<IEnumerable<AccountDTO>>> GetShipperByAgencyIdAsync(Guid agencyId);
         Task<ServiceResponse<CreateTranslatorDTO>> CreateTranslatorAccountAsync(CreateTranslatorDTO createTranslatorDTO);
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetStaffAsync();
         Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorAsync();

@@ -45,6 +45,12 @@ namespace WebAPI.Controllers.Account
             var result = await _accountService.GetShipperAsync();
             return Ok(result);
         }
+        [HttpGet("GetAllShipperByAgencyId")]
+        public async Task<IActionResult> GetAllShipperByAgencyId(Guid agencyId)
+        {
+            var result = await _accountService.GetShipperByAgencyIdAsync(agencyId);
+            return Ok(result);
+        }
         [HttpGet("GetAllTranslator")]
         public async Task<IActionResult> GetAllTranslator()
         {
