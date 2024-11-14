@@ -54,13 +54,21 @@ namespace Application.Services.Account
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorsByLanguageId(Guid id)
+        public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorsBy2LanguageId(Guid firstLanguageId, Guid secondLanguageId)
         {
             var response = new ServiceResponse<IEnumerable<AccountDTO>>();
             var accountList = new List<Domain.Entities.Account>();
+            Guid id = Guid.Empty;
+            var firstLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync(firstLanguageId);
+            var secondLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync(secondLanguageId);
+            if (firstLanguage != null && secondLanguage != null)
+            {
+                if (firstLanguage.Name == "Việt Nam") id = secondLanguage.Id;
+				if (secondLanguage.Name == "Việt Nam") id = firstLanguage.Id;
+			}
             try
             {
-                var accountIdList = await _unitOfWork.TranslatorSkillRepository.GetTranslatorIdsByLanguageIdAsync(id);
+                var accountIdList = await _unitOfWork.TranslatorSkillRepository.GetTranslatorIdListByLanguageIdAsync(id);
                 if (accountIdList != null)
                 {
                     foreach (var accountId in accountIdList)

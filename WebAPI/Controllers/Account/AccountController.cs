@@ -20,10 +20,10 @@ namespace WebAPI.Controllers.Account
             return Ok(result);
         }
 
-        [HttpGet("GetByLanguageId")]
-        public async Task<IActionResult> GetTranslatorsByLanguageId(Guid id)
+        [HttpGet("GetBy2LanguageId")]
+        public async Task<IActionResult> GetTranslatorsBy2LanguageId(Guid firstlanguageId, Guid secondlanguageId)
         {
-            var result = await _accountService.GetTranslatorsByLanguageId(id);
+            var result = await _accountService.GetTranslatorsBy2LanguageId(firstlanguageId, secondlanguageId);
             return Ok(result);
         }
         [HttpGet("GetByPhoneNumber")]
