@@ -8,6 +8,7 @@ namespace Application.Interfaces.InterfaceServices.AssignmentShippings
 		public Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetAllAssignmentShippingsAsync();
 		public Task<ServiceResponse<AssignmentShippingDTO>> GetAssignmentShippingByIdAsync(Guid id);
 		public Task<ServiceResponse<AssignmentShippingDTO>> UpdateAssignmentShippingAsync(Guid id, UpdateAssignmentShippingDTO assignmentShipping);
+		public Task<ServiceResponse<AssignmentShippingDTO>> UpdateAssignmentShippingToCompletedAsync(Guid id);
 		//public Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingAsync(CreateAssignmentShippingDTO assignmentShipping);
 		public Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingToShipAsync(CreateAssignmentShippingDTO assignmentShipping);
 		public Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingToPickUpAsync(CreateAssignmentShippingDTO assignmentShipping);

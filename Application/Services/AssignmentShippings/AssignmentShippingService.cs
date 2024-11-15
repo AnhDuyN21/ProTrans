@@ -5,6 +5,7 @@ using Application.Interfaces.InterfaceServices.Documents;
 using Application.ViewModels.AssignmentShippingDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Org.BouncyCastle.Crypto.Agreement.Srp;
 using System.Data.Common;
 
 namespace Application.Services.AssignmentShippings
@@ -39,7 +40,7 @@ namespace Application.Services.AssignmentShippings
 				else
 				{
 					response.Success = true;
-					response.Message = "No assignment shipping exists.";
+					response.Message = "Not exist.";
 				}
 			}
 			catch (Exception ex)
@@ -69,7 +70,7 @@ namespace Application.Services.AssignmentShippings
 				else
 				{
 					response.Success = true;
-					response.Message = "No shipping exists.";
+					response.Message = "Not exist.";
 				}
 			}
 			catch (Exception ex)
@@ -99,7 +100,7 @@ namespace Application.Services.AssignmentShippings
 				else
 				{
 					response.Success = true;
-					response.Message = "No shipping exists.";
+					response.Message = "Not exist.";
 				}
 			}
 			catch (Exception ex)
@@ -129,7 +130,7 @@ namespace Application.Services.AssignmentShippings
 				else
 				{
 					response.Success = true;
-					response.Message = "No shipping exists.";
+					response.Message = "Not exist.";
 				}
 			}
 			catch (Exception ex)
@@ -159,73 +160,6 @@ namespace Application.Services.AssignmentShippings
 			}
 			return response;
 		}
-
-		//public async Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingAsync(CreateAssignmentShippingDTO CUassignmentShippingDTO)
-		//{
-		//	var response = new ServiceResponse<AssignmentShippingDTO>();
-		//	try
-		//	{
-		//		var assignmentShipping = _mapper.Map<AssignmentShipping>(CUassignmentShippingDTO);
-		//		assignmentShipping.Status = "Preparing";
-
-		//		await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
-
-		//		var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
-		//		if (documents != null)
-		//		{
-		//			if (CUassignmentShippingDTO.Type == "PickUp")
-		//			{
-		//				foreach (var doc in documents.Data)
-		//				{
-		//					if (doc.NotarizationRequest)
-		//					{
-		//						var imageShipping = new ImageShipping
-		//						{
-		//							DocumentId = doc.Id,
-		//							AssignmentShippingId = assignmentShipping.Id
-		//						};
-		//						await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
-		//					}
-		//				}
-		//			}
-		//			else
-		//			{
-		//				var imageShipping = new ImageShipping
-		//				{
-		//					AssignmentShippingId = assignmentShipping.Id
-		//				};
-		//				await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
-		//			}
-		//		}
-
-		//		var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-		//		if (isSuccess)
-		//		{
-		//			var assignmentShippingDTO = _mapper.Map<AssignmentShippingDTO>(assignmentShipping);
-		//			response.Data = assignmentShippingDTO;
-		//			response.Success = true;
-		//			response.Message = "Create successfully.";
-		//		}
-		//		else
-		//		{
-		//			response.Success = false;
-		//			response.Message = "Error saving.";
-		//		}
-		//	}
-		//	catch (DbException ex)
-		//	{
-		//		response.Success = false;
-		//		response.Message = "Database error.";
-		//		response.ErrorMessages = new List<string> { ex.Message };
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		response.Success = false;
-		//		response.Message = "Error.";
-		//		response.ErrorMessages = new List<string> { ex.Message };
-		//	}
-		//	return response;
-		//}
 
 		public async Task<ServiceResponse<AssignmentShippingDTO>> CreateAssignmentShippingToShipAsync(CreateAssignmentShippingDTO CUassignmentShippingDTO)
 		{
@@ -342,7 +276,7 @@ namespace Application.Services.AssignmentShippings
 			if (assignmentShipping == null)
 			{
 				response.Success = false;
-				response.Message = "Delete fail.";
+				response.Message = "Not exist.";
 				return response;
 			}
 			try
@@ -380,7 +314,7 @@ namespace Application.Services.AssignmentShippings
 				if (assignmentShipping == null)
 				{
 					response.Success = false;
-					response.Message = "Shipping is not existed.";
+					response.Message = "Not exist.";
 					return response;
 				}
 
@@ -411,6 +345,44 @@ namespace Application.Services.AssignmentShippings
 				{
 					response.Success = false;
 					response.Message = "Error updating.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			return response;
+		}
+		public async Task<ServiceResponse<AssignmentShippingDTO>> UpdateAssignmentShippingToCompletedAsync(Guid id)
+		{
+			var response = new ServiceResponse<AssignmentShippingDTO>();
+			try
+			{
+				var assignmentShipping = await _unitOfWork.AssignmentShippingRepository.GetByIdAsync(id);
+				if (assignmentShipping == null)
+				{
+					response.Success = false;
+					response.Message = "Not exist.";
+				}
+				else
+				{
+					assignmentShipping.Status = "Completed";
+					_unitOfWork.AssignmentShippingRepository.Update(assignmentShipping);
+
+					var result = await _unitOfWork.SaveChangeAsync() > 0;
+					if (result)
+					{
+						response.Success = true;
+						response.Message = "Update successfully.";
+						response.Data = _mapper.Map<AssignmentShippingDTO>(assignmentShipping);
+					}
+					else
+					{
+						response.Success = false;
+						response.Message = "Update fail.";
+					}
 				}
 			}
 			catch (Exception ex)
