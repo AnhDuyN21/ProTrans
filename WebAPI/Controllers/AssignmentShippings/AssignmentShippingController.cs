@@ -104,6 +104,17 @@ namespace WebAPI.Controllers.AssignmentShippings
 			return Ok(result);
 		}
 
+		[HttpPut("UpdateToCompleted")]
+		public async Task<IActionResult> UpdateAssignmentShippingToCompleted(Guid id)
+		{
+			var result = await assignmentShippingService.UpdateAssignmentShippingToCompletedAsync(id);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
+
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteAssignmentShipping(Guid id)
 		{
