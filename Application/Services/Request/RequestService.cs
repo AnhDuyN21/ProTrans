@@ -239,6 +239,12 @@ namespace Application.Services.Request
                     foreach (var doc in createRequestDTO.Documents)
                     {
                         var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId, doc.SecondLanguageId);
+                        if (quotePrice == null)
+                        {
+                            response.Success = false;
+                            response.Message = "There is at least one language pair not supported.";
+                            return response;
+                        }
                         var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(doc.DocumentTypeId);
                         if (quotePrice.PricePerPage != null && documentType != null)
                         {
