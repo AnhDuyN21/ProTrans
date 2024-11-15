@@ -9,6 +9,7 @@ namespace Domain.Enums
 	public enum DocumentNotarizationStatus
 	{
 		None,
+		Waiting,
 		Processing,
 		Notarizating,
 		Notarizated
