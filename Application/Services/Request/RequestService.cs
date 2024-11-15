@@ -96,7 +96,7 @@ namespace Application.Services.Request
                 foreach (var request in requestList)
                 {
                     var customer = await _unitOfWork.AccountRepository.GetAsync(x => x.Id == request.CustomerId);
-                    if(customer == null )
+                    if (customer == null)
                     {
                         response.Success = false;
                         response.Message = "request không có thông tin khách hàng";
@@ -153,7 +153,7 @@ namespace Application.Services.Request
                 var requestDTOs = new List<RequestCustomerDTO>();
                 foreach (var request in requestList)
                 {
-                    if(request.CustomerId == customerId)
+                    if (request.CustomerId == customerId)
                     {
                         var customer = await _unitOfWork.AccountRepository.GetAsync(x => x.Id == request.CustomerId);
                         if (customer == null)
@@ -212,7 +212,7 @@ namespace Application.Services.Request
             var response = new ServiceResponse<RequestDTO>();
 
             var requestGetById = await _unitOfWork.RequestRepository.GetByIdAsync(id);
-            if (requestGetById == null )
+            if (requestGetById == null)
             {
                 response.Success = false;
                 response.Message = "Id is not existed";
@@ -230,32 +230,44 @@ namespace Application.Services.Request
             var response = new ServiceResponse<CreateRequestDTO>();
             try
             {
-                var request = _mapper.Map<Domain.Entities.Request>(createRequestDTO);
                 var customerId = _unitOfWork.RequestRepository.GetCurrentCustomerId();
-                request.CustomerId = customerId;
+                decimal price = 0;
 
-                if(createRequestDTO.Documents != null)
+                if (createRequestDTO.Documents != null)
                 {
-                    request.EstimatedPrice = 0;
+                    
                     foreach (var doc in createRequestDTO.Documents)
                     {
                         var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId, doc.SecondLanguageId);
                         var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(doc.DocumentTypeId);
                         if (quotePrice.PricePerPage != null && documentType != null)
                         {
-                            request.EstimatedPrice += quotePrice.PricePerPage.Value * doc.PageNumber * documentType.PriceFactor;
+                            price += quotePrice.PricePerPage.Value * doc.PageNumber * documentType.PriceFactor;
                         }
-                        request.EstimatedPrice += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
+                        price += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
                         if (doc.NotarizationRequest)
                         {
                             var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId);
                             if (notarization != null)
                             {
-                                request.EstimatedPrice += notarization.Price * doc.NumberOfNotarizedCopies;
+                                price += notarization.Price * doc.NumberOfNotarizedCopies;
                             }
+                        }
+                        doc.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
+                        if (doc.NotarizationRequest == true)
+                        {
+                            doc.NotarizationStatus = DocumentNotarizationStatus.Waiting.ToString();
+                        }
+                        else
+                        {
+                            doc.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
                         }
                     }
                 }
+                var request = _mapper.Map<Domain.Entities.Request>(createRequestDTO);
+                request.CustomerId = customerId;
+                request.EstimatedPrice = price;
+
                 request.Status = RequestStatus.Waitting.ToString();
                 await _unitOfWork.RequestRepository.AddAsync(request);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
@@ -345,7 +357,7 @@ namespace Application.Services.Request
                     return response;
                 }
                 var updated = _mapper.Map(customerUpdateRequestDTO, getRequestById);
-                if(customerUpdateRequestDTO.Status == "Accept")
+                if (customerUpdateRequestDTO.Status == "Accept")
                 {
                     updated.IsConfirmed = true;
                 }
