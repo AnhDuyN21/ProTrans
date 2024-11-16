@@ -226,6 +226,7 @@ namespace Application.Services.Orders
 			try
 			{
 				var order = _mapper.Map<Order>(CUorderDTO);
+				order.OrderCode = order.Id.ToString().Substring(0, 6).ToUpper();
 				order.TotalPrice = 0;
 
 				if (CUorderDTO.Documents != null)
@@ -460,42 +461,42 @@ namespace Application.Services.Orders
 			}
 			return response;
 		}
-        public async Task<ServiceResponse<OrderDTO>> UpdateOrderStatusAsync(Guid id, string status)
-        {
-            var response = new ServiceResponse<OrderDTO>();
-            try
-            {
-                var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+		public async Task<ServiceResponse<OrderDTO>> UpdateOrderStatusAsync(Guid id, string status)
+		{
+			var response = new ServiceResponse<OrderDTO>();
+			try
+			{
+				var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
 
-                if (order == null)
-                {
-                    response.Success = false;
-                    response.Message = "Order is not existed.";
-                    return response;
-                }
+				if (order == null)
+				{
+					response.Success = false;
+					response.Message = "Order is not existed.";
+					return response;
+				}
 				order.Status = status;
-                _unitOfWork.OrderRepository.Update(order);
+				_unitOfWork.OrderRepository.Update(order);
 
-                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                if (isSuccess)
-                {
-                    response.Data = _mapper.Map<OrderDTO>(order);
-                    response.Success = true;
-                    response.Message = "Update successfully.";
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Message = "Error updating.";
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error.";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-            return response;
-        }
-    }
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+				if (isSuccess)
+				{
+					response.Data = _mapper.Map<OrderDTO>(order);
+					response.Success = true;
+					response.Message = "Update successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error updating.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			return response;
+		}
+	}
 }

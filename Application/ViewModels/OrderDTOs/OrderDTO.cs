@@ -3,6 +3,7 @@
 	public class OrderDTO
 	{
 		public Guid Id { get; set; }
+		public string? OrderCode { get; set; }
 		public string? FullName { get; set; }
 		public string? PhoneNumber { get; set; }
 		public string? Address { get; set; }
