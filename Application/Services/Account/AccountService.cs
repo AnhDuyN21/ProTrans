@@ -495,11 +495,21 @@ namespace Application.Services.Account
         public async Task<ServiceResponse<IEnumerable<AccountDTO>>> GetShipperByAgencyIdAsync(Guid agencyId)
         {
             var response = new ServiceResponse<IEnumerable<AccountDTO>>();
+            var agency = await _unitOfWork.AgencyRepository.GetByIdAsync(agencyId);
+            string agencyName = null;
+            if (agency != null)
+            {
+                agencyName = agency.Name;
+            }
 
             try
             {
                 var accountList = await _unitOfWork.AccountRepository.GetAllAsync(x => x.Role.Name.Equals("Shipper") && x.AgencyId == agencyId);
                 var accountDTOs = _mapper.Map<List<AccountDTO>>(accountList);
+                if (agencyName != null) foreach (var accountDTO in accountDTOs)
+                {
+                    accountDTO.AgencyName = agencyName;
+                }
 
                 if (accountDTOs.Count != 0)
                 {

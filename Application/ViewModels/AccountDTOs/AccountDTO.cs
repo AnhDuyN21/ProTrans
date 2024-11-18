@@ -14,6 +14,7 @@
         public string? Gender { get; set; }
         public Guid? RoleId { get; set; }
         public Guid? AgencyId { get; set; }
+        public string? AgencyName { get; set; }
         public bool? IsDeleted { get; set; }
     }
 }
