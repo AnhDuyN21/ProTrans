@@ -82,13 +82,13 @@ namespace Application.Services.AssignmentShippings
 			return response;
 		}
 
-		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetShipAssignmentShippingsByShipperIdAsync(Guid id)
+		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetPrepareShipAssignmentShippingsByShipperIdAsync(Guid id)
 		{
 			var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
 
 			try
 			{
-				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship");
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship" && x.Status.Equals("Prepare"));
 				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
 
 				if (assignmentShippingDTOs.Count != 0)
@@ -111,14 +111,43 @@ namespace Application.Services.AssignmentShippings
 			}
 			return response;
 		}
+        public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetShippingShipAssignmentShippingsByShipperIdAsync(Guid id)
+        {
+            var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
 
-		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetPickUpAssignmentShippingsByShipperIdAsync(Guid id)
+            try
+            {
+                var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship" && x.Status.Equals("Shipping"));
+                var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
+
+                if (assignmentShippingDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "Get successfully.";
+                    response.Data = assignmentShippingDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not exist.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error.";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetPickUpAssignmentShippingsByShipperIdAsync(Guid id)
 		{
 			var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
 
 			try
 			{
-				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "PickUp");
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "PickUp" && x.Status != "Completed");
 				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
 
 				if (assignmentShippingDTOs.Count != 0)
@@ -355,7 +384,7 @@ namespace Application.Services.AssignmentShippings
 			}
 			return response;
 		}
-		public async Task<ServiceResponse<AssignmentShippingDTO>> UpdateAssignmentShippingToCompletedAsync(Guid id)
+		public async Task<ServiceResponse<AssignmentShippingDTO>> UpdateAssignmentShippingStatusAsync(Guid id,string status)
 		{
 			var response = new ServiceResponse<AssignmentShippingDTO>();
 			try
@@ -368,7 +397,7 @@ namespace Application.Services.AssignmentShippings
 				}
 				else
 				{
-					assignmentShipping.Status = "Completed";
+					assignmentShipping.Status = status;
 					_unitOfWork.AssignmentShippingRepository.Update(assignmentShipping);
 
 					var result = await _unitOfWork.SaveChangeAsync() > 0;
