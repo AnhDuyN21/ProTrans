@@ -88,7 +88,7 @@ namespace Application.Services.AssignmentShippings
 
 			try
 			{
-				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship" && x.Status.Equals("Prepare"));
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship" && x.Status.Equals("Preparing"));
 				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
 
 				if (assignmentShippingDTOs.Count != 0)
