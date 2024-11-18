@@ -5,7 +5,9 @@ using Application.ViewModels.OrderDTOs;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data.Common;
+using System.Net.WebSockets;
 
 namespace Application.Services.Orders
 {
@@ -37,7 +39,7 @@ namespace Application.Services.Orders
 				else
 				{
 					response.Success = true;
-					response.Message = "No order exists.";
+					response.Message = "No orders exist.";
 				}
 			}
 			catch (Exception ex)
@@ -67,7 +69,60 @@ namespace Application.Services.Orders
 				else
 				{
 					response.Success = true;
-					response.Message = "No order exists.";
+					response.Message = "No orders exist.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToPickUpAsync()
+		{
+			var response = new ServiceResponse<IEnumerable<OrderDTO>>();
+			var targetOrders = new List<Order>();
+			try
+			{
+				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => x.Status.Equals("Processing") || x.Status.Equals("Implementing"));
+
+				if (orders == null)
+				{
+					response.Success = true;
+					response.Message = "No orders exist.";
+				}
+				else
+				{
+					foreach (var order in orders)
+					{
+						var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(order.Id);
+						if (documents != null)
+						{
+							foreach (var doc in documents)
+							{
+								if (doc.NotarizationRequest)
+								{
+									targetOrders.Add(order);
+									break;
+								}
+							}
+						}
+					}
+					var orderDTOs = _mapper.Map<List<OrderDTO>>(targetOrders);
+					if (orderDTOs.Count != 0)
+					{
+						response.Success = true;
+						response.Message = "Get successfully.";
+						response.Data = orderDTOs;
+					}
+					else
+					{
+						response.Success = true;
+						response.Message = "No orders exist.";
+					}
 				}
 			}
 			catch (Exception ex)
@@ -97,7 +152,7 @@ namespace Application.Services.Orders
 				else
 				{
 					response.Success = true;
-					response.Message = "No order exists.";
+					response.Message = "No orders exist.";
 				}
 			}
 			catch (Exception ex)
@@ -128,7 +183,7 @@ namespace Application.Services.Orders
 				else
 				{
 					response.Success = true;
-					response.Message = "No completed order exists.";
+					response.Message = "No completed orders exist.";
 				}
 			}
 			catch (Exception ex)
@@ -159,7 +214,7 @@ namespace Application.Services.Orders
 				else
 				{
 					response.Success = true;
-					response.Message = "No order exists.";
+					response.Message = "No orders exist.";
 				}
 			}
 			catch (Exception ex)
@@ -208,7 +263,7 @@ namespace Application.Services.Orders
 				else
 				{
 					response.Success = true;
-					response.Message = "No order exists.";
+					response.Message = "No orders exist.";
 				}
 			}
 			catch (Exception ex)

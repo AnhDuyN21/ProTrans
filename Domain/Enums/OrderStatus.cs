@@ -6,6 +6,7 @@
 		Implementing,
 		Completed,
 		Delivering,
-		Delivered
+		Delivered,
+		Canceled
 	}
 }
