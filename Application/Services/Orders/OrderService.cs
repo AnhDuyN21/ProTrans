@@ -103,7 +103,7 @@ namespace Application.Services.Orders
 						{
 							foreach (var doc in documents)
 							{
-								if (doc.NotarizationRequest)
+								if (doc.NotarizationRequest && doc.NotarizationStatus == DocumentNotarizationStatus.Processing.ToString())
 								{
 									targetOrders.Add(order);
 									break;

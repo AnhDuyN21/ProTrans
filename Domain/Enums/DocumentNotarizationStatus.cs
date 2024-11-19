@@ -11,6 +11,8 @@ namespace Domain.Enums
 		None,
 		Waiting,
 		Processing,
+		PickingUp,
+		PickedUp,
 		Notarizating,
 		Notarizated
 	}
