@@ -325,7 +325,7 @@ namespace Application.Services.Orders
 					foreach (var doc in order.Documents)
 					{
 						if (doc.FileType == "Hard") doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
-						if (doc.NotarizationRequest) doc.NotarizationStatus = "Processing";
+						if (doc.NotarizationRequest) doc.NotarizationStatus = "PickedUp";
 						else doc.NotarizationStatus = "None";
 						doc.TranslationStatus = "Processing";
 					}
