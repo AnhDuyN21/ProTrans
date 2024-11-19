@@ -5,6 +5,7 @@ using Application.Interfaces.InterfaceServices.Documents;
 using Application.ViewModels.AssignmentShippingDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Org.BouncyCastle.Crypto.Agreement.Srp;
 using System.Data.Common;
 
@@ -251,10 +252,10 @@ namespace Application.Services.AssignmentShippings
 
 				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
 
-				var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
+				var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(CUassignmentShippingDTO.OrderId);
 				if (documents != null)
 				{
-					foreach (var doc in documents.Data)
+					foreach (var doc in documents)
 					{
 						if (doc.NotarizationRequest)
 						{
@@ -263,6 +264,8 @@ namespace Application.Services.AssignmentShippings
 								DocumentId = doc.Id,
 								AssignmentShippingId = assignmentShipping.Id
 							};
+							doc.NotarizationStatus = DocumentNotarizationStatus.PickingUp.ToString();
+							_unitOfWork.DocumentRepository.Update(doc);
 							await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
 						}
 					}
