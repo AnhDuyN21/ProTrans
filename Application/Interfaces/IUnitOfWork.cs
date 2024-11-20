@@ -20,6 +20,7 @@ using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 using Application.Interfaces.InterfaceRepositories;
 using Application.Interfaces.InterfaceRepositories.ImageShippings;
+using Application.Interfaces.InterfaceRepositories.Distance;
 
 namespace Application.Interfaces
 {
@@ -47,6 +48,7 @@ namespace Application.Interfaces
         public INotarizationDetailRepository NotarizationDetailRepository { get; }
         public ISendMailRepository SendMailRepository { get; }
         public IImageShippingRepository ImageShippingRepository { get; }
+        public IDistanceRepository DistanceRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

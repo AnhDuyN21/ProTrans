@@ -89,6 +89,10 @@ using Application.Interfaces.InterfaceRepositories.ImageShippings;
 using Infrastructures.Repositories.ImageShippings;
 using Application.Interfaces.InterfaceServices.ImageShippings;
 using Application.Services.ImageShippings;
+using Application.Interfaces.InterfaceRepositories.Distance;
+using Infrastructures.Repositories.Distance;
+using Application.Interfaces.InterfaceServices.Distance;
+using Application.Services.Distance;
 
 namespace Infrastructures
 {
@@ -107,6 +111,10 @@ namespace Infrastructures
 
             //Roles
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+            //Distances
+            services.AddScoped<IDistanceRepository, DistanceRepository>();
+            services.AddScoped<IDistanceService, DistanceService>();
 
             //Requests
             services.AddScoped<IRequestService, RequestService>();
