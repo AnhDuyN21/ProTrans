@@ -56,9 +56,8 @@ namespace Application.Services.Documents
 
 			try
 			{
-				var documents = await _unitOfWork.DocumentRepository.GetAllAsync();
-				var targetDocuments = documents.Where(x => x.NotarizationRequest && x.TranslationStatus == "Translated" && x.NotarizationStatus == "PickedUp").ToList();
-				var documentDTOs = _mapper.Map<List<DocumentDTO>>(targetDocuments);
+				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.NotarizationRequest && x.TranslationStatus == "Translated" && x.NotarizationStatus == "PickedUp");
+				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
 
 				if (documentDTOs.Count != 0)
 				{
