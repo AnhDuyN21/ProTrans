@@ -3,6 +3,7 @@ using Application.ViewModels.AgencyDTOs;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using Application.ViewModels.AssignmentShippingDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
+using Application.ViewModels.DistanceDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.FeedbackDTOs;
@@ -35,6 +36,9 @@ namespace Infrastructures.Mappers
             CreateMap<Agency, AgencyDTO>().ReverseMap();
             CreateMap<Agency, CUAgencyDTO>().ReverseMap();
 
+            //Distances
+            CreateMap<Distance, DistanceDTO>().ReverseMap();
+            CreateMap<Distance, CreateUpdateDistanceDTO>().ReverseMap();
 
             //Requests
             CreateMap<Request, RequestDTO>().ReverseMap();

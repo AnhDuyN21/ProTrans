@@ -21,6 +21,7 @@ using Application.Interfaces.InterfaceRepositories.Transactions;
 using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 using Application.Interfaces.InterfaceRepositories;
 using Application.Interfaces.InterfaceRepositories.ImageShippings;
+using Application.Interfaces.InterfaceRepositories.Distance;
 
 namespace Infrastructures
 {
@@ -49,6 +50,8 @@ namespace Infrastructures
         private readonly INotarizationDetailRepository _notarizationDetailRepository;
         private readonly ISendMailRepository _sendMailRepository;
         private readonly IImageShippingRepository _imageShippingRepository;
+        private readonly IDistanceRepository _distanceRepository;
+        
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
             ITranslatorSkillRepository translatorSkillRepository, INotificationRepository notificationRepository,
@@ -60,7 +63,8 @@ namespace Infrastructures
             ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository,
             IDocumentHistoryRepository documentHistoryRepository,
             IDocumentPriceRepository documentPriceRepository, INotarizationDetailRepository notarizationDetailRepository,
-            ISendMailRepository sendMailRepository, IImageShippingRepository imageShippingRepository)
+            ISendMailRepository sendMailRepository, IImageShippingRepository imageShippingRepository,
+            IDistanceRepository distanceRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -85,6 +89,7 @@ namespace Infrastructures
             _notarizationDetailRepository = notarizationDetailRepository;
             _sendMailRepository = sendMailRepository;
             _imageShippingRepository = imageShippingRepository;
+            _distanceRepository = distanceRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IAgencyRepository AgencyRepository => _agencyRepository;
@@ -108,6 +113,7 @@ namespace Infrastructures
         public ISendMailRepository SendMailRepository => _sendMailRepository;
         public INotarizationDetailRepository NotarizationDetailRepository => _notarizationDetailRepository;
         public IImageShippingRepository ImageShippingRepository => _imageShippingRepository;
+        public IDistanceRepository DistanceRepository => _distanceRepository;
 
         public async Task<int> SaveChangeAsync()
         {
