@@ -41,6 +41,7 @@ namespace Infrastructures
             modelBuilder.ApplyConfiguration(new DocumentTypeConfiguration());
             modelBuilder.ApplyConfiguration(new NotarizationConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new DistanceConfiguration());
 
         }
 
