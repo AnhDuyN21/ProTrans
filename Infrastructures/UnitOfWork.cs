@@ -13,7 +13,6 @@ using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.NotarizationDetail;
 using Application.Interfaces.InterfaceRepositories.Notification;
 using Application.Interfaces.InterfaceRepositories.Orders;
-using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
@@ -42,7 +41,6 @@ namespace Infrastructures
         private readonly IOrderRepository _orderRepository;
         private readonly IAssignmentNotarizationRepository _assignmentNotarizationRepository;
         private readonly IAssignmentShippingRepository _shippingRepository;
-        private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IRequestRepository _requestRepository;
         private readonly IAgencyRepository _agencyRepository;
@@ -58,7 +56,7 @@ namespace Infrastructures
             IDocumentRepository documentReository, IOrderRepository orderRepository,
             IAssignmentNotarizationRepository assignmentNotarizationRepository,
             IAssignmentShippingRepository shippingRepository, IFeedbackRepository feedbackRepository,
-            IDocumentTypeRepository documentTypeRepository, IPaymentMethodRepository paymenMethodRepository,
+            IDocumentTypeRepository documentTypeRepository,
             ITransactionRepository transactionRepository, IRequestRepository requestRepository, IAgencyRepository agencyRepository,
             IDocumentHistoryRepository documentHistoryRepository,
             IDocumentPriceRepository documentPriceRepository, INotarizationDetailRepository notarizationDetailRepository,
@@ -79,7 +77,6 @@ namespace Infrastructures
             _orderRepository = orderRepository;
             _assignmentNotarizationRepository = assignmentNotarizationRepository;
             _shippingRepository = shippingRepository;
-            _paymentMethodRepository = paymenMethodRepository;
             _transactionRepository = transactionRepository;
             _requestRepository = requestRepository;
             _agencyRepository = agencyRepository;
@@ -106,9 +103,7 @@ namespace Infrastructures
         public IOrderRepository OrderRepository => _orderRepository;
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository => _assignmentNotarizationRepository;
         public IAssignmentShippingRepository AssignmentShippingRepository => _shippingRepository;
-        public IPaymentMethodRepository PaymentMethodRepository => _paymentMethodRepository;
         public ITransactionRepository TransactionRepository => _transactionRepository;
-        public IPaymentMethodRepository PaymenMethodRepository => _paymentMethodRepository;
         public IRequestRepository RequestRepository => _requestRepository;
         public ISendMailRepository SendMailRepository => _sendMailRepository;
         public INotarizationDetailRepository NotarizationDetailRepository => _notarizationDetailRepository;

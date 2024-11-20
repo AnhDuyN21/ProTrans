@@ -31,7 +31,6 @@ namespace Infrastructures
         public DbSet<AssignmentShipping> AssignmentShipping { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
-        public DbSet<PaymentMethod> PaymentMethod { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
