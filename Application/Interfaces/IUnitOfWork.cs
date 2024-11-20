@@ -12,7 +12,6 @@ using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.NotarizationDetail;
 using Application.Interfaces.InterfaceRepositories.Notification;
 using Application.Interfaces.InterfaceRepositories.Orders;
-using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
@@ -43,9 +42,7 @@ namespace Application.Interfaces
         public IOrderRepository OrderRepository { get; }
         public IAssignmentNotarizationRepository AssignmentNotarizationRepository { get; }
         public IAssignmentShippingRepository AssignmentShippingRepository { get; }
-        public IPaymentMethodRepository PaymentMethodRepository { get; }
         public ITransactionRepository TransactionRepository { get; }
-        public IPaymentMethodRepository PaymenMethodRepository { get; }
         public IRequestRepository RequestRepository { get; }
         public INotarizationDetailRepository NotarizationDetailRepository { get; }
         public ISendMailRepository SendMailRepository { get; }

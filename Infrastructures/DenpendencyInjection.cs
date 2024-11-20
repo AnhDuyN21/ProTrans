@@ -13,7 +13,6 @@ using Application.Interfaces.InterfaceRepositories.Notarization;
 using Application.Interfaces.InterfaceRepositories.NotarizationDetail;
 using Application.Interfaces.InterfaceRepositories.Notification;
 using Application.Interfaces.InterfaceRepositories.Orders;
-using Application.Interfaces.InterfaceRepositories.PaymentMethods;
 using Application.Interfaces.InterfaceRepositories.QuotePrice;
 using Application.Interfaces.InterfaceRepositories.Request;
 using Application.Interfaces.InterfaceRepositories.Role;
@@ -33,7 +32,6 @@ using Application.Interfaces.InterfaceServices.Notarization;
 using Application.Interfaces.InterfaceServices.NotarizationDetail;
 using Application.Interfaces.InterfaceServices.Notification;
 using Application.Interfaces.InterfaceServices.Orders;
-using Application.Interfaces.InterfaceServices.PaymentMethods;
 using Application.Interfaces.InterfaceServices.QuotePrice;
 using Application.Interfaces.InterfaceServices.Request;
 using Application.Interfaces.InterfaceServices.Transactions;
@@ -52,7 +50,6 @@ using Application.Services.Notarization;
 using Application.Services.NotarizationDetail;
 using Application.Services.Notification;
 using Application.Services.Orders;
-using Application.Services.PaymentMethods;
 using Application.Services.QuotePrice;
 using Application.Services.Request;
 using Application.Services.role;
@@ -74,7 +71,6 @@ using Infrastructures.Repositories.Notarization;
 using Infrastructures.Repositories.NotarizationDetail;
 using Infrastructures.Repositories.Notification;
 using Infrastructures.Repositories.Orders;
-using Infrastructures.Repositories.PaymentMethods;
 using Infrastructures.Repositories.Request;
 using Infrastructures.Repositories.Role;
 using Infrastructures.Repositories.Transactions;
@@ -187,9 +183,6 @@ namespace Infrastructures
                 services.AddScoped<IAssignmentShippingRepository, AssignmentShippingResopitory>();
             services.AddScoped<IAssignmentShippingService, AssignmentShippingService>();
 
-            //PaymentMethods
-            services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
-            services.AddScoped<IPaymentMethodService, PaymentMethodService>();
             //Transactions
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionService, TransactionService>();

@@ -13,11 +13,9 @@
         public string? Status { get; set; }
         public string? Reason { get; set; }
         //Foreignkey
-        public Guid? PaymentId { get; set; }
         public Guid? AgencyId { get; set; }
         public Guid? RequestId { get; set; }
         //Relationship
-        public virtual PaymentMethod? PaymentMethod { get; set; }
         public virtual Agency? Agency { get; set; }
         public virtual Request? Request { get; set; }
         public virtual ICollection<Document>? Documents { get; set; }
