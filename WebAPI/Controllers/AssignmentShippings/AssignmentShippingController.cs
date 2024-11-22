@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.InterfaceServices.AssignmentShippings;
 using Application.ViewModels.AssignmentShippingDTOs;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.AssignmentShippings
@@ -32,14 +33,14 @@ namespace WebAPI.Controllers.AssignmentShippings
 			var result = await assignmentShippingService.GetPrepareShipAssignmentShippingsByShipperIdAsync(id);
 			return Ok(result);
 		}
-        [HttpGet("GetShippingShipByShipperId")]
-        public async Task<IActionResult> GetShippingShipAssignmentShippingsByShipperId(Guid id)
-        {
-            var result = await assignmentShippingService.GetShippingShipAssignmentShippingsByShipperIdAsync(id);
-            return Ok(result);
-        }
+		[HttpGet("GetShippingShipByShipperId")]
+		public async Task<IActionResult> GetShippingShipAssignmentShippingsByShipperId(Guid id)
+		{
+			var result = await assignmentShippingService.GetShippingShipAssignmentShippingsByShipperIdAsync(id);
+			return Ok(result);
+		}
 
-        [HttpGet("GetPickUpByShipperId")]
+		[HttpGet("GetPickUpByShipperId")]
 		public async Task<IActionResult> GetPickUpAssignmentShippingsByShipperId(Guid id)
 		{
 			var result = await assignmentShippingService.GetPickUpAssignmentShippingsByShipperIdAsync(id);
@@ -113,25 +114,26 @@ namespace WebAPI.Controllers.AssignmentShippings
 		[HttpPut("UpdateToCompleted")]
 		public async Task<IActionResult> UpdateAssignmentShippingToCompleted(Guid id)
 		{
-			var result = await assignmentShippingService.UpdateAssignmentShippingStatusAsync(id,"Completed");
+			var result = await assignmentShippingService.UpdateAssignmentShippingStatusAsync(id, AssignmentShippingStatus.Completed.ToString());
 			if (!result.Success)
 			{
 				return NotFound(result);
 			}
 			return Ok(result);
 		}
-        [HttpPut("UpdateToShipping")]
-        public async Task<IActionResult> UpdateAssignmentShippingToShipping(Guid id)
-        {
-            var result = await assignmentShippingService.UpdateAssignmentShippingStatusAsync(id, "Shipping");
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
-        }
 
-        [HttpDelete("{id}")]
+		[HttpPut("UpdateToShipping")]
+		public async Task<IActionResult> UpdateAssignmentShippingToShipping(Guid id)
+		{
+			var result = await assignmentShippingService.UpdateAssignmentShippingStatusAsync(id, AssignmentShippingStatus.Shipping.ToString());
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
+
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteAssignmentShipping(Guid id)
 		{
 			var result = await assignmentShippingService.DeleteAssignmentShippingAsync(id);

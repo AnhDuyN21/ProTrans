@@ -242,7 +242,7 @@ namespace Application.Services.Request
                         if (quotePrice == null)
                         {
                             response.Success = false;
-                            response.Message = "There is at least one language pair not supported.";
+                            response.Message = "Có ít nhất 1 cặp ngôn ngữ không được hỗ trợ.";
                             return response;
                         }
                         var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(doc.DocumentTypeId);

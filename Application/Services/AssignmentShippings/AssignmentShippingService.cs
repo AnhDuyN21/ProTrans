@@ -6,6 +6,7 @@ using Application.ViewModels.AssignmentShippingDTOs;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
+using MailKit.Search;
 using Org.BouncyCastle.Crypto.Agreement.Srp;
 using System.Data.Common;
 
@@ -112,37 +113,37 @@ namespace Application.Services.AssignmentShippings
 			}
 			return response;
 		}
-        public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetShippingShipAssignmentShippingsByShipperIdAsync(Guid id)
-        {
-            var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
+		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetShippingShipAssignmentShippingsByShipperIdAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
 
-            try
-            {
-                var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship" && x.Status.Equals("Shipping"));
-                var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
+			try
+			{
+				var assignmentShippings = await _unitOfWork.AssignmentShippingRepository.GetAllAsync(x => x.ShipperId == id && x.Type == "Ship" && x.Status.Equals("Shipping"));
+				var assignmentShippingDTOs = _mapper.Map<List<AssignmentShippingDTO>>(assignmentShippings);
 
-                if (assignmentShippingDTOs.Count != 0)
-                {
-                    response.Success = true;
-                    response.Message = "Get successfully.";
-                    response.Data = assignmentShippingDTOs;
-                }
-                else
-                {
-                    response.Success = true;
-                    response.Message = "Not exist.";
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error.";
-                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
-            }
-            return response;
-        }
+				if (assignmentShippingDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = assignmentShippingDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "Not exist.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
 
-        public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetPickUpAssignmentShippingsByShipperIdAsync(Guid id)
+		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetPickUpAssignmentShippingsByShipperIdAsync(Guid id)
 		{
 			var response = new ServiceResponse<IEnumerable<AssignmentShippingDTO>>();
 
@@ -387,7 +388,7 @@ namespace Application.Services.AssignmentShippings
 			}
 			return response;
 		}
-		public async Task<ServiceResponse<AssignmentShippingDTO>> UpdateAssignmentShippingStatusAsync(Guid id,string status)
+		public async Task<ServiceResponse<AssignmentShippingDTO>> UpdateAssignmentShippingStatusAsync(Guid id, string status)
 		{
 			var response = new ServiceResponse<AssignmentShippingDTO>();
 			try
@@ -402,6 +403,20 @@ namespace Application.Services.AssignmentShippings
 				{
 					assignmentShipping.Status = status;
 					_unitOfWork.AssignmentShippingRepository.Update(assignmentShipping);
+					if (assignmentShipping.Type == AssignmentShippingType.Ship.ToString())
+					{
+						var order = await _unitOfWork.OrderRepository.GetByIdAsync(assignmentShipping.OrderId);
+						if (order != null)
+						{
+							if (status == AssignmentShippingStatus.Completed.ToString()) order.Status = OrderStatus.Delivered.ToString();
+							if (status == AssignmentShippingStatus.Shipping.ToString()) order.Status = OrderStatus.Delivering.ToString();
+							_unitOfWork.OrderRepository.Update(order);
+						}
+					}
+					if (assignmentShipping.Type == AssignmentShippingType.PickUp.ToString())
+					{
+						var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.OrderId == assignmentShipping.OrderId && x.NotarizationRequest);
+					}
 
 					var result = await _unitOfWork.SaveChangeAsync() > 0;
 					if (result)
