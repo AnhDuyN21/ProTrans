@@ -413,6 +413,10 @@ namespace Application.Services.AssignmentShippings
 							_unitOfWork.OrderRepository.Update(order);
 						}
 					}
+					if (assignmentShipping.Type == AssignmentShippingType.PickUp.ToString())
+					{
+						var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.OrderId == assignmentShipping.OrderId && x.NotarizationRequest);
+					}
 
 					var result = await _unitOfWork.SaveChangeAsync() > 0;
 					if (result)
