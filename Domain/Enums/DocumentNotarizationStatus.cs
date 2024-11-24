@@ -13,6 +13,7 @@ namespace Domain.Enums
 		Processing,
 		PickingUp,
 		PickedUp,
+		Received,
 		Notarizating,
 		Notarizated
 	}
