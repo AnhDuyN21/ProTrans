@@ -182,7 +182,7 @@ namespace Infrastructures
                 {
                     Host = "smtp.gmail.com",
                     Port = 587,
-                    Credentials = new NetworkCredential("duynguyenbt21093@gmail.com", "vcel reqo rtcd esaj"),
+                    Credentials = new NetworkCredential("teptai48@gmail.com", "kpkd fntv hisp piro"),
                     EnableSsl = true
                 };
                 return smtpClient;

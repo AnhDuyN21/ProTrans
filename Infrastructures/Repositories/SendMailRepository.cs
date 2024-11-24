@@ -20,7 +20,7 @@ namespace Infrastructures.Repositories
 
         public async Task SendEmailAsync(MessageDTO message)
         {
-            var mailMessage = new MailMessage("duynguyenbt21093@gmail.com", message.To)
+            var mailMessage = new MailMessage("teptai48@gmail.com", message.To)
             {
                 Subject = message.Subject,
                 Body = $"<html><body><p>{message.Body}</p><img src='{message.ImageUrl}'/></body></html>",

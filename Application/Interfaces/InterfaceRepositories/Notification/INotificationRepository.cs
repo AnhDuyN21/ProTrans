@@ -6,6 +6,8 @@ namespace Application.Interfaces.InterfaceRepositories.Notification
     {
         public Task SendNotificationAsync(Domain.Entities.Notification notification, Guid id);
         public Task SendANotificationAsync(Domain.Entities.Notification notification, Guid id);
-        public Task<List<Domain.Entities.Notification>> GetAllNotificationAsync(Expression<Func<Domain.Entities.Notification, bool>>? filter = null, string? includeProperties = null);
+        public Task<List<Domain.Entities.Notification>> GetAllNotificationAsync(Expression<Func<Domain.Entities.Notification, bool>>? filter = null,
+              Func<IQueryable<Domain.Entities.Notification>, IOrderedQueryable<Domain.Entities.Notification>>? orderBy = null, 
+              string? includeProperties = null);
     }
 }

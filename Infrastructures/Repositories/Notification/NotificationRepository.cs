@@ -21,7 +21,9 @@ namespace Infrastructures.Repositories.Notification
 
 
 
-        public async Task<List<Domain.Entities.Notification>> GetAllNotificationAsync(Expression<Func<Domain.Entities.Notification, bool>>? filter = null, string? includeProperties = null)
+        public async Task<List<Domain.Entities.Notification>> GetAllNotificationAsync(Expression<Func<Domain.Entities.Notification, bool>>? filter = null,
+            Func<IQueryable<Domain.Entities.Notification>, IOrderedQueryable<Domain.Entities.Notification>>? orderBy = null, 
+            string? includeProperties = null)
         {
             IQueryable<Domain.Entities.Notification> query = _dbSet;
             if (filter != null)
@@ -37,6 +39,8 @@ namespace Infrastructures.Repositories.Notification
 
                 }
             }
+            if (orderBy != null) { query = orderBy(query); }
+            query = query.Take(10);
             return await query.ToListAsync();
 
         }
