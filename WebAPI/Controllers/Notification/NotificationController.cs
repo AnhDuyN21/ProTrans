@@ -33,7 +33,7 @@ namespace WebAPI.Controllers.Notification
         {
             var result = await _notificationService.SendNotificationAsync(sendNotificationDTO);
             var roleName = await _notificationService.GetRoleStringAsync(sendNotificationDTO.SpecId);
-            await _signalRHub.Clients.All.SendAsync(roleName, sendNotificationDTO.Title, sendNotificationDTO.Author, sendNotificationDTO.Message);
+            await _signalRHub.Clients.All.SendAsync(roleName, sendNotificationDTO.Title, sendNotificationDTO.Message, sendNotificationDTO.Author);
 
             if (result.Success)
             {
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers.Notification
         {
             var result = await _notificationService.SendANotificationAsync(sendNotificationDTO);
          
-            await _signalRHub.Clients.All.SendAsync(sendNotificationDTO.SpecId.ToString(), sendNotificationDTO.Title, sendNotificationDTO.Author, sendNotificationDTO.Message);
+            await _signalRHub.Clients.All.SendAsync(sendNotificationDTO.SpecId.ToString(), sendNotificationDTO.Title, sendNotificationDTO.Message, sendNotificationDTO.Author);
 
             if (result.Success)
             {
