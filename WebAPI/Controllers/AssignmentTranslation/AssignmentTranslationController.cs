@@ -19,10 +19,31 @@ namespace WebAPI.Controllers.assignmentTranslation
             var result = await _assignmentTranslationService.GetAllAssignmentTranslationsAsync();
             return Ok(result);
         }
+       
         [HttpGet("{id}")]
         public async Task<IActionResult> GetassignmentTranslationById(Guid id)
         {
             var result = await _assignmentTranslationService.GetAllAssignmentTranslationByTranslatorIdAsync(id);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpGet("GetTranslating")]
+        public async Task<IActionResult> GetTranslatingassignmentTranslationById(Guid id)
+        {
+            var result = await _assignmentTranslationService.GetAssignmentTranslationByTranslatorIdAndStatusAsync(id, "Translating");
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpGet("GetTranslated")]
+        public async Task<IActionResult> GetTranslatedassignmentTranslationById(Guid id)
+        {
+            var result = await _assignmentTranslationService.GetAssignmentTranslationByTranslatorIdAndStatusAsync(id,"Translated");
             if (!result.Success)
             {
                 return NotFound(result);

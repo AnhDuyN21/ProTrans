@@ -169,6 +169,37 @@ namespace Application.Services.AssignmentTranslation
 
             return response;
         }
+        public async Task<ServiceResponse<IEnumerable<AssignmentTranslationDTO>>> GetAssignmentTranslationByTranslatorIdAndStatusAsync(Guid Id,string status)
+        {
+            var response = new ServiceResponse<IEnumerable<AssignmentTranslationDTO>>();
+
+            try
+            {
+                var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.TranslatorId.Equals(Id) && x.IsDeleted == false && x.Status.Equals(status));
+                var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList);
+
+                if (AssignmentTranslationDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "Assignment Translation list retrieved successfully";
+                    response.Data = AssignmentTranslationDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have Assignment Translation in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
 
         public async Task<ServiceResponse<AssignmentTranslationDTO>> UpdateAssignmentTranslationAsync(Guid id, CUAssignmentTranslationDTO cuAssignmentTranslationDTO)
         {

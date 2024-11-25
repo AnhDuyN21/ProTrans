@@ -29,7 +29,17 @@ namespace Application.Services.AssignmentNotarization
                 
 
                 await _unitOfWork.AssignmentNotarizationRepository.AddAsync(assignmentNotarization);
+
+
                 await _unitOfWork.NotarizationDetailRepository.AddManyNotarizationDetails(assignmentNotarization.Id,cuAssignmentNotarizationDTO.DocumentId);
+
+                foreach(Guid id in cuAssignmentNotarizationDTO.DocumentId)
+                {
+                    var document = await _unitOfWork.DocumentRepository.GetByIdAsync(id);
+                    document.NotarizationStatus = "Notarizating";
+                    _unitOfWork.DocumentRepository.Update(document); 
+                }
+
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
