@@ -24,6 +24,15 @@ namespace WebAPI.Controllers.NotarizationDetail
             return Ok(result);
         }
 
-  
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateNotarizationDetailByTaskId(Guid id)
+        {
+            var result = await _NotarizationDetailService.UpdateAllNotarizationDetailsByTaskId(id);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
     }
 }
