@@ -1,4 +1,5 @@
 ﻿using Application.ViewModels.DocumentDTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.ViewModels.OrderDTOs
 {
@@ -11,6 +12,7 @@ namespace Application.ViewModels.OrderDTOs
 		public string? PhoneNumber { get; set; }
 		public string? Address { get; set; }
 		public bool ShipRequest { get; set; }
-		public List<CreateDocumentDTO>? Documents { get; set; }
+		[Required(ErrorMessage = "Cần có ít nhất 1 tài liệu để tạo đơn hàng. Vui lòng kiểm tra lại.")]
+		public List<CreateDocumentDTO> Documents { get; set; }
 	}
 }
