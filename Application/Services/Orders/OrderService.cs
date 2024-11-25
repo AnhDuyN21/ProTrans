@@ -397,6 +397,8 @@ namespace Application.Services.Orders
 							doc.OrderId = order.Id;
 						}
 					}
+					request.Status = RequestStatus.Finish.ToString();
+					_unitOfWork.RequestRepository.Update(request);
 				}
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
