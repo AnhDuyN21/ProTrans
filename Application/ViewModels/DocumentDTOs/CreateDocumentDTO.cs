@@ -21,6 +21,6 @@ namespace Application.ViewModels.DocumentDTOs
 		public Guid NotarizationId { get; set; }
 		public Guid DocumentTypeId { get; set; }
 		[JsonIgnore]
-		public DateTime CreatedDate { get; set; } = DateTime.Now.ToUniversalTime();
+		public DateTime CreatedDate { get; set; } = DateTime.UtcNow.AddHours(7);
 	}
 }
