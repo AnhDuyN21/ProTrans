@@ -48,7 +48,42 @@ namespace Application.Services.NotarizationDetail
 
             return response;
         }
+        public async Task<ServiceResponse<IEnumerable<NotarizationDetailDTO>>> UpdateAllNotarizationDetailsByTaskId(Guid Id)
+        {
+            var response = new ServiceResponse<IEnumerable<NotarizationDetailDTO>>();
 
-       
+            try
+            {
+                var notarizationDetailList = await _unitOfWork.NotarizationDetailRepository.GetAllAsync(a => a.AssignmentNotarizationId.Equals(Id) && a.IsDeleted.Equals(false));
+                var notarizationDetailDTOs = _mapper.Map<List<NotarizationDetailDTO>>(notarizationDetailList);
+                foreach (var item in notarizationDetailList)
+                {
+                    var document = await _unitOfWork.DocumentRepository.GetByIdAsync(item.DocumentId);
+                    document.NotarizationStatus = "Notarizated";
+                    _unitOfWork.DocumentRepository.Update(document);
+                }
+                if (notarizationDetailDTOs.Count != 0)
+                {
+                    response.Success = true;
+                    response.Message = "NotarizationDetail list retrieved successfully";
+                    response.Data = notarizationDetailDTOs;
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "Not have NotarizationDetail in list";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
+
     }
 }
