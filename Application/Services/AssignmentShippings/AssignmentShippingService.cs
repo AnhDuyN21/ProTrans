@@ -416,6 +416,18 @@ namespace Application.Services.AssignmentShippings
 					if (assignmentShipping.Type == AssignmentShippingType.PickUp.ToString())
 					{
 						var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.OrderId == assignmentShipping.OrderId && x.NotarizationRequest);
+						if (status == AssignmentShippingStatus.Completed.ToString())
+							foreach (var doc in documents)
+							{
+								doc.NotarizationStatus = DocumentNotarizationStatus.PickedUp.ToString();
+								_unitOfWork.DocumentRepository.Update(doc);
+							}
+						if (status == AssignmentShippingStatus.Shipping.ToString())
+							foreach (var doc in documents)
+							{
+								doc.NotarizationStatus = DocumentNotarizationStatus.PickingUp.ToString();
+								_unitOfWork.DocumentRepository.Update(doc);
+							}
 					}
 
 					var result = await _unitOfWork.SaveChangeAsync() > 0;

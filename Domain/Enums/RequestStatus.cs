@@ -12,6 +12,7 @@ namespace Domain.Enums
         Quoted,
         Cancel,
         Accept,
+        Finish,
         Refuse
     }
 }
