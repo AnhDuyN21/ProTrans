@@ -27,7 +27,8 @@ namespace Application.Services.Documents
 			try
 			{
 				var documents = await _unitOfWork.DocumentRepository.GetAllAsync();
-				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+				var sortDocuments = documents.OrderByDescending(d => d.CreatedDate).ToList();
+				var documentDTOs = _mapper.Map<List<DocumentDTO>>(sortDocuments);
 
 				if (documentDTOs.Count != 0)
 				{
@@ -57,7 +58,8 @@ namespace Application.Services.Documents
 			try
 			{
 				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.NotarizationRequest && x.TranslationStatus == "Translated" && x.NotarizationStatus == "PickedUp");
-				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+				var sortDocuments = documents.OrderByDescending(d => d.CreatedDate).ToList();
+				var documentDTOs = _mapper.Map<List<DocumentDTO>>(sortDocuments);
 
 				if (documentDTOs.Count != 0)
 				{
