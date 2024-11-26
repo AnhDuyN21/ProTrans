@@ -345,9 +345,9 @@ namespace Application.Services.Orders
 							order.TotalPrice += quotePrice.PricePerPage.Value * doc.PageNumber * documentType.PriceFactor;
 						}
 						order.TotalPrice += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
-						if (doc.NotarizationRequest)
+						if (doc.NotarizationRequest && doc.NotarizationId != null)
 						{
-							var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync((Guid)doc.NotarizationId);
+							var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId.Value);
 							if (notarization != null)
 							{
 								order.TotalPrice += notarization.Price * doc.NumberOfNotarizedCopies;

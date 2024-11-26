@@ -21,9 +21,9 @@ namespace WebAPI.Controllers.Account
         }
 
         [HttpGet("GetBy2LanguageId")]
-        public async Task<IActionResult> GetTranslatorsBy2LanguageId(Guid firstlanguageId, Guid secondlanguageId)
+        public async Task<IActionResult> GetTranslatorsBy2LanguageId(Guid firstlanguageId, Guid secondlanguageId, Guid documentId)
         {
-            var result = await _accountService.GetTranslatorsBy2LanguageId(firstlanguageId, secondlanguageId);
+            var result = await _accountService.GetTranslatorsBy2LanguageId(firstlanguageId, secondlanguageId, documentId);
             return Ok(result);
         }
         [HttpGet("GetByPhoneNumber")]
