@@ -384,6 +384,16 @@ namespace Application.Services.Request
                     }
                     
                     var updatedDocument = _mapper.Map(document, getById);
+                    updatedDocument.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
+                    if (updatedDocument.NotarizationRequest == true)
+                    {
+                        updatedDocument.NotarizationStatus = DocumentNotarizationStatus.Waiting.ToString();
+                    }
+                    else
+                    {
+                        updatedDocument.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
+                        updatedDocument.NumberOfNotarizedCopies = 0;
+                    }
                     updatedDocument.RequestId = id;
                     price += await CaculateDocumentPrice(updatedDocument.FirstLanguageId,
                                                    updatedDocument.SecondLanguageId,
@@ -403,14 +413,15 @@ namespace Application.Services.Request
                         return response;
                     }
                 }
-                updateRequestDTO.Documents = null;
-                var updated = _mapper.Map(updateRequestDTO, getRequestById);
-                updated.EstimatedPrice = price;
-                _unitOfWork.RequestRepository.Update(updated);
+                getRequestById.Deadline = updateRequestDTO.Deadline;
+                getRequestById.Status = updateRequestDTO.Status;
+                getRequestById.EstimatedPrice = price;
+
+                _unitOfWork.RequestRepository.Update(getRequestById);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
-                    var result = _mapper.Map<UpdateRequestDTO>(updated);
+                    var result = _mapper.Map<UpdateRequestDTO>(getRequestById);
                     response.Data = result;
                     response.Success = true;
                     response.Message = "Updated successfully.";
