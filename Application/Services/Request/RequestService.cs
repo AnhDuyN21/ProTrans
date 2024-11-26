@@ -234,9 +234,13 @@ namespace Application.Services.Request
                 var customerId = _unitOfWork.RequestRepository.GetCurrentCustomerId();
                 decimal price = 0;
 
-                if (createRequestDTO.Documents != null)
+                if (createRequestDTO.Documents == null)
                 {
-                    
+                    response.Success = false;
+                    response.Message = "Tài liệu không được để trống.";
+                    return response;
+                }
+
                     foreach (var doc in createRequestDTO.Documents)
                     {
                         var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId, doc.SecondLanguageId);
@@ -270,7 +274,7 @@ namespace Application.Services.Request
                             doc.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
                         }
                     }
-                }
+                
                 var request = _mapper.Map<Domain.Entities.Request>(createRequestDTO);
                 request.CustomerId = customerId;
                 request.EstimatedPrice = price;
