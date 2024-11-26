@@ -9,6 +9,7 @@ using Domain.Entities;
 using Domain.Enums;
 using Google.Apis.Storage.v1.Data;
 using System.Data.Common;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace Application.Services.Request
 {
@@ -333,6 +334,7 @@ namespace Application.Services.Request
                     return response;
                 }
                 //update Document
+                decimal price = 0;
                 foreach ( var document in updateRequestDTO.Documents )
                 {
                     var getById = await _unitOfWork.DocumentRepository.GetByIdAsync(document.Id);
@@ -346,7 +348,6 @@ namespace Application.Services.Request
                     //add document history
                     var properties = typeof(UpdateDocumentDTO).GetProperties();
                     var documentHistoryList = new List<DocumentHistory>();
-
                     foreach (var property in properties)
                     {
                         var newValue = typeof(UpdateDocumentFromRequestDTO).GetProperty(property.Name)?.GetValue(document);
@@ -381,8 +382,18 @@ namespace Application.Services.Request
                             }
                         }
                     }
+                    
                     var updatedDocument = _mapper.Map(document, getById);
                     updatedDocument.RequestId = id;
+                    price += await CaculateDocumentPrice(updatedDocument.FirstLanguageId,
+                                                   updatedDocument.SecondLanguageId,
+                                                   updatedDocument.DocumentTypeId,
+                                                   updatedDocument.PageNumber,
+                                                   updatedDocument.NumberOfCopies,
+                                                   updatedDocument.NotarizationRequest,
+                                                   updatedDocument.NotarizationId,
+                                                   updatedDocument.NumberOfNotarizedCopies);
+
                     _unitOfWork.DocumentRepository.Update(updatedDocument);
                     var isUpdateSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                     if (!isUpdateSuccess)
@@ -394,6 +405,7 @@ namespace Application.Services.Request
                 }
                 updateRequestDTO.Documents = null;
                 var updated = _mapper.Map(updateRequestDTO, getRequestById);
+                updated.EstimatedPrice = price;
                 _unitOfWork.RequestRepository.Update(updated);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
@@ -516,6 +528,23 @@ namespace Application.Services.Request
 
             return response;
         }
-
+        public async Task<decimal> CaculateDocumentPrice(Guid? firstLanguageId, Guid? secondLanguageId, Guid? documentTypeId, int pageNumber, int numberOfCopies, bool notarizationRequest, Guid? notarizationId ,int numberOfNotarizedCopies)
+        {
+            decimal price = 0;
+            var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId((Guid)firstLanguageId, (Guid)secondLanguageId);
+            var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync((Guid)documentTypeId);
+            price += quotePrice.PricePerPage.Value * pageNumber * documentType.PriceFactor;
+            
+            price += (numberOfCopies - 1) * (pageNumber * 500 + 10000);
+            if (notarizationRequest)
+            {
+                var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync((Guid)notarizationId);
+                if (notarization != null)
+                {
+                    price += notarization.Price * numberOfNotarizedCopies;
+                }
+            }
+            return price;
+        }
     }
 }
