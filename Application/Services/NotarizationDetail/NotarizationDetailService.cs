@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.NotarizationDetail;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using AutoMapper;
+using Domain.Enums;
 using System.Data.Common;
 
 namespace Application.Services.NotarizationDetail
@@ -59,7 +60,7 @@ namespace Application.Services.NotarizationDetail
                 foreach (var item in notarizationDetailList)
                 {
                     var document = await _unitOfWork.DocumentRepository.GetByIdAsync(item.DocumentId);
-                    document.NotarizationStatus = "Notarizated";
+                    document.NotarizationStatus = DocumentNotarizationStatus.Notarizated.ToString();
                     _unitOfWork.DocumentRepository.Update(document);
                 }
                 if (notarizationDetailDTOs.Count != 0)
