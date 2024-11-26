@@ -54,27 +54,45 @@ namespace Application.Services.NotarizationDetail
         public async Task<ServiceResponse<IEnumerable<NotarizationDetailDTO>>> UpdateAllNotarizationDetailsByTaskId(Guid Id)
         {
             var response = new ServiceResponse<IEnumerable<NotarizationDetailDTO>>();
-
+            bool CheckIfAllDocumentIsNotarized = true;
             try
             {
                 var notarizationDetailList = await _unitOfWork.NotarizationDetailRepository.GetAllAsync(a => a.AssignmentNotarizationId.Equals(Id) && a.IsDeleted.Equals(false));
                 var notarizationDetailDTOs = _mapper.Map<List<NotarizationDetailDTO>>(notarizationDetailList);
+
+                List<string> id = new List<string>();
                 foreach (var item in notarizationDetailList)
                 {
                     var document = await _unitOfWork.DocumentRepository.GetByIdAsync(item.DocumentId);
-                    document.NotarizationStatus = DocumentNotarizationStatus.Notarizated.ToString();
+                    document.NotarizationStatus = "Notarizated";
                     _unitOfWork.DocumentRepository.Update(document);
-                    var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                    if (isSuccess)
+                    id.Add(document.OrderId.ToString());
+                }
+                await _unitOfWork.SaveChangeAsync();
+
+                foreach (var orderId in id)
+                {
+                    Guid id1 = Guid.Parse(orderId.ToString());
+                    var Order = await _unitOfWork.OrderRepository.GetByIdAsync(id1);
+                    // Trash shit
+                    var docList = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id1);
+                    foreach (var item in docList)
                     {
-                        response.Success = true;
-                        response.Message = "save successfully.";
+                        if (item.NotarizationStatus != DocumentNotarizationStatus.Notarizated.ToString())
+                        {
+                            CheckIfAllDocumentIsNotarized = false;
+                        }
+
                     }
-                    else
+
+                    if (CheckIfAllDocumentIsNotarized)
                     {
-                        response.Success = false;
-                        response.Message = "Error saving.";
+
+                        Order.Status = OrderStatus.Completed.ToString();
+                        _unitOfWork.OrderRepository.Update(Order);
+
                     }
+                    await _unitOfWork.SaveChangeAsync();
                 }
                 if (notarizationDetailDTOs.Count != 0)
                 {
