@@ -12,8 +12,8 @@ namespace Application.ViewModels.DocumentDTOs
 		public string? FileType { get; set; }
 		public int PageNumber { get; set; } = 0;
 		public int NumberOfCopies { get; set; } = 0;
-		public bool NotarizationRequest { get; set; } = false;
-		public int NumberOfNotarizedCopies { get; set; } = 0;
+		public bool NotarizationRequest { get; set; }
+		public int NumberOfNotarizedCopies { get; set; }
 		[JsonIgnore]
 		public string? TranslationStatus { get; set; }
 		[JsonIgnore]
