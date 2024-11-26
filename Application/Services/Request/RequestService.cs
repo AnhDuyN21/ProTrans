@@ -309,6 +309,143 @@ namespace Application.Services.Request
             }
             return response;
         }
+        //public async Task<ServiceResponse<UpdateRequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO)
+        //{
+        //    var response = new ServiceResponse<UpdateRequestDTO>();
+        //    try
+        //    {
+        //        var getRequestById = await _unitOfWork.RequestRepository.GetAsync(x => x.Id == id, includeProperties: "Documents");
+        //        if (getRequestById == null)
+        //        {
+        //            response.Success = false;
+        //            response.Message = "Id not exist!";
+        //            return response;
+        //        }
+        //        if (getRequestById.Status != RequestStatus.Waitting.ToString())
+        //        {
+        //            response.Success = false;
+        //            response.Message = "Trạng thái ban đầu của request phải là Wating. Không thể chỉnh sửa";
+        //            return response;
+        //        }
+        //        if (updateRequestDTO.Documents == null || updateRequestDTO.Documents.Count == 0)
+        //        {
+        //            response.Success = false;
+        //            response.Message = "Danh sách tài liệu trống!";
+        //            return response;
+        //        }
+        //        //update Document
+        //        decimal price = 0;
+        //        foreach ( var document in updateRequestDTO.Documents )
+        //        {
+        //            var getById = await _unitOfWork.DocumentRepository.GetByIdAsync(document.Id);
+        //            if(getById == null)
+        //            {
+        //                response.Success = false;
+        //                response.Message = $"Document có Id {getById} không tồn tại";
+        //                return response;
+        //            }
+
+        //            //add document history
+        //            var properties = typeof(UpdateDocumentDTO).GetProperties();
+        //            var documentHistoryList = new List<DocumentHistory>();
+        //            foreach (var property in properties)
+        //            {
+        //                var newValue = typeof(UpdateDocumentFromRequestDTO).GetProperty(property.Name)?.GetValue(document);
+        //                var oldValue = typeof(Document).GetProperty(property.Name)?.GetValue(getById);
+
+        //                if (!Equals(newValue, oldValue) && newValue != null)
+        //                {
+        //                    documentHistoryList.Add(new DocumentHistory
+        //                    {
+        //                        DocumentId = document.Id,
+        //                        Name = property.Name,
+        //                        oldValue = oldValue?.ToString(),
+        //                    });
+        //                }
+
+        //                if (newValue == null)
+        //                {
+        //                    typeof(UpdateDocumentFromRequestDTO).GetProperty(property.Name)?.SetValue(document, oldValue);
+        //                }
+        //            }
+        //            if (documentHistoryList.Any())
+        //            {
+        //                foreach (var documentHistory in documentHistoryList)
+        //                {
+        //                    await _unitOfWork.DocumentHistoryRepository.AddAsync(documentHistory);
+        //                    var isAddSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+        //                    if (!isAddSuccess)
+        //                    {
+        //                        response.Success = false;
+        //                        response.Message = "Tạo document history không thành công";
+        //                        return response;
+        //                    }
+        //                }
+        //            }
+
+        //            var updatedDocument = _mapper.Map(document, getById);
+        //            updatedDocument.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
+        //            if (updatedDocument.NotarizationRequest == true)
+        //            {
+        //                updatedDocument.NotarizationStatus = DocumentNotarizationStatus.Waiting.ToString();
+        //            }
+        //            else
+        //            {
+        //                updatedDocument.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
+        //                updatedDocument.NumberOfNotarizedCopies = 0;
+        //            }
+        //            updatedDocument.RequestId = id;
+        //            price += await CaculateDocumentPrice(updatedDocument.FirstLanguageId,
+        //                                           updatedDocument.SecondLanguageId,
+        //                                           updatedDocument.DocumentTypeId,
+        //                                           updatedDocument.PageNumber,
+        //                                           updatedDocument.NumberOfCopies,
+        //                                           updatedDocument.NotarizationRequest,
+        //                                           updatedDocument.NotarizationId,
+        //                                           updatedDocument.NumberOfNotarizedCopies);
+
+        //            _unitOfWork.DocumentRepository.Update(updatedDocument);
+        //            var isUpdateSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+        //            if (!isUpdateSuccess)
+        //            {
+        //                response.Success = false;
+        //                response.Message = $"Update document có id {document.Id} không thành công";
+        //                return response;
+        //            }
+        //        }
+        //        getRequestById.Deadline = updateRequestDTO.Deadline;
+        //        getRequestById.Status = updateRequestDTO.Status;
+        //        getRequestById.EstimatedPrice = price;
+
+        //        _unitOfWork.RequestRepository.Update(getRequestById);
+        //        var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+        //        if (isSuccess)
+        //        {
+        //            var result = _mapper.Map<UpdateRequestDTO>(getRequestById);
+        //            response.Data = result;
+        //            response.Success = true;
+        //            response.Message = "Updated successfully.";
+        //        }
+        //        else
+        //        {
+        //            response.Success = false;
+        //            response.Message = "Error saving data.";
+        //        }
+        //    }
+        //    catch (DbException ex)
+        //    {
+        //        response.Success = false;
+        //        response.Message = "Database error occurred.";
+        //        response.ErrorMessages = new List<string> { ex.Message };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Success = false;
+        //        response.Message = "Error";
+        //        response.ErrorMessages = new List<string> { ex.Message };
+        //    }
+        //    return response;
+        //}
         public async Task<ServiceResponse<UpdateRequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO)
         {
             var response = new ServiceResponse<UpdateRequestDTO>();
@@ -327,97 +464,8 @@ namespace Application.Services.Request
                     response.Message = "Trạng thái ban đầu của request phải là Wating. Không thể chỉnh sửa";
                     return response;
                 }
-                if (updateRequestDTO.Documents == null || updateRequestDTO.Documents.Count == 0)
-                {
-                    response.Success = false;
-                    response.Message = "Danh sách tài liệu trống!";
-                    return response;
-                }
-                //update Document
-                decimal price = 0;
-                foreach ( var document in updateRequestDTO.Documents )
-                {
-                    var getById = await _unitOfWork.DocumentRepository.GetByIdAsync(document.Id);
-                    if(getById == null)
-                    {
-                        response.Success = false;
-                        response.Message = $"Document có Id {getById} không tồn tại";
-                        return response;
-                    }
-
-                    //add document history
-                    var properties = typeof(UpdateDocumentDTO).GetProperties();
-                    var documentHistoryList = new List<DocumentHistory>();
-                    foreach (var property in properties)
-                    {
-                        var newValue = typeof(UpdateDocumentFromRequestDTO).GetProperty(property.Name)?.GetValue(document);
-                        var oldValue = typeof(Document).GetProperty(property.Name)?.GetValue(getById);
-
-                        if (!Equals(newValue, oldValue) && newValue != null)
-                        {
-                            documentHistoryList.Add(new DocumentHistory
-                            {
-                                DocumentId = document.Id,
-                                Name = property.Name,
-                                oldValue = oldValue?.ToString(),
-                            });
-                        }
-
-                        if (newValue == null)
-                        {
-                            typeof(UpdateDocumentFromRequestDTO).GetProperty(property.Name)?.SetValue(document, oldValue);
-                        }
-                    }
-                    if (documentHistoryList.Any())
-                    {
-                        foreach (var documentHistory in documentHistoryList)
-                        {
-                            await _unitOfWork.DocumentHistoryRepository.AddAsync(documentHistory);
-                            var isAddSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                            if (!isAddSuccess)
-                            {
-                                response.Success = false;
-                                response.Message = "Tạo document history không thành công";
-                                return response;
-                            }
-                        }
-                    }
-                    
-                    var updatedDocument = _mapper.Map(document, getById);
-                    updatedDocument.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
-                    if (updatedDocument.NotarizationRequest == true)
-                    {
-                        updatedDocument.NotarizationStatus = DocumentNotarizationStatus.Waiting.ToString();
-                    }
-                    else
-                    {
-                        updatedDocument.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
-                        updatedDocument.NumberOfNotarizedCopies = 0;
-                    }
-                    updatedDocument.RequestId = id;
-                    price += await CaculateDocumentPrice(updatedDocument.FirstLanguageId,
-                                                   updatedDocument.SecondLanguageId,
-                                                   updatedDocument.DocumentTypeId,
-                                                   updatedDocument.PageNumber,
-                                                   updatedDocument.NumberOfCopies,
-                                                   updatedDocument.NotarizationRequest,
-                                                   updatedDocument.NotarizationId,
-                                                   updatedDocument.NumberOfNotarizedCopies);
-
-                    _unitOfWork.DocumentRepository.Update(updatedDocument);
-                    var isUpdateSuccess = await _unitOfWork.SaveChangeAsync() > 0;
-                    if (!isUpdateSuccess)
-                    {
-                        response.Success = false;
-                        response.Message = $"Update document có id {document.Id} không thành công";
-                        return response;
-                    }
-                }
-                getRequestById.Deadline = updateRequestDTO.Deadline;
-                getRequestById.Status = updateRequestDTO.Status;
-                getRequestById.EstimatedPrice = price;
-
-                _unitOfWork.RequestRepository.Update(getRequestById);
+                var updated = _mapper.Map(updateRequestDTO, getRequestById);
+                _unitOfWork.RequestRepository.Update(updated);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
