@@ -382,6 +382,7 @@ namespace Application.Services.Request
                         }
                     }
                     var updatedDocument = _mapper.Map(document, getById);
+                    updatedDocument.RequestId = id;
                     _unitOfWork.DocumentRepository.Update(updatedDocument);
                     var isUpdateSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                     if (!isUpdateSuccess)
