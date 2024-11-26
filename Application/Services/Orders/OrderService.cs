@@ -424,6 +424,7 @@ namespace Application.Services.Orders
 							order.Address = customer.Address;
 						}
 					}
+					order.OrderCode = order.Id.ToString().Substring(0, 6).ToUpper();
 					order.ShipRequest = request.ShipRequest;
 					order.Deadline = request.Deadline;
 					order.TotalPrice = request.EstimatedPrice;
