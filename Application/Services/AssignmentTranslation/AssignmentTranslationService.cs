@@ -286,14 +286,14 @@ namespace Application.Services.AssignmentTranslation
                 bool allNotarizedDocumentsCompleted = order.Documents
                                                    .Where(d => d.NotarizationRequest == true)
                                                    .All(d => d.NotarizationStatus == "Completed");
-                if (allDocumentsTranslated && !anyDocumentNotarized)
+                if (allDocumentsTranslated == true && anyDocumentNotarized == false)
                 {
-                    order.Status = "Completed";
+                    order.Status = OrderStatus.Completed.ToString();
                     _unitOfWork.OrderRepository.Update(order);
                 }
                 else if(allDocumentsTranslated && allNotarizedDocumentsCompleted)
                 {
-                    order.Status = "Completed";
+                    order.Status = OrderStatus.Completed.ToString();
                     _unitOfWork.OrderRepository.Update(order);
                 }
                 //Thay đổi trạng thái document
