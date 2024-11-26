@@ -204,6 +204,12 @@ namespace Application.Services.AssignmentShippings
 				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
 
 				var documents = await _documentService.GetDocumentsByOrderIdAsync(CUassignmentShippingDTO.OrderId);
+				var order = await _unitOfWork.OrderRepository.GetByIdAsync(CUassignmentShippingDTO.OrderId);
+				if (order != null)
+				{
+					order.Status = OrderStatus.Delivering.ToString();
+					_unitOfWork.OrderRepository.Update(order);
+				}
 				if (documents != null)
 				{
 					var imageShipping = new ImageShipping
