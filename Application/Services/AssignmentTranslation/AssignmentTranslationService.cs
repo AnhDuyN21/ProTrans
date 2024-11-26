@@ -305,6 +305,7 @@ namespace Application.Services.AssignmentTranslation
                     return response;
                 }
                 getDocumentById.TranslationStatus = DocumentTranslationStatus.Translated.ToString();
+                _unitOfWork.DocumentRepository.Update(getDocumentById);
                 assignmentTranslationGetById.Status = status.ToString();
                 _unitOfWork.AssignmentTranslationRepository.Update(assignmentTranslationGetById);
 
