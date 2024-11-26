@@ -43,7 +43,8 @@ namespace Infrastructures.Mappers
             //Requests
             CreateMap<Request, RequestDTO>().ReverseMap();
             CreateMap<Request, CreateRequestDTO>().ReverseMap();
-            CreateMap<Request, UpdateRequestDTO>().ReverseMap();
+            CreateMap<Request, UpdateRequestDTO>().ReverseMap()
+                .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.Documents)); ;
             CreateMap<Request, CustomerUpdateRequestDTO>().ReverseMap();
             CreateMap<Request, RequestCustomerDTO>().ReverseMap();
 
@@ -80,6 +81,7 @@ namespace Infrastructures.Mappers
             CreateMap<Document, DocumentDTO>().ReverseMap();
             CreateMap<Document, CreateDocumentDTO>().ReverseMap();
             CreateMap<Document, UpdateDocumentDTO>().ReverseMap();
+            CreateMap<Document, UpdateDocumentFromRequestDTO>().ReverseMap();
 
             //DocumentType
             CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
