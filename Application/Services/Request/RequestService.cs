@@ -264,6 +264,7 @@ namespace Application.Services.Request
                                 price += notarization.Price * doc.NumberOfNotarizedCopies;
                             }
                         }
+                        doc.FileType = FileType.Soft.ToString();
                         doc.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
                         if (doc.NotarizationRequest == true)
                         {
