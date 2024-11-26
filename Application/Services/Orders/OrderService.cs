@@ -134,6 +134,50 @@ namespace Application.Services.Orders
 			return response;
 		}
 
+		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByCustomerIdAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<OrderDTO>>();
+			var orders = new List<Order>();
+			try
+			{
+				var requests = await _unitOfWork.RequestRepository.GetAllAsync(x => x.CustomerId == id);
+				if (requests.Count == 0)
+				{
+					response.Success = true;
+					response.Message = "Không có đơn hàng nào.";
+					return response;
+				}
+
+				foreach (var req in requests)
+				{
+					var ord = await _unitOfWork.OrderRepository.GetAsync(x => x.RequestId == req.Id);
+					if (ord != null)
+					{
+						orders.Add(ord);
+					}
+				}
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+				if (orderDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get successfully.";
+					response.Data = orderDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No orders exist.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
 		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOnlineOrdersAsync()
 		{
 			var response = new ServiceResponse<IEnumerable<OrderDTO>>();

@@ -54,6 +54,13 @@ namespace WebAPI.Controllers.Orders
 			return Ok(result);
 		}
 
+		[HttpGet("GetByCustomerId")]
+		public async Task<IActionResult> GetOrdersByCustomerId(Guid id)
+		{
+			var result = await orderService.GetOrdersByCustomerIdAsync(id);
+			return Ok(result);
+		}
+
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetOrderById(Guid id)
 		{
