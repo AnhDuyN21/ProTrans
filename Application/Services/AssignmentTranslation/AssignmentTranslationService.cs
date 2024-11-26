@@ -37,6 +37,16 @@ namespace Application.Services.AssignmentTranslation
                 }
                 order.Status = OrderStatus.Implementing.ToString();
                 _unitOfWork.OrderRepository.Update(order);
+                var document = await _unitOfWork.DocumentRepository.GetByIdAsync((Guid)cuAssignmentTranslationDTO.DocumentId);
+                if (document == null)
+                {
+                    response.Success = false;
+                    response.Message = $"Không tìm thấy tài liệu với id {cuAssignmentTranslationDTO.DocumentId}.";
+                    return response;
+                }
+                document.TranslationStatus = DocumentTranslationStatus.Translating.ToString();
+                _unitOfWork.DocumentRepository.Update(document);
+                
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
