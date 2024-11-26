@@ -296,10 +296,17 @@ namespace Application.Services.AssignmentTranslation
                     order.Status = "Completed";
                     _unitOfWork.OrderRepository.Update(order);
                 }
-                // Map assignmentTranslationDT0 => existingUser
-
+                //Thay đổi trạng thái document
+                var getDocumentById = await _unitOfWork.DocumentRepository.GetByIdAsync((Guid)assignmentTranslationGetById.DocumentId);
+                if(getDocumentById == null)
+                {
+                    response.Success = false;
+                    response.Message = $"Không tìm thấy tài liệu có id {assignmentTranslationGetById.DocumentId}.";
+                    return response;
+                }
+                getDocumentById.TranslationStatus = DocumentTranslationStatus.Translated.ToString();
+                _unitOfWork.DocumentRepository.Update(getDocumentById);
                 assignmentTranslationGetById.Status = status.ToString();
-
                 _unitOfWork.AssignmentTranslationRepository.Update(assignmentTranslationGetById);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
