@@ -386,6 +386,7 @@ namespace Application.Services.Request
                         return response;
                     }
                 }
+                updateRequestDTO.Documents = null;
                 var updated = _mapper.Map(updateRequestDTO, getRequestById);
                 _unitOfWork.RequestRepository.Update(updated);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
