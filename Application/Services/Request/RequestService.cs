@@ -258,7 +258,7 @@ namespace Application.Services.Request
                         price += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
                         if (doc.NotarizationRequest)
                         {
-                            var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId);
+                            var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync((Guid)doc.NotarizationId);
                             if (notarization != null)
                             {
                                 price += notarization.Price * doc.NumberOfNotarizedCopies;
