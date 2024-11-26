@@ -1,8 +1,10 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.NotarizationDetail;
+using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.AssignmentNotarizationDTOs;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Enums;
 using System.Data.Common;
 
@@ -62,6 +64,17 @@ namespace Application.Services.NotarizationDetail
                     var document = await _unitOfWork.DocumentRepository.GetByIdAsync(item.DocumentId);
                     document.NotarizationStatus = DocumentNotarizationStatus.Notarizated.ToString();
                     _unitOfWork.DocumentRepository.Update(document);
+                    var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                    if (isSuccess)
+                    {
+                        response.Success = true;
+                        response.Message = "save successfully.";
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.Message = "Error saving.";
+                    }
                 }
                 if (notarizationDetailDTOs.Count != 0)
                 {
