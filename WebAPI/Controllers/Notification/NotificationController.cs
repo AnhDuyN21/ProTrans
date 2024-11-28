@@ -60,7 +60,13 @@ namespace WebAPI.Controllers.Notification
                 return BadRequest(result);
             }
         }
-
+        [HttpPost("SendLocation")]
+        public async Task<IActionResult> SendLocation([FromBody] SendLocationDTO sendLocationDTO)
+        {
+          
+            await _signalRHub.Clients.All.SendAsync(sendLocationDTO.SpecId.ToString(), sendLocationDTO.OrderId, sendLocationDTO.Latitude, sendLocationDTO.Longitude);
+            return Ok();
+        }
 
     }
 }
