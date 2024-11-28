@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Orders;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructures.Repositories.Orders
@@ -38,6 +39,28 @@ namespace Infrastructures.Repositories.Orders
                                         .FirstOrDefaultAsync(o => o.Documents.Any(d => d.Id == documentId));
 
             return order;
+        }
+        public async Task<bool> UpdateOrderStatusByDocumentId(Guid documentId)
+        {
+            var order = await _dbContext.Order
+                                        .Include(o => o.Documents)
+                                        .FirstOrDefaultAsync(o => o.Documents.Any(d => d.Id == documentId));
+            if(order == null) return false;
+            if (order.Status != OrderStatus.Implementing.ToString()) return false;
+            bool allDocumentsTranslated = order.Documents.All(document => document.TranslationStatus == DocumentTranslationStatus.Translated.ToString());
+            bool anyDocumentNotarized = order.Documents.Any(d => d.NotarizationRequest == true);
+            bool allNotarizedDocumentsCompleted = order.Documents
+                                               .Where(d => d.NotarizationRequest == true)
+                                               .All(d => d.NotarizationStatus == DocumentNotarizationStatus.Notarizated.ToString());
+            if (allDocumentsTranslated == true && anyDocumentNotarized == false ||
+                allDocumentsTranslated == true && allNotarizedDocumentsCompleted == true)
+            {
+                order.Status = OrderStatus.Completed.ToString();
+                Update(order);
+                return true;
+            }
+            return false;
+
         }
     }
 }
