@@ -291,42 +291,20 @@ namespace Application.Services.AssignmentTranslation
                     response.Message = "Url path không được bỏ trống";
                     return response;
                 }
-                
-
-                #region thay đổi trạng thái
-                //order 
-                var order = await _unitOfWork.OrderRepository.GetByDocumentId(assignmentTranslationGetById.DocumentId);
-                bool allDocumentsTranslated = order.Documents.All(d => d.TranslationStatus == "Translated");
-                bool anyDocumentNotarized = order.Documents.Any(d => d.NotarizationRequest == true);
-                bool allNotarizedDocumentsCompleted = order.Documents
-                                                   .Where(d => d.NotarizationRequest == true)
-                                                   .All(d => d.NotarizationStatus == "Completed");
-                if (allDocumentsTranslated == true && anyDocumentNotarized == false)
-                {
-                    order.Status = OrderStatus.Completed.ToString();
-                    _unitOfWork.OrderRepository.Update(order);
-                }
-                else if(allDocumentsTranslated && allNotarizedDocumentsCompleted)
-                {
-                    order.Status = OrderStatus.Completed.ToString();
-                    _unitOfWork.OrderRepository.Update(order);
-                }
-                //document
-                var getDocumentById = await _unitOfWork.DocumentRepository.GetByIdAsync((Guid)assignmentTranslationGetById.DocumentId);
-                if(getDocumentById == null)
+                //Cập nhật trạng thái document
+                var isUpdateDocumentStatusSuccess = await _unitOfWork.DocumentRepository.UpdateDocumentTranslationStatusByDocumentId((Guid)assignmentTranslationGetById.DocumentId, DocumentTranslationStatus.Translated.ToString());
+                if (isUpdateDocumentStatusSuccess == false)
                 {
                     response.Success = false;
-                    response.Message = $"Không tìm thấy tài liệu có id {assignmentTranslationGetById.DocumentId}.";
+                    response.Message = "Cập nhật trạng thái document thất bại";
                     return response;
                 }
-                #endregion
+                //Cập nhật trạng thái order
+                await _unitOfWork.OrderRepository.UpdateOrderStatusByDocumentId((Guid)assignmentTranslationGetById.DocumentId);
 
-                getDocumentById.TranslationStatus = DocumentTranslationStatus.Translated.ToString();
-                _unitOfWork.DocumentRepository.Update(getDocumentById);
 
                 assignmentTranslationGetById.Status = AssignmentTranslationStatus.Translated.ToString();
                 assignmentTranslationGetById.UrlPath = urlPath;
-
                 _unitOfWork.AssignmentTranslationRepository.Update(assignmentTranslationGetById);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
@@ -351,6 +329,7 @@ namespace Application.Services.AssignmentTranslation
 
             return response;
         }
+
     }
 }
 

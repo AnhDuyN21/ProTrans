@@ -5,5 +5,6 @@ namespace Application.Interfaces.InterfaceRepositories.Documents
     public interface IDocumentRepository : IGenericRepository<Document>
     {
         Task<List<Document>> GetByOrderIdAsync(Guid id);
+        Task<bool> UpdateDocumentTranslationStatusByDocumentId(Guid documentId, string status);
     }
 }
