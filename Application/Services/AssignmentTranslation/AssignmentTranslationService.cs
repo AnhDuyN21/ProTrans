@@ -259,7 +259,7 @@ namespace Application.Services.AssignmentTranslation
 
             return response;
         }
-        public async Task<ServiceResponse<AssignmentTranslationDTO>> UpdateStatusAssignmentTranslationAsync(Guid id, AssignmentTranslationStatus status)
+        public async Task<ServiceResponse<AssignmentTranslationDTO>> UpdateStatusAssignmentTranslationAsync(Guid id, string urlPath)
         {
             var response = new ServiceResponse<AssignmentTranslationDTO>();
 
@@ -273,13 +273,28 @@ namespace Application.Services.AssignmentTranslation
                     response.Message = "Assignment Translation not found.";
                     return response;
                 }
-                if ((bool)assignmentTranslationGetById.IsDeleted)
+                if (assignmentTranslationGetById.IsDeleted == true || assignmentTranslationGetById.IsDeleted == null)
                 {
                     response.Success = false;
-                    response.Message = "Assignment Translation is deleted in system";
+                    response.Message = "Dữ liệu có IsDeleted khác False, cập nhật thất bại.";
                     return response;
                 }
-                //Thay đổi trạng thái order 
+                if (assignmentTranslationGetById.Status != AssignmentTranslationStatus.Translating.ToString())
+                {
+                    response.Success = false;
+                    response.Message = $"Status của task này đang là {assignmentTranslationGetById.Status}, cập nhật thất bại";
+                    return response;
+                }
+                if (urlPath == null)
+                {
+                    response.Success = false;
+                    response.Message = "Url path không được bỏ trống";
+                    return response;
+                }
+                
+
+                #region thay đổi trạng thái
+                //order 
                 var order = await _unitOfWork.OrderRepository.GetByDocumentId(assignmentTranslationGetById.DocumentId);
                 bool allDocumentsTranslated = order.Documents.All(d => d.TranslationStatus == "Translated");
                 bool anyDocumentNotarized = order.Documents.Any(d => d.NotarizationRequest == true);
@@ -296,7 +311,7 @@ namespace Application.Services.AssignmentTranslation
                     order.Status = OrderStatus.Completed.ToString();
                     _unitOfWork.OrderRepository.Update(order);
                 }
-                //Thay đổi trạng thái document
+                //document
                 var getDocumentById = await _unitOfWork.DocumentRepository.GetByIdAsync((Guid)assignmentTranslationGetById.DocumentId);
                 if(getDocumentById == null)
                 {
@@ -304,9 +319,14 @@ namespace Application.Services.AssignmentTranslation
                     response.Message = $"Không tìm thấy tài liệu có id {assignmentTranslationGetById.DocumentId}.";
                     return response;
                 }
+                #endregion
+
                 getDocumentById.TranslationStatus = DocumentTranslationStatus.Translated.ToString();
                 _unitOfWork.DocumentRepository.Update(getDocumentById);
-                assignmentTranslationGetById.Status = status.ToString();
+
+                assignmentTranslationGetById.Status = AssignmentTranslationStatus.Translated.ToString();
+                assignmentTranslationGetById.UrlPath = urlPath;
+
                 _unitOfWork.AssignmentTranslationRepository.Update(assignmentTranslationGetById);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
