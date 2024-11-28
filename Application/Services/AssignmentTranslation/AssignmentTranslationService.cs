@@ -300,13 +300,7 @@ namespace Application.Services.AssignmentTranslation
                     return response;
                 }
                 //Cập nhật trạng thái order
-                var isUpdateOrderStatusSuccess = await _unitOfWork.OrderRepository.UpdateOrderStatusByDocumentId((Guid)assignmentTranslationGetById.DocumentId);
-                if (isUpdateOrderStatusSuccess == false)
-                {
-                    response.Success = false;
-                    response.Message = "Cập nhật trạng thái order thất bại";
-                    return response;
-                }
+                await _unitOfWork.OrderRepository.UpdateOrderStatusByDocumentId((Guid)assignmentTranslationGetById.DocumentId);
 
 
                 assignmentTranslationGetById.Status = AssignmentTranslationStatus.Translated.ToString();

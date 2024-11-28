@@ -53,7 +53,7 @@ namespace Infrastructures.Repositories.Orders
                                                .Where(d => d.NotarizationRequest == true)
                                                .All(d => d.NotarizationStatus == DocumentNotarizationStatus.Notarizated.ToString());
             if (allDocumentsTranslated == true && anyDocumentNotarized == false ||
-                allDocumentsTranslated == true && allNotarizedDocumentsCompleted == true)
+                allDocumentsTranslated == true && anyDocumentNotarized == true && allNotarizedDocumentsCompleted == true)
             {
                 order.Status = OrderStatus.Completed.ToString();
                 Update(order);
