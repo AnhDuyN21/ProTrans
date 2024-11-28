@@ -15,5 +15,6 @@ namespace Application.ViewModels.RequestDTOs
         public bool? PickUpRequest { get; set; }
         [JsonIgnore]
         public bool ShipRequest { get; set; }
+        public List<UpdateDocumentFromRequestDTO> Documents { get; set; }
     }
 }
