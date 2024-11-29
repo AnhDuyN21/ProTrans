@@ -527,24 +527,5 @@ namespace Application.Services.Request
 
             return response;
         }
-
-        //public async Task<decimal> CaculateDocumentPrice(Guid? firstLanguageId, Guid? secondLanguageId, Guid? documentTypeId, int pageNumber, int numberOfCopies, bool notarizationRequest, Guid? notarizationId ,int numberOfNotarizedCopies)
-        //{
-        //    decimal price = 0;
-        //    var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId((Guid)firstLanguageId, (Guid)secondLanguageId);
-        //    var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync((Guid)documentTypeId);
-        //    price += quotePrice.PricePerPage.Value * pageNumber * documentType.PriceFactor;
-            
-        //    price += (numberOfCopies - 1) * (pageNumber * 500 + 10000);
-        //    if (notarizationRequest)
-        //    {
-        //        var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync((Guid)notarizationId);
-        //        if (notarization != null)
-        //        {
-        //            price += notarization.Price * numberOfNotarizedCopies;
-        //        }
-        //    }
-        //    return price;
-        //}
     }
 }
