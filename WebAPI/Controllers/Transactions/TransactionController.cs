@@ -30,7 +30,7 @@ namespace WebAPI.Controllers.Transactions
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> CreateTransaction([FromBody] CUTransactionDTO transaction)
         {
             var result = await transactionService.CreateTransactionAsync(transaction);
