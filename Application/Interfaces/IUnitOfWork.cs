@@ -21,6 +21,7 @@ using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 using Application.Interfaces.InterfaceRepositories;
 using Application.Interfaces.InterfaceRepositories.ImageShippings;
 using Application.Interfaces.InterfaceRepositories.Distance;
+using Application.Interfaces.InterfaceRepositories.DocumentStatus;
 
 namespace Application.Interfaces
 {
@@ -49,6 +50,7 @@ namespace Application.Interfaces
         public ISendMailRepository SendMailRepository { get; }
         public IImageShippingRepository ImageShippingRepository { get; }
         public IDistanceRepository DistanceRepository { get; }
+        public IDocumentStatusRepository DocumentStatusRepository { get; }
         public Task<int> SaveChangeAsync();
 
     }

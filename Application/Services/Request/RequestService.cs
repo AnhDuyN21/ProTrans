@@ -18,11 +18,13 @@ namespace Application.Services.Request
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IClaimsService _claimsService;
-        public RequestService(IUnitOfWork unitOfWork, IMapper mapper, IClaimsService claimsService)
+        private readonly ICurrentTime _currentTime;
+        public RequestService(IUnitOfWork unitOfWork, IMapper mapper, IClaimsService claimsService, ICurrentTime currentTime)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _claimsService = claimsService;
+            _currentTime = currentTime;
         }
         public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestAsync()
         {
@@ -240,7 +242,7 @@ namespace Application.Services.Request
                     response.Success = false;
                     response.Message = "Tài liệu không được để trống.";
                     return response;
-                }
+                } 
                 var request = new Domain.Entities.Request
                 {
                     CustomerId = customerId,
@@ -261,6 +263,8 @@ namespace Application.Services.Request
 
                 var priceDetails = new List<(Guid DocumentId, decimal TranslationPrice, decimal NotarizationPrice)>();
 
+                var statusDetails = new List<(Guid DocumentId, string Status, string Type, DateTime time)>();
+
                 var documents = _mapper.Map<List<Domain.Entities.Document>>(createRequestDTO.Documents);
 
                 foreach (var doc in documents)
@@ -280,6 +284,12 @@ namespace Application.Services.Request
                     //Cập nhật document status
                     doc.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
                     doc.NotarizationStatus = doc.NotarizationRequest ? DocumentNotarizationStatus.Waiting.ToString() : DocumentNotarizationStatus.None.ToString();
+                    
+                    statusDetails.Add((doc.Id,doc.TranslationStatus,"Translation",_currentTime.GetCurrentTime()));
+                    if(doc.NotarizationRequest == true)
+                    {
+                        statusDetails.Add((doc.Id, doc.NotarizationStatus, "Notarization", _currentTime.GetCurrentTime()));
+                    }
                     priceDetails.Add((doc.Id, translationPrice, notarizationPrice));
                 }
                 await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
@@ -303,7 +313,19 @@ namespace Application.Services.Request
                     await _unitOfWork.DocumentPriceRepository.AddAsync(documentPrice);
                 }
                 await _unitOfWork.SaveChangeAsync();
-
+                //Thêm thời gian cập nhật trạng thái vào bảng DocumentStatus
+                foreach (var status in statusDetails)
+                {
+                    var documentStatus = new DocumentStatus
+                    {
+                        DocumentId = status.DocumentId,
+                        Status = status.Status,
+                        Type = status.Type,
+                        Time = status.time
+                    };
+                    await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
+                }
+                await _unitOfWork.SaveChangeAsync();
                 request.EstimatedPrice = price;
                 request.Status = RequestStatus.Waitting.ToString();
                  _unitOfWork.RequestRepository.Update(request);
