@@ -48,6 +48,17 @@ namespace Application.Services.AssignmentTranslation
                     return response;
                 }
                 document.TranslationStatus = DocumentTranslationStatus.Translating.ToString();
+
+                //Thêm thời gian cập nhật trạng thái document vào bảng document status
+                var documentStatus = new DocumentStatus
+                {
+                    DocumentId = (Guid)cuAssignmentTranslationDTO.DocumentId,
+                    Status = DocumentTranslationStatus.Translated.ToString(),
+                    Type = TypeStatus.Translation.ToString(),
+                    Time = _currentTime.GetCurrentTime()
+                };
+                await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
+                await _unitOfWork.SaveChangeAsync();
                 _unitOfWork.DocumentRepository.Update(document);
                 
 
@@ -312,6 +323,7 @@ namespace Application.Services.AssignmentTranslation
                 };
                 await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
                 await _unitOfWork.SaveChangeAsync();
+
                 //Cập nhật trạng thái order
                 await _unitOfWork.OrderRepository.UpdateOrderStatusByDocumentId((Guid)assignmentTranslationGetById.DocumentId);
 
