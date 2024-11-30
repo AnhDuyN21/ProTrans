@@ -14,7 +14,8 @@
         public int NumberOfNotarizedCopies { get; set; } = 0;
         public string? TranslationStatus { get; set; }
         public string? NotarizationStatus { get; set; }
-        public Guid? NotarizationId { get; set; }
+		public DateTime? CreatedDate { get; set; }
+		public Guid? NotarizationId { get; set; }
         public Guid? DocumentTypeId { get; set; }
         public Guid? OrderId { get; set; }
         public Guid? RequestId { get; set; }
