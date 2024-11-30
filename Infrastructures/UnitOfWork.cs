@@ -22,6 +22,7 @@ using Application.Interfaces.InterfaceRepositories.TranslationSkill;
 using Application.Interfaces.InterfaceRepositories;
 using Application.Interfaces.InterfaceRepositories.ImageShippings;
 using Application.Interfaces.InterfaceRepositories.Distance;
+using Application.Interfaces.InterfaceRepositories.DocumentStatus;
 
 namespace Infrastructures
 {
@@ -51,6 +52,7 @@ namespace Infrastructures
         private readonly ISendMailRepository _sendMailRepository;
         private readonly IImageShippingRepository _imageShippingRepository;
         private readonly IDistanceRepository _distanceRepository;
+        private readonly IDocumentStatusRepository _documentStatusRepository;
         
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IRoleRepository roleRepository
             , INotarizationRepository notarizationRepository, IQuotePriceRepository quotePriceRepository, ILanguageRepository languageRepository,
@@ -64,7 +66,7 @@ namespace Infrastructures
             IDocumentHistoryRepository documentHistoryRepository,
             IDocumentPriceRepository documentPriceRepository, INotarizationDetailRepository notarizationDetailRepository,
             ISendMailRepository sendMailRepository, IImageShippingRepository imageShippingRepository,
-            IDistanceRepository distanceRepository)
+            IDistanceRepository distanceRepository, IDocumentStatusRepository documentStatusRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -90,6 +92,7 @@ namespace Infrastructures
             _sendMailRepository = sendMailRepository;
             _imageShippingRepository = imageShippingRepository;
             _distanceRepository = distanceRepository;
+            _documentStatusRepository = documentStatusRepository;
         }
         public IAccountRepository AccountRepository => _accountRepository;
         public IAgencyRepository AgencyRepository => _agencyRepository;
@@ -114,7 +117,7 @@ namespace Infrastructures
         public INotarizationDetailRepository NotarizationDetailRepository => _notarizationDetailRepository;
         public IImageShippingRepository ImageShippingRepository => _imageShippingRepository;
         public IDistanceRepository DistanceRepository => _distanceRepository;
-
+        public IDocumentStatusRepository DocumentStatusRepository => _documentStatusRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

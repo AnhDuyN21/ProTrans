@@ -93,6 +93,8 @@ using Application.Interfaces.InterfaceRepositories.Distance;
 using Infrastructures.Repositories.Distance;
 using Application.Interfaces.InterfaceServices.Distance;
 using Application.Services.Distance;
+using Application.Interfaces.InterfaceRepositories.DocumentStatus;
+using Infrastructures.Repositories.DocumentStatus;
 
 namespace Infrastructures
 {
@@ -111,6 +113,9 @@ namespace Infrastructures
 
             //Roles
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+            //DocumentStatus
+            services.AddScoped<IDocumentStatusRepository, DocumentStatusRepository>();
 
             //Distances
             services.AddScoped<IDistanceRepository, DistanceRepository>();
