@@ -440,6 +440,9 @@ namespace Application.Services.Orders
 						foreach (var doc in documents)
 						{
 							doc.OrderId = order.Id;
+							doc.TranslationStatus = DocumentTranslationStatus.Processing.ToString();
+							if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
+								doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
 						}
 					}
 					request.Status = RequestStatus.Finish.ToString();
