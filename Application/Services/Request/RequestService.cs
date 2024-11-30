@@ -241,36 +241,73 @@ namespace Application.Services.Request
                     response.Message = "Tài liệu không được để trống.";
                     return response;
                 }
-
-                    foreach (var doc in createRequestDTO.Documents)
-                    {
-                        var documentPrice = await _unitOfWork.DocumentRepository.CaculateDocumentPrice(doc.FirstLanguageId, doc.SecondLanguageId,
-                                                                                                   doc.DocumentTypeId,
-                                                                                                   doc.PageNumber,
-                                                                                                   doc.NumberOfCopies,
-                                                                                                   doc.NotarizationRequest,
-                                                                                                   doc.NotarizationId,
-                                                                                                   doc.NumberOfNotarizedCopies);
-                        price += documentPrice;
-
-                        doc.FileType = FileType.Soft.ToString();
-                        doc.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
-                        if (doc.NotarizationRequest == true)
-                        {
-                            doc.NotarizationStatus = DocumentNotarizationStatus.Waiting.ToString();
-                        }
-                        else
-                        {
-                            doc.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
-                        }
-                    }
-                
-                var request = _mapper.Map<Domain.Entities.Request>(createRequestDTO);
-                request.CustomerId = customerId;
-                request.EstimatedPrice = price;
-
-                request.Status = RequestStatus.Waitting.ToString();
+                var request = new Domain.Entities.Request
+                {
+                    CustomerId = customerId,
+                    ShipRequest = createRequestDTO.ShipRequest,
+                    PickUpRequest = createRequestDTO.PickUpRequest,
+                    Deadline = createRequestDTO.Deadline
+                };
                 await _unitOfWork.RequestRepository.AddAsync(request);
+                var isRequestSaved = await _unitOfWork.SaveChangeAsync() > 0;
+
+                if (!isRequestSaved)
+                {
+                    response.Success = false;
+                    response.Message = "Lỗi khi tạo request.";
+                    return response;
+                }
+                var requestId = request.Id;
+
+                var priceDetails = new List<(Guid DocumentId, decimal TranslationPrice, decimal NotarizationPrice)>();
+
+                var documents = _mapper.Map<List<Domain.Entities.Document>>(createRequestDTO.Documents);
+
+                foreach (var doc in documents)
+                {
+                    var translationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentTranslationPrice(doc.FirstLanguageId,
+                                                                                                           doc.SecondLanguageId,
+                                                                                                           doc.DocumentTypeId,
+                                                                                                           doc.PageNumber,
+                                                                                                           doc.NumberOfCopies);
+                    var notarizationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentNotarizationPrice(doc.NotarizationRequest,
+                                                                                                         doc.NotarizationId,
+                                                                                                         doc.NumberOfNotarizedCopies);
+
+                    price += translationPrice + notarizationPrice;
+                    doc.RequestId = requestId;
+                    doc.FileType = FileType.Soft.ToString();
+                    //Cập nhật document status
+                    doc.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
+                    doc.NotarizationStatus = doc.NotarizationRequest ? DocumentNotarizationStatus.Waiting.ToString() : DocumentNotarizationStatus.None.ToString();
+                    priceDetails.Add((doc.Id, translationPrice, notarizationPrice));
+                }
+                await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
+                var saveResult = await _unitOfWork.SaveChangeAsync() > 0;
+                if (!saveResult)
+                {
+                    response.Success = false;
+                    response.Message = "Lỗi khi lưu Document.";
+                    return response;
+                }
+                //Thêm giá của Document vào bảng Document Price
+                foreach (var detail in priceDetails)
+                {
+                    var documentPrice = new DocumentPrice
+                    {
+                        DocumentId = detail.DocumentId,
+                        TranslationPrice = detail.TranslationPrice,
+                        NotarizationPrice = detail.NotarizationPrice,
+                        Price = detail.TranslationPrice + detail.NotarizationPrice
+                    };
+                    await _unitOfWork.DocumentPriceRepository.AddAsync(documentPrice);
+                }
+                await _unitOfWork.SaveChangeAsync();
+
+                request.EstimatedPrice = price;
+                request.Status = RequestStatus.Waitting.ToString();
+                 _unitOfWork.RequestRepository.Update(request);
+
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
@@ -383,15 +420,16 @@ namespace Application.Services.Request
                         updatedDocument.NumberOfNotarizedCopies = 0;
                     }
                     updatedDocument.RequestId = id;
-                    var documentPrice = await _unitOfWork.DocumentRepository.CaculateDocumentPrice(updatedDocument.FirstLanguageId,
-                                                                                        updatedDocument.SecondLanguageId,
-                                                                                        updatedDocument.DocumentTypeId,
-                                                                                        updatedDocument.PageNumber,
-                                                                                        updatedDocument.NumberOfCopies,
-                                                                                        updatedDocument.NotarizationRequest,
-                                                                                        updatedDocument.NotarizationId,
-                                                                                        updatedDocument.NumberOfNotarizedCopies);
-                    price += documentPrice;
+                    var translationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentTranslationPrice(document.FirstLanguageId,
+                                                                                                           document.SecondLanguageId,
+                                                                                                           document.DocumentTypeId,
+                                                                                                           (int)document.PageNumber,
+                                                                                                           (int)document.NumberOfCopies);
+                    var notarizationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentNotarizationPrice((bool)document.NotarizationRequest,
+                                                                                                         document.NotarizationId,
+                                                                                                         (int)document.NumberOfNotarizedCopies);
+
+                    price += translationPrice + notarizationPrice;
                     _unitOfWork.DocumentRepository.Update(updatedDocument);
                     var isUpdateSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                     if (!isUpdateSuccess)
