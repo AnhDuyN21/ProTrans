@@ -6,7 +6,7 @@ namespace Application.Interfaces.InterfaceRepositories.Documents
     {
         Task<List<Document>> GetByOrderIdAsync(Guid id);
         Task<bool> UpdateDocumentTranslationStatusByDocumentId(Guid documentId, string status);
-        Task<decimal> CaculateDocumentPrice(Guid? firstLanguageId, Guid? secondLanguageId, Guid? documentTypeId, int pageNumber, int numberOfCopies, bool notarizationRequest, Guid? notarizationId, int numberOfNotarizedCopies);
-
+        Task<decimal> CaculateDocumentNotarizationPrice(bool notarizationRequest, Guid? notarizationId, int numberOfNotarizedCopies);
+        Task<decimal> CaculateDocumentTranslationPrice(Guid? firstLanguageId, Guid? secondLanguageId, Guid? documentTypeId, int pageNumber, int numberOfCopies);
     }
 }

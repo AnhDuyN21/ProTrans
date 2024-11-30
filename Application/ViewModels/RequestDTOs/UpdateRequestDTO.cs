@@ -8,7 +8,6 @@ namespace Application.ViewModels.RequestDTOs
     public class UpdateRequestDTO
     {
         public DateTime? Deadline { get; set; }
-        public decimal? EstimatedPrice { get; set; }
         [EnumDataType(typeof(RequestStatus),ErrorMessage = "Trạng thái cập nhật của request phải là Quoted hoặc Cancel")]
         public string? Status { get; set; }
         [JsonIgnore]

@@ -32,29 +32,33 @@ namespace Infrastructures.Repositories.Documents
             Update(document);
             return true;
         }
-        public async Task<decimal> CaculateDocumentPrice(Guid? firstLanguageId, Guid? secondLanguageId, Guid? documentTypeId, int pageNumber, int numberOfCopies, bool notarizationRequest, Guid? notarizationId, int numberOfNotarizedCopies)
+        public async Task<decimal> CaculateDocumentNotarizationPrice(bool notarizationRequest, Guid? notarizationId, int numberOfNotarizedCopies)
         {
-            decimal price = 0;
+            decimal notarizationPrice = 0;
+
+            if (notarizationRequest == false) return notarizationPrice;
+
+            var notarization = await _dbContext.Notarization.FirstOrDefaultAsync(x => x.Id == notarizationId);
+            if (notarization == null) return notarizationPrice;
+
+            notarizationPrice = notarization.Price * numberOfNotarizedCopies;
+            
+            return notarizationPrice;
+        }
+        public async Task<decimal> CaculateDocumentTranslationPrice(Guid? firstLanguageId, Guid? secondLanguageId, Guid? documentTypeId, int pageNumber, int numberOfCopies)
+        {
+            decimal translationPrice = 0;
             var quotePrice = await _dbContext.QuotePrice.FirstOrDefaultAsync(x => x.FirstLanguageId == firstLanguageId &&
-                                                              x.SecondLanguageId == secondLanguageId);
-            if(quotePrice == null) return price;
+                                                  x.SecondLanguageId == secondLanguageId);
+            if (quotePrice == null) return translationPrice;
 
             var documentType = await _dbContext.DocumentType.FirstOrDefaultAsync(x => x.Id == documentTypeId);
-            if (documentType == null) return price;
+            if (documentType == null) return translationPrice;
 
-            price += (decimal)quotePrice.PricePerPage * pageNumber * documentType.PriceFactor;
+            translationPrice += (decimal)quotePrice.PricePerPage * pageNumber * documentType.PriceFactor;
 
-            price += (numberOfCopies - 1) * (pageNumber * 500 + 10000);
-            if (notarizationRequest)
-            {
-                var notarization = await _dbContext.Notarization.FirstOrDefaultAsync(x => x.Id == notarizationId) ;
-                if (notarization != null)
-                {
-                    price += notarization.Price * numberOfNotarizedCopies;
-                }
-            }
-            return price;
+            translationPrice += (numberOfCopies - 1) * (pageNumber * 500 + 10000);
+            return translationPrice;
         }
-
     }
 }
