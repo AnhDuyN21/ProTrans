@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentTranslation;
 using Application.ViewModels.AssignmentTranslationDTOs;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Enums;
 using System.Data.Common;
 
@@ -12,10 +13,12 @@ namespace Application.Services.AssignmentTranslation
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public AssignmentTranslationService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ICurrentTime _currentTime;
+        public AssignmentTranslationService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _currentTime = currentTime;
         }
         public async Task<ServiceResponse<AssignmentTranslationDTO>> CreateAssignmentTranslationAsync(CUAssignmentTranslationDTO cuAssignmentTranslationDTO)
         {
@@ -45,6 +48,17 @@ namespace Application.Services.AssignmentTranslation
                     return response;
                 }
                 document.TranslationStatus = DocumentTranslationStatus.Translating.ToString();
+
+                //Thêm thời gian cập nhật trạng thái document vào bảng document status
+                var documentStatus = new DocumentStatus
+                {
+                    DocumentId = (Guid)cuAssignmentTranslationDTO.DocumentId,
+                    Status = DocumentTranslationStatus.Translated.ToString(),
+                    Type = TypeStatus.Translation.ToString(),
+                    Time = _currentTime.GetCurrentTime()
+                };
+                await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
+                await _unitOfWork.SaveChangeAsync();
                 _unitOfWork.DocumentRepository.Update(document);
                 
 
@@ -299,6 +313,17 @@ namespace Application.Services.AssignmentTranslation
                     response.Message = "Cập nhật trạng thái document thất bại";
                     return response;
                 }
+                //Thêm thời gian cập nhật trạng thái vào bảng document status
+                var documentStatus = new DocumentStatus
+                {
+                    DocumentId = id,
+                    Status = DocumentTranslationStatus.Translated.ToString(),
+                    Type = TypeStatus.Translation.ToString(),
+                    Time = _currentTime.GetCurrentTime()
+                };
+                await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
+                await _unitOfWork.SaveChangeAsync();
+
                 //Cập nhật trạng thái order
                 await _unitOfWork.OrderRepository.UpdateOrderStatusByDocumentId((Guid)assignmentTranslationGetById.DocumentId);
 

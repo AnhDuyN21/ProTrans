@@ -285,10 +285,10 @@ namespace Application.Services.Request
                     doc.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
                     doc.NotarizationStatus = doc.NotarizationRequest ? DocumentNotarizationStatus.Waiting.ToString() : DocumentNotarizationStatus.None.ToString();
                     
-                    statusDetails.Add((doc.Id,doc.TranslationStatus,"Translation",_currentTime.GetCurrentTime()));
+                    statusDetails.Add((doc.Id,doc.TranslationStatus,TypeStatus.Translation.ToString(),_currentTime.GetCurrentTime()));
                     if(doc.NotarizationRequest == true)
                     {
-                        statusDetails.Add((doc.Id, doc.NotarizationStatus, "Notarization", _currentTime.GetCurrentTime()));
+                        statusDetails.Add((doc.Id, doc.NotarizationStatus, TypeStatus.Notarization.ToString(), _currentTime.GetCurrentTime()));
                     }
                     priceDetails.Add((doc.Id, translationPrice, notarizationPrice));
                 }
