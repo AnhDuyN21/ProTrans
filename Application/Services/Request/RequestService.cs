@@ -358,7 +358,7 @@ namespace Application.Services.Request
                     response.Message = "Danh sách tài liệu trống!";
                     return response;
                 }
-                //update Document
+                var priceDetails = new List<(Guid DocumentId, decimal TranslationPrice, decimal NotarizationPrice)>();
                 decimal price = 0;
                 foreach (var document in updateRequestDTO.Documents)
                 {
@@ -370,7 +370,7 @@ namespace Application.Services.Request
                         return response;
                     }
 
-                    //add document history
+                    //thêm document history
                     var properties = typeof(UpdateDocumentDTO).GetProperties();
                     var documentHistoryList = new List<DocumentHistory>();
                     foreach (var property in properties)
@@ -409,16 +409,9 @@ namespace Application.Services.Request
                     }
 
                     var updatedDocument = _mapper.Map(document, getById);
-                    updatedDocument.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
-                    if (updatedDocument.NotarizationRequest == true)
-                    {
-                        updatedDocument.NotarizationStatus = DocumentNotarizationStatus.Waiting.ToString();
-                    }
-                    else
-                    {
-                        updatedDocument.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
-                        updatedDocument.NumberOfNotarizedCopies = 0;
-                    }
+                    //Cập nhật document status
+                    document.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
+                    document.NotarizationStatus = (bool)document.NotarizationRequest ? DocumentNotarizationStatus.Waiting.ToString() : DocumentNotarizationStatus.None.ToString();
                     updatedDocument.RequestId = id;
                     var translationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentTranslationPrice(document.FirstLanguageId,
                                                                                                            document.SecondLanguageId,
@@ -430,6 +423,8 @@ namespace Application.Services.Request
                                                                                                          (int)document.NumberOfNotarizedCopies);
 
                     price += translationPrice + notarizationPrice;
+                    priceDetails.Add((getById.Id, translationPrice, notarizationPrice));
+
                     _unitOfWork.DocumentRepository.Update(updatedDocument);
                     var isUpdateSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                     if (!isUpdateSuccess)
@@ -438,6 +433,20 @@ namespace Application.Services.Request
                         response.Message = $"Update document có id {document.Id} không thành công";
                         return response;
                     }
+                    //Cập nhật giá của Document vào bảng Document Price
+                    var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAsync(x => x.DocumentId == getById.Id);
+                    if(documentPrice == null)
+                    {
+                        response.Success = false;
+                        response.Message = $"Không tìm thấy Document Price với Document id là: {getById.Id}";
+                        return response;
+                    }
+                    documentPrice.TranslationPrice = translationPrice;
+                    documentPrice.NotarizationPrice = notarizationPrice;
+                    documentPrice.Price = translationPrice + notarizationPrice;
+                    _unitOfWork.DocumentPriceRepository.Update(documentPrice);
+                    await _unitOfWork.SaveChangeAsync();
+
                 }
                 getRequestById.Deadline = updateRequestDTO.Deadline;
                 getRequestById.Status = updateRequestDTO.Status;
