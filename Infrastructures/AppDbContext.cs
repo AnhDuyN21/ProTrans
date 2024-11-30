@@ -32,6 +32,7 @@ namespace Infrastructures
         public DbSet<Feedback> Feedback { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<Distance> Distance { get; set; }
+        public DbSet<DocumentStatus> DocumentStatus { get; set; } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

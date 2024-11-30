@@ -20,6 +20,7 @@
         public Guid? OrderId { get; set; }
         public Guid? RequestId { get; set; }
         //Relationship
+        public virtual ICollection<DocumentStatus> DocumentStatus { get; set; }
         public virtual Order? Order { get; set; }
         public virtual Request? Request { get; set; }
         public virtual Notarization? Notarization { get; set; }
