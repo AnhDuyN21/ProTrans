@@ -14,10 +14,12 @@ namespace Application.Services.NotarizationDetail
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public NotarizationDetailService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ICurrentTime _currentTime;
+        public NotarizationDetailService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _currentTime = currentTime;
         }
 
         public async Task<ServiceResponse<IEnumerable<NotarizationDetailDTO>>> GetAllNotarizationDetails(Guid Id)
@@ -64,7 +66,19 @@ namespace Application.Services.NotarizationDetail
                 foreach (var item in notarizationDetailList)
                 {
                     var document = await _unitOfWork.DocumentRepository.GetByIdAsync(item.DocumentId);
-                    document.NotarizationStatus = "Notarizated";
+                    document.NotarizationStatus = DocumentNotarizationStatus.Notarizated.ToString();
+
+                    //Thêm thời gian cập nhật trạng thái document vào bảng document status
+                    var documentStatus = new DocumentStatus
+                    {
+                        DocumentId = document.Id,
+                        Status = DocumentNotarizationStatus.Notarizated.ToString(),
+                        Type = TypeStatus.Notarization.ToString(),
+                        Time = _currentTime.GetCurrentTime()
+                    };
+                    await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
+                    await _unitOfWork.SaveChangeAsync();
+
                     _unitOfWork.DocumentRepository.Update(document);
                     id.Add(document.OrderId.ToString());
                 }
@@ -74,7 +88,6 @@ namespace Application.Services.NotarizationDetail
                 {
                     Guid id1 = Guid.Parse(orderId.ToString());
                     var Order = await _unitOfWork.OrderRepository.GetByIdAsync(id1);
-                    // Trash shit
                     var docList = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id1);
                     foreach (var item in docList)
                     {
