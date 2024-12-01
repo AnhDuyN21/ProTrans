@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentNotarization;
 using Application.ViewModels.AssignmentNotarizationDTOs;
+using Application.ViewModels.AssignmentTranslationDTOs;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
@@ -13,10 +14,12 @@ namespace Application.Services.AssignmentNotarization
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public AssignmentNotarizationService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ICurrentTime _currentTime;
+        public AssignmentNotarizationService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _currentTime = currentTime;
         }
         public async Task<ServiceResponse<AssignmentNotarizationDTO>> CreateAssignmentNotarizationAsync(CUAssignmentNotarizationDTO cuAssignmentNotarizationDTO)
         {
@@ -36,8 +39,21 @@ namespace Application.Services.AssignmentNotarization
                 foreach(Guid id in cuAssignmentNotarizationDTO.DocumentId)
                 {
                     var document = await _unitOfWork.DocumentRepository.GetByIdAsync(id);
-                    document.NotarizationStatus = "Notarizating";
-                    _unitOfWork.DocumentRepository.Update(document); 
+                    document.NotarizationStatus = DocumentNotarizationStatus.Notarizating.ToString();
+
+                    //Thêm thời gian cập nhật trạng thái document vào bảng document status
+                    var documentStatus = new DocumentStatus
+                    {
+                        DocumentId = document.Id,
+                        Status = DocumentNotarizationStatus.Notarizating.ToString(),
+                        Type = TypeStatus.Notarization.ToString(),
+                        Time = _currentTime.GetCurrentTime()
+                    };
+                    await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
+                    await _unitOfWork.SaveChangeAsync();
+
+                    _unitOfWork.DocumentRepository.Update(document);
+                    
                 }
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
