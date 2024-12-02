@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.AssignmentShippings;
 using Application.Interfaces.InterfaceServices.Documents;
 using Application.ViewModels.AssignmentShippingDTOs;
+using Application.ViewModels.TransactionDTOs;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
@@ -414,9 +415,26 @@ namespace Application.Services.AssignmentShippings
 						var order = await _unitOfWork.OrderRepository.GetByIdAsync(assignmentShipping.OrderId);
 						if (order != null)
 						{
-							if (status == AssignmentShippingStatus.Completed.ToString()) order.Status = OrderStatus.Delivered.ToString();
-							if (status == AssignmentShippingStatus.Shipping.ToString()) order.Status = OrderStatus.Delivering.ToString();
+							if (status == AssignmentShippingStatus.Completed.ToString())
+							{
+								order.Status = OrderStatus.Delivered.ToString();
+								// Get Account Id by phone number of order
+								var account = await _unitOfWork.AccountRepository.GetAsync(x => x.PhoneNumber.Equals(order.PhoneNumber));
+								if (account != null)
+								{
+									TransactionDTO newTransDTO = new TransactionDTO();
+									newTransDTO.AccountId = account.Id;
+									newTransDTO.OrderId = order.Id;
+
+                                    var transaction = _mapper.Map<Transaction>(newTransDTO);
+
+                                    await _unitOfWork.TransactionRepository.AddAsync(transaction);
+                                }
+                            }
+                            if (status == AssignmentShippingStatus.Shipping.ToString()) order.Status = OrderStatus.Delivering.ToString();
 							_unitOfWork.OrderRepository.Update(order);
+							
+
 						}
 					}
 					if (assignmentShipping.Type == AssignmentShippingType.PickUp.ToString())
