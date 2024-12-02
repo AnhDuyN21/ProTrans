@@ -19,6 +19,6 @@
 		public Guid? DocumentTypeId { get; set; }
 		public Guid? OrderId { get; set; }
 		public Guid? RequestId { get; set; }
-		public List<DocumentStatusDTO>? DocumentStatuses { get; set; }
+		public List<DocumentStatusDTO>? DocumentStatus { get; set; }
 	}
 }

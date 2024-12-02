@@ -121,7 +121,8 @@ namespace Infrastructures.Mappers
             CreateMap<ImageShipping, ImageShippingDTO>().ReverseMap();
             CreateMap<ImageShipping, CreateImageShippingDTO>().ReverseMap();
             CreateMap<ImageShipping, UpdateImageShippingDTO>().ReverseMap();
-            
+            //DocumentStatus
+            CreateMap<DocumentStatus, DocumentStatusDTO>().ReverseMap();
 
         }
     }
