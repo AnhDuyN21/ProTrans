@@ -2,7 +2,6 @@
 {
 	public class UpdateOrderDTO
 	{
-		public Guid? PaymentId { get; set; }
 		public Guid? RequestId { get; set; }
 		public DateTime? Deadline { get; set; }
 		public string? FullName { get; set; }

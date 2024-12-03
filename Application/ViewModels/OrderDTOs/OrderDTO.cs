@@ -13,7 +13,6 @@
 		public string? Status { get; set; }
 		public string? Reason { get; set; }
 		public DateTime? CreatedDate { get; set; }
-		public Guid? PaymentId { get; set; }
 		public Guid? AgencyId { get; set; }
 		public Guid? RequestId { get; set; }
 	}
