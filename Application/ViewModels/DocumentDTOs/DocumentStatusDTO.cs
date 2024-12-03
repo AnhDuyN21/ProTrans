@@ -14,6 +14,5 @@ namespace Application.ViewModels.DocumentDTOs
 		public string? Status { get; set; }
 		public DateTime? Time { get; set; }
 		public Guid? DocumentId { get; set; }
-		public virtual Document? Document { get; set; }
 	}
 }
