@@ -15,10 +15,12 @@ namespace Application.Services.Orders
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
-		public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
+		private readonly ICurrentTime _currentTime;
+		public OrderService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_currentTime = currentTime;
 		}
 
 		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetAllOrdersAsync()
@@ -328,31 +330,76 @@ namespace Application.Services.Orders
 				order.OrderCode = order.Id.ToString().Substring(0, 6).ToUpper();
 				order.TotalPrice = 0;
 
-				if (CUorderDTO.Documents != null)
+				if (order.Documents != null)
 				{
-					foreach (var doc in CUorderDTO.Documents)
+					foreach (var doc in order.Documents)
 					{
-						var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId, doc.SecondLanguageId);
+						var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId.Value, doc.SecondLanguageId.Value);
 						if (quotePrice == null)
 						{
 							response.Success = false;
 							response.Message = "Có ít nhất 1 cặp ngôn ngữ không được hỗ trợ.";
 							return response;
 						}
-						var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(doc.DocumentTypeId);
-						if (quotePrice.PricePerPage != null && documentType != null)
+
+						var translationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentTranslationPrice(
+																									doc.FirstLanguageId,
+																									doc.SecondLanguageId,
+																									doc.DocumentTypeId,
+																									doc.PageNumber,
+																									doc.NumberOfCopies);
+						var notarizationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentNotarizationPrice(
+																									doc.NotarizationRequest,
+																									doc.NotarizationId,
+																									doc.NumberOfNotarizedCopies);
+
+						order.TotalPrice += translationPrice + notarizationPrice;
+
+						if (doc.FileType == "Hard") doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
+						if (doc.NotarizationRequest)
 						{
-							order.TotalPrice += quotePrice.PricePerPage.Value * doc.PageNumber * documentType.PriceFactor;
-						}
-						order.TotalPrice += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
-						if (doc.NotarizationRequest && doc.NotarizationId != null)
-						{
-							var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId.Value);
-							if (notarization != null)
+							doc.NotarizationStatus = DocumentNotarizationStatus.PickedUp.ToString();
+							var notarizationStatus = new DocumentStatus
 							{
-								order.TotalPrice += notarization.Price * doc.NumberOfNotarizedCopies;
-							}
+								DocumentId = doc.Id,
+								Status = doc.NotarizationStatus,
+								Type = TypeStatus.Notarization.ToString(),
+								Time = _currentTime.GetCurrentTime(),
+							};
+							await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
 						}
+						else doc.NotarizationStatus = "None";
+						doc.TranslationStatus = DocumentTranslationStatus.Processing.ToString();
+						var translationStatus = new DocumentStatus
+						{
+							DocumentId = doc.Id,
+							Status = doc.TranslationStatus,
+							Type = TypeStatus.Translation.ToString(),
+							Time = _currentTime.GetCurrentTime(),
+						};
+						await _unitOfWork.DocumentStatusRepository.AddAsync(translationStatus);
+						var documentPrice = new DocumentPrice
+						{
+							DocumentId = doc.Id,
+							TranslationPrice = translationPrice,
+							NotarizationPrice = notarizationPrice,
+							Price = translationPrice + notarizationPrice,
+						};
+						await _unitOfWork.DocumentPriceRepository.AddAsync(documentPrice);
+						//var documentType = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(doc.DocumentTypeId);
+						//if (quotePrice.PricePerPage != null && documentType != null)
+						//{
+						//	order.TotalPrice += quotePrice.PricePerPage.Value * doc.PageNumber * documentType.PriceFactor;
+						//}
+						//order.TotalPrice += (doc.NumberOfCopies - 1) * (doc.PageNumber * 500 + 10000);
+						//if (doc.NotarizationRequest && doc.NotarizationId != null)
+						//{
+						//	var notarization = await _unitOfWork.NotarizationRepository.GetByIdAsync(doc.NotarizationId.Value);
+						//	if (notarization != null)
+						//	{
+						//		order.TotalPrice += notarization.Price * doc.NumberOfNotarizedCopies;
+						//	}
+						//}
 					}
 				}
 
@@ -362,19 +409,20 @@ namespace Application.Services.Orders
 				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
 				order.AgencyId = (staff != null) ? staff.AgencyId : null;
 				order.Status = "Processing";
+				if (order.ShipRequest) order.TotalPrice += 30000;
+
+				//if (order.Documents != null)
+				//{
+				//	foreach (var doc in order.Documents)
+				//	{
+				//		if (doc.FileType == "Hard") doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
+				//		if (doc.NotarizationRequest) doc.NotarizationStatus = "PickedUp";
+				//		else doc.NotarizationStatus = "None";
+				//		doc.TranslationStatus = "Processing";
+				//	}
+				//}
 
 				await _unitOfWork.OrderRepository.AddAsync(order);
-				if (order.Documents != null)
-				{
-					foreach (var doc in order.Documents)
-					{
-						if (doc.FileType == "Hard") doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
-						if (doc.NotarizationRequest) doc.NotarizationStatus = "PickedUp";
-						else doc.NotarizationStatus = "None";
-						doc.TranslationStatus = "Processing";
-					}
-				}
-
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
 				if (isSuccess)
