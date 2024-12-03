@@ -418,23 +418,18 @@ namespace Application.Services.AssignmentShippings
 							if (status == AssignmentShippingStatus.Completed.ToString())
 							{
 								order.Status = OrderStatus.Delivered.ToString();
-								// Get Account Id by phone number of order
 								var account = await _unitOfWork.AccountRepository.GetAsync(x => x.PhoneNumber.Equals(order.PhoneNumber));
 								if (account != null)
 								{
-									TransactionDTO newTransDTO = new TransactionDTO();
-									newTransDTO.AccountId = account.Id;
-									newTransDTO.OrderId = order.Id;
-
-                                    var transaction = _mapper.Map<Transaction>(newTransDTO);
-
-                                    await _unitOfWork.TransactionRepository.AddAsync(transaction);
-                                }
-                            }
-                            if (status == AssignmentShippingStatus.Shipping.ToString()) order.Status = OrderStatus.Delivering.ToString();
+									TransactionDTO transactionDTO = new TransactionDTO();
+									transactionDTO.AccountId = account.Id;
+									transactionDTO.OrderId = order.Id;
+									var transaction = _mapper.Map<Transaction>(transactionDTO);
+									await _unitOfWork.TransactionRepository.AddAsync(transaction);
+								}
+							}
+							if (status == AssignmentShippingStatus.Shipping.ToString()) order.Status = OrderStatus.Delivering.ToString();
 							_unitOfWork.OrderRepository.Update(order);
-							
-
 						}
 					}
 					if (assignmentShipping.Type == AssignmentShippingType.PickUp.ToString())

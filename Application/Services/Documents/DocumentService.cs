@@ -87,6 +87,10 @@ namespace Application.Services.Documents
 			var response = new ServiceResponse<DocumentDTO>();
 
 			var document = await _unitOfWork.DocumentRepository.GetByIdAsync(id);
+			var statuses = await _unitOfWork.DocumentStatusRepository.GetAllAsync(x => x.DocumentId == id);
+			var documentDTO = _mapper.Map<DocumentDTO>(document);
+			var documentStatusDTOs = _mapper.Map<List<DocumentStatusDTO>>(statuses);
+			documentDTO.DocumentStatus = documentStatusDTOs;
 			if (document == null)
 			{
 				response.Success = false;
@@ -96,7 +100,7 @@ namespace Application.Services.Documents
 			{
 				response.Success = true;
 				response.Message = "Document found.";
-				response.Data = _mapper.Map<DocumentDTO>(document);
+				response.Data = documentDTO;
 			}
 			return response;
 		}
