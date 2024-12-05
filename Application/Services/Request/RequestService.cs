@@ -275,7 +275,7 @@ namespace Application.Services.Request
                         var firstLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync((Guid)doc.FirstLanguageId);
                         var secondLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync((Guid)doc.SecondLanguageId);
                         response.Success = false;
-                        response.Message = $"Cặp ngôn ngữ {firstLanguage.Name} và {secondLanguage.Name} không được hỗ trợ";
+                        response.Message = $"Chúng tôi không hỗ trợ dịch từ {firstLanguage.Name} sang {secondLanguage.Name}.";
                         return response;
                     }
                     var translationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentTranslationPrice(doc.FirstLanguageId,
