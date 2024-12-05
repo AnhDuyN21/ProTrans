@@ -23,107 +23,108 @@ using Domain.Entities;
 namespace Infrastructures.Mappers
 {
 	public class MapperConfigurationsProfile : Profile
-    {
-        public MapperConfigurationsProfile()
-        {
-            //Accounts
-            CreateMap<Account, AccountDTO>().ReverseMap();
-            CreateMap<Account, CreateAccountDTO>().ReverseMap();
-            CreateMap<Account, RegisterDTO>().ReverseMap();
-            CreateMap<Account, CreateTranslatorDTO>().ReverseMap();
-            CreateMap<Account, TranslatorAccountDTO>().ReverseMap();
+	{
+		public MapperConfigurationsProfile()
+		{
+			//Accounts
+			CreateMap<Account, AccountDTO>().ReverseMap();
+			CreateMap<Account, CreateAccountDTO>().ReverseMap();
+			CreateMap<Account, RegisterDTO>().ReverseMap();
+			CreateMap<Account, CreateTranslatorDTO>().ReverseMap();
+			CreateMap<Account, TranslatorAccountDTO>().ReverseMap();
 
-            //Agencys
-            CreateMap<Agency, AgencyDTO>().ReverseMap();
-            CreateMap<Agency, CUAgencyDTO>().ReverseMap();
+			//Agencys
+			CreateMap<Agency, AgencyDTO>().ReverseMap();
+			CreateMap<Agency, CUAgencyDTO>().ReverseMap();
 
-            //Distances
-            CreateMap<Distance, DistanceDTO>().ReverseMap();
-            CreateMap<Distance, CreateUpdateDistanceDTO>().ReverseMap();
+			//Distances
+			CreateMap<Distance, DistanceDTO>().ReverseMap();
+			CreateMap<Distance, CreateUpdateDistanceDTO>().ReverseMap();
 
-            //Requests
-            CreateMap<Request, RequestDTO>().ReverseMap();
-            CreateMap<Request, CreateRequestDTO>().ReverseMap();
-            CreateMap<Request, UpdateRequestDTO>().ReverseMap();
-            CreateMap<Request, CustomerUpdateRequestDTO>().ReverseMap();
-            CreateMap<Request, RequestCustomerDTO>().ReverseMap();
+			//Requests
+			CreateMap<Request, RequestDTO>().ReverseMap();
+			CreateMap<Request, CreateRequestDTO>().ReverseMap();
+			CreateMap<Request, UpdateRequestDTO>().ReverseMap();
+			CreateMap<Request, CustomerUpdateRequestDTO>().ReverseMap();
+			CreateMap<Request, RequestCustomerDTO>().ReverseMap();
+			CreateMap<Request, RequestToQuoteDTO>().ReverseMap();
 
-            //Notarizations
-            CreateMap<Notarization, NotarizationDTO>().ReverseMap();
-            CreateMap<Notarization, CreateNotarizationDTO>().ReverseMap();
+			//Notarizations
+			CreateMap<Notarization, NotarizationDTO>().ReverseMap();
+			CreateMap<Notarization, CreateNotarizationDTO>().ReverseMap();
 
-            //QuotePrices
-            CreateMap<QuotePrice, QuotePriceDTO>().ReverseMap();
-            CreateMap<QuotePrice, CUQuotePriceDTO>().ReverseMap();
+			//QuotePrices
+			CreateMap<QuotePrice, QuotePriceDTO>().ReverseMap();
+			CreateMap<QuotePrice, CUQuotePriceDTO>().ReverseMap();
 
-            //Languages
-            CreateMap<Language, LanguageDTO>().ReverseMap();
-            CreateMap<Language, CULanguageDTO>().ReverseMap();
+			//Languages
+			CreateMap<Language, LanguageDTO>().ReverseMap();
+			CreateMap<Language, CULanguageDTO>().ReverseMap();
 
-            //TranslatorSkills
-            CreateMap<TranslationSkill, TranslatorSkillDTO>().ReverseMap();
-            CreateMap<TranslationSkill, CUTranslatorSkillDTO>().ReverseMap();
-            CreateMap<TranslationSkill, CreateTranslatorSkillDTO>().ReverseMap();
+			//TranslatorSkills
+			CreateMap<TranslationSkill, TranslatorSkillDTO>().ReverseMap();
+			CreateMap<TranslationSkill, CUTranslatorSkillDTO>().ReverseMap();
+			CreateMap<TranslationSkill, CreateTranslatorSkillDTO>().ReverseMap();
 
-            //Notificaitons
-            CreateMap<Notification, SendNotificationDTO>().ReverseMap();
-            CreateMap<Notification, NotificationDTO>().ReverseMap();
+			//Notifications
+			CreateMap<Notification, SendNotificationDTO>().ReverseMap();
+			CreateMap<Notification, NotificationDTO>().ReverseMap();
 
-            //AssignmentTranslation
-            CreateMap<AssignmentTranslation, CUAssignmentTranslationDTO>().ReverseMap();
-            CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
+			//AssignmentTranslation
+			CreateMap<AssignmentTranslation, CUAssignmentTranslationDTO>().ReverseMap();
+			CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
 
-            //Feedbacks
-            CreateMap<Feedback, FeedbackDTO>().ReverseMap();
-            CreateMap<Feedback, CUFeedbackDTO>().ReverseMap();
+			//Feedbacks
+			CreateMap<Feedback, FeedbackDTO>().ReverseMap();
+			CreateMap<Feedback, CUFeedbackDTO>().ReverseMap();
 
-            //Documents
-            CreateMap<Document, DocumentDTO>().ReverseMap();
-            CreateMap<Document, CreateDocumentDTO>().ReverseMap();
-            CreateMap<Document, UpdateDocumentDTO>().ReverseMap();
-            CreateMap<Document, UpdateDocumentFromRequestDTO>().ReverseMap();
+			//Documents
+			CreateMap<Document, DocumentDTO>().ReverseMap();
+			CreateMap<Document, CreateDocumentDTO>().ReverseMap();
+			CreateMap<Document, UpdateDocumentDTO>().ReverseMap();
+			CreateMap<Document, UpdateDocumentFromRequestDTO>().ReverseMap();
 
-            //DocumentType
-            CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
-            CreateMap<DocumentType, CUDocumentTypeDTO>().ReverseMap();
+			//DocumentType
+			CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
+			CreateMap<DocumentType, CUDocumentTypeDTO>().ReverseMap();
 
-            //DocumentHistory
-            CreateMap<DocumentHistory, DocumentHistoryDTO>().ReverseMap();
-            CreateMap<DocumentHistory, CreateDocumentHistoryDTO>().ReverseMap();
+			//DocumentHistory
+			CreateMap<DocumentHistory, DocumentHistoryDTO>().ReverseMap();
+			CreateMap<DocumentHistory, CreateDocumentHistoryDTO>().ReverseMap();
 
-            //DocumentPrice
-            CreateMap<DocumentPrice, DocumentPriceDTO>().ReverseMap();
-            CreateMap<DocumentPrice, CreateDocumentPriceDTO>().ReverseMap();
-            CreateMap<DocumentPrice, UpdateDocumentPriceDTO>().ReverseMap();
+			//DocumentPrice
+			CreateMap<DocumentPrice, DocumentPriceDTO>().ReverseMap();
+			CreateMap<DocumentPrice, CreateDocumentPriceDTO>().ReverseMap();
+			CreateMap<DocumentPrice, UpdateDocumentPriceDTO>().ReverseMap();
 
-            //Orders
-            CreateMap<Order, OrderDTO>().ReverseMap();
-            CreateMap<Order, UpdateOrderDTO>().ReverseMap();
-            CreateMap<Order, CreateOrderDTO>().ReverseMap();
+			//Orders
+			CreateMap<Order, OrderDTO>().ReverseMap();
+			CreateMap<Order, UpdateOrderDTO>().ReverseMap();
+			CreateMap<Order, CreateOrderDTO>().ReverseMap();
 
-            //AssignmentNotarization
-            CreateMap<AssignmentNotarization, CUAssignmentNotarizationDTO>().ReverseMap();
-            CreateMap<AssignmentNotarization, AssignmentNotarizationDTO>().ReverseMap();
+			//AssignmentNotarization
+			CreateMap<AssignmentNotarization, CUAssignmentNotarizationDTO>().ReverseMap();
+			CreateMap<AssignmentNotarization, AssignmentNotarizationDTO>().ReverseMap();
 
-            //Shippings
-            CreateMap<AssignmentShipping, AssignmentShippingDTO>().ReverseMap();
-            CreateMap<AssignmentShipping, UpdateAssignmentShippingDTO>().ReverseMap();
-            CreateMap<AssignmentShipping, CreateAssignmentShippingDTO>().ReverseMap();
-            //Transactions
-            CreateMap<Transaction, TransactionDTO>().ReverseMap();
-            CreateMap<Transaction, CUTransactionDTO>().ReverseMap();
-            //Role
-            CreateMap<Role,RoleDTO>().ReverseMap();
+			//Shippings
+			CreateMap<AssignmentShipping, AssignmentShippingDTO>().ReverseMap();
+			CreateMap<AssignmentShipping, UpdateAssignmentShippingDTO>().ReverseMap();
+			CreateMap<AssignmentShipping, CreateAssignmentShippingDTO>().ReverseMap();
+			//Transactions
+			CreateMap<Transaction, TransactionDTO>().ReverseMap();
+			CreateMap<Transaction, CUTransactionDTO>().ReverseMap();
+			//Role
+			CreateMap<Role, RoleDTO>().ReverseMap();
 
-            //NotarizationDetail
-            CreateMap<NotarizationDetail, NotarizationDetailDTO>().ReverseMap();
-            //ImageShippings
-            CreateMap<ImageShipping, ImageShippingDTO>().ReverseMap();
-            CreateMap<ImageShipping, CreateImageShippingDTO>().ReverseMap();
-            CreateMap<ImageShipping, UpdateImageShippingDTO>().ReverseMap();
-            //DocumentStatus
-            CreateMap<DocumentStatus, DocumentStatusDTO>().ReverseMap();
+			//NotarizationDetail
+			CreateMap<NotarizationDetail, NotarizationDetailDTO>().ReverseMap();
+			//ImageShippings
+			CreateMap<ImageShipping, ImageShippingDTO>().ReverseMap();
+			CreateMap<ImageShipping, CreateImageShippingDTO>().ReverseMap();
+			CreateMap<ImageShipping, UpdateImageShippingDTO>().ReverseMap();
+			//DocumentStatus
+			CreateMap<DocumentStatus, DocumentStatusDTO>().ReverseMap();
 
-        }
-    }
+		}
+	}
 }
