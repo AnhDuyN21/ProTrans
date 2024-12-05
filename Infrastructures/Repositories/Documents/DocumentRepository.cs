@@ -50,10 +50,8 @@ namespace Infrastructures.Repositories.Documents
             decimal translationPrice = 0;
             var quotePrice = await _dbContext.QuotePrice.FirstOrDefaultAsync(x => x.FirstLanguageId == firstLanguageId &&
                                                   x.SecondLanguageId == secondLanguageId);
-            if (quotePrice == null) return translationPrice;
 
             var documentType = await _dbContext.DocumentType.FirstOrDefaultAsync(x => x.Id == documentTypeId);
-            if (documentType == null) return translationPrice;
 
             translationPrice += (decimal)quotePrice.PricePerPage * pageNumber * documentType.PriceFactor;
 

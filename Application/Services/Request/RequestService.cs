@@ -269,6 +269,15 @@ namespace Application.Services.Request
 
                 foreach (var doc in documents)
                 {
+                    var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId((Guid)doc.FirstLanguageId, (Guid)doc.SecondLanguageId);
+                    if (quotePrice == null)
+                    {
+                        var firstLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync((Guid)doc.FirstLanguageId);
+                        var secondLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync((Guid)doc.SecondLanguageId);
+                        response.Success = false;
+                        response.Message = $"Cặp ngôn ngữ {firstLanguage.Name} và {secondLanguage.Name} không được hỗ trợ";
+                        return response;
+                    }
                     var translationPrice = await _unitOfWork.DocumentRepository.CaculateDocumentTranslationPrice(doc.FirstLanguageId,
                                                                                                            doc.SecondLanguageId,
                                                                                                            doc.DocumentTypeId,
