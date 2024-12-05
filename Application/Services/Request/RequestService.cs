@@ -69,6 +69,14 @@ namespace Application.Services.Request
 				{
 					var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.RequestId == request.Id);
 					request.Documents = _mapper.Map<List<DocumentDTO>>(documents);
+					var customer = await _unitOfWork.AccountRepository.GetAsync(x => x.Id == request.CustomerId);
+					if (customer != null)
+					{
+						request.FullName = customer.FullName;
+						request.PhoneNumber = customer.PhoneNumber;
+						request.Email = customer.Email;
+						request.Address = customer.Address;
+					}
 				}
 
 				if (requestDTOs.Count != 0)
