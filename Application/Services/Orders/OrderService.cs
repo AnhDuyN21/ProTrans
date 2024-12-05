@@ -489,8 +489,26 @@ namespace Application.Services.Orders
 						{
 							doc.OrderId = order.Id;
 							doc.TranslationStatus = DocumentTranslationStatus.Processing.ToString();
+							var translationStatus = new DocumentStatus
+							{
+								DocumentId = doc.Id,
+								Status = doc.TranslationStatus,
+								Type = TypeStatus.Translation.ToString(),
+								Time = _currentTime.GetCurrentTime(),
+							};
+							await _unitOfWork.DocumentStatusRepository.AddAsync(translationStatus);
 							if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
+							{
 								doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
+								var notarizationStatus = new DocumentStatus
+								{
+									DocumentId = doc.Id,
+									Status = doc.NotarizationStatus,
+									Type = TypeStatus.Notarization.ToString(),
+									Time = _currentTime.GetCurrentTime(),
+								};
+								await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
+							}
 						}
 					}
 					request.Status = RequestStatus.Finish.ToString();
