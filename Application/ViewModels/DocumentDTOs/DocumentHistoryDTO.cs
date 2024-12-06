@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Application.ViewModels.DocumentDTOs
 {
-    public class DocumentHistoryDTO
-    {
-        public Guid Id { get; set; }
-        public Guid DocumentId { get; set; }
-        public string Name { get; set; }
-        public string OldValue { get; set; }
-    }
+	public class DocumentHistoryDTO
+	{
+		public Guid Id { get; set; }
+		public Guid DocumentId { get; set; }
+		public string Name { get; set; }
+		public string OldValue { get; set; }
+	}
 }
