@@ -103,22 +103,46 @@ namespace Application.Services.Request
 		public async Task<ServiceResponse<IEnumerable<RequestDTO>>> GetRequestByCustomerAsync(Guid customerId)
 		{
 			var response = new ServiceResponse<IEnumerable<RequestDTO>>();
-
 			try
 			{
-				var requestList = await _unitOfWork.RequestRepository.GetAllAsync(x => x.CustomerId == customerId);
-				var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
+				var requests = await _unitOfWork.RequestRepository.GetAllAsync(x => x.CustomerId == customerId);
+				var requestDTOs = _mapper.Map<List<RequestDTO>>(requests);
+
+				foreach (var request in requestDTOs)
+				{
+					var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.RequestId == request.Id);
+					if (documents != null)
+					{
+						var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+						foreach (var document in documentDTOs)
+						{
+							var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAsync(x => x.DocumentId == document.Id);
+							if (documentPrice != null)
+							{
+								var documentPriceDTO = _mapper.Map<DocumentPriceDTO>(documentPrice);
+								document.DocumentPrice = documentPriceDTO;
+							}
+							var documentHistories = await _unitOfWork.DocumentHistoryRepository.GetAllAsync(x => x.DocumentId == document.Id);
+							if (documentHistories != null)
+							{
+								var documentHistoryDTOs = _mapper.Map<List<DocumentHistoryDTO>>(documentHistories);
+								document.DocumentHistory = documentHistoryDTOs;
+							}
+						}
+						request.Documents = documentDTOs;
+					}
+				}
 
 				if (requestDTOs.Count != 0)
 				{
 					response.Success = true;
-					response.Message = "List retrieved successfully";
+					response.Message = "List retrieved successfully.";
 					response.Data = requestDTOs;
 				}
 				else
 				{
 					response.Success = true;
-					response.Message = "Not have data in list";
+					response.Message = "Not have data in list.";
 				}
 
 			}
@@ -128,7 +152,6 @@ namespace Application.Services.Request
 				response.Message = "Error";
 				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
 			}
-
 			return response;
 		}
 
