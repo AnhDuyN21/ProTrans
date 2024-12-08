@@ -314,6 +314,50 @@ namespace Application.Services.Account
 
 			return response;
 		}
+
+		public async Task<ServiceResponse<AccountDTO>> ToggleAccountStatusAsync(Guid id)
+		{
+			var response = new ServiceResponse<AccountDTO>();
+			try
+			{
+				var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+
+				if (account == null)
+				{
+					response.Success = false;
+					response.Message = "Account not found.";
+					return response;
+				}
+
+				if (account.IsDeleted != null)
+				{
+					if (account.IsDeleted == true) account.IsDeleted = false;
+					else account.IsDeleted = true;
+				}
+
+				_unitOfWork.AccountRepository.Update(account);
+
+				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+				if (isSuccess)
+				{
+					response.Data = _mapper.Map<AccountDTO>(account);
+					response.Success = true;
+					response.Message = "Account updated successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Error updating account.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error";
+				response.ErrorMessages = new List<string> { ex.Message };
+			}
+			return response;
+		}
 		public async Task<ServiceResponse<string>> LoginAsync(LoginDTO loginDTO)
 		{
 			var response = new ServiceResponse<string>();
