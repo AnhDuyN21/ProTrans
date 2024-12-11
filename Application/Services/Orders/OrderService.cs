@@ -497,18 +497,18 @@ namespace Application.Services.Orders
 								Time = _currentTime.GetCurrentTime(),
 							};
 							await _unitOfWork.DocumentStatusRepository.AddAsync(translationStatus);
-							if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
-							{
-								doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
-								var notarizationStatus = new DocumentStatus
-								{
-									DocumentId = doc.Id,
-									Status = doc.NotarizationStatus,
-									Type = TypeStatus.Notarization.ToString(),
-									Time = _currentTime.GetCurrentTime(),
-								};
-								await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
-							}
+							//if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
+							//{
+							//	doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
+							//	var notarizationStatus = new DocumentStatus
+							//	{
+							//		DocumentId = doc.Id,
+							//		Status = doc.NotarizationStatus,
+							//		Type = TypeStatus.Notarization.ToString(),
+							//		Time = _currentTime.GetCurrentTime(),
+							//	};
+							//	await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
+							//}
 						}
 					}
 					request.Status = RequestStatus.Finish.ToString();
