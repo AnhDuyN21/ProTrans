@@ -273,7 +273,7 @@ namespace Application.Services.AssignmentTranslation
 
 			return response;
 		}
-		public async Task<ServiceResponse<AssignmentTranslationDTO>> UpdateStatusAssignmentTranslationAsync(Guid id, string urlPath)
+		public async Task<ServiceResponse<AssignmentTranslationDTO>> UpdateStatusAssignmentTranslationAsync(Guid id, string? urlPath)
 		{
 			var response = new ServiceResponse<AssignmentTranslationDTO>();
 
