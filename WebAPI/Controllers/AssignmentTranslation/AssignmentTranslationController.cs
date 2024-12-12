@@ -94,7 +94,7 @@ namespace WebAPI.Controllers.assignmentTranslation
         //    return Ok(result);
         //}
         [HttpPut("Complete")]
-        public async Task<IActionResult> UpdateStatusAssignmentTranslation2(Guid id, string urlPath)
+        public async Task<IActionResult> UpdateStatusAssignmentTranslation2(Guid id, string? urlPath)
         {
             var result = await _assignmentTranslationService.UpdateStatusAssignmentTranslationAsync(id, urlPath);
             if (!result.Success)
