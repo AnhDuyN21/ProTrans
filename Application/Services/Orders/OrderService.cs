@@ -1,7 +1,9 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Orders;
+using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.OrderDTOs;
+using Application.ViewModels.RequestDTOs;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
@@ -159,6 +161,26 @@ namespace Application.Services.Orders
 					}
 				}
 				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+
+				foreach (var order in orderDTOs)
+				{
+					var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.OrderId == order.Id);
+					if (documents != null)
+					{
+						var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+						foreach (var document in documentDTOs)
+						{
+							var documentStatuses = await _unitOfWork.DocumentStatusRepository.GetAllAsync(x => x.DocumentId == document.Id);
+							if (documentStatuses != null)
+							{
+								var documentStatusDTOs = _mapper.Map<List<DocumentStatusDTO>>(documentStatuses).OrderBy(x => x.Time).ToList();
+								document.DocumentStatus = documentStatusDTOs;
+							}
+						}
+						order.Documents = documentDTOs;
+					}
+				}
+
 				if (orderDTOs.Count != 0)
 				{
 					response.Success = true;
