@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.InterfaceRepositories.Notification;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -81,6 +82,16 @@ namespace Infrastructures.Repositories.Notification
 
             return;
         }
+        public void UpdateNotificationAsync(Domain.Entities.Notification notification)
+        {
+             _dbSet.Update(notification);
+        }
 
+
+        public async Task<Domain.Entities.Notification> GetByIdAsync(int id)
+        {
+            var result = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
+        }
     }
 }
