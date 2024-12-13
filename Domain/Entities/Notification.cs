@@ -8,6 +8,7 @@
         public string? Title { get; set; }
         public string? Message { get; set; }
         public DateTime NotificationTime { get; set; }
+        public bool isChecked {  get; set; }
         //Foreignkey
         public Guid? AccountId { get; set; }
         //Relationship
