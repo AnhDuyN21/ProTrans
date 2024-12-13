@@ -8,6 +8,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using Google.Apis.Storage.v1.Data;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Data.Common;
 using static Google.Apis.Requests.BatchRequest;
 
@@ -559,8 +560,18 @@ namespace Application.Services.Request
 				getRequestById.Deadline = updateRequestDTO.Deadline;
 				getRequestById.Status = updateRequestDTO.Status;
 				getRequestById.EstimatedPrice = price;
-
-				_unitOfWork.RequestRepository.Update(getRequestById);
+                //Giá ship cho request
+                decimal pickUpPrice = 40000;
+                decimal shipPrice = 40000;
+                if (getRequestById.PickUpRequest == true)
+                {
+                    getRequestById.EstimatedPrice += pickUpPrice;
+                }
+                if (getRequestById.ShipRequest == true)
+                {
+                    getRequestById.EstimatedPrice += shipPrice;
+                }
+                _unitOfWork.RequestRepository.Update(getRequestById);
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
