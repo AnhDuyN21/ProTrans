@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.SendMail;
+﻿using Application.Commons;
+using Application.ViewModels.SendMail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace Application.Interfaces
     public interface ISendMail
     {
         Task SendEmailAsync(MessageDTO messageDTO);
+        public Task<ServiceResponse<bool>> SendBill(MessageDTO message, Guid orderId, string shipperName, string shipperPhone, string image);
     }
 }
