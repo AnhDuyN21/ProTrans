@@ -693,7 +693,7 @@ namespace Application.Services.Account
 			try
 			{
 				var accountList = await _unitOfWork.AccountRepository.GetAllAsync(x => x.Role.Name.Equals("Translator"));
-				var accountDTOs = _mapper.Map<List<AccountDTO>>(accountList);
+				var accountDTOs = _mapper.Map<List<AccountDTO>>(accountList).OrderBy(x => x.FullName).ToList();
 
 				if (accountDTOs.Count != 0)
 				{
