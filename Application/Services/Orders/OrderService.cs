@@ -541,6 +541,7 @@ namespace Application.Services.Orders
 				if (isSuccess)
 				{
 					var orderDTO = _mapper.Map<OrderDTO>(order);
+					if (request != null && request.CustomerId != null) orderDTO.CustomerId = request.CustomerId;
 					response.Data = orderDTO;
 					response.Success = true;
 					response.Message = "Create successfully.";
