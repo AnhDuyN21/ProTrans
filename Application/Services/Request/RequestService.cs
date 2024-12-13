@@ -402,6 +402,17 @@ namespace Application.Services.Request
 				}
 				await _unitOfWork.SaveChangeAsync();
 				request.EstimatedPrice = price;
+				//Giá ship cho request
+				decimal pickUpPrice = 40000;
+				decimal shipPrice = 40000;
+				if(request.PickUpRequest == true)
+				{
+					request.EstimatedPrice += pickUpPrice;
+				}
+				if(request.ShipRequest == true)
+				{
+					request.EstimatedPrice += shipPrice;
+				}
 				request.Status = RequestStatus.Waitting.ToString();
 				_unitOfWork.RequestRepository.Update(request);
 
