@@ -137,5 +137,45 @@ namespace Application.Services.Notification
 
             return response;
         }
+
+        public async Task<ServiceResponse<NotificationDTO>> Update(int id)
+        {
+            var response = new ServiceResponse<NotificationDTO>();
+            try
+            {
+                var notification = await _unitOfWork.NotificationRepository.GetByIdAsync(id);
+                notification.isChecked = true;
+
+                _unitOfWork.NotificationRepository.UpdateNotificationAsync(notification);
+
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+                if (isSuccess)
+                {
+                    var notificationDTO = _mapper.Map<NotificationDTO>(notification);
+                    response.Data = notificationDTO; // Chuyển đổi sang NotificationDTO
+                    response.Success = true;
+                    response.Message = "Update Notification successfully.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Error saving the notification.";
+                }
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Application.Interfaces.InterfaceServices.Notification
         public Task<ServiceResponse<NotificationDTO>> SendANotificationAsync(SendNotificationDTO sendNotificationDTO);
         public Task<ServiceResponse<IEnumerable<NotificationDTO>>> GetAllNotificationAsync(Guid Id);
         public Task<string> GetRoleStringAsync(Guid RoleId);
+        public Task<ServiceResponse<NotificationDTO>> Update(int id);
     }
 }

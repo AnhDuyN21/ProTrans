@@ -17,7 +17,16 @@ namespace WebAPI.Controllers.Notification
             _signalRHub = signalRHub;
 
         }
-
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateNotificationById(int id)
+        {
+            var result = await _notificationService.Update(id);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetNotificationById(Guid id)
         {
