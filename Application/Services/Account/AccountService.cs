@@ -378,6 +378,7 @@ namespace Application.Services.Account
 				//    response.Message = "Please confirm via link in your mail";
 				//    return response;
 				//}
+				
 				if (user.IsDeleted == true)
 				{
 					response.Success = false;

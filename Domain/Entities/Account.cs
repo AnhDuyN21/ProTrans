@@ -12,7 +12,8 @@
         public string? Password { get; set; }
         public DateTime? Dob { get; set; }
         public string? Gender { get; set; }
-        public bool isConfirm { get; set; }
+        public bool IsConfirm { get; set; }
+        public string? ConfirmToken { get; set; }
         //Foreignkey
         public Guid? RoleId { get; set; }
         public Guid? AgencyId { get; set; }
