@@ -12,7 +12,7 @@ namespace Application.Interfaces.InterfaceServices.Request
 		Task<ServiceResponse<IEnumerable<RequestCustomerDTO>>> GetRequestWithStatusQuotedAsync(Guid customerId);
 		Task<ServiceResponse<RequestDTO>> GetRequestByIdAsync(Guid id);
 		Task<ServiceResponse<CreateRequestDTO>> CreateRequestAsync(CreateRequestDTO createRequestDTO);
-		Task<ServiceResponse<UpdateRequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO);
+		Task<ServiceResponse<RequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO);
 		Task<ServiceResponse<RequestDTO>> UpdateRequestByCustomerAsync(Guid id, CustomerUpdateRequestDTO customerUpdateRequestDTO);
 		Task<ServiceResponse<bool>> DeleteRequestAsync(Guid id);
 	}

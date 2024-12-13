@@ -8,6 +8,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using Google.Apis.Storage.v1.Data;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Data.Common;
 using static Google.Apis.Requests.BatchRequest;
 
@@ -442,9 +443,9 @@ namespace Application.Services.Request
 			}
 			return response;
 		}
-		public async Task<ServiceResponse<UpdateRequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO)
+		public async Task<ServiceResponse<RequestDTO>> UpdateRequestAsync(Guid id, UpdateRequestDTO updateRequestDTO)
 		{
-			var response = new ServiceResponse<UpdateRequestDTO>();
+			var response = new ServiceResponse<RequestDTO>();
 			try
 			{
 				var getRequestById = await _unitOfWork.RequestRepository.GetAsync(x => x.Id == id, includeProperties: "Documents");
@@ -458,12 +459,6 @@ namespace Application.Services.Request
 				{
 					response.Success = false;
 					response.Message = "Trạng thái ban đầu của request phải là Wating. Không thể chỉnh sửa";
-					return response;
-				}
-				if (updateRequestDTO.Documents == null || updateRequestDTO.Documents.Count == 0)
-				{
-					response.Success = false;
-					response.Message = "Danh sách tài liệu trống!";
 					return response;
 				}
 				var priceDetails = new List<(Guid DocumentId, decimal TranslationPrice, decimal NotarizationPrice)>();
@@ -558,13 +553,24 @@ namespace Application.Services.Request
 				}
 				getRequestById.Deadline = updateRequestDTO.Deadline;
 				getRequestById.Status = updateRequestDTO.Status;
-				getRequestById.EstimatedPrice = price;
-
-				_unitOfWork.RequestRepository.Update(getRequestById);
+				if(updateRequestDTO.Documents.Count > 0) getRequestById.EstimatedPrice = price;
+				
+                //Giá ship cho request
+                decimal pickUpPrice = 40000;
+                decimal shipPrice = 40000;
+                if (getRequestById.PickUpRequest == true)
+                {
+                    getRequestById.EstimatedPrice += pickUpPrice;
+                }
+                if (getRequestById.ShipRequest == true)
+                {
+                    getRequestById.EstimatedPrice += shipPrice;
+                }
+                _unitOfWork.RequestRepository.Update(getRequestById);
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
-					var result = _mapper.Map<UpdateRequestDTO>(getRequestById);
+					var result = _mapper.Map<RequestDTO>(getRequestById);
 					response.Data = result;
 					response.Success = true;
 					response.Message = "Updated successfully.";

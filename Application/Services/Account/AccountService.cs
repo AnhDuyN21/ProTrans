@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Account;
 using Application.Utils;
 using Application.ViewModels.AccountDTOs;
+using Application.ViewModels.SendMail;
 using AutoMapper;
 using Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -447,7 +448,26 @@ namespace Application.Services.Account
 				while (codeExist);
 				newAccount.Code = newCode;
 				newAccount.RoleId = _unitOfWork.RoleRepository.GetRoleIdByName("Customer");
-				await _unitOfWork.AccountRepository.AddAsync(newAccount);
+				//Link xác nhận
+				newAccount.ConfirmToken = Guid.NewGuid().ToString();
+                var confirmationLink = $"https://protrans.azurewebsites.net/swagger/confirm?token={newAccount.ConfirmToken}";
+				MessageDTO maildto = new MessageDTO
+				{
+					To = newAccount.Email,
+					Subject = "Email xác thực tài khoản",
+					Body = "Đây là link xác nhận",
+					ImageUrl = "https://imgs.search.brave.com/axX40gDmB0NjE8PrUmglrN-35QWwWubDcXkwPKQSsnI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDgz/NTI3MjM5L3Bob3Rv/L3RoYW5rLXlvdS10/ZXh0LW9uLWhhbmQu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PThSdGtXYTRmRXdx/OUJtUVcycTh0X3FS/amhWdXFOTmh3YWJL/bnZraGJaM0k9"
+                };
+
+				var emailSent =  _unitOfWork.SendMailRepository.SendEmailAsync(maildto);
+                if (emailSent == null)
+                {
+                    // Xử lý khi gửi email không thành công
+                    response.Success = false;
+                    response.Message = "Error sending confirmation email.";
+                    return response;
+                }
+                await _unitOfWork.AccountRepository.AddAsync(newAccount);
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
