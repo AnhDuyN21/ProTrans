@@ -15,5 +15,7 @@ namespace Application.ViewModels.RequestDTOs
         [JsonIgnore]
         public bool ShipRequest { get; set; }
         public List<UpdateDocumentFromRequestDTO> Documents { get; set; }
+        [JsonIgnore]
+        public decimal EstimailPrice { get; set; }
     }
 }
