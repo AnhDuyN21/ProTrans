@@ -1,8 +1,9 @@
 ﻿namespace Application.ViewModels.LanguageDTOs
 {
-    public class LanguageDTO
-    {
-        public Guid Id { get; set; }
-        public required string Name { get; set; }
-    }
+	public class LanguageDTO
+	{
+		public Guid Id { get; set; }
+		public required string Name { get; set; }
+		public bool IsDeleted { get; set; }
+	}
 }
