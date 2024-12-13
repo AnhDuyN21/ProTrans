@@ -1,4 +1,6 @@
-﻿namespace Application.ViewModels.OrderDTOs
+﻿using Application.ViewModels.DocumentDTOs;
+
+namespace Application.ViewModels.OrderDTOs
 {
 	public class OrderDTO
 	{
@@ -15,5 +17,6 @@
 		public DateTime? CreatedDate { get; set; }
 		public Guid? AgencyId { get; set; }
 		public Guid? RequestId { get; set; }
+		public List<DocumentDTO>? Documents { get; set; }
 	}
 }
