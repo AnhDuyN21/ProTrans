@@ -21,6 +21,7 @@
 		public Guid? RequestId { get; set; }
 		public DocumentPriceDTO? DocumentPrice { get; set; }
 		public List<DocumentHistoryDTO>? DocumentHistory { get; set; }
+		public ChangedDocumentDTO? ChangedDocument { get; set; }
 		public List<DocumentStatusDTO>? DocumentStatus { get; set; }
 	}
 }

@@ -126,7 +126,24 @@ namespace Application.Services.Request
 							var documentHistories = await _unitOfWork.DocumentHistoryRepository.GetAllAsync(x => x.DocumentId == document.Id);
 							if (documentHistories != null)
 							{
+								document.ChangedDocument = new ChangedDocumentDTO();
+								document.ChangedDocument.DocumentId = document.Id;
 								var documentHistoryDTOs = _mapper.Map<List<DocumentHistoryDTO>>(documentHistories);
+								foreach (var documentHistory in documentHistoryDTOs)
+								{
+									if (documentHistory.Name == "PageNumber")
+									{
+										document.ChangedDocument.OldPageNumber = documentHistory.OldValue;
+									}
+									if (documentHistory.Name == "DocumentTypeId")
+									{
+										document.ChangedDocument.OldDocumentTypeId = documentHistory.OldValue;
+									}
+									if (documentHistory.Name == "NotarizationId")
+									{
+										document.ChangedDocument.OldNotarizationId = documentHistory.OldValue;
+									}
+								}
 								document.DocumentHistory = documentHistoryDTOs;
 							}
 						}
@@ -406,11 +423,11 @@ namespace Application.Services.Request
 				//Giá ship cho request
 				decimal pickUpPrice = 40000;
 				decimal shipPrice = 40000;
-				if(request.PickUpRequest == true)
+				if (request.PickUpRequest == true)
 				{
 					request.EstimatedPrice += pickUpPrice;
 				}
-				if(request.ShipRequest == true)
+				if (request.ShipRequest == true)
 				{
 					request.EstimatedPrice += shipPrice;
 				}
@@ -553,20 +570,20 @@ namespace Application.Services.Request
 				}
 				getRequestById.Deadline = updateRequestDTO.Deadline;
 				getRequestById.Status = updateRequestDTO.Status;
-				if(updateRequestDTO.Documents.Count > 0) getRequestById.EstimatedPrice = price;
-				
-                //Giá ship cho request
-                decimal pickUpPrice = 40000;
-                decimal shipPrice = 40000;
-                if (getRequestById.PickUpRequest == true)
-                {
-                    getRequestById.EstimatedPrice += pickUpPrice;
-                }
-                if (getRequestById.ShipRequest == true)
-                {
-                    getRequestById.EstimatedPrice += shipPrice;
-                }
-                _unitOfWork.RequestRepository.Update(getRequestById);
+				if (updateRequestDTO.Documents.Count > 0) getRequestById.EstimatedPrice = price;
+
+				//Giá ship cho request
+				decimal pickUpPrice = 40000;
+				decimal shipPrice = 40000;
+				if (getRequestById.PickUpRequest == true)
+				{
+					getRequestById.EstimatedPrice += pickUpPrice;
+				}
+				if (getRequestById.ShipRequest == true)
+				{
+					getRequestById.EstimatedPrice += shipPrice;
+				}
+				_unitOfWork.RequestRepository.Update(getRequestById);
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
 				{
