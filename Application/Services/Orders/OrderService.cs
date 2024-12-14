@@ -32,7 +32,7 @@ namespace Application.Services.Orders
 			try
 			{
 				var orders = await _unitOfWork.OrderRepository.GetAllAsync();
-				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders).OrderByDescending(x => x.CreatedDate).ToList();
 
 				if (orderDTOs.Count != 0)
 				{
@@ -62,7 +62,7 @@ namespace Application.Services.Orders
 			try
 			{
 				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => x.RequestId == null);
-				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders).OrderByDescending(x => x.CreatedDate).ToList();
 
 				if (orderDTOs.Count != 0)
 				{
@@ -107,7 +107,7 @@ namespace Application.Services.Orders
 						{
 							foreach (var doc in documents)
 							{
-								if (doc.NotarizationRequest && doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
+								if (doc.NotarizationRequest && doc.NotarizationStatus == DocumentNotarizationStatus.Processing.ToString())
 								{
 									targetOrders.Add(order);
 									break;
@@ -115,7 +115,7 @@ namespace Application.Services.Orders
 							}
 						}
 					}
-					var orderDTOs = _mapper.Map<List<OrderDTO>>(targetOrders);
+					var orderDTOs = _mapper.Map<List<OrderDTO>>(targetOrders).OrderByDescending(x => x.CreatedDate).ToList();
 					if (orderDTOs.Count != 0)
 					{
 						response.Success = true;
@@ -160,7 +160,7 @@ namespace Application.Services.Orders
 						orders.Add(ord);
 					}
 				}
-				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders).OrderByDescending(x => x.CreatedDate).ToList();
 
 				foreach (var order in orderDTOs)
 				{
@@ -209,7 +209,7 @@ namespace Application.Services.Orders
 			try
 			{
 				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => x.RequestId != null);
-				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders).OrderByDescending(x => x.CreatedDate).ToList();
 
 				if (orderDTOs.Count != 0)
 				{
@@ -240,7 +240,7 @@ namespace Application.Services.Orders
 			{
 				var orders = await _unitOfWork.OrderRepository.GetAllAsync();
 				var completedOrders = orders.Where(order => order.ShipRequest && order.Status == "Completed").ToList();
-				var orderDTOs = _mapper.Map<List<OrderDTO>>(completedOrders);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(completedOrders).OrderByDescending(x => x.CreatedDate).ToList();
 
 				if (orderDTOs.Count != 0)
 				{
@@ -271,7 +271,7 @@ namespace Application.Services.Orders
 			{
 				var orders = await _unitOfWork.OrderRepository.GetAllAsync();
 				var targetOrders = orders.Where(order => order.ShipRequest && order.Status == "Completed" && order.AgencyId == id).ToList();
-				var orderDTOs = _mapper.Map<List<OrderDTO>>(targetOrders);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(targetOrders).OrderByDescending(x => x.CreatedDate).ToList();
 
 				if (orderDTOs.Count != 0)
 				{
@@ -320,7 +320,7 @@ namespace Application.Services.Orders
 			try
 			{
 				var orders = await _unitOfWork.OrderRepository.GetByPhoneNumberAsync(num);
-				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders).OrderByDescending(x => x.CreatedDate).ToList();
 
 				if (orderDTOs.Count != 0)
 				{
@@ -356,6 +356,12 @@ namespace Application.Services.Orders
 				{
 					foreach (var doc in order.Documents)
 					{
+						if (doc.NumberOfCopies < doc.NumberOfNotarizedCopies)
+						{
+							response.Success = false;
+							response.Message = "Số bản cần dịch ít hơn số bản công chứng.";
+							return response;
+						}
 						var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId(doc.FirstLanguageId.Value, doc.SecondLanguageId.Value);
 						if (quotePrice == null)
 						{
@@ -377,7 +383,7 @@ namespace Application.Services.Orders
 
 						order.TotalPrice += translationPrice + notarizationPrice;
 
-						if (doc.FileType == "Hard") doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
+						doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
 						if (doc.NotarizationRequest)
 						{
 							doc.NotarizationStatus = DocumentNotarizationStatus.PickedUp.ToString();
@@ -390,7 +396,7 @@ namespace Application.Services.Orders
 							};
 							await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
 						}
-						else doc.NotarizationStatus = "None";
+						else doc.NotarizationStatus = DocumentNotarizationStatus.None.ToString();
 						doc.TranslationStatus = DocumentTranslationStatus.Processing.ToString();
 						var translationStatus = new DocumentStatus
 						{
@@ -430,8 +436,8 @@ namespace Application.Services.Orders
 				order.CreatedBy = staffId;
 				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
 				order.AgencyId = (staff != null) ? staff.AgencyId : null;
-				order.Status = "Processing";
-				if (order.ShipRequest) order.TotalPrice += 30000;
+				order.Status = OrderStatus.Processing.ToString();
+				if (order.ShipRequest) order.TotalPrice += 40000;
 
 				//if (order.Documents != null)
 				//{
@@ -519,18 +525,18 @@ namespace Application.Services.Orders
 								Time = _currentTime.GetCurrentTime(),
 							};
 							await _unitOfWork.DocumentStatusRepository.AddAsync(translationStatus);
-							//if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
-							//{
-							//	doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
-							//	var notarizationStatus = new DocumentStatus
-							//	{
-							//		DocumentId = doc.Id,
-							//		Status = doc.NotarizationStatus,
-							//		Type = TypeStatus.Notarization.ToString(),
-							//		Time = _currentTime.GetCurrentTime(),
-							//	};
-							//	await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
-							//}
+							if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
+							{
+								doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
+								var notarizationStatus = new DocumentStatus
+								{
+									DocumentId = doc.Id,
+									Status = doc.NotarizationStatus,
+									Type = TypeStatus.Notarization.ToString(),
+									Time = _currentTime.GetCurrentTime(),
+								};
+								await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
+							}
 						}
 					}
 					request.Status = RequestStatus.Finish.ToString();
