@@ -7,5 +7,6 @@
         public required Guid? DocumentId { get; set; }
         public required string Status { get; set; }
         public DateTime Deadline { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }
