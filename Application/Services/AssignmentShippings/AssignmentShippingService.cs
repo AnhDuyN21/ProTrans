@@ -18,11 +18,13 @@ namespace Application.Services.AssignmentShippings
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 		private readonly IDocumentService _documentService;
-		public AssignmentShippingService(IUnitOfWork unitOfWork, IMapper mapper, IDocumentService documentService)
+		private readonly ICurrentTime _currentTime;
+		public AssignmentShippingService(IUnitOfWork unitOfWork, IMapper mapper, IDocumentService documentService, ICurrentTime currentTime)
 		{
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 			_documentService = documentService;
+			_currentTime = currentTime;
 		}
 
 		public async Task<ServiceResponse<IEnumerable<AssignmentShippingDTO>>> GetAllAssignmentShippingsAsync()
@@ -199,8 +201,8 @@ namespace Application.Services.AssignmentShippings
 			try
 			{
 				var assignmentShipping = _mapper.Map<AssignmentShipping>(CUassignmentShippingDTO);
-				assignmentShipping.Status = "Preparing";
-				assignmentShipping.Type = "Ship";
+				assignmentShipping.Status = AssignmentShippingStatus.Preparing.ToString();
+				assignmentShipping.Type = AssignmentShippingType.Ship.ToString();
 
 				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
 
@@ -208,6 +210,12 @@ namespace Application.Services.AssignmentShippings
 				var order = await _unitOfWork.OrderRepository.GetByIdAsync(CUassignmentShippingDTO.OrderId);
 				if (order != null)
 				{
+					if (order.Status != OrderStatus.Completed.ToString())
+					{
+						response.Success = false;
+						response.Message = "Đơn hàng không hợp lệ để giao việc vận chuyển.";
+						return response;
+					}
 					order.Status = OrderStatus.Delivering.ToString();
 					_unitOfWork.OrderRepository.Update(order);
 				}
@@ -255,8 +263,8 @@ namespace Application.Services.AssignmentShippings
 			try
 			{
 				var assignmentShipping = _mapper.Map<AssignmentShipping>(CUassignmentShippingDTO);
-				assignmentShipping.Status = "Preparing";
-				assignmentShipping.Type = "PickUp";
+				assignmentShipping.Status = AssignmentShippingStatus.Preparing.ToString();
+				assignmentShipping.Type = AssignmentShippingType.PickUp.ToString();
 
 				await _unitOfWork.AssignmentShippingRepository.AddAsync(assignmentShipping);
 
@@ -272,7 +280,21 @@ namespace Application.Services.AssignmentShippings
 								DocumentId = doc.Id,
 								AssignmentShippingId = assignmentShipping.Id
 							};
+							if (doc.NotarizationStatus != DocumentNotarizationStatus.Processing.ToString())
+							{
+								response.Success = false;
+								response.Message = "Đơn hàng không hợp lệ để giao việc vận chuyển.";
+								return response;
+							}
 							doc.NotarizationStatus = DocumentNotarizationStatus.PickingUp.ToString();
+							var notarizationStatus = new DocumentStatus
+							{
+								DocumentId = doc.Id,
+								Status = doc.NotarizationStatus,
+								Type = TypeStatus.Notarization.ToString(),
+								Time = _currentTime.GetCurrentTime(),
+							};
+							await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
 							_unitOfWork.DocumentRepository.Update(doc);
 							await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
 						}
@@ -439,12 +461,28 @@ namespace Application.Services.AssignmentShippings
 							foreach (var doc in documents)
 							{
 								doc.NotarizationStatus = DocumentNotarizationStatus.PickedUp.ToString();
+								var notarizationStatus = new DocumentStatus
+								{
+									DocumentId = doc.Id,
+									Status = doc.NotarizationStatus,
+									Type = TypeStatus.Notarization.ToString(),
+									Time = _currentTime.GetCurrentTime(),
+								};
+								await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
 								_unitOfWork.DocumentRepository.Update(doc);
 							}
 						if (status == AssignmentShippingStatus.Shipping.ToString())
 							foreach (var doc in documents)
 							{
 								doc.NotarizationStatus = DocumentNotarizationStatus.PickingUp.ToString();
+								var notarizationStatus = new DocumentStatus
+								{
+									DocumentId = doc.Id,
+									Status = doc.NotarizationStatus,
+									Type = TypeStatus.Notarization.ToString(),
+									Time = _currentTime.GetCurrentTime(),
+								};
+								await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
 								_unitOfWork.DocumentRepository.Update(doc);
 							}
 					}
