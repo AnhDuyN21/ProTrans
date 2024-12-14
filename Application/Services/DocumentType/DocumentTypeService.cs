@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.DocumentType;
 using Application.ViewModels.DocumentTypeDTOs;
 using AutoMapper;
+using Domain.Entities;
 using System.Data.Common;
 
 namespace Application.Services.DocumentType
@@ -145,18 +146,26 @@ namespace Application.Services.DocumentType
         public async Task<ServiceResponse<bool>> DeleteDocumentTypeAsync(Guid id)
         {
             var response = new ServiceResponse<bool>();
-
-            var documentTypeGetById = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(id);
+            try
+            {
+                var documentTypeGetById = await _unitOfWork.DocumentTypeRepository.GetByIdAsync(id);
             if (documentTypeGetById == null)
             {
                 response.Success = false;
                 response.Message = "Id is not exist";
                 return response;
-            }
+                }
 
-            try
-            {
-                _unitOfWork.DocumentTypeRepository.SoftRemove(documentTypeGetById);
+
+                if (documentTypeGetById.IsDeleted == true)
+                {
+                    documentTypeGetById.IsDeleted = false;
+                }
+                else
+                {
+                    documentTypeGetById.IsDeleted = true;
+                }
+                _unitOfWork.DocumentTypeRepository.Update(documentTypeGetById);
 
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
