@@ -488,8 +488,12 @@ namespace Application.Services.Orders
 			{
 				var order = new Order();
 				var request = await _unitOfWork.RequestRepository.GetByIdAsync(requestId);
-				if (request != null)
+				if(request == null)
 				{
+                    response.Success = false;
+                    response.Message = "request id null.";
+					return response;
+                }
 					if (request.CustomerId != null)
 					{
 						var customer = await _unitOfWork.AccountRepository.GetByIdAsync(request.CustomerId.Value);
@@ -502,6 +506,7 @@ namespace Application.Services.Orders
 					}
 					order.OrderCode = order.Id.ToString().Substring(0, 6).ToUpper();
 					order.ShipRequest = request.ShipRequest;
+					order.PickUpRequest = (bool)request.PickUpRequest;
 					order.Deadline = request.Deadline;
 					order.TotalPrice = request.EstimatedPrice;
 					order.Status = OrderStatus.Processing.ToString();
@@ -541,7 +546,7 @@ namespace Application.Services.Orders
 					}
 					request.Status = RequestStatus.Finish.ToString();
 					_unitOfWork.RequestRepository.Update(request);
-				}
+				
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
