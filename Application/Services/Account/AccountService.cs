@@ -658,6 +658,12 @@ namespace Application.Services.Account
                     response.Message = "PhoneNumber is existed, Create Fail";
                     return response;
                 }
+                if (createTranslatorDTO.Skills.Count == 0)
+                {
+                    response.Success = false;
+                    response.Message = "Nhân viên dịch phải có ít nhất 1 kĩ năng";
+                    return response;
+                }
                 var newAccount = _mapper.Map<Domain.Entities.Account>(createTranslatorDTO);
                 newAccount.Password = Utils.HashPassword.HashWithSHA256(createTranslatorDTO.Password);
                 //Code
@@ -672,16 +678,15 @@ namespace Application.Services.Account
                 while (codeExist);
                 newAccount.Code = newCode;
                 newAccount.RoleId = _unitOfWork.RoleRepository.GetRoleIdByName("Translator");
-                //Skills
-                if (createTranslatorDTO.Skills != null)
+
+
+                foreach (var skill in createTranslatorDTO.Skills)
                 {
-                    foreach (var skill in createTranslatorDTO.Skills)
-                    {
-                        var mappedObject = _mapper.Map<Domain.Entities.TranslationSkill>(skill);
-                        mappedObject.TranslatorId = newAccount.Id;
-                        await _unitOfWork.TranslatorSkillRepository.AddAsync(mappedObject);
-                    }
+                    var mappedObject = _mapper.Map<Domain.Entities.TranslationSkill>(skill);
+                    mappedObject.TranslatorId = newAccount.Id;
+                    await _unitOfWork.TranslatorSkillRepository.AddAsync(mappedObject);
                 }
+
                 await _unitOfWork.AccountRepository.AddAsync(newAccount);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
