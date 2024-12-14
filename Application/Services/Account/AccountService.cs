@@ -453,7 +453,7 @@ namespace Application.Services.Account
                     Subject = "Xác nhận địa chỉ email của bạn",
                     Body = $@"
                             <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
-                            <h2 style='color: #4CAF50;'>Kính gửi {newAccount.FullName},</h2>
+                            <h2>Kính gửi {newAccount.FullName},</h2>
                             <p>Cảm ơn bạn đã đăng ký tài khoản tại <strong>ProTrans</strong>.</p>
                             <p>Để hoàn tất quá trình đăng ký và kích hoạt tài khoản, vui lòng xác nhận địa chỉ email của bạn bằng cách nhấn vào liên kết dưới đây:</p>
                             <p style='text-align: center; margin: 20px 0;'>
