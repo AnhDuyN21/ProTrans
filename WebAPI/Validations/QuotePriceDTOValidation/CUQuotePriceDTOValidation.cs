@@ -11,6 +11,7 @@ namespace WebAPI.Validations.AccountValidations
             RuleFor(x => x.SecondLanguageId).NotEmpty().NotNull().WithMessage("Second Language ID is not allowed empty or null");
             RuleFor(x => x.PricePerPage).NotEmpty().NotNull().WithMessage("Price per page is not allowed empty or null");
             RuleFor(x => x.PricePerPage).GreaterThan(1000).WithMessage("Price per page has to be greater than 1000 VND");
+            RuleFor(x => x.FirstLanguageId).NotEqual(x => x.SecondLanguageId).WithMessage("First language can not be as same as second language");
             //RuleFor(x => x.FullName).NotEmpty().MinimumLength(5);
             //RuleFor(x => x.Email).NotEmpty().EmailAddress().Must(email => email.EndsWith("@gmail.com"))
             //    .WithMessage("Email must end with @gmail.com");

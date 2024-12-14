@@ -137,7 +137,7 @@ namespace Application.Services.AssignmentTranslation
 			try
 			{
 				var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.IsDeleted == false);
-				var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList);
+				var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList).OrderBy(x=>x.Deadline).ToList();
 
 				if (AssignmentTranslationDTOs.Count != 0)
 				{
@@ -169,7 +169,7 @@ namespace Application.Services.AssignmentTranslation
 			try
 			{
 				var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.TranslatorId.Equals(Id) && x.IsDeleted == false);
-				var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList);
+				var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList).OrderBy(x => x.Deadline).ToList();
 
 				if (AssignmentTranslationDTOs.Count != 0)
 				{
@@ -200,7 +200,7 @@ namespace Application.Services.AssignmentTranslation
 			try
 			{
 				var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.TranslatorId.Equals(Id) && x.IsDeleted == false && x.Status.Equals(status));
-				var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList);
+				var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList).OrderBy(x => x.Deadline).ToList();
 
 				if (AssignmentTranslationDTOs.Count != 0)
 				{
