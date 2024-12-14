@@ -23,5 +23,6 @@ namespace Application.ViewModels.RequestDTOs
 		public string? Email { get; set; }
 		public string? Address { get; set; }
 		public List<DocumentDTO>? Documents { get; set; }
+		public DateTime CreateDate { get; set; }
 	}
 }
