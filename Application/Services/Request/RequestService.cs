@@ -389,7 +389,7 @@ namespace Application.Services.Request
 					priceDetails.Add((doc.Id, translationPrice, notarizationPrice));
 				}
 				await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
-
+				await _unitOfWork.SaveChangeAsync();
 				//Thêm giá của Document vào bảng Document Price
 				foreach (var detail in priceDetails)
 				{
