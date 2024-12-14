@@ -35,7 +35,7 @@ namespace Application.Services.Request
 			{
 				var requestList = await _unitOfWork.RequestRepository.GetAllAsync();
 				var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
 
                 if (sortedRequestDTOs.Count != 0)
 				{
@@ -151,7 +151,7 @@ namespace Application.Services.Request
 						request.Documents = documentDTOs;
 					}
 				}
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
                 if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
@@ -209,7 +209,7 @@ namespace Application.Services.Request
 					};
 					requestDTOs.Add(requestDTO);
 				}
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
 
                 if (sortedRequestDTOs.Count != 0)
 				{
@@ -272,7 +272,7 @@ namespace Application.Services.Request
 					}
 
 				}
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
 
                 if (sortedRequestDTOs.Count != 0)
 				{
@@ -338,14 +338,7 @@ namespace Application.Services.Request
 					Deadline = createRequestDTO.Deadline
 				};
 				await _unitOfWork.RequestRepository.AddAsync(request);
-				var isRequestSaved = await _unitOfWork.SaveChangeAsync() > 0;
 
-				if (!isRequestSaved)
-				{
-					response.Success = false;
-					response.Message = "Lỗi khi tạo request.";
-					return response;
-				}
 				var requestId = request.Id;
 
 				var priceDetails = new List<(Guid DocumentId, decimal TranslationPrice, decimal NotarizationPrice)>();
@@ -396,13 +389,7 @@ namespace Application.Services.Request
 					priceDetails.Add((doc.Id, translationPrice, notarizationPrice));
 				}
 				await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
-				var saveResult = await _unitOfWork.SaveChangeAsync() > 0;
-				if (!saveResult)
-				{
-					response.Success = false;
-					response.Message = "Lỗi khi lưu Document.";
-					return response;
-				}
+
 				//Thêm giá của Document vào bảng Document Price
 				foreach (var detail in priceDetails)
 				{
@@ -415,7 +402,7 @@ namespace Application.Services.Request
 					};
 					await _unitOfWork.DocumentPriceRepository.AddAsync(documentPrice);
 				}
-				await _unitOfWork.SaveChangeAsync();
+				
 				//Thêm thời gian cập nhật trạng thái vào bảng DocumentStatus
 				foreach (var status in statusDetails)
 				{
@@ -428,7 +415,6 @@ namespace Application.Services.Request
 					};
 					await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
 				}
-				await _unitOfWork.SaveChangeAsync();
 				request.EstimatedPrice = price;
 				//Giá ship cho request
 				decimal pickUpPrice = 40000;
