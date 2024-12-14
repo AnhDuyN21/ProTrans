@@ -353,6 +353,13 @@ namespace Application.Services.Request
 
 				foreach (var doc in documents)
 				{
+                    doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
+                    if (doc.NumberOfCopies < doc.NumberOfNotarizedCopies)
+					{
+                        response.Success = false;
+                        response.Message = "Số bản cần dịch ít hơn số bản công chứng.";
+                        return response;
+                    }
 					var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId((Guid)doc.FirstLanguageId, (Guid)doc.SecondLanguageId);
 					if (quotePrice == null)
 					{

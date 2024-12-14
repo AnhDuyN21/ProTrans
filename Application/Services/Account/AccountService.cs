@@ -463,8 +463,7 @@ namespace Application.Services.Account
                             </p>
                             <p>Trân trọng,<br>
                             <strong>Đội ngũ ProTrans</strong></p>
-                            </div>
-                        ",
+                            </div>",
                     ImageUrl = "https://imgs.search.brave.com/axX40gDmB0NjE8PrUmglrN-35QWwWubDcXkwPKQSsnI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDgz/NTI3MjM5L3Bob3Rv/L3RoYW5rLXlvdS10/ZXh0LW9uLWhhbmQu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PThSdGtXYTRmRXdx/OUJtUVcycTh0X3FS/amhWdXFOTmh3YWJL/bnZraGJaM0k9"
                 };
                 await _sendMail.SendEmailAsync(maildto);
