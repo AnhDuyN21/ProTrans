@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using System.Data.Common;
+using System.Net.WebSockets;
 
 namespace Application.Services.Documents
 {
@@ -51,16 +52,22 @@ namespace Application.Services.Documents
 			return response;
 		}
 
-		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedAsync()
+		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByAgencyIdAsync(Guid id)
 		{
 			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
-
+			var targetDocuments = new List<Document>();
 			try
 			{
 				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.NotarizationRequest && x.TranslationStatus == "Translated" && x.NotarizationStatus == "PickedUp");
-				var sortDocuments = documents.OrderByDescending(d => d.CreatedDate).ToList();
-				var documentDTOs = _mapper.Map<List<DocumentDTO>>(sortDocuments);
-
+				foreach (var doc in documents)
+				{
+					var order = await _unitOfWork.OrderRepository.GetAsync(x => x.Id == doc.OrderId);
+					if (order != null && order.AgencyId == id)
+					{
+						targetDocuments.Add(doc);
+					}
+				}
+				var documentDTOs = _mapper.Map<List<DocumentDTO>>(targetDocuments).OrderByDescending(x => x.CreatedDate).ToList();
 				if (documentDTOs.Count != 0)
 				{
 					response.Success = true;
