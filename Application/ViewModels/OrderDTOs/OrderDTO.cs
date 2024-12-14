@@ -10,6 +10,7 @@ namespace Application.ViewModels.OrderDTOs
 		public string? PhoneNumber { get; set; }
 		public string? Address { get; set; }
 		public bool ShipRequest { get; set; }
+		public bool? PickUpRequest { get; set; }
 		public DateTime? Deadline { get; set; }
 		public decimal TotalPrice { get; set; }
 		public string? Status { get; set; }

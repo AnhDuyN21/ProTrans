@@ -488,65 +488,65 @@ namespace Application.Services.Orders
 			{
 				var order = new Order();
 				var request = await _unitOfWork.RequestRepository.GetByIdAsync(requestId);
-				if(request == null)
+				if (request == null)
 				{
-                    response.Success = false;
-                    response.Message = "request id null.";
+					response.Success = false;
+					response.Message = "Yêu cầu không tồn tại.";
 					return response;
-                }
-					if (request.CustomerId != null)
+				}
+				if (request.CustomerId != null)
+				{
+					var customer = await _unitOfWork.AccountRepository.GetByIdAsync(request.CustomerId.Value);
+					if (customer != null)
 					{
-						var customer = await _unitOfWork.AccountRepository.GetByIdAsync(request.CustomerId.Value);
-						if (customer != null)
-						{
-							order.FullName = customer.FullName;
-							order.PhoneNumber = customer.PhoneNumber;
-							order.Address = customer.Address;
-						}
+						order.FullName = customer.FullName;
+						order.PhoneNumber = customer.PhoneNumber;
+						order.Address = customer.Address;
 					}
-					order.OrderCode = order.Id.ToString().Substring(0, 6).ToUpper();
-					order.ShipRequest = request.ShipRequest;
-					order.PickUpRequest = (bool)request.PickUpRequest;
-					order.Deadline = request.Deadline;
-					order.TotalPrice = request.EstimatedPrice;
-					order.Status = OrderStatus.Processing.ToString();
-					var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
-					var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
-					order.AgencyId = (staff != null) ? staff.AgencyId : null;
-					order.RequestId = requestId;
-					await _unitOfWork.OrderRepository.AddAsync(order);
-					var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.RequestId == requestId);
-					if (documents != null)
+				}
+				order.OrderCode = order.Id.ToString().Substring(0, 6).ToUpper();
+				order.ShipRequest = request.ShipRequest;
+				order.PickUpRequest = (bool)request.PickUpRequest;
+				order.Deadline = request.Deadline;
+				order.TotalPrice = request.EstimatedPrice;
+				order.Status = OrderStatus.Processing.ToString();
+				var staffId = _unitOfWork.OrderRepository.GetCurrentStaffId();
+				var staff = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
+				order.AgencyId = (staff != null) ? staff.AgencyId : null;
+				order.RequestId = requestId;
+				await _unitOfWork.OrderRepository.AddAsync(order);
+				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.RequestId == requestId);
+				if (documents != null)
+				{
+					foreach (var doc in documents)
 					{
-						foreach (var doc in documents)
+						doc.OrderId = order.Id;
+						doc.TranslationStatus = DocumentTranslationStatus.Processing.ToString();
+						var translationStatus = new DocumentStatus
 						{
-							doc.OrderId = order.Id;
-							doc.TranslationStatus = DocumentTranslationStatus.Processing.ToString();
-							var translationStatus = new DocumentStatus
+							DocumentId = doc.Id,
+							Status = doc.TranslationStatus,
+							Type = TypeStatus.Translation.ToString(),
+							Time = _currentTime.GetCurrentTime(),
+						};
+						await _unitOfWork.DocumentStatusRepository.AddAsync(translationStatus);
+						if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
+						{
+							doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
+							var notarizationStatus = new DocumentStatus
 							{
 								DocumentId = doc.Id,
-								Status = doc.TranslationStatus,
-								Type = TypeStatus.Translation.ToString(),
+								Status = doc.NotarizationStatus,
+								Type = TypeStatus.Notarization.ToString(),
 								Time = _currentTime.GetCurrentTime(),
 							};
-							await _unitOfWork.DocumentStatusRepository.AddAsync(translationStatus);
-							if (doc.NotarizationStatus == DocumentNotarizationStatus.Waiting.ToString())
-							{
-								doc.NotarizationStatus = DocumentNotarizationStatus.Processing.ToString();
-								var notarizationStatus = new DocumentStatus
-								{
-									DocumentId = doc.Id,
-									Status = doc.NotarizationStatus,
-									Type = TypeStatus.Notarization.ToString(),
-									Time = _currentTime.GetCurrentTime(),
-								};
-								await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
-							}
+							await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
 						}
 					}
-					request.Status = RequestStatus.Finish.ToString();
-					_unitOfWork.RequestRepository.Update(request);
-				
+				}
+				request.Status = RequestStatus.Finish.ToString();
+				_unitOfWork.RequestRepository.Update(request);
+
 
 				var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 				if (isSuccess)
