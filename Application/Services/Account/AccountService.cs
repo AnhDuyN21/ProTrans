@@ -376,7 +376,7 @@ namespace Application.Services.Account
                 }
                 if (user.ConfirmToken != null)
                 {
-                    
+
                     response.Success = false;
                     response.Message = "Chưa xác thực email";
                     return response;
@@ -452,12 +452,18 @@ namespace Application.Services.Account
                     To = newAccount.Email,
                     Subject = "Xác nhận địa chỉ email của bạn",
                     Body = $@"
-                            Kính gửi {newAccount.FullName},<br><br>
-                            Cảm ơn bạn đã đăng ký tài khoản tại ProTrans.<br><br>
-                            Để hoàn tất quá trình đăng ký và kích hoạt tài khoản, vui lòng xác nhận địa chỉ email của bạn bằng cách nhấn vào liên kết dưới đây: <br>
-                            <a class='button' href='{confirmationLink}'>Verify Email</a><br><br>
-                            Trân trọng,<br>
-                            Đội ngũ ProTrans
+                            <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+                            <h2 style='color: #4CAF50;'>Kính gửi {newAccount.FullName},</h2>
+                            <p>Cảm ơn bạn đã đăng ký tài khoản tại <strong>ProTrans</strong>.</p>
+                            <p>Để hoàn tất quá trình đăng ký và kích hoạt tài khoản, vui lòng xác nhận địa chỉ email của bạn bằng cách nhấn vào liên kết dưới đây:</p>
+                            <p style='text-align: center; margin: 20px 0;'>
+                            <a href='{confirmationLink}' style='background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px; display: inline-block;'>
+                                Xác nhận Email
+                            </a>
+                            </p>
+                            <p>Trân trọng,<br>
+                            <strong>Đội ngũ ProTrans</strong></p>
+                            </div>
                         ",
                     ImageUrl = "https://imgs.search.brave.com/axX40gDmB0NjE8PrUmglrN-35QWwWubDcXkwPKQSsnI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDgz/NTI3MjM5L3Bob3Rv/L3RoYW5rLXlvdS10/ZXh0LW9uLWhhbmQu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PThSdGtXYTRmRXdx/OUJtUVcycTh0X3FS/amhWdXFOTmh3YWJL/bnZraGJaM0k9"
                 };
