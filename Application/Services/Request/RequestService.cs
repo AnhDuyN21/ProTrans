@@ -35,12 +35,13 @@ namespace Application.Services.Request
 			{
 				var requestList = await _unitOfWork.RequestRepository.GetAllAsync();
 				var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
 
-				if (requestDTOs.Count != 0)
+                if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "List retrieved successfully";
-					response.Data = requestDTOs;
+					response.Data = sortedRequestDTOs;
 				}
 				else
 				{
@@ -79,12 +80,12 @@ namespace Application.Services.Request
 						request.Address = customer.Address;
 					}
 				}
-
-				if (requestDTOs.Count != 0)
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "List retrieved successfully.";
-					response.Data = requestDTOs;
+					response.Data = sortedRequestDTOs;
 				}
 				else
 				{
@@ -150,12 +151,12 @@ namespace Application.Services.Request
 						request.Documents = documentDTOs;
 					}
 				}
-
-				if (requestDTOs.Count != 0)
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "List retrieved successfully.";
-					response.Data = requestDTOs;
+					response.Data = sortedRequestDTOs;
 				}
 				else
 				{
@@ -208,12 +209,13 @@ namespace Application.Services.Request
 					};
 					requestDTOs.Add(requestDTO);
 				}
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
 
-				if (requestDTOs.Count != 0)
+                if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "List retrieved successfully";
-					response.Data = requestDTOs;
+					response.Data = sortedRequestDTOs;
 				}
 				else
 				{
@@ -270,12 +272,13 @@ namespace Application.Services.Request
 					}
 
 				}
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
 
-				if (requestDTOs.Count != 0)
+                if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "List retrieved successfully";
-					response.Data = requestDTOs;
+					response.Data = sortedRequestDTOs;
 				}
 				else
 				{
@@ -353,6 +356,13 @@ namespace Application.Services.Request
 
 				foreach (var doc in documents)
 				{
+                    doc.Code = doc.Id.ToString().Substring(0, 6).ToUpper();
+                    if (doc.NumberOfCopies < doc.NumberOfNotarizedCopies)
+					{
+                        response.Success = false;
+                        response.Message = "Số bản cần dịch ít hơn số bản công chứng.";
+                        return response;
+                    }
 					var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId((Guid)doc.FirstLanguageId, (Guid)doc.SecondLanguageId);
 					if (quotePrice == null)
 					{

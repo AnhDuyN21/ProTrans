@@ -14,5 +14,6 @@ namespace Application.ViewModels.RequestDTOs
 		public bool ShipRequest { get; set; }
 		public bool IsDeleted { get; set; }
 		public List<DocumentDTO>? Documents { get; set; }
+		public DateTime CreateDate { get; set; }
 	}
 }
