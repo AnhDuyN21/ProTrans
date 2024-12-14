@@ -25,6 +25,19 @@ namespace Application.Services.AssignmentTranslation
 			var response = new ServiceResponse<AssignmentTranslationDTO>();
 			try
 			{
+				var document = await _unitOfWork.DocumentRepository.GetByIdAsync((Guid)cuAssignmentTranslationDTO.DocumentId);
+                if (document == null)
+                {
+                    response.Success = false;
+                    response.Message = $"Không tìm thấy tài liệu với id {cuAssignmentTranslationDTO.DocumentId}.";
+                    return response;
+                }
+                if (document.TranslationStatus == DocumentTranslationStatus.Translating.ToString())
+				{
+                    response.Success = false;
+                    response.Message = "Document đã có trạng thái đang dịch , không thể giao việc.";
+                    return response;
+                }
 				var assignmentTranslation = _mapper.Map<Domain.Entities.AssignmentTranslation>(cuAssignmentTranslationDTO);
 				assignmentTranslation.Status = AssignmentTranslationStatus.Translating.ToString();
 
@@ -40,13 +53,7 @@ namespace Application.Services.AssignmentTranslation
 				}
 				order.Status = OrderStatus.Implementing.ToString();
 				_unitOfWork.OrderRepository.Update(order);
-				var document = await _unitOfWork.DocumentRepository.GetByIdAsync((Guid)cuAssignmentTranslationDTO.DocumentId);
-				if (document == null)
-				{
-					response.Success = false;
-					response.Message = $"Không tìm thấy tài liệu với id {cuAssignmentTranslationDTO.DocumentId}.";
-					return response;
-				}
+				
 				document.TranslationStatus = DocumentTranslationStatus.Translating.ToString();
 
 				//Thêm thời gian cập nhật trạng thái document vào bảng document status
