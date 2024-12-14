@@ -374,13 +374,13 @@ namespace Application.Services.Account
                     response.Message = "Invalid username or password";
                     return response;
                 }
-                //if (user.ConfirmToken != null)
-                //{
-                //    //System.Console.WriteLine(user.ConfirmationToken + user.IsConfirmed);
-                //    response.Success = false;
-                //    response.Message = "Please confirm via link in your mail";
-                //    return response;
-                //}
+                if (user.ConfirmToken != null)
+                {
+                    
+                    response.Success = false;
+                    response.Message = "Chưa xác thực email";
+                    return response;
+                }
 
                 if (user.IsDeleted == true)
                 {
@@ -391,12 +391,6 @@ namespace Application.Services.Account
                 var generate = new GenerateJsonWebTokenString(_unitOfWork);
 
                 var token = generate.GenerateJsonWebToken(user, _configuration, _configuration.GetSection("JWTSection:SecretKey").Value, _currentTime.GetCurrentTime());
-
-                //var token = user.GenerateJsonWebToken(
-                //    _configuration,
-                //    _configuration.JWTSection.SecretKey,
-                //    _currentTime.GetCurrentTime()
-                //    );
 
                 response.Success = true;
                 response.Message = "Login successfully.";
@@ -452,7 +446,7 @@ namespace Application.Services.Account
                 newAccount.RoleId = _unitOfWork.RoleRepository.GetRoleIdByName("Customer");
                 //Link xác nhận
                 newAccount.ConfirmToken = Guid.NewGuid().ToString();
-                var confirmationLink = $"https://localhost:7122/api/Account/confirm?token={newAccount.ConfirmToken}";
+                var confirmationLink = $"https://protrans.azurewebsites.net/api/Account/confirm?token={newAccount.ConfirmToken}";
                 MessageDTO maildto = new MessageDTO
                 {
                     To = newAccount.Email,
