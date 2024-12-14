@@ -7,7 +7,7 @@ namespace WebAPI.Validations.AccountValidations
     {
         public CULanguageDTOValidation()
         {
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Languages are not allowed empty ");
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Dữ liệu nhập vào không hợp lệ ");
             //RuleFor(x => x.FullName).NotEmpty().MinimumLength(5);
             //RuleFor(x => x.Email).NotEmpty().EmailAddress().Must(email => email.EndsWith("@gmail.com"))
             //    .WithMessage("Email must end with @gmail.com");
