@@ -22,6 +22,24 @@ namespace Application.Services.QuotePrice
             var response = new ServiceResponse<QuotePriceDTO>();
             try
             {
+                var firstLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync((Guid)createQuotePriceDTO.FirstLanguageId);
+                var secondLanguage = await _unitOfWork.LanguageRepository.GetByIdAsync((Guid)createQuotePriceDTO.SecondLanguageId);
+                if (firstLanguage == null || secondLanguage == null)
+                {
+                    response.Success = false;
+                    response.Message = "Không tìm thấy ngôn ngữ.";
+                    return response;
+                }
+                var list = await _unitOfWork.QuotePriceRepository.GetAllAsync(x => x.FirstLanguageId == createQuotePriceDTO.FirstLanguageId);
+                foreach (var item in list)
+                {
+                    if (item.SecondLanguageId == createQuotePriceDTO.SecondLanguageId)
+                    {
+                        response.Success = false;
+                        response.Message = $"Đã tồn tại bảng giá dịch từ ngôn ngữ {firstLanguage.Name} sang {secondLanguage.Name}.";
+                        return response;
+                    }
+                }
                 var quotePrice = _mapper.Map<Domain.Entities.QuotePrice>(createQuotePriceDTO);
 
 
