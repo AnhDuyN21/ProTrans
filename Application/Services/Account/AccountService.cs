@@ -371,7 +371,7 @@ namespace Application.Services.Account
                 if (user == null)
                 {
                     response.Success = false;
-                    response.Message = "Invalid username or password";
+                    response.Message = "Email hoặc mật khẩu không hợp lệ.";
                     return response;
                 }
                 if (user.ConfirmToken != null)
@@ -385,7 +385,7 @@ namespace Application.Services.Account
                 if (user.IsDeleted == true)
                 {
                     response.Success = false;
-                    response.Message = "Your account have been deleted!";
+                    response.Message = "Tài khoản của bạn đã bị xóa khỏi hệ thống.";
                     return response;
                 }
                 var generate = new GenerateJsonWebTokenString(_unitOfWork);
