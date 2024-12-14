@@ -35,7 +35,7 @@ namespace Application.Services.Request
 			{
 				var requestList = await _unitOfWork.RequestRepository.GetAllAsync();
 				var requestDTOs = _mapper.Map<List<RequestDTO>>(requestList);
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
 
                 if (sortedRequestDTOs.Count != 0)
 				{
@@ -151,7 +151,7 @@ namespace Application.Services.Request
 						request.Documents = documentDTOs;
 					}
 				}
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
                 if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
@@ -209,7 +209,7 @@ namespace Application.Services.Request
 					};
 					requestDTOs.Add(requestDTO);
 				}
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
 
                 if (sortedRequestDTOs.Count != 0)
 				{
@@ -272,7 +272,7 @@ namespace Application.Services.Request
 					}
 
 				}
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
 
                 if (sortedRequestDTOs.Count != 0)
 				{
