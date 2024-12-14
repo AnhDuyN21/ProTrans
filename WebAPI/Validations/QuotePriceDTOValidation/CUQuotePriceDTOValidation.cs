@@ -7,11 +7,11 @@ namespace WebAPI.Validations.AccountValidations
     {
         public QuotePriceValidation()
         {
-            RuleFor(x => x.FirstLanguageId).NotEmpty().NotNull().WithMessage("First Language ID is not allowed empty or null");
-            RuleFor(x => x.SecondLanguageId).NotEmpty().NotNull().WithMessage("Second Language ID is not allowed empty or null");
-            RuleFor(x => x.PricePerPage).NotEmpty().NotNull().WithMessage("Price per page is not allowed empty or null");
-            RuleFor(x => x.PricePerPage).GreaterThan(1000).WithMessage("Price per page has to be greater than 1000 VND");
-            RuleFor(x => x.FirstLanguageId).NotEqual(x => x.SecondLanguageId).WithMessage("First language can not be as same as second language");
+            RuleFor(x => x.FirstLanguageId).NotEmpty().NotNull().WithMessage("Ngôn ngữ không tồn tại trong hệ thống");
+            RuleFor(x => x.SecondLanguageId).NotEmpty().NotNull().WithMessage("Ngôn ngữ không tồn tại trong hệ thống");
+            RuleFor(x => x.PricePerPage).NotEmpty().NotNull().WithMessage("Đơn giá không hợp lệ");
+            RuleFor(x => x.PricePerPage).GreaterThan(1000).WithMessage("Đơn giá phải lớn hơn 1,000 VND");
+            RuleFor(x => x.FirstLanguageId).NotEqual(x => x.SecondLanguageId).WithMessage("Không được phép nhập hai ngôn ngữ giống nhau");
             //RuleFor(x => x.FullName).NotEmpty().MinimumLength(5);
             //RuleFor(x => x.Email).NotEmpty().EmailAddress().Must(email => email.EndsWith("@gmail.com"))
             //    .WithMessage("Email must end with @gmail.com");
