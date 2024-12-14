@@ -323,13 +323,13 @@ namespace Application.Services.AssignmentTranslation
 				//Thêm thời gian cập nhật trạng thái vào bảng document status
 				var documentStatus = new DocumentStatus
 				{
-					DocumentId = id,
+					DocumentId = (Guid)assignmentTranslationGetById.DocumentId,
 					Status = DocumentTranslationStatus.Translated.ToString(),
 					Type = TypeStatus.Translation.ToString(),
 					Time = _currentTime.GetCurrentTime()
 				};
 				await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
-				await _unitOfWork.SaveChangeAsync();
+				
 
 				//Cập nhật trạng thái order
 				await _unitOfWork.OrderRepository.UpdateOrderStatusByDocumentId((Guid)assignmentTranslationGetById.DocumentId);
