@@ -21,5 +21,7 @@ namespace Application.Interfaces.InterfaceServices.Account
 		Task<ServiceResponse<IEnumerable<AccountDTO>>> GetStaffAsync();
 		Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorAsync();
 		Task<ServiceResponse<AccountDTO>> ToggleAccountStatusAsync(Guid id);
-	}
+		Task<ServiceResponse<bool>> ConfirmEmail(string token);
+
+    }
 }

@@ -131,65 +131,16 @@ namespace WebAPI.Controllers.Account
 			}
 			return Ok(result);
 		}
+		[HttpGet("confirm")]
+		public async Task<IActionResult> ConfirmEmail ([FromQuery] string token)
+        {
+            var result = await _accountService.ConfirmEmail(token);
+            if (!result.Success)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
 
-		//[HttpPost("change-password/{userId}")]
-		//public async Task<IActionResult> ChangePassword(Guid userId, [FromBody] ChangePasswordDTO changePasswordDto)
-		//{
-		//    var result = await _accountService.ChangePasswordAsync(userId, changePasswordDto);
-
-		//    if (result.Success)
-		//    {
-		//        return Ok(new { Message = result.Message });
-		//    }
-		//    else
-		//    {
-		//        return BadRequest(new { Message = result.Message });
-		//    }
-		//}
-
-		//[HttpGet("{name}")]
-		//public async Task<IActionResult> SearchByName(string name)
-		//{
-		//    var result = await _accountService.SearchAccountByNameAsync(name);
-
-		//    if (result.Success)
-		//    {
-		//        return Ok(result);
-		//    }
-		//    else
-		//    {
-		//        return BadRequest(result);
-		//    }
-		//}
-		//[HttpGet("{role}")]
-		//public async Task<IActionResult> SearchByRole([FromRoute] string role)
-		//{
-		//    var result = await _accountService.SearchAccountByRoleNameAsync(role);
-
-		//    if (result.Success)
-		//    {
-		//        return Ok(result);
-		//    }
-		//    else
-		//    {
-		//        return BadRequest(result);
-		//    }
-
-		//}
-		//[HttpGet]
-		//public async Task<IActionResult> GetSortedAccount()
-		//{
-		//    var result = await _accountService.GetSortedAccountsAsync();
-
-		//    if (result.Success)
-		//    {
-		//        return Ok(result);
-		//    }
-		//    else
-		//    {
-		//        return BadRequest(result);
-		//    }
-
-		//}
-	}
+    }
 }
