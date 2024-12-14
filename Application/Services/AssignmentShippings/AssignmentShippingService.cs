@@ -287,14 +287,14 @@ namespace Application.Services.AssignmentShippings
 								return response;
 							}
 							doc.NotarizationStatus = DocumentNotarizationStatus.PickingUp.ToString();
-							var notarizationStatus = new DocumentStatus
-							{
-								DocumentId = doc.Id,
-								Status = doc.NotarizationStatus,
-								Type = TypeStatus.Notarization.ToString(),
-								Time = _currentTime.GetCurrentTime(),
-							};
-							await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
+							//var notarizationStatus = new DocumentStatus
+							//{
+							//	DocumentId = doc.Id,
+							//	Status = doc.NotarizationStatus,
+							//	Type = TypeStatus.Notarization.ToString(),
+							//	Time = _currentTime.GetCurrentTime(),
+							//};
+							//await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
 							_unitOfWork.DocumentRepository.Update(doc);
 							await _unitOfWork.ImageShippingRepository.AddAsync(imageShipping);
 						}
@@ -427,6 +427,7 @@ namespace Application.Services.AssignmentShippings
 				{
 					response.Success = false;
 					response.Message = "Not exist.";
+					return response;
 				}
 				else
 				{
