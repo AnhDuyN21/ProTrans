@@ -203,7 +203,7 @@ namespace Application.Services.Orders
                             response.Message = $"Không tìm thấy document status notarization với document id là {document.Id}.";
                             return response;
                         }
-                        // Loại bỏ các trạng thái trùng
+                        //Loại bỏ các trạng thái trùng
                         var uniqueNotarizationStatuses = listNotarizationStatus.GroupBy(x => x.Status).Select(g => g.First()).ToList();
                         
                         foreach (var notarizationStatus in uniqueNotarizationStatuses)
@@ -212,6 +212,15 @@ namespace Application.Services.Orders
                         }
                         document.ListNotarizationStatus = _mapper.Map<List<NotarizationStatusDTO>>(uniqueNotarizationStatuses);
 
+                        //Lấy giá của document
+                        var documentPrice = await _unitOfWork.DocumentPriceRepository.GetAsync(x => x.DocumentId == document.Id);
+                        if (documentPrice == null)
+                        {
+                            response.Success = false;
+                            response.Message = $"Không tìm thấy document price với document id là {document.Id}.";
+                            return response;
+                        }
+                        document.DocumentPrice = _mapper.Map<DocumentPriceDTO>(documentPrice);
                     }
                     order.Documents = documentDTOs;
 
