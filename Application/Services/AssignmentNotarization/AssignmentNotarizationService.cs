@@ -255,7 +255,7 @@ namespace Application.Services.AssignmentNotarization
                     response.Message = "Assignment Notarization is deleted in system";
                     return response;
                 }
-                // Map assignmentNotarizationDT0 => existingUser
+
                 assignmentNotarizationGetById.Status = status.ToString();
 
 
