@@ -176,18 +176,6 @@ namespace Application.Services.AssignmentTranslation
 
             try
             {
-                //var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList).OrderBy(x => x.Deadline).ToList();
-                //if (AssignmentTranslationDTOs.Count != 0)
-                //{
-                //	response.Success = true;
-                //	response.Message = "Assignment Translation list retrieved successfully";
-                //	response.Data = AssignmentTranslationDTOs;
-                //}
-                //else
-                //{
-                //	response.Success = true;
-                //	response.Message = "Not have Assignment Translation in list";
-                //}
                 var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.TranslatorId.Equals(Id) && x.IsDeleted == false);
 
                 if (AssignmentTranslationList.Count == 0)
@@ -221,14 +209,26 @@ namespace Application.Services.AssignmentTranslation
 
             return response;
         }
-        public async Task<ServiceResponse<IEnumerable<AssignmentTranslationDTO>>> GetAssignmentTranslationByTranslatorIdAndStatusAsync(Guid Id, string status)
+        public async Task<ServiceResponse<IEnumerable<AssignmentTranslationByTranslatorIdDTO>>> GetAssignmentTranslationByTranslatorIdAndStatusAsync(Guid Id, string status)
         {
-            var response = new ServiceResponse<IEnumerable<AssignmentTranslationDTO>>();
+            var response = new ServiceResponse<IEnumerable<AssignmentTranslationByTranslatorIdDTO>>();
 
             try
             {
                 var AssignmentTranslationList = await _unitOfWork.AssignmentTranslationRepository.GetAllAsync(x => x.TranslatorId.Equals(Id) && x.IsDeleted == false && x.Status.Equals(status));
-                var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationDTO>>(AssignmentTranslationList).OrderBy(x => x.Deadline).ToList();
+                var AssignmentTranslationDTOs = _mapper.Map<List<AssignmentTranslationByTranslatorIdDTO>>(AssignmentTranslationList).OrderBy(x => x.Deadline).ToList();
+                foreach (var assignmentTranslation in AssignmentTranslationDTOs)
+                {
+                    var documentId = assignmentTranslation.DocumentId;
+                    var document = await _unitOfWork.DocumentRepository.GetByIdAsync((Guid)documentId);
+                    if(document == null)
+                    {
+                        response.Success = false;
+                        response.Message = $"Không tìm thấy document có id {documentId}.";
+                        return response;
+                    }
+                    assignmentTranslation.Document = _mapper.Map<DocumentDTO>(document);
+                }
 
                 if (AssignmentTranslationDTOs.Count != 0)
                 {

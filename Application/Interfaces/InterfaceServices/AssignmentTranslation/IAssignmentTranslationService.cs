@@ -8,7 +8,7 @@ namespace Application.Interfaces.InterfaceServices.AssignmentTranslation
     {
         public Task<ServiceResponse<IEnumerable<AssignmentTranslationDTO>>> GetAllAssignmentTranslationsAsync();
         public Task<ServiceResponse<IEnumerable<AssignmentTranslationByTranslatorIdDTO>>> GetAllAssignmentTranslationByTranslatorIdAsync(Guid Id);
-        public Task<ServiceResponse<IEnumerable<AssignmentTranslationDTO>>> GetAssignmentTranslationByTranslatorIdAndStatusAsync(Guid Id,string status);
+        public Task<ServiceResponse<IEnumerable<AssignmentTranslationByTranslatorIdDTO>>> GetAssignmentTranslationByTranslatorIdAndStatusAsync(Guid Id,string status);
         public Task<ServiceResponse<AssignmentTranslationDTO>> UpdateAssignmentTranslationAsync(Guid id, CUAssignmentTranslationDTO cudAssignmentTranslationDTO);
         public Task<ServiceResponse<AssignmentTranslationDTO>> UpdateStatusAssignmentTranslationAsync(Guid id, string? urlPath);
        
