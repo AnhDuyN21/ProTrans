@@ -205,7 +205,7 @@ namespace Application.Services.Orders
                         }
                         //Loại bỏ các trạng thái trùng
                         var uniqueNotarizationStatuses = listNotarizationStatus.GroupBy(x => x.Status).Select(g => g.First()).ToList();
-                        
+
                         foreach (var notarizationStatus in uniqueNotarizationStatuses)
                         {
                             notarizationStatus.Status = ConvertNameToVietnamese(notarizationStatus.Status);
