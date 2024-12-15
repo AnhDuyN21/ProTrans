@@ -5,6 +5,7 @@ using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentStatusDTOs;
 using Application.ViewModels.OrderDTOs;
 using Application.ViewModels.RequestDTOs;
+using Application.ViewModels.SendMail;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data.Common;
 using System.Net.NetworkInformation;
 using System.Net.WebSockets;
+using System.Security.Principal;
 
 namespace Application.Services.Orders
 {
@@ -20,11 +22,13 @@ namespace Application.Services.Orders
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ICurrentTime _currentTime;
-        public OrderService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime)
+        private readonly ISendMail _sendMail;
+        public OrderService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime, ISendMail sendMail)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _currentTime = currentTime;
+            _sendMail = sendMail;
         }
 
         public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetAllOrdersAsync()
@@ -539,16 +543,27 @@ namespace Application.Services.Orders
                     response.Message = "Yêu cầu không tồn tại.";
                     return response;
                 }
-                if (request.CustomerId != null)
+
+                if (request.CustomerId == null)
                 {
-                    var customer = await _unitOfWork.AccountRepository.GetByIdAsync(request.CustomerId.Value);
-                    if (customer != null)
-                    {
-                        order.FullName = customer.FullName;
-                        order.PhoneNumber = customer.PhoneNumber;
-                        order.Address = customer.Address;
-                    }
+                    response.Success = false;
+                    response.Message = "Không tìm thấy customer id.";
+                    return response;
                 }
+                var customer = await _unitOfWork.AccountRepository.GetByIdAsync(request.CustomerId.Value);
+                if (customer != null)
+                {
+                    order.FullName = customer.FullName;
+                    order.PhoneNumber = customer.PhoneNumber;
+                    order.Address = customer.Address;
+                }
+                if(customer == null)
+                {
+                    response.Success = false;
+                    response.Message = "Không tìm thấy customer.";
+                    return response;
+                }
+
                 order.OrderCode = order.Id.ToString().Substring(0, 6).ToUpper();
                 order.ShipRequest = request.ShipRequest;
                 order.PickUpRequest = (bool)request.PickUpRequest;
@@ -592,7 +607,25 @@ namespace Application.Services.Orders
                 request.Status = RequestStatus.Finish.ToString();
                 _unitOfWork.RequestRepository.Update(request);
 
-
+                MessageDTO maildto = new MessageDTO
+                {
+                    To = customer.Email,
+                    Subject = "Xác nhận tạo đơn hàng từ yêu cầu của bạn",
+                    Body = $@"
+                            <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+                            <h2>Kính gửi {customer.FullName},</h2>
+                            <p>Cảm ơn bạn đã tin tưởng và lựa chọn dịch vụ của chúng tôi.</p>
+                            <p>Chúng tôi xin thông báo rằng đơn hàng của bạn đã được tạo thành công dựa trên yêu cầu mà bạn đã gửi. Dưới đây là thông tin chi tiết về đơn hàng:</p>
+                            <p>
+                                <strong>Mã đơn hàng:</strong> {order.OrderCode}<br>
+                                <strong>Thời gian hoàn thành dự kiến:</strong> {order.Deadline}<br>
+                            </p>
+                            <p>Trân trọng,<br>
+                            <strong>Đội ngũ ProTrans</strong></p>
+                            </div>",
+                    ImageUrl = "https://imgs.search.brave.com/axX40gDmB0NjE8PrUmglrN-35QWwWubDcXkwPKQSsnI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDgz/NTI3MjM5L3Bob3Rv/L3RoYW5rLXlvdS10/ZXh0LW9uLWhhbmQu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PThSdGtXYTRmRXdx/OUJtUVcycTh0X3FS/amhWdXFOTmh3YWJL/bnZraGJaM0k9"
+                };
+                await _sendMail.SendEmailAsync(maildto);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
                 if (isSuccess)
                 {
