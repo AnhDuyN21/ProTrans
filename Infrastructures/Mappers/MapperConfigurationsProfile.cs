@@ -5,6 +5,7 @@ using Application.ViewModels.AssignmentShippingDTOs;
 using Application.ViewModels.AssignmentTranslationDTOs;
 using Application.ViewModels.DistanceDTOs;
 using Application.ViewModels.DocumentDTOs;
+using Application.ViewModels.DocumentStatusDTOs;
 using Application.ViewModels.DocumentTypeDTOs;
 using Application.ViewModels.FeedbackDTOs;
 using Application.ViewModels.ImageShippingDTOs;
@@ -73,6 +74,7 @@ namespace Infrastructures.Mappers
 			//AssignmentTranslation
 			CreateMap<AssignmentTranslation, CUAssignmentTranslationDTO>().ReverseMap();
 			CreateMap<AssignmentTranslation, AssignmentTranslationDTO>().ReverseMap();
+			CreateMap<AssignmentTranslation, AssignmentTranslationByTranslatorIdDTO>().ReverseMap();
 
 			//Feedbacks
 			CreateMap<Feedback, FeedbackDTO>().ReverseMap();
@@ -92,8 +94,12 @@ namespace Infrastructures.Mappers
 			CreateMap<DocumentHistory, DocumentHistoryDTO>().ReverseMap();
 			CreateMap<DocumentHistory, CreateDocumentHistoryDTO>().ReverseMap();
 
-			//DocumentPrice
-			CreateMap<DocumentPrice, DocumentPriceDTO>().ReverseMap();
+            //DocumentStatus
+            CreateMap<DocumentStatus, TranslationStatusDTO>().ReverseMap();
+            CreateMap<DocumentStatus, NotarizationStatusDTO>().ReverseMap();
+
+            //DocumentPrice
+            CreateMap<DocumentPrice, DocumentPriceDTO>().ReverseMap();
 			CreateMap<DocumentPrice, CreateDocumentPriceDTO>().ReverseMap();
 			CreateMap<DocumentPrice, UpdateDocumentPriceDTO>().ReverseMap();
 

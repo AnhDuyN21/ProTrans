@@ -343,8 +343,6 @@ namespace Application.Services.Request
 
 				var priceDetails = new List<(Guid DocumentId, decimal TranslationPrice, decimal NotarizationPrice)>();
 
-				var statusDetails = new List<(Guid DocumentId, string Status, string Type, DateTime time)>();
-
 				var documents = _mapper.Map<List<Domain.Entities.Document>>(createRequestDTO.Documents);
 
 				foreach (var doc in documents)
@@ -381,11 +379,6 @@ namespace Application.Services.Request
 					doc.TranslationStatus = DocumentTranslationStatus.Waiting.ToString();
 					doc.NotarizationStatus = doc.NotarizationRequest ? DocumentNotarizationStatus.Waiting.ToString() : DocumentNotarizationStatus.None.ToString();
 
-					statusDetails.Add((doc.Id, doc.TranslationStatus, TypeStatus.Translation.ToString(), _currentTime.GetCurrentTime()));
-					if (doc.NotarizationRequest == true)
-					{
-						statusDetails.Add((doc.Id, doc.NotarizationStatus, TypeStatus.Notarization.ToString(), _currentTime.GetCurrentTime()));
-					}
 					priceDetails.Add((doc.Id, translationPrice, notarizationPrice));
 				}
 				await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
@@ -403,18 +396,6 @@ namespace Application.Services.Request
 					await _unitOfWork.DocumentPriceRepository.AddAsync(documentPrice);
 				}
 				
-				//Thêm thời gian cập nhật trạng thái vào bảng DocumentStatus
-				foreach (var status in statusDetails)
-				{
-					var documentStatus = new DocumentStatus
-					{
-						DocumentId = status.DocumentId,
-						Status = status.Status,
-						Type = status.Type,
-						Time = status.time
-					};
-					await _unitOfWork.DocumentStatusRepository.AddAsync(documentStatus);
-				}
 				request.EstimatedPrice = price;
 				//Giá ship cho request
 				decimal pickUpPrice = 40000;

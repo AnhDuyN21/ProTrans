@@ -1,4 +1,6 @@
-﻿namespace Application.ViewModels.DocumentDTOs
+﻿using Application.ViewModels.DocumentStatusDTOs;
+
+namespace Application.ViewModels.DocumentDTOs
 {
 	public class DocumentDTO
 	{
@@ -22,6 +24,8 @@
 		public DocumentPriceDTO? DocumentPrice { get; set; }
 		public List<DocumentHistoryDTO>? DocumentHistory { get; set; }
 		public ChangedDocumentDTO? ChangedDocument { get; set; }
-		public List<DocumentStatusDTO>? DocumentStatus { get; set; }
+        public List<DocumentStatusDTO>? DocumentStatus { get; set; }
+        public List<TranslationStatusDTO>? ListTranslationStatus { get; set; }
+		public List<NotarizationStatusDTO>? ListNotarizationStatus { get; set; }
 	}
 }
