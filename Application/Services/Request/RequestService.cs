@@ -351,7 +351,7 @@ namespace Application.Services.Request
                     if (doc.NumberOfCopies < doc.NumberOfNotarizedCopies)
 					{
                         response.Success = false;
-                        response.Message = "Số bản cần dịch ít hơn số bản công chứng.";
+                        response.Message = "Số bản cần dịch phải nhiều hơn số bản công chứng.";
                         return response;
                     }
 					var quotePrice = await _unitOfWork.QuotePriceRepository.GetQuotePriceBy2LanguageId((Guid)doc.FirstLanguageId, (Guid)doc.SecondLanguageId);
