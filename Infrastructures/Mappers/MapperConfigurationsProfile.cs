@@ -107,7 +107,6 @@ namespace Infrastructures.Mappers
 			CreateMap<Order, OrderDTO>().ReverseMap();
 			CreateMap<Order, UpdateOrderDTO>().ReverseMap();
 			CreateMap<Order, CreateOrderDTO>().ReverseMap();
-			CreateMap<Order, OrderDetailDTO>().ReverseMap();
 
 			//AssignmentNotarization
 			CreateMap<AssignmentNotarization, CUAssignmentNotarizationDTO>().ReverseMap();
