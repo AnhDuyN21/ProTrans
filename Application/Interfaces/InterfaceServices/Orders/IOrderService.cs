@@ -7,11 +7,11 @@ namespace Application.Interfaces.InterfaceServices.Orders
 	{
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetAllOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetCompletedOrdersAsync();
-		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetNoShipCompletedOrdersAsync();
+		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetNoShipCompletedOrdersAsync(Guid staffId);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOfflineOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOnlineOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToPickUpAsync();
-		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToReceiveAsync();
+		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToReceiveAsync(Guid staffId);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> UpdateOrderToPickedUpAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetCompletedOrdersByAgencyIdAsync(Guid id);
 		public Task<ServiceResponse<OrderDTO>> GetOrderByIdAsync(Guid id);
@@ -22,5 +22,7 @@ namespace Application.Interfaces.InterfaceServices.Orders
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByPhoneNumberAsync(string num);
 		Task<ServiceResponse<OrderDTO>> UpdateOrderStatusAsync(Guid id, string status);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByCustomerIdAsync(Guid id);
-	}
+		Task<ServiceResponse<OrderDTO>> UpdateOrderStatusDeliveredByOrderIdAsync(Guid orderId);
+
+    }
 }
