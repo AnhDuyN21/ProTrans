@@ -21,5 +21,6 @@ namespace Application.ViewModels.OrderDTOs
 		public List<DocumentDTO>? Documents { get; set; }
 		public Guid? CustomerId { get; set; }
 		public bool? DoneFeedback { get; set; }
+		public string? FeedbackMessage { get; set; }
 	}
 }
