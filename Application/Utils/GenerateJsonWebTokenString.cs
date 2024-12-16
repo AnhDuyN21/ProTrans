@@ -38,7 +38,7 @@ namespace Application.Utils
                 issuer: appSettingConfiguration.GetSection("JWTSection:Issuer").Value,
                 audience: appSettingConfiguration.GetSection("JWTSection:Audience").Value,
                 claims: claims,
-                expires: now.AddMinutes(60),
+                expires: now.AddMinutes(180),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
