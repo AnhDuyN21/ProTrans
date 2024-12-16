@@ -80,7 +80,7 @@ namespace Application.Services.Request
 						request.Address = customer.Address;
 					}
 				}
-                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreateDate).ToList();
+                var sortedRequestDTOs = requestDTOs.OrderByDescending(r => r.CreatedDate).ToList();
                 if (sortedRequestDTOs.Count != 0)
 				{
 					response.Success = true;
