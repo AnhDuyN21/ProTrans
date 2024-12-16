@@ -7,7 +7,7 @@ namespace Application.Interfaces.InterfaceServices.Documents
 	{
 		//Document
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetAllDocumentsAsync();
-		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByAgencyIdAsync(Guid id);
+		public Task<ServiceResponse<IEnumerable<DocumentGetByOrderIdDTO>>> GetDocumentsToBeNotarizedByAgencyIdAsync(Guid id);
 		public Task<ServiceResponse<DocumentDTO>> GetDocumentByIdAsync(Guid id);
 		public Task<ServiceResponse<DocumentDTO>> UpdateDocumentAsync(Guid id, UpdateDocumentDTO document);
 		public Task<ServiceResponse<DocumentDTO>> CreateDocumentAsync(CreateDocumentDTO document);

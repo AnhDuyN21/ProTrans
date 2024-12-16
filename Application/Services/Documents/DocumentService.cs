@@ -52,27 +52,29 @@ namespace Application.Services.Documents
 			return response;
 		}
 
-		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByAgencyIdAsync(Guid id)
+		public async Task<ServiceResponse<IEnumerable<DocumentGetByOrderIdDTO>>> GetDocumentsToBeNotarizedByAgencyIdAsync(Guid id)
 		{
-			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
-			var targetDocuments = new List<Document>();
+			var response = new ServiceResponse<IEnumerable<DocumentGetByOrderIdDTO>>();
+			var targetDocuments = new List<DocumentGetByOrderIdDTO>();
 			try
 			{
-				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.NotarizationRequest && x.TranslationStatus == "Translated" && x.NotarizationStatus == "PickedUp");
+				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.NotarizationRequest && x.TranslationStatus == DocumentTranslationStatus.Translated.ToString() && x.NotarizationStatus == DocumentNotarizationStatus.PickedUp.ToString());
 				foreach (var doc in documents)
 				{
 					var order = await _unitOfWork.OrderRepository.GetAsync(x => x.Id == doc.OrderId);
 					if (order != null && order.AgencyId == id)
 					{
-						targetDocuments.Add(doc);
+						var mappedDocument = _mapper.Map<DocumentGetByOrderIdDTO>(doc);
+                        mappedDocument.Deadline = (DateTime)order.Deadline;
+						targetDocuments.Add(mappedDocument);
 					}
 				}
-				var documentDTOs = _mapper.Map<List<DocumentDTO>>(targetDocuments).OrderByDescending(x => x.CreatedDate).ToList();
-				if (documentDTOs.Count != 0)
+
+				if (targetDocuments.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "Get documents successfully.";
-					response.Data = documentDTOs;
+					response.Data = targetDocuments;
 				}
 				else
 				{
