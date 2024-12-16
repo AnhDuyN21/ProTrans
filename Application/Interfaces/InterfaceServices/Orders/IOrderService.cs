@@ -22,5 +22,7 @@ namespace Application.Interfaces.InterfaceServices.Orders
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByPhoneNumberAsync(string num);
 		Task<ServiceResponse<OrderDTO>> UpdateOrderStatusAsync(Guid id, string status);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersByCustomerIdAsync(Guid id);
-	}
+		Task<ServiceResponse<OrderDTO>> UpdateOrderStatusDeliveredByOrderIdAsync(Guid orderId);
+
+    }
 }
