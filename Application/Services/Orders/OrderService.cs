@@ -41,6 +41,14 @@ namespace Application.Services.Orders
 			{
 				var orders = await _unitOfWork.OrderRepository.GetAllAsync();
 				var orderDTOs = _mapper.Map<List<OrderDTO>>(orders).OrderByDescending(x => x.CreatedDate).ToList();
+				foreach (var ord in orderDTOs)
+				{
+					var feedback = await _unitOfWork.FeedbackRepository.GetAsync(x => x.OrderId == ord.Id);
+					if (feedback != null)
+					{
+						ord.FeedbackMessage = feedback.Message;
+					}
+				}
 
 				if (orderDTOs.Count != 0)
 				{
