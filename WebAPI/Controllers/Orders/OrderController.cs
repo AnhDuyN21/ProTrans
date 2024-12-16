@@ -27,9 +27,9 @@ namespace WebAPI.Controllers.Orders
 		}
 
 		[HttpGet("GetNoShipCompletedOrders")]
-		public async Task<IActionResult> GetNoShipCompletedOrders()
+		public async Task<IActionResult> GetNoShipCompletedOrders(Guid staffId)
 		{
-			var result = await orderService.GetNoShipCompletedOrdersAsync();
+			var result = await orderService.GetNoShipCompletedOrdersAsync(staffId);
 			return Ok(result);
 		}
 
@@ -55,9 +55,9 @@ namespace WebAPI.Controllers.Orders
 		}
 
 		[HttpGet("GetOrdersToReceive")]
-		public async Task<IActionResult> GetOrdersToReceive()
+		public async Task<IActionResult> GetOrdersToReceive(Guid staffId)
 		{
-			var result = await orderService.GetOrdersToReceiveAsync();
+			var result = await orderService.GetOrdersToReceiveAsync(staffId);
 			return Ok(result);
 		}
 

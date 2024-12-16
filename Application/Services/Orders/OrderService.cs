@@ -146,13 +146,15 @@ namespace Application.Services.Orders
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToReceiveAsync()
+        public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToReceiveAsync(Guid staffId)
         {
             var response = new ServiceResponse<IEnumerable<OrderDTO>>();
             var targetOrders = new List<Order>();
             try
             {
-                var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => !x.PickUpRequest && (x.Status.Equals("Processing") || x.Status.Equals("Implementing")));
+                var staffAccount = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
+
+                var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => !x.PickUpRequest && (x.Status.Equals("Processing") || x.Status.Equals("Implementing")) && x.AgencyId == staffAccount.AgencyId);
 
                 if (orders == null)
                 {
@@ -407,14 +409,16 @@ namespace Application.Services.Orders
             return response;
         }
 
-        public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetNoShipCompletedOrdersAsync()
+        public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetNoShipCompletedOrdersAsync(Guid staffId)
         {
             var response = new ServiceResponse<IEnumerable<OrderDTO>>();
 
             try
             {
+                var staffAccount = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
+
                 var orders = await _unitOfWork.OrderRepository.GetAllAsync();
-                var completedOrders = orders.Where(order => !order.ShipRequest && order.Status == "Completed").ToList();
+                var completedOrders = orders.Where(order => !order.ShipRequest && order.Status == "Completed" && order.AgencyId == staffAccount.AgencyId).ToList();
                 var orderDTOs = _mapper.Map<List<OrderDTO>>(completedOrders).OrderByDescending(x => x.CreatedDate).ToList();
 
                 if (orderDTOs.Count != 0)
