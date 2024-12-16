@@ -406,6 +406,37 @@ namespace Application.Services.Orders
 			return response;
 		}
 
+		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetNoShipCompletedOrdersAsync()
+		{
+			var response = new ServiceResponse<IEnumerable<OrderDTO>>();
+
+			try
+			{
+				var orders = await _unitOfWork.OrderRepository.GetAllAsync();
+				var completedOrders = orders.Where(order => !order.ShipRequest && order.Status == "Completed").ToList();
+				var orderDTOs = _mapper.Map<List<OrderDTO>>(completedOrders).OrderByDescending(x => x.CreatedDate).ToList();
+
+				if (orderDTOs.Count != 0)
+				{
+					response.Success = true;
+					response.Message = "Get completed orders successfully.";
+					response.Data = orderDTOs;
+				}
+				else
+				{
+					response.Success = true;
+					response.Message = "No completed orders exist.";
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
 		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetCompletedOrdersByAgencyIdAsync(Guid id)
 		{
 			var response = new ServiceResponse<IEnumerable<OrderDTO>>();
