@@ -61,7 +61,7 @@ namespace Application.Services.AssignmentTranslation
                 var documentStatus = new DocumentStatus
                 {
                     DocumentId = (Guid)cuAssignmentTranslationDTO.DocumentId,
-                    Status = DocumentTranslationStatus.Translated.ToString(),
+                    Status = DocumentTranslationStatus.Translating.ToString(),
                     Type = TypeStatus.Translation.ToString(),
                     Time = _currentTime.GetCurrentTime()
                 };
