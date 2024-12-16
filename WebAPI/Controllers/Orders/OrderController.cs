@@ -47,6 +47,13 @@ namespace WebAPI.Controllers.Orders
 			return Ok(result);
 		}
 
+		[HttpGet("GetOrdersToReceive")]
+		public async Task<IActionResult> GetOrdersToReceive()
+		{
+			var result = await orderService.GetOrdersToReceiveAsync();
+			return Ok(result);
+		}
+
 		[HttpGet("GetCompletedOrdersByAgencyId")]
 		public async Task<IActionResult> GetCompletedOrdersByAgencyId(Guid id)
 		{
@@ -121,6 +128,18 @@ namespace WebAPI.Controllers.Orders
 			}
 			return Ok(result);
 		}
+
+		[HttpPut("UpdateToPickedUp/{id}")]
+		public async Task<IActionResult> UpdateOrderToPickedUp(Guid id)
+		{
+			var result = await orderService.UpdateOrderToPickedUpAsync(id);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
+
 		[HttpPut("UpdateOrderStatus")]
 		public async Task<IActionResult> UpdateOrderStatus(Guid id, string status)
 		{

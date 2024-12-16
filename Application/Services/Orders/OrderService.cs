@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.Interfaces;
 using Application.Interfaces.InterfaceServices.Orders;
+using Application.ViewModels.AssignmentShippingDTOs;
 using Application.ViewModels.DocumentDTOs;
 using Application.ViewModels.DocumentStatusDTOs;
 using Application.ViewModels.OrderDTOs;
@@ -97,7 +98,7 @@ namespace Application.Services.Orders
 			var targetOrders = new List<Order>();
 			try
 			{
-				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => x.Status.Equals("Processing") || x.Status.Equals("Implementing"));
+				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => x.PickUpRequest && (x.Status.Equals("Processing") || x.Status.Equals("Implementing")));
 
 				if (orders == null)
 				{
@@ -133,6 +134,99 @@ namespace Application.Services.Orders
 						response.Success = true;
 						response.Message = "No orders exist.";
 					}
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToReceiveAsync()
+		{
+			var response = new ServiceResponse<IEnumerable<OrderDTO>>();
+			var targetOrders = new List<Order>();
+			try
+			{
+				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => !x.PickUpRequest && (x.Status.Equals("Processing") || x.Status.Equals("Implementing")));
+
+				if (orders == null)
+				{
+					response.Success = true;
+					response.Message = "No orders exist.";
+				}
+				else
+				{
+					foreach (var order in orders)
+					{
+						var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(order.Id);
+						if (documents != null)
+						{
+							foreach (var doc in documents)
+							{
+								if (doc.NotarizationRequest && doc.NotarizationStatus == DocumentNotarizationStatus.Processing.ToString())
+								{
+									targetOrders.Add(order);
+									break;
+								}
+							}
+						}
+					}
+					var orderDTOs = _mapper.Map<List<OrderDTO>>(targetOrders).OrderByDescending(x => x.CreatedDate).ToList();
+					if (orderDTOs.Count != 0)
+					{
+						response.Success = true;
+						response.Message = "Get successfully.";
+						response.Data = orderDTOs;
+					}
+					else
+					{
+						response.Success = true;
+						response.Message = "No orders exist.";
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				response.Success = false;
+				response.Message = "Error.";
+				response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<IEnumerable<OrderDTO>>> UpdateOrderToPickedUpAsync(Guid id)
+		{
+			var response = new ServiceResponse<IEnumerable<OrderDTO>>();
+			try
+			{
+				var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.OrderId == id && x.NotarizationRequest);
+				foreach (var doc in documents)
+				{
+					doc.NotarizationStatus = DocumentNotarizationStatus.PickedUp.ToString();
+					var notarizationStatus = new DocumentStatus
+					{
+						DocumentId = doc.Id,
+						Status = doc.NotarizationStatus,
+						Type = TypeStatus.Notarization.ToString(),
+						Time = _currentTime.GetCurrentTime(),
+					};
+					await _unitOfWork.DocumentStatusRepository.AddAsync(notarizationStatus);
+					_unitOfWork.DocumentRepository.Update(doc);
+				}
+				var result = await _unitOfWork.SaveChangeAsync() > 0;
+				if (result)
+				{
+					response.Success = true;
+					response.Message = "Update successfully.";
+				}
+				else
+				{
+					response.Success = false;
+					response.Message = "Update fail.";
 				}
 			}
 			catch (Exception ex)
