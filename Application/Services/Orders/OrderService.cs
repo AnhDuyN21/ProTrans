@@ -154,7 +154,7 @@ namespace Application.Services.Orders
 			{
 				var staffAccount = await _unitOfWork.AccountRepository.GetByIdAsync(staffId);
 
-				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => !x.PickUpRequest && x.RequestId == null && (x.Status.Equals("Processing") || x.Status.Equals("Implementing")) && x.AgencyId == staffAccount.AgencyId);
+				var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => !x.PickUpRequest && x.RequestId != null && (x.Status.Equals("Processing") || x.Status.Equals("Implementing")) && x.AgencyId == staffAccount.AgencyId);
 
 				if (orders == null)
 				{
