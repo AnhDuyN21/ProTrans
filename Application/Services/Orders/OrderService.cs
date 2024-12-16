@@ -268,6 +268,12 @@ namespace Application.Services.Orders
 
 				foreach (var order in orderDTOs)
 				{
+					var feedback = await _unitOfWork.FeedbackRepository.GetAsync(x => x.OrderId == order.Id);
+					if (feedback != null)
+					{
+						order.DoneFeedback = true;
+					}
+					else { order.DoneFeedback = false; }
 					var documents = await _unitOfWork.DocumentRepository.GetAllAsync(x => x.OrderId == order.Id);
 					if (documents.Count == 0)
 					{
