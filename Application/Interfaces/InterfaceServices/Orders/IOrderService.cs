@@ -10,6 +10,8 @@ namespace Application.Interfaces.InterfaceServices.Orders
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOfflineOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOnlineOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToPickUpAsync();
+		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToReceiveAsync();
+		public Task<ServiceResponse<IEnumerable<OrderDTO>>> UpdateOrderToPickedUpAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetCompletedOrdersByAgencyIdAsync(Guid id);
 		public Task<ServiceResponse<OrderDTO>> GetOrderByIdAsync(Guid id);
 		public Task<ServiceResponse<OrderDTO>> UpdateOrderAsync(Guid id, UpdateOrderDTO order);
