@@ -26,6 +26,13 @@ namespace WebAPI.Controllers.Orders
 			return Ok(result);
 		}
 
+		[HttpGet("GetNoShipCompletedOrders")]
+		public async Task<IActionResult> GetNoShipCompletedOrders()
+		{
+			var result = await orderService.GetNoShipCompletedOrdersAsync();
+			return Ok(result);
+		}
+
 		[HttpGet("GetOfflineOrders")]
 		public async Task<IActionResult> GetOfflineOrders()
 		{

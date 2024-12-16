@@ -7,6 +7,7 @@ namespace Application.Interfaces.InterfaceServices.Orders
 	{
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetAllOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetCompletedOrdersAsync();
+		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetNoShipCompletedOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOfflineOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOnlineOrdersAsync();
 		public Task<ServiceResponse<IEnumerable<OrderDTO>>> GetOrdersToPickUpAsync();
