@@ -277,16 +277,28 @@ namespace Application.Services.Documents
 			return response;
 		}
 
-		public async Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id)
+		public async Task<ServiceResponse<IEnumerable<DocumentGetByOrderIdDTO>>> GetDocumentsByOrderIdAsync(Guid id)
 		{
-			var response = new ServiceResponse<IEnumerable<DocumentDTO>>();
+			var response = new ServiceResponse<IEnumerable<DocumentGetByOrderIdDTO>>();
 
 			try
 			{
-				var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id);
-				var documentDTOs = _mapper.Map<List<DocumentDTO>>(documents);
+				var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+                if (order == null)
+                {
+                    response.Success = false;
+                    response.Message = "Đơn hàng không tồn tại.";
+                    return response;
+                }
+				var deadline = order.Deadline;
 
-				if (documentDTOs.Count != 0)
+                var documents = await _unitOfWork.DocumentRepository.GetByOrderIdAsync(id);
+
+				var documentDTOs = _mapper.Map<List<DocumentGetByOrderIdDTO>>(documents)
+										.Select(dto => { dto.Deadline = (DateTime)deadline; return dto; })
+										.ToList();
+
+                if (documentDTOs.Count != 0)
 				{
 					response.Success = true;
 					response.Message = "Get successfully.";

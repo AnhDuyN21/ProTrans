@@ -12,7 +12,7 @@ namespace Application.Interfaces.InterfaceServices.Documents
 		public Task<ServiceResponse<DocumentDTO>> UpdateDocumentAsync(Guid id, UpdateDocumentDTO document);
 		public Task<ServiceResponse<DocumentDTO>> CreateDocumentAsync(CreateDocumentDTO document);
 		public Task<ServiceResponse<bool>> DeleteDocumentAsync(Guid id);
-		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByOrderIdAsync(Guid id);
+		public Task<ServiceResponse<IEnumerable<DocumentGetByOrderIdDTO>>> GetDocumentsByOrderIdAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsByRequestIdAsync(Guid id);
 		public Task<ServiceResponse<IEnumerable<DocumentDTO>>> GetDocumentsToBeNotarizedByOrderIdAsync(Guid id);
 		//DocumentHistory
