@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Services.Tools;
 using System;
 using System.Globalization;
 using System.Net;
@@ -7,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 
-namespace Services.Tools
+namespace Application.Utils
 {
     
 
@@ -18,6 +17,9 @@ namespace Services.Tools
         public const string VERSION = "2.1.0";
         private SortedList<String, String> _requestData = new SortedList<String, String>(new VnPayCompare());
         private SortedList<String, String> _responseData = new SortedList<String, String>(new VnPayCompare());
+        private static readonly string AllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        private static readonly string AllowedCode = "0123456789";
+        private static readonly Random Random = new();
         public void ClearRequestData() 
         {
             _requestData.Clear();
@@ -50,7 +52,85 @@ namespace Services.Tools
                 return string.Empty;
             }
         }
+     
+        public string GenerateId()
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < 5; i++)
+            {
+                int index = Random.Next(AllowedCharacters.Length);
+                sb.Append(AllowedCharacters[index]);
+            }
+            return sb.ToString();
+        }
+        public string GetIpAddress()
+        {
 
+
+            string ipAddress;
+            try
+            {
+                HttpContextAccessor ipget = new HttpContextAccessor();
+                ipAddress = ipget.HttpContext.Connection.RemoteIpAddress.ToString();
+                //  _conte
+
+                if (string.IsNullOrEmpty(ipAddress) || (ipAddress.ToLower() == "unknown") || ipAddress.Length > 45)
+                    ipAddress = ipget.HttpContext.GetServerVariable("REMOTE_ADDR");
+            }
+            catch (Exception ex)
+            {
+                ipAddress = "Invalid IP:" + ex.Message;
+            }
+
+            return ipAddress;
+        }
+        public string ExtractUrlParam(string url, string paramName)
+        {
+            var queryString = url.Split('?').Skip(1).FirstOrDefault();
+            if (queryString == null)
+            {
+                return null; // Return null if no query string
+            }
+
+            var keyValuePairs = queryString.Split('&');
+
+            foreach (var pair in keyValuePairs)
+            {
+                var parts = pair.Split('=');
+                if (parts.Length == 2 && parts[0] == paramName)
+                {
+                    return parts[1];
+                }
+            }
+
+            return null; // Return null if parameter not found
+        }
+        public string GetQueryString(string url)
+        {
+            // Find the first question mark (?), which marks the beginning of the query string
+            int questionMarkIndex = url.IndexOf('?');
+
+            // Check if a question mark exists
+            if (questionMarkIndex < 0)
+            {
+                return null; // No query string found
+            }
+
+            // Extract the query string
+            string queryString = url.Substring(questionMarkIndex + 1);
+
+            // Find the last ampersand (&)
+            int lastAmpersandIndex = queryString.LastIndexOf('&');
+
+            // Handle single parameter or no ampersand
+            if (lastAmpersandIndex < 0)
+            {
+                return queryString; // Only one parameter or no ampersand
+            }
+
+            // Return the query string without the last parameter
+            return queryString.Substring(0, lastAmpersandIndex);
+        }
         #region Request
 
         public string CreateRequestUrl(string baseUrl, string vnp_HashSecret)
@@ -122,19 +202,7 @@ namespace Services.Tools
 
     public class Utils
     {
-        private static readonly string AllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        private static readonly string AllowedCode = "0123456789";
-        private static readonly Random Random = new();
-        public static string GenerateId()
-        {
-            var sb = new StringBuilder();
-            for (int i = 0; i < 5; i++)
-            {
-                int index = Random.Next(AllowedCharacters.Length);
-                sb.Append(AllowedCharacters[index]);
-            }
-            return sb.ToString();
-        }
+      
         public static String HmacSHA512(string key, String inputData)
         {
 
@@ -152,74 +220,7 @@ namespace Services.Tools
 
             return hash.ToString();
         }
-        public static string GetIpAddress()
-        {
-
-
-            string ipAddress;
-            try
-            {
-                HttpContextAccessor ipget = new HttpContextAccessor();
-                ipAddress = ipget.HttpContext.Connection.RemoteIpAddress.ToString();
-                //  _conte
-
-                if (string.IsNullOrEmpty(ipAddress) || (ipAddress.ToLower() == "unknown") || ipAddress.Length > 45)
-                    ipAddress = ipget.HttpContext.GetServerVariable("REMOTE_ADDR");
-            }
-            catch (Exception ex)
-            {
-                ipAddress = "Invalid IP:" + ex.Message;
-            }
-
-            return ipAddress;
-        }
-        public static string ExtractUrlParam(string url, string paramName)
-        {
-            var queryString = url.Split('?').Skip(1).FirstOrDefault();
-            if (queryString == null)
-            {
-                return null; // Return null if no query string
-            }
-
-            var keyValuePairs = queryString.Split('&');
-
-            foreach (var pair in keyValuePairs)
-            {
-                var parts = pair.Split('=');
-                if (parts.Length == 2 && parts[0] == paramName)
-                {
-                    return parts[1];
-                }
-            }
-
-            return null; // Return null if parameter not found
-        }
-        public static string GetQueryString(string url)
-        {
-            // Find the first question mark (?), which marks the beginning of the query string
-            int questionMarkIndex = url.IndexOf('?');
-
-            // Check if a question mark exists
-            if (questionMarkIndex < 0)
-            {
-                return null; // No query string found
-            }
-
-            // Extract the query string
-            string queryString = url.Substring(questionMarkIndex + 1);
-
-            // Find the last ampersand (&)
-            int lastAmpersandIndex = queryString.LastIndexOf('&');
-
-            // Handle single parameter or no ampersand
-            if (lastAmpersandIndex < 0)
-            {
-                return queryString; // Only one parameter or no ampersand
-            }
-
-            // Return the query string without the last parameter
-            return queryString.Substring(0, lastAmpersandIndex);
-        }
+       
     }
 
     public class VnPayCompare : IComparer<string>
