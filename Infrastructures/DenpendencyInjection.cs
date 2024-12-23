@@ -95,6 +95,8 @@ using Application.Interfaces.InterfaceServices.Distance;
 using Application.Services.Distance;
 using Application.Interfaces.InterfaceRepositories.DocumentStatus;
 using Infrastructures.Repositories.DocumentStatus;
+using Application.Interfaces.InterfaceServices.VNPay;
+using Application.Services.VNPay;
 
 namespace Infrastructures
 {
@@ -174,6 +176,8 @@ namespace Infrastructures
             services.AddScoped<IAssignmentNotarizationRepository, AssignmentNotarizationRepository>();
             services.AddScoped<IAssignmentNotarizationService, AssignmentNotarizationService>();
 
+            //VNPay
+            services.AddScoped<IVNPayService,VNPayService>();
             //Firebases
             services.AddSingleton(opt => StorageClient.Create());
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
