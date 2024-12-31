@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.ViewModels.TranslatorSkillDTOs;
 
 namespace Application.ViewModels.AccountDTOs
 {
@@ -24,5 +20,6 @@ namespace Application.ViewModels.AccountDTOs
 		public bool? IsDeleted { get; set; }
 		public decimal? Distance { get; set; }
 		public int? AssignmentsInProgress { get; set; }
+		public List<TranslatorSkillDTO>? TranslatorSkills { get; set; }
 	}
 }

@@ -157,18 +157,18 @@ namespace WebAPI.Controllers.Orders
 			}
 			return Ok(result);
 		}
-        [HttpPut("UpdateOrderStatusDeliveredByOrderId")]
-        public async Task<IActionResult> UpdateOrderStatusDeliveredByOrderId(Guid orderId)
-        {
-            var result = await orderService.UpdateOrderStatusDeliveredByOrderIdAsync(orderId);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
-        }
+		[HttpPut("UpdateOrderStatusDeliveredByOrderId")]
+		public async Task<IActionResult> UpdateOrderStatusDeliveredByOrderId(Guid orderId)
+		{
+			var result = await orderService.UpdateOrderStatusDeliveredByOrderIdAsync(orderId);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
 
-        [HttpDelete("{id}")]
+		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteOrder(Guid id, string reason)
 		{
 			var result = await orderService.DeleteOrderAsync(id, reason);

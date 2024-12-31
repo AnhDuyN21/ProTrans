@@ -19,9 +19,8 @@ namespace Application.Interfaces.InterfaceServices.Account
 		Task<ServiceResponse<IEnumerable<AccountDTO>>> GetShipperByAgencyIdAsync(Guid agencyId);
 		Task<ServiceResponse<CreateTranslatorDTO>> CreateTranslatorAccountAsync(CreateTranslatorDTO createTranslatorDTO);
 		Task<ServiceResponse<IEnumerable<AccountDTO>>> GetStaffAsync();
-		Task<ServiceResponse<IEnumerable<AccountDTO>>> GetTranslatorAsync();
+		Task<ServiceResponse<IEnumerable<TranslatorAccountDTO>>> GetTranslatorAsync();
 		Task<ServiceResponse<AccountDTO>> ToggleAccountStatusAsync(Guid id);
 		Task<ServiceResponse<bool>> ConfirmEmail(string token);
-
-    }
+	}
 }
