@@ -132,15 +132,15 @@ namespace WebAPI.Controllers.Account
 			return Ok(result);
 		}
 		[HttpGet("confirm")]
-		public async Task<IActionResult> ConfirmEmail ([FromQuery] string token)
-        {
-            var result = await _accountService.ConfirmEmail(token);
-            if (!result.Success)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
-        }
+		public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
+		{
+			var result = await _accountService.ConfirmEmail(token);
+			if (!result.Success)
+			{
+				return NotFound(result);
+			}
+			return Ok(result);
+		}
 
-    }
+	}
 }
