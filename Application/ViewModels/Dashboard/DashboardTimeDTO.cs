@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.ViewModels.Dashboard
 {
-	public class DashboardDTO
+	public class DashboardTimeDTO
 	{
-		public int? NumberOfAccounts { get; set; } = 0;
-		public int? NumberOfOrders { get; set; } = 0;
-		public decimal? Revenue { get; set; } = 0;
+		public DateTime FromTime { get; set; }
+		public DateTime ToTime { get; set; }
 	}
 }

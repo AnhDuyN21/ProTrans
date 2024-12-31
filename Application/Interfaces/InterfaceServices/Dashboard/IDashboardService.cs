@@ -11,6 +11,6 @@ namespace Application.Interfaces.InterfaceServices.Dashboard
 {
 	public interface IDashboardService
 	{
-		Task<ServiceResponse<DashboardDTO>> Get();
+		Task<ServiceResponse<DashboardDTO>> Get(DashboardTimeDTO time);
 	}
 }

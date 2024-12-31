@@ -97,6 +97,8 @@ using Application.Interfaces.InterfaceRepositories.DocumentStatus;
 using Infrastructures.Repositories.DocumentStatus;
 using Application.Interfaces.InterfaceServices.VNPay;
 using Application.Services.VNPay;
+using Application.Interfaces.InterfaceServices.Dashboard;
+using Application.Services.Dashboard;
 
 namespace Infrastructures
 {
@@ -209,9 +211,12 @@ namespace Infrastructures
             //ImageShippings
             services.AddScoped<IImageShippingRepository, ImageShippingRepository>();
             services.AddScoped<IImageShippingService, ImageShippingService>();
-            
-            //NotarizationDetail
-            services.AddScoped<INotarizationDetailRepository,NotarizationDetailRepository>();
+
+			//Dashboard
+			services.AddScoped<IDashboardService, DashboardService>();
+
+			//NotarizationDetail
+			services.AddScoped<INotarizationDetailRepository,NotarizationDetailRepository>();
             services.AddScoped<INotarizationDetailService,NotarizationDetailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();
