@@ -23,7 +23,7 @@ namespace Application.Services.Dashboard
 			_mapper = mapper;
 		}
 
-		public async Task<ServiceResponse<DashboardDTO>> Get(DashboardTimeDTO time)
+		public async Task<ServiceResponse<DashboardDTO>> Get(DateTime fromTime, DateTime toTime)
 		{
 			var response = new ServiceResponse<DashboardDTO>();
 			var dashboard = new DashboardDTO();
@@ -31,7 +31,7 @@ namespace Application.Services.Dashboard
 			dashboard.NumberOfAccounts = numberOfAccounts;
 
 			var orders = await _unitOfWork.OrderRepository.GetAllAsync(x => x.Status == OrderStatus.Delivered.ToString()
-																	&& x.ModifiedDate >= time.FromTime && x.ModifiedDate <= time.ToTime);
+																	&& x.ModifiedDate >= fromTime && x.ModifiedDate <= toTime);
 			dashboard.NumberOfOrders = orders.Count;
 			if (orders.Any())
 			{

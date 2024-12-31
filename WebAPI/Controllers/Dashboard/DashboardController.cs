@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.InterfaceServices.Dashboard;
 using Application.ViewModels.Dashboard;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.Dashboard
@@ -13,9 +14,10 @@ namespace WebAPI.Controllers.Dashboard
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetDashboard([FromBody] DashboardTimeDTO time)
+		[Authorize(Roles = "Manager")]
+		public async Task<IActionResult> GetDashboard(DateTime fromTime, DateTime toTime)
 		{
-			var result = await dashboardService.Get(time);
+			var result = await dashboardService.Get(fromTime, toTime);
 			return Ok(result);
 		}
 	}
