@@ -124,5 +124,15 @@ namespace Infrastructures.Repositories
 			_dbSet.RemoveRange(entities);
 			return Task.CompletedTask;
 		}
+		public async Task<int> GetCountAsync(Expression<Func<TEntity, bool>>? filter = null)
+		{
+			IQueryable<TEntity> query = _dbSet;
+			if (filter != null)
+			{
+				query = query.Where(filter);
+			}
+
+			return await query.CountAsync();
+		}
 	}
 }

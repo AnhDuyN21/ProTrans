@@ -25,18 +25,13 @@ namespace Application.Services.Dashboard
 		public async Task<ServiceResponse<DashboardDTO>> Get()
 		{
 			var response = new ServiceResponse<DashboardDTO>();
+			var dashboard = new DashboardDTO();
+			var numberOfAccounts = await _unitOfWork.AccountRepository.GetCountAsync();
+			dashboard.NumberOfAccounts = numberOfAccounts;
 
-			if (getById == null)
-			{
-				response.Success = false;
-				response.Message = "Id is not existed";
-			}
-			else
-			{
-				response.Success = true;
-				response.Message = "Agency found";
-				response.Data = _mapper.Map<DistanceDTO>(getById);
-			}
+			response.Success = true;
+			response.Message = "Get successfully.";
+			response.Data = dashboard;
 
 			return response;
 		}

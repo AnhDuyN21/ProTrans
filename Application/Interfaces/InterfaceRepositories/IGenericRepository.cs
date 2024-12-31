@@ -16,6 +16,6 @@ namespace Application.Interfaces.InterfaceRepositories
 		void SoftRemoveRange(List<TEntity> entities);
 		void DeleteRange(List<TEntity> entities);
 		Task DeleteRangeAsync(IEnumerable<TEntity> entities);
-
+		Task<int> GetCountAsync(Expression<Func<TEntity, bool>>? filter = null);
 	}
 }
